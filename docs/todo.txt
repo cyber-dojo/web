@@ -18,6 +18,22 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
+- Switch to a "dotted index view"
+  Eg 6 -> ite(7,8,9) -> 10 
+  currently, each index is shown, 7,8,9,10, etc.
+  Make the view 6, 6.1(7), 6.2(8), 6.3(9), 7(10), etc.
+  Eg   [<] [6.13] [>] 
+  With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
+  This would be seen in the tool-tips too.
+  This would also need to be implemented on the test and dashboard pages.
+  Replace all displays of 'index' with result of function that returns 'index'.
+  Then update the function.
+  Note the variable size is a good reason to put the navigator with the RAGs.
+  Check CSS copes with variable size.
+  How will this work for [test] page which appends new traffic-lights?
+  Its index is 10, could be displayed as 4
+  Need new field, lightIndex which is incremented after [test] or [revert]
+
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
 
@@ -48,23 +64,6 @@ Are app-controller tests still using v0/v1 manifests?
   having index=0 -> colour="create" would be handy.
   adding diff-added/deleted-count in index=0 also
 
-- In review mode, when details[x] is checked and you are on an 
-  inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
-  going to the previous?/next? RAG to ensure a traffic-light gets an underbar
-  One idea here is to switch to a "dotted index view"?
-  Eg 6 -> ite(7,8,9) -> 10 
-  currently, each index is shown, 7,8,9,10, etc.
-  But the view could be 6, 6.1(7), 6.2(8), 6.3(9), 7(10)
-  With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
-  This would be seen in the tool-tips too.
-  This would also need to be implemented on the dashboard.
-  How to display? 
-     [<] [6.13] [>] 
-  Replace all displays of 'index' with result of function that returns 'index'.
-  Then update the function.
-  Note the variable size is a good reason to put them with the RAGs.
-  Check CSS copes with variable size.
-
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
   then in review mode, when you select one of these new RAGs, 
@@ -76,15 +75,16 @@ Are app-controller tests still using v0/v1 manifests?
 
 - Should diff[x] be fixed to on when in details[x] is on?
 
-------------------------------------------------------------------
+- Checkout is prevented if it undoes an auto-revert.
+  Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
+  then you are prevented from checking out 7.
+  Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
+  Are you now prevented from checking out 7,8,9,10 ?
+  Or should this restriction be turned off completely?
 
-checkout is prevented if it undoes an auto-revert.
-Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
-then you are prevented from checking out 7.
-Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
-Are you now prevented from checking out 7,8,9,10 ?
-Or should this restriction be turned off completely?
-
+- Sometimes get RAG tool-tip appearing in top-left and not going away.
+  Maybe set a timeout of eg 5 seconds so it always goes away?
+  
 ------------------------------------------------------------------
 
 - pre-release

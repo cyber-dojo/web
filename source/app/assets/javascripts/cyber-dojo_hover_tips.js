@@ -29,9 +29,11 @@ var cyberDojo = (function(cd, $) {
   };
 
   const $trafficLightIndexTd = (light, index) => {
+    // TODO: dottedIndex() works but the light gives the colour which is wrong
     const $count = $('<span>', {
       class:`traffic-light-count ${light.colour}`
     }).text(index);
+    // }).text(cd.review.dottedIndex(index));
     return $('<td>').append($count);
   };
 
