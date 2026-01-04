@@ -41,6 +41,21 @@ Are app-controller tests still using v0/v1 manifests?
   Added that and now using major_index in the main [test] page RAGs 
   Now need to switch to building dotted-index from kata.events(id) DONE
 
+- The diff tool-tip when details[x] now looks too busy.
+  A RAG does not need a diff at all!
+  And the file-events themeselves can each contains details of the one 
+  file they are about. Eg Instead of...
+    - + =
+        15 = readme.txt
+    1 1  7 ! hiker.sh 
+         8 = test_hiker.sh
+         3 = bats_help.sh
+         2 = cyber-dojo.sh 
+  
+   it can be simply...
+    1 1  7 ! hiker.sh 
+
+
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
 
