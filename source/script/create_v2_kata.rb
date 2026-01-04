@@ -48,29 +48,29 @@ end
 # - - - - - - - - - - - - - - - - - - - - -
 
 def file_create(id, index, files, filename)
-  index = $http.post('kata_file_create', {
+  next_index = $http.post('kata_file_create', {
     id: id,
     index: index,
     files: files,
     filename: filename
   })
   files[filename] = file('')
-  index
+  next_index
 end
 
 def file_delete(id, index, files, filename)
-  index = $http.post('kata_file_delete', {
+  next_index = $http.post('kata_file_delete', {
     id: id,
     index: index,
     files: files,
     filename: filename
   })
   files.delete(filename)
-  index
+  next_index
 end
 
 def file_rename(id, index, files, old_filename, new_filename)
-  index = $http.post('kata_file_rename', {
+  next_index = $http.post('kata_file_rename', {
     id: id,
     index: index,
     files: files,
@@ -79,18 +79,18 @@ def file_rename(id, index, files, old_filename, new_filename)
   })
   files[new_filename] = file(files[old_filename]['content'])
   files.delete(old_filename)
-  index
+  next_index
 end
 
 def file_edit(id, index, files)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh + "\n#comment"
-  index = $http.post('kata_file_edit', {
+  next_index = $http.post('kata_file_edit', {
     id: id,
     index: index,
     files: files
   })
-  index
+  next_index
 end
 
 # - - - - - - - - - - - - - - - - - - - - -
@@ -106,7 +106,7 @@ def red_traffic_light(id, index, files)
     stderr: file(''),
     status: 1,
     summary: colour('red')
-  })
+  })['next_index']
 end
 
 def amber_traffic_light(id, index, files)
@@ -120,7 +120,7 @@ def amber_traffic_light(id, index, files)
     stderr: file('value too great for base (error token is "9s")'),
     status: 1,
     summary: colour('amber')
-  })
+  })['next_index']
 end
 
 def green_traffic_light(id, index, files)
@@ -134,7 +134,7 @@ def green_traffic_light(id, index, files)
     stderr: file(''),
     status: 0,
     summary: colour('green')
-  })
+  })['next_index']
 end
 
 def colour(hue)

@@ -45,23 +45,28 @@ class KataController < ApplicationController
       # However it might now create two events, a file-edit, and a red/amber/green. Eg
       #  [..., {'index':24, 'event':'file-edit'},
       #        {'index':25,'colour':'red'}]  CASE-2
-      # So ran_tests() now returns the new_index, which is:
+      # So ran_tests() now returns the next_index, which is:
       #  - 25 in CASE-1
       #  - 26 in CASE-2
-      # The index of the red/amber/green light is always new_index - 1.
-      # The browser used to simply increment its index after a ran_tests()
-      # but now it has to set it directly from light.index+1
+      # The index of the traffic-light is always next_index - 1.
+      # Once upon a time, the browser used to simply increment its index after a ran_tests()
+      # but now, because of CASE-2, it has to set it directly from light.index+1
       # index is also set directly in the inter-test-event (ITE) functions
-      # in app/views/kata/_file_create_rename_delete.html.erb
+      # See app/views/kata/_file_create_rename_delete.html.erb
 
-      new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      result = ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
+      next_index = result['next_index']
+      major_index = result['major_index']
+      minor_index = result['minor_index']
     rescue SaverService::Error => error
-      new_index = index + 1 # Act as if CASE-1 occurred.
+      next_index = index + 1 # Act as if CASE-1 occurred.
+      major_index = index + 1
+      minor_index = ''
       @saved = false
       $stdout.puts(error.message)
       $stdout.flush
@@ -69,7 +74,9 @@ class KataController < ApplicationController
     end
 
     @light = {
-      'index' => new_index - 1,
+      'index' => next_index - 1,
+      'major_index' => major_index,
+      'minor_index' => minor_index,
       'colour' => @outcome,
       'predicted' => params['predicted'],
       'revert_if_wrong' => params['revert_if_wrong']
@@ -87,26 +94,26 @@ class KataController < ApplicationController
   
   def file_create
     filename = params[:filename]
-    new_index = saver.kata_file_create(id, index, params_files, filename)
-    render json: new_index
+    next_index = saver.kata_file_create(id, index, params_files, filename)
+    render json: next_index
   end
 
   def file_delete
     filename = params[:filename]
-    new_index = saver.kata_file_delete(id, index, params_files, filename)
-    render json: new_index
+    next_index = saver.kata_file_delete(id, index, params_files, filename)
+    render json: next_index
   end
 
   def file_rename
     old_filename = params[:old_filename]
     new_filename = params[:new_filename]
-    new_index = saver.kata_file_rename(id, index, params_files, old_filename, new_filename)
-    render json: new_index
+    next_index = saver.kata_file_rename(id, index, params_files, old_filename, new_filename)
+    render json: next_index
   end
 
   def file_edit
-    new_index = saver.kata_file_edit(id, index, params_files)
-    render json: new_index
+    next_index = saver.kata_file_edit(id, index, params_files)
+    render json: next_index
   end
 
   # - - - - - - - - - - - - - - - - - -

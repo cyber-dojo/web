@@ -24,8 +24,6 @@ Are app-controller tests still using v0/v1 manifests?
   Make the view 6, 6.1(7), 6.2(8), 6.3(9), 7(10), etc.
   Eg   [<] [6.13] [>] 
   With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
-  This would be seen in the tool-tips too.
-  This would also need to be implemented on the test and dashboard pages.
   Replace all displays of 'index' with result of function that returns 'index'.
   Then update the function.
   Note the variable size is a good reason to put the navigator with the RAGs.
@@ -33,23 +31,24 @@ Are app-controller tests still using v0/v1 manifests?
   How will this work for [test] page which appends new traffic-lights?
   Its index is 10, could be displayed as 4
   Need new field, lightIndex which is incremented after [test] or [revert]
+  Feels like it might be better for the light/event to be augmented in the controller?
+  This would be seen in the tool-tips too.
+  This would also need to be implemented on the test and dashboard pages.
+  dottedIndex() which is used for tool-tip does not work from the test page
+    Could saver.ran_tests2() return a dict? DONE
+    { 'next_index' => 19, 'major_index' => 6, 'minor_index' => 3 }
+    Where 18 ==> 6.3
+  Added that and now using major_index in the main [test] page RAGs 
+  Now need to switch to building dotted-index from kata.events(id) DONE
 
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
 
-- cd.lib.isLight(event) also gives true for create event. Not clear.
+- cd.lib.isLight(event) also gives true for create event. Not clear?
   Add cd.lib.isTest(event) and check that also gives true for 
   'faulty' and 'pulling'
-  Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)
-
-- could the inter-test-events store the number of lines added/deleted 
-  in the events.json summary? This would enable fast calculation of 
-  RAG<->RAG stats, eg on a dashboard.
-  $ git diff --help
-  says it can show diffs between a commit and a worktree.
-  --shortstat option gives 
-  1 file changed, 3 insertions(+), 2 deletions(-)
-  STARTED: saver branch added-file-event-diff-counts
+  Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
+  Could implement cd.lib.isLight() as !cd.lib.isFileEvent()?
 
 - In avatar-navigator, when [<] [>] is selected, JS code currently
   hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
@@ -84,7 +83,7 @@ Are app-controller tests still using v0/v1 manifests?
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
   Maybe set a timeout of eg 5 seconds so it always goes away?
-  
+
 ------------------------------------------------------------------
 
 - pre-release

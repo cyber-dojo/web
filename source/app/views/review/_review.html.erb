@@ -66,9 +66,10 @@ $(() => {
     review.id = id;
     if (!review.detailsCheckBox.isChecked()) {
       // Make sure we are on a light
-      // Eg if index=10 viewed as 2.3 and you unclick details[x] then go back to 2
+      // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
       // which is index=7, which is 10-3 where the 3 comes from the .3
-      review.index = index - review.minorIndex[index];
+      const event = review.events[index];
+      review.index = index - event.minor_index;
     } else {
       review.index = index;
     }
@@ -85,12 +86,9 @@ $(() => {
     review.forkButton     .refresh(); // TODO: only needed once?
   };
 
-  const startup = (id, index) => {    
+  const startup = (id, index) => {
     cd.lib.getEvents(id, (events) => {
       review.events = events;
-      review.majorIndex = major(events);
-      review.minorIndex = minor(events);
-      review.dottedIndex = dotted;
 
       if (index == -1) {
        // We are showing the latest event for the given avatar
@@ -107,43 +105,6 @@ $(() => {
 
       review.refresh(id, index);
     });
-  };
-
-  const major = (events) => {
-    let all = [];
-    let major = -1;
-    events.forEach((event) => {
-      if (cd.lib.isLight(event)) {
-        major += 1;
-      }
-      all.push(`${major}`);
-    });
-    return all;
-  };
-
-  const minor = (events) => {
-    let all = [];
-    let minor = 0;
-    events.forEach((event) => {
-      if (cd.lib.isLight(event)) {
-        all.push('');
-        minor = 0;
-      } else {
-        minor += 1;
-        all.push(`${minor}`);
-      }
-    });
-    return all;
-  };
-
-  const dotted = (index) => {
-    const hi = cd.review.majorIndex[index];
-    const lo = cd.review.minorIndex[index];
-    if (lo == '') {
-      return `${hi}`;
-    } else {
-      return `${hi}.${lo}`;
-    }
   };
 
   review.fromTestPage = (id, index) => {

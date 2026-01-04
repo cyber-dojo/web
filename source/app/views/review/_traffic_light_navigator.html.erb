@@ -121,10 +121,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeIndexNumber = (index) => {
+    const event = review.events[index];
     return $('<div>', {
       id:'index-number',
       class:review.events[index].colour
-    }).html(review.dottedIndex(index));
+    }).html(cd.lib.dottedIndex(event));
   };
 
 });

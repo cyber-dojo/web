@@ -42,6 +42,14 @@ var cyberDojo = ((cd, $) => {
     }
   };
 
+  cd.lib.dottedIndex = (light) => {
+    if (light.minor_index == '') {
+      return `${light.major_index}`;
+    } else {
+      return `${light.major_index}.${light.minor_index}`;
+    }
+  };
+
   cd.lib.$makeAvatarImage = (avatarIndex) => {
     const $img = $('<img>', {
       class:'avatar-image',

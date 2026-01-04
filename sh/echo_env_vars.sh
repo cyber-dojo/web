@@ -34,9 +34,12 @@ echo_env_vars()
   # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
   # echo CYBER_DOJO_SAVER_TAG=fef7a58
   #
-  # Saver with diff-added/deleted-count in events.json summary
-  # echo CYBER_DOJO_SAVER_SHA=15886daaaf6dd99651db397591578fd90387e636
-  # echo CYBER_DOJO_SAVER_TAG=15886da
+  # Saver with dict result from ran_test2() 
+  echo CYBER_DOJO_SAVER_SHA=5657b3dfe3851f15ad85390f32710ffffd554da8
+  echo CYBER_DOJO_SAVER_TAG=5657b3d  
+  #
+  echo CYBER_DOJO_DASHBOARD_SHA=8a233ea05a5fc9a877002f1612e3b832b4d6108e
+  echo CYBER_DOJO_DASHBOARD_TAG=8a233ea  
 }
 
 run_versioner()

@@ -7,33 +7,31 @@ var cyberDojo = (function(cd, $) {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
         const diff = data.diff_summary;
-        const $tip = $trafficLightTip(light, kataId, nowIndex, diff);
+        const $tip = $trafficLightTip(light, kataId, diff);
         showHoverTip($light, $tip);
       });
     });
   };
 
-  const $trafficLightTip = (light, kataId, index, diff) => {
+  const $trafficLightTip = (light, kataId, diff) => {
     const $holder = $(document.createDocumentFragment());
-    $holder.append($trafficLightSummary(light, kataId, index));
+    $holder.append($trafficLightSummary(light, kataId));
     $holder.append($diffLinesTable(diff));
     return $holder;
   };
 
-  const $trafficLightSummary = (light, kataId, index) => {
+  const $trafficLightSummary = (light, kataId) => {
     const $tr = $('<tr>');
-    $tr.append($trafficLightIndexTd(light, index));
+    $tr.append($trafficLightIndexTd(light));
     $tr.append($trafficLightImageTd(light));
     $tr.append($('<td class="mini-text">').html(miniTextInfo(kataId, light)));
     return $('<table>').append($tr);
   };
 
-  const $trafficLightIndexTd = (light, index) => {
-    // TODO: dottedIndex() works but the light gives the colour which is wrong
+  const $trafficLightIndexTd = (light) => {
     const $count = $('<span>', {
       class:`traffic-light-count ${light.colour}`
-    }).text(index);
-    // }).text(cd.review.dottedIndex(index));
+    }).text(cd.lib.dottedIndex(light));
     return $('<td>').append($count);
   };
 
