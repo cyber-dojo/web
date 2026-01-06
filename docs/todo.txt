@@ -33,6 +33,8 @@ Are app-controller tests still using v0/v1 manifests?
   - Put [output] in RHS tab 
   - Don't put stdout/stderr/status in file-knave
   - Now you can simply select the output tab and show both stdout & stderr
+  Another alternative is to have a single output filename instead of stdout/stderr/status
+  which is more similar to the current UX.
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!

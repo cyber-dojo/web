@@ -55,19 +55,18 @@ $(() => {
   review.index = undefined;
   review.events = undefined;
 
-  review.page = $('#review-page'); // Used by faders
+  review.page = $('#review-page'); // Used by _faders and _filenames
   
-  review.isIndependent = () => $('#kata-page').length === 0;
+  review.isFromDashboard = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
     review.id = id;
     review.index = visibleIndex(index);
-    review.avatarNavigator.refresh(); // TODO: only needed once?
+    review.avatarNavigator.refresh();
     review.files          .refresh();
     review.output         .refresh();
     review.trafficLights  .refresh(); // TODO: also does navigator update
     review.checkoutButton .refresh();
-    review.forkButton     .refresh(); // TODO: only needed once?
     review.detailsCheckBox.setVisibility();
   };
 
@@ -91,14 +90,14 @@ $(() => {
        // We are showing the latest event for the given avatar
        // We are *not* showing a diff.
         review.diffCheckBox.refresh(false);
-        index = events.length - 1;
+        index = events.length - 1; // TODO: last avatar when details[x] is ON
       } else {
         // We are showing the event given by index (!= -1)
         // We *are* showing a diff.
         review.diffCheckBox.refresh(true);        
       }
       review.detailsCheckBox.refresh(false);
-
+      review.forkButton.refresh();
       review.refresh(id, index);
     });
   };
@@ -112,8 +111,7 @@ $(() => {
     startup("<%= @id %>", index);
   };
 
-  if (review.isIndependent()) {
-    // Called from dashboard page
+  if (review.isFromDashboard()) {
     review.page.show();
     const index = parseInt(cd.urlParam('now_index', -1));
     startup("<%= @id %>", index);
