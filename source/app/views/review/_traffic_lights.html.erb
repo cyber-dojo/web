@@ -14,9 +14,6 @@ $(() => {
         review.index = review.events.length - 1; // Need by [fork] and [checkout]
       }
       $lights.empty();
-      // TODO: review.detailsCheckBox.isChecked 
-      // controls events filtering, filter here or in appendTrafficLights()?
-
       appendTrafficLights(review.events); // TODO: only need to do this for new avatar
       scrollCurrentTrafficLightIntoView();
       review.refreshTrafficLightsNavigator();
@@ -29,17 +26,13 @@ $(() => {
     review.trafficLightsCounts.reset();
     review.predictCounts.reset();
 
-    var previousIndex = 0;
     events.forEach(event => {
       if (isVisible(event)) {
         const light = event;
         const isCurrentIndex = (review.index === light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));      
-
-        cd.setupTrafficLightTip($light, light, review.id, previousIndex, light.index);
-        
-        previousIndex = light.index;
+        cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);
 
         if (light.index <= review.index) {
           cd.review.trafficLightsCounts.update(light);
@@ -52,10 +45,20 @@ $(() => {
     });
   };
 
+  review.previousIndex = (index) => {
+    if (index == 0) {
+      return 0;
+    } else if (review.detailsCheckBox.isChecked()) {
+      return index - 1;
+    } else {
+      return index - 1 - review.events[index - 1].minor_index;
+    }
+  };
+
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
-    } else if (cd.lib.isFileEvent(event) && cd.review.detailsCheckBox.isChecked()) {
+    } else if (cd.lib.isFileEvent(event) && review.detailsCheckBox.isChecked()) {
       return true;
     } else {
       return false;
