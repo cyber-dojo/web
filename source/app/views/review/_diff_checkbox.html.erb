@@ -18,12 +18,12 @@ $(() => {
 
   const review = cd.review;
 
-  const $checkBox = $('#diff-checkbox');
+  const $box = $('#diff-checkbox');
 
   review.diffCheckBox = {
-    isChecked: () => $checkBox.is(':checked'),
+    isChecked: () => $box.is(':checked'),
     refresh: (checked) => {
-      $checkBox
+      $box
         .prop('checked', checked)
         .off('click')
         .on('click', () => review.refresh(review.id, review.index));

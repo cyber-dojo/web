@@ -18,28 +18,25 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
-- Switch to a "dotted index view"
-  Eg 6 -> ite(7,8,9) -> 10 
-  currently, each index is shown, 7,8,9,10, etc.
-  Make the view 6, 6.1(7), 6.2(8), 6.3(9), 7(10), etc.
-  Eg   [<] [6.13] [>] 
-  With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
-  Replace all displays of 'index' with result of function that returns 'index'.
-  Then update the function.
-  Note the variable size is a good reason to put the navigator with the RAGs.
+- In avatar-navigator, when [<] [>] is selected, JS code currently
+  hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
+  This needs to use traffic-light functions.
+
+- In review mode when a RAG is chosen should stdout/stderr be selected?
+  If so, how to choose?
+  - could look at stdout/stderr and see is either is empty?
+  - could use light.colour as a guide?
+
+- Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
+  adding diff-added/deleted-count in index=0 also
+
+- Refactor JS so refresh methods are called only when needed.
+
+- Fix layout/CSS for review-mode from dashboard
+
+- Switched to a dotted-index view
   Check CSS copes with variable size.
-  How will this work for [test] page which appends new traffic-lights?
-  Its index is 10, could be displayed as 4
-  Need new field, lightIndex which is incremented after [test] or [revert]
-  Feels like it might be better for the light/event to be augmented in the controller?
-  This would be seen in the tool-tips too.
-  This would also need to be implemented on the test and dashboard pages.
-  dottedIndex() which is used for tool-tip does not work from the test page
-    Could saver.ran_tests2() return a dict? DONE
-    { 'next_index' => 19, 'major_index' => 6, 'minor_index' => 3 }
-    Where 18 ==> 6.3
-  Added that and now using major_index in the main [test] page RAGs 
-  Now need to switch to building dotted-index from kata.events(id) DONE
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
@@ -55,7 +52,6 @@ Are app-controller tests still using v0/v1 manifests?
    it can be simply...
     1 1  7 ! hiker.sh 
 
-
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
 
@@ -64,28 +60,6 @@ Are app-controller tests still using v0/v1 manifests?
   'faulty' and 'pulling'
   Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
   Could implement cd.lib.isLight() as !cd.lib.isFileEvent()?
-
-- In avatar-navigator, when [<] [>] is selected, JS code currently
-  hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
-  This needs to use traffic-light functions.
-
-- In review mode when a RAG is chosen should stdout/stderr be selected?
-  If so, how to choose?
-  - could look at stdout/stderr and see is either is empty?
-  - could use light.colour as a guide?
-
-- Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-  adding diff-added/deleted-count in index=0 also
-
-- From demo, if you add a new traffic-lights by hitting [test] 
-  these get the correct RAG and diff tool-tip. But if you click it
-  then in review mode, when you select one of these new RAGs, 
-  with diff[x] on, then you get no diff in the files. You should. 
-
-- Refactor JS so refresh methods are called only when needed.
-
-- Fix layout/CSS for review-mode from dashboard
 
 - Should diff[x] be fixed to on when in details[x] is on?
 

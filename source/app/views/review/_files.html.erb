@@ -10,7 +10,7 @@ $(() => {
     refresh: () => {
       const args = {
         id:review.id,
-        was_index:review.previousIndex(review.index),
+        was_index:previousIndex(review.index),
         now_index:review.index
       };
       review.getJSON('differ', 'diff_lines', args, (diffs) => {
@@ -18,6 +18,15 @@ $(() => {
         review.refreshFilenames(diffs);
         filesRefresher(diffs);
       });
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const previousIndex = (index) => {
+    if (!review.diffCheckBox.isChecked()) {
+      return index;
+    } else {
+      return review.previousIndex(index);
     }
   };
 
