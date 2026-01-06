@@ -60,33 +60,30 @@ $(() => {
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
-    cd.settings.hideButton(); // TODO: only needed once?
-    const newAvatar = (id != review.id);
-
     review.id = id;
+    review.index = visibleIndex(index);
+    review.avatarNavigator.refresh(); // TODO: only needed once?
+    review.files          .refresh();
+    review.output         .refresh();
+    review.trafficLights  .refresh(); // TODO: also does navigator update
+    review.checkoutButton .refresh();
+    review.forkButton     .refresh(); // TODO: only needed once?
+    review.detailsCheckBox.setVisibility();
+  };
+
+  const visibleIndex = (index) => {
     if (!review.detailsCheckBox.isChecked()) {
       // Make sure we are on a light
       // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
-      // which is index=7, which is 10-3 where the 3 comes from the .3
-      const event = review.events[index];
-      review.index = index - event.minor_index;
+      // which is index=7, which is 10-3, where the 3 comes from the .3 of 2.3
+      return index - review.events[index].minor_index;
     } else {
-      review.index = index;
+      return index;
     }
-
-    //if (newAvatar) {
-      review.trafficLights  .refresh(); // TODO: also does navigator update
-      review.detailsCheckBox.setVisibility();
-    //}
-
-    review.files          .refresh();
-    review.avatarNavigator.refresh(); // TODO: only needed once?
-    review.output         .refresh();
-    review.checkoutButton .refresh();
-    review.forkButton     .refresh(); // TODO: only needed once?
   };
 
   const startup = (id, index) => {
+    cd.settings.hideButton();
     cd.lib.getEvents(id, (events) => {
       review.events = events;
 
@@ -101,7 +98,6 @@ $(() => {
         review.diffCheckBox.refresh(true);        
       }
       review.detailsCheckBox.refresh(false);
-
 
       review.refresh(id, index);
     });
