@@ -32,8 +32,14 @@ Are app-controller tests still using v0/v1 manifests?
   - Put selected filename in LHS tab 
   - Put [output] in RHS tab 
   - Don't put stdout/stderr/status in file-knave
-  - Now you can simply select the output tab.
+  - Now you can simply select the output tab and show both stdout & stderr
 
+- Too many files showing...
+  On [test] page, click last RAG to get to [review] mode.
+  diffs[x] in ON, details[x] is OFF
+  click details[x] ON
+  click event 2.1
+  diffs[x] toggling now broken.
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
@@ -88,7 +94,7 @@ Are app-controller tests still using v0/v1 manifests?
   Or should this restriction be turned off completely?
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
-  Maybe set a timeout of eg 5 seconds so it always goes away?
+  Maybe set a timeout of eg 5? seconds so it always goes away?
 
 ------------------------------------------------------------------
 
