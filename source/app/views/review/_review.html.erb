@@ -57,7 +57,7 @@ $(() => {
 
   review.page = $('#review-page'); // Used by _faders and _filenames
   
-  review.isFromDashboard = () => $('#kata-page').length === 0;
+  review.isFromDashboardPage = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
     review.id = id;
@@ -71,10 +71,10 @@ $(() => {
   };
 
   const visibleIndex = (index) => {
+    // Make sure we are on a light
+    // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
+    // which is index=7, which is 10-3, where the 3 comes from the .3 of 2.3
     if (!review.detailsCheckBox.isChecked()) {
-      // Make sure we are on a light
-      // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
-      // which is index=7, which is 10-3, where the 3 comes from the .3 of 2.3
       return index - review.events[index].minor_index;
     } else {
       return index;
@@ -103,7 +103,6 @@ $(() => {
   };
 
   review.fromTestPage = (id, index) => {
-    // Called from test page 
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
@@ -111,7 +110,7 @@ $(() => {
     startup("<%= @id %>", index);
   };
 
-  if (review.isFromDashboard()) {
+  if (review.isFromDashboardPage()) {
     review.page.show();
     const index = parseInt(cd.urlParam('now_index', -1));
     startup("<%= @id %>", index);
