@@ -18,29 +18,26 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
-- In avatar-navigator, when [<] [>] is selected, JS code currently
-  hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
-  This needs to use traffic-light functions.
+- In review mode when a RAG is chosen the selection picks a non s/s/s file 
+  which is empty. Instead, select stdout/stderr
+  How to choose?
+  - Use light.colour as a guide
+  - Look at stdout/stderr and see is either is empty
+  -
+  - Bash,bats       Red:stdout-only,     Amber:stdout&[stderr], Green:stdout-only 
+  - Python,pytest   Red:stdout-only,     Amber:stdout-only,     Green:stdout-only 
+  - Javascript,jest Red:stdout&[stderr], Amber:stdout&[stderr], Green:stdout&[stderr]
+  -
+  Alternative is to make [review] page more similar to [test] page 
+  - Put selected filename in LHS tab 
+  - Put [output] in RHS tab 
+  - Don't put stdout/stderr/status in file-knave
+  - Now you can simply select the output tab.
 
-- In review mode when a RAG is chosen should stdout/stderr be selected?
-  If so, how to choose?
-  - could look at stdout/stderr and see is either is empty?
-  - could use light.colour as a guide?
-
-- Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-  adding diff-added/deleted-count in index=0 also
-
-- Refactor JS so refresh methods are called only when needed.
-
-- Fix layout/CSS for review-mode from dashboard
-
-- Switched to a dotted-index view
-  Check CSS copes with variable size.
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
-  And the file-events themeselves can each contains details of the one 
+  And the file-events themselves can each contain details of the one 
   file they are about. Eg Instead of...
     - + =
         15 = readme.txt
@@ -51,6 +48,26 @@ Are app-controller tests still using v0/v1 manifests?
   
    it can be simply...
     1 1  7 ! hiker.sh 
+
+- In avatar-navigator, when [<] [>] is selected, JS code currently
+  hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
+  This needs to use traffic-light functions.
+
+- In dashboard, in refresh.js save events in global so they are available 
+  to JS, eg to calculate the previous index. Prepares the way for details[x]
+  checkbox in dashboard.
+
+- Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
+  adding diff-added/deleted-count in index=0 also
+
+- Refactor JS so refresh methods are called only when needed.
+
+- Fix layout/CSS for review-mode from dashboard
+
+- Switched to a dotted-index view
+  Check CSS copes with variable size in traffic-light-navigator, eg
+  [<] [14.22] [>]
 
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
