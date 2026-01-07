@@ -34,7 +34,7 @@ Are app-controller tests still using v0/v1 manifests?
   - Don't put stdout/stderr/status in file-knave
   - Now you can simply select the output tab and show both stdout & stderr
   Another alternative is to have a single output filename instead of stdout/stderr/status
-  which is more similar to the current UX.
+  which is more similar to the current UX. Do that.
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
@@ -48,11 +48,16 @@ Are app-controller tests still using v0/v1 manifests?
          2 = cyber-dojo.sh 
   
    it can be simply...
-    1 1  7 ! hiker.sh 
+    1 1  7 hiker.sh 
 
 - In avatar-navigator, when [<] [>] is selected, JS code currently
   hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
   This needs to use traffic-light functions.
+  So when moving to a new avatar, when diff[x] is NOT checked, then 
+  you should go to the "last" index, which is index is details[x] is ON 
+  but last RAG if details is OFF.
+  Fixed this in avatar-navigator, but might be better to fix in _review.html.erb 
+  when handling index==-1 ?
 
 - In dashboard, in refresh.js save events in global so they are available 
   to JS, eg to calculate the previous index. Prepares the way for details[x]

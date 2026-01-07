@@ -66,9 +66,22 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
     review.events = avatar.events;
-    const index = review.diffCheckBox.isChecked() ? 0 : avatar.events.length - 1;
+    const index = review.diffCheckBox.isChecked() ? 0 : lastIndex();
     review.refresh(avatar.id, index);
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const lastIndex = () => {
+    const events = review.events;
+    const lastEvent = events[events.length - 1];
+    const lastIndex = lastEvent.index;
+    if (review.detailsCheckBox.isChecked()) {
+      return lastIndex;
+    } else {
+      return review.visibleIndex(lastIndex);
+    }
+  };
+
 
 });
 </script>
