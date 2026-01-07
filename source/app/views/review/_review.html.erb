@@ -61,7 +61,7 @@ $(() => {
 
   review.refresh = (id, index) => {
     review.id = id;
-    review.index = review.visibleIndex(index);
+    review.index = pickIndex(index);
     review.avatarNavigator.refresh();
     review.files          .refresh();
     review.output         .refresh();
@@ -70,16 +70,29 @@ $(() => {
     review.detailsCheckBox.setVisibility();
   };
 
-  review.visibleIndex = (index) => {
+  const pickIndex = (index) => {
+    const events = review.events;
+    const lastEvent = events[events.length - 1];
+    const lastIndex = lastEvent.index;
+    if (index != -1) {
+      return visibleIndex(index);
+    } else if (review.detailsCheckBox.isChecked()) {
+      return lastIndex;
+    } else {
+      return visibleIndex(lastIndex);
+    }
+  };
+
+  const visibleIndex = (index) => {
     // Make sure we are on a light
     // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
     // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
     // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
     // which is index=10, which is 10-0, where the 0 comes the minor index of 2 (=='')
-    if (!review.detailsCheckBox.isChecked()) {
-      return index - review.events[index].minor_index;
-    } else {
+    if (review.detailsCheckBox.isChecked()) {
       return index;
+    } else {
+      return index - review.events[index].minor_index;
     }
   };
 
@@ -87,17 +100,7 @@ $(() => {
     cd.settings.hideButton();
     cd.lib.getEvents(id, (events) => {
       review.events = events;
-
-      if (index == -1) {
-       // We are showing the latest event for the given avatar
-       // We are *not* showing a diff.
-        review.diffCheckBox.refresh(false);
-        index = events.length - 1; // TODO: last avatar when details[x] is ON
-      } else {
-        // We are showing the event given by index (!= -1)
-        // We *are* showing a diff.
-        review.diffCheckBox.refresh(true);        
-      }
+      review.diffCheckBox.refresh(index != -1);
       review.detailsCheckBox.refresh(false);
       review.forkButton.refresh();
       review.refresh(id, index);

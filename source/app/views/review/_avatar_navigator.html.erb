@@ -63,25 +63,15 @@ $(() => {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
+    // diff[?]
+    //   [x] ==> move to its _first_ event
+    //   [ ] ==> move to its _last_  traffic-light
     review.events = avatar.events;
-    const index = review.diffCheckBox.isChecked() ? 0 : lastIndex();
+    const index = review.diffCheckBox.isChecked() ? 0 : -1;
     review.refresh(avatar.id, index);
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const lastIndex = () => {
-    const events = review.events;
-    const lastEvent = events[events.length - 1];
-    const lastIndex = lastEvent.index;
-    if (review.detailsCheckBox.isChecked()) {
-      return lastIndex;
-    } else {
-      return review.visibleIndex(lastIndex);
-    }
-  };
-
 
 });
 </script>
