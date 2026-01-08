@@ -26,7 +26,11 @@ Are app-controller tests still using v0/v1 manifests?
     then 2.1 file-delete event icon to its left.
   Only happens for file-delete event icon.
   The file is not there because diff is off and its a file-delete!!
-  Just have the tool-tip, and don't try to show/select a file if clicked.
+  Keep tool-tip.
+  What file to select?
+
+- With details[x] ON, if you click a file-created icon, the new filename 
+  is not selected in the tool-tip.
 
 - In review mode when a RAG is chosen the selection picks a non s/s/s file 
   which is empty. Instead, select stdout/stderr
