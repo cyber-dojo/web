@@ -18,28 +18,24 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
+- One place where *ALL* files appearing in review mode.
+  click last RAG to go into review mode
+    details[x]
+    diff[ ]
+    clicking on 2.2 file-edit event icon, 
+    then 2.1 file-delete event icon to its left.
+  Only happens for file-delete event icon.
+  The file is not there because diff is off and its a file-delete!!
+  Just have the tool-tip, and don't try to show/select a file if clicked.
+
 - In review mode when a RAG is chosen the selection picks a non s/s/s file 
   which is empty. Instead, select stdout/stderr
-  How to choose?
-  - Use light.colour as a guide
-  - Look at stdout/stderr and see is either is empty
-  -
-  - Bash,bats       Red:stdout-only,     Amber:stdout&[stderr], Green:stdout-only 
-  - Python,pytest   Red:stdout-only,     Amber:stdout-only,     Green:stdout-only 
-  - Javascript,jest Red:stdout&[stderr], Amber:stdout&[stderr], Green:stdout&[stderr]
-  -
-  Alternative is to make [review] page more similar to [test] page 
-  - Put selected filename in LHS tab 
-  - Put [output] in RHS tab 
-  - Don't put stdout/stderr/status in file-knave
-  - Now you can simply select the output tab and show both stdout & stderr
-  Another alternative is to have a single output filename instead of stdout/stderr/status
-  which is more similar to the current UX. Do that.
+  Have a single 'output' filename instead of stdout/stderr/status (same as [test] page).
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
-  And the file-events themselves can each contain details of the one 
-  file they are about. Eg Instead of...
+  The file-events themselves can each contain details of the one file they are about. 
+  Eg Instead of...
     - + =
         15 = readme.txt
     1 1  7 ! hiker.sh 
@@ -48,10 +44,10 @@ Are app-controller tests still using v0/v1 manifests?
          2 = cyber-dojo.sh 
   
    it can be simply...
-    1 1  7 hiker.sh 
+    1 1  hiker.sh 
 
 - In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
-  can be simplified using some code in _review.html.erb
+  can be simplified using code in _review.html.erb
 
 - In dashboard, in refresh.js save events in global so they are available 
   to JS, eg to calculate the previous index. Prepares the way for details[x]

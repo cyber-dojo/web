@@ -2,6 +2,7 @@
 <%#  - from review/show.html.erb %>
 <%#  - from kata/edit.html.erb   %>
 
+<%= render partial: 'review/index' %>
 <%= render partial: 'review/faders' %>
 <%= render partial: 'review/lib/avatars' %>
 <%= render partial: 'review/lib/get_json' %>
@@ -61,39 +62,13 @@ $(() => {
 
   review.refresh = (id, index) => {
     review.id = id;
-    review.index = pickIndex(index);
+    review.index = review.pickIndex(index);
     review.avatarNavigator.refresh();
     review.files          .refresh();
     review.output         .refresh();
     review.trafficLights  .refresh(); // TODO: also does navigator update
     review.checkoutButton .refresh();
     review.detailsCheckBox.setVisibility();
-  };
-
-  const pickIndex = (index) => {
-    const events = review.events;
-    const lastEvent = events[events.length - 1];
-    const lastIndex = lastEvent.index;
-    if (index != -1) {
-      return visibleIndex(index);
-    } else if (review.detailsCheckBox.isChecked()) {
-      return lastIndex;
-    } else {
-      return visibleIndex(lastIndex);
-    }
-  };
-
-  const visibleIndex = (index) => {
-    // Make sure we are on a light
-    // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
-    // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
-    // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
-    // which is index=10, which is 10-0, where the 0 comes the minor index of 2 (=='')
-    if (review.detailsCheckBox.isChecked()) {
-      return index;
-    } else {
-      return index - review.events[index].minor_index;
-    }
   };
 
   const startup = (id, index) => {

@@ -45,16 +45,6 @@ $(() => {
     });
   };
 
-  review.previousIndex = (index) => {
-    if (index == 0) {
-      return 0;
-    } else if (review.detailsCheckBox.isChecked()) {
-      return index - 1;
-    } else {
-      return index - 1 - review.events[index - 1].minor_index;
-    }
-  };
-
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
