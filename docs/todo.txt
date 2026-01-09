@@ -26,14 +26,10 @@ Need to find how to put the actual 404/500 error message into the view.
 ------------------------------------------------------------------
 
 - Showing reverted traffic-lights is currently shown with a big (<-) icon.
-  Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction above)
-  at the top-left of the event being reverted to - which could be
-  - a RAG, which will appear on the main [test] page
+  Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction)
+  at the top-left of the event being reverted to - which will be either
+  - a RAG, which will appear on the main [test] page, or
   - a file-event, which will appear only on the [review] with diff-detailed[x] ON
-
-- In saver, a traffic-light (non file-event) is currently returned with minor_index==''
-  It would be better if this was minor_index=0
-  But still only show the major_index for a traffic-light.
 
 - Merge details[x] & diffs[x] into 3 choice radio-buttons.
     diff
@@ -41,6 +37,7 @@ Need to find how to put the actual 404/500 error message into the view.
     (o) on (lights only, red/amber/green only)
     (o) detailed (show file-events)
   and on the dashboard have diff-extra[x] checkbox.
+  There is some radio button code in the settings/config, eg for colour-syntax
 
 - With diff-detailed, if you click a file-created icon, the new filename 
   is not selected in the tool-tip. It needs to be.
