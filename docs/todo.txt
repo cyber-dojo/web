@@ -28,9 +28,8 @@ Need to find how to put the actual 404/500 error message into the view.
 - checkout/revert now gives you (<-) and (V) icons, but they
   disappear when you do a refresh.
 
-- If you revert/checkout then the tooltip for the (<-) icon is undefined.undefined.
-  This is because in the controller I don't add major/minor indexes to the 
-  traffic-light for those events.
+- If you last RAG is major_index=3 and you revert/checkout then the tooltip for 
+  the (<-) icon is still 3.
 
 - In saver, a traffic-light (non file-event) is currently returned with minor_index==''
   It would be better if this was minor_index=0
