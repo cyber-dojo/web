@@ -18,10 +18,18 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
+- If you revert/checkout then the tooltip for the (<-) icon is undefined.undefined.
+  This is because in the controller I don't add major/minor indexes to the 
+  traffic-light for those events.
+
+- In saver, a traffic-light (non file-event) is currently returned with minor_index==''
+  It would be better if this was minor_index=0
+  But still only show the major_index for a traffic-light.
+
 - Merge details[x] & diffs[x] into 3 choice radio-buttons.
     diff
     (o) off 
-    (o) on (lights only)
+    (o) on (lights only, red/amber/green only)
     (o) detailed (show file-events)
   and on the dashboard have diff-extra[x] checkbox.
 
@@ -53,17 +61,27 @@ Are app-controller tests still using v0/v1 manifests?
   to JS, eg to calculate the previous index. Prepares the way for details[x]
   checkbox in dashboard.
 
-- Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-  adding diff-added/deleted-count in index=0 also
-
-- Refactor JS so refresh methods are called only when needed.
+- Update [download] tooltip to say "1 comment per test/edit event"
 
 - Fix layout/CSS for review-mode from dashboard
 
 - Switched to a dotted-index view
   Check CSS copes with variable size in traffic-light-navigator, eg
   [<] [14.22] [>]
+
+- Showing incorrect predictions is done with a small (x) icon at the top-left
+  of the RAG. Tweak this (x) so the background colour is RAG (instead of the border).
+
+- Showing reverted traffic-lights is currently shown with a big (<-) icon.
+  Change this to a small (<-) uncoloured icon (same size as incorrect prediction)
+  at the top-left of a regular RAG traffic-light. Idea is to make it more obvious
+  which events are RAGs.
+
+- Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
+  adding diff-added/deleted-count in index=0 also
+
+- Refactor JS so refresh methods are called only when needed.
 
 - In demo, add events for 'faulty' and 'pulling'.
   Check review with details[x] and moving [<][>] across them
