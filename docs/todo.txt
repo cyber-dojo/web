@@ -25,11 +25,15 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- checkout/revert now gives you (<-) and (V) icons, but they
-  disappear when you do a refresh.
+- Showing incorrect predictions is done with a small (x) icon at the top-left
+  of the RAG. Tweak this (x) so the background colour of the (x) is red/amber/green 
+  (instead of just colouring the border).
 
-- If you last RAG is major_index=3 and you revert/checkout then the tooltip for 
-  the (<-) icon is still 3.
+- Showing reverted traffic-lights is currently shown with a big (<-) icon.
+  Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction above)
+  at the top-left of the event being reverted to - which could be
+  - a RAG, which will appear on the main [test] page
+  - a file-event, which will appear only on the [review] with diff-detailed[x] ON
 
 - In saver, a traffic-light (non file-event) is currently returned with minor_index==''
   It would be better if this was minor_index=0
@@ -81,15 +85,6 @@ Need to find how to put the actual 404/500 error message into the view.
   Have 2 sizes for the index box
    - larger  for diff-detailed ON
    - smaller for diff-detailed OFF
-
-- Showing incorrect predictions is done with a small (x) icon at the top-left
-  of the RAG. Tweak this (x) so the background colour of the (x) is red/amber/green 
-  (instead of just colouring the border).
-
-- Showing reverted traffic-lights is currently shown with a big (<-) icon.
-  Change this to a small (<-) uncoloured icon (same size as incorrect prediction)
-  at the top-left of a regular RAG traffic-light. Idea is to make it more obvious
-  which events are RAGs.
 
 - Polyfill old checkouts on saver model?
   having index=0 -> colour="create" would be handy.
