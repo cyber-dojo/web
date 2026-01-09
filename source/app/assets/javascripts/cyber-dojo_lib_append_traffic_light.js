@@ -76,7 +76,7 @@ var cyberDojo = ((cd, $) => {
 
   const $predictImage = (light) => {
     const correct = (light.predicted === light.colour);
-    const icon = correct ? 'tick' : 'cross';
+    const icon = correct ? 'tick' : `cross-${light.predicted}`;
     return $('<img>', {
       class: `${icon} ${light.predicted}`,
         src: `/images/traffic-light/circle-${icon}.png`
