@@ -18,18 +18,21 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
-- One place where *ALL* files appearing in review mode.
-  click last RAG to go into review mode
-    details[x]
-    diff[ ]
-    clicking on 2.2 file-edit event icon, 
-    then 2.1 file-delete event icon to its left.
-  Only happens for file-delete event icon.
-  The file is not there because diff is off and its a file-delete!!
-  Keep tool-tip.
-  What file to select?
+- Checkout is prevented if it undoes an auto-revert.
+  Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
+  then you are prevented from checking out 7.
+  Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
+  Are you now prevented from checking out 7,8,9,10 ?
+  Remove this restriction completely.
 
-- With details[x] ON, if you click a file-created icon, the new filename 
+- Merge details[x] & diffs[x] into 3 choice radio-buttons.
+    diff
+    (o) off 
+    (o) on (lights only)
+    (o) detailed (show file-events)
+  and on the dashboard have diff-extra[x] checkbox.
+
+- With diff-detailed, if you click a file-created icon, the new filename 
   is not selected in the tool-tip.
 
 - In review mode when a RAG is chosen the selection picks a non s/s/s file 
@@ -78,15 +81,6 @@ Are app-controller tests still using v0/v1 manifests?
   Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
   Could implement cd.lib.isLight() as !cd.lib.isFileEvent()?
 
-- Should diff[x] be fixed to on when in details[x] is on?
-
-- Checkout is prevented if it undoes an auto-revert.
-  Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
-  then you are prevented from checking out 7.
-  Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
-  Are you now prevented from checking out 7,8,9,10 ?
-  Or should this restriction be turned off completely?
-
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
   Maybe set a timeout of eg 5? seconds so it always goes away?
 
@@ -108,3 +102,4 @@ Are app-controller tests still using v0/v1 manifests?
   o) reimplement saver.ran_test() to be the same as saver.ran_tests2()
   o) switch web to call saver.ran_tests()
   o) delete saver.ran_tests2()
+
