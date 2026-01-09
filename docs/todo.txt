@@ -72,8 +72,6 @@ Need to find how to put the actual 404/500 error message into the view.
   to JS, eg to calculate the previous index. Prepares the way for details[x]
   checkbox in dashboard.
 
-- Update [download] tooltip to say "1 comment per test/edit event"
-
 - Fix layout/CSS for review-mode from dashboard
 
 - Switched to a dotted-index view
