@@ -38,9 +38,6 @@ $(() => {
           cd.review.trafficLightsCounts.update(light);
           cd.review.predictCounts.update(light);
         }
-        if (isOwnRevertedIncorrectPredictionLight(light)) {
-          review.checkoutButton.disable();
-        }
       }
     });
   };
@@ -53,20 +50,6 @@ $(() => {
     } else {
       return false;
     }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isOwnRevertedIncorrectPredictionLight = (light) => {
-    const isCurrentIndex    = (review.index === light.index);
-    const predictedWrong    = (light.colour != light.predicted);
-    const wasReverted       = (light.revert_if_wrong === 'on');
-    const reviewingOwnLight = (cd.kata.id === review.id);
-    return isCurrentIndex
-      && cd.lib.hasPrediction(light)
-        && predictedWrong
-          && wasReverted
-            && !review.isFromDashboardPage()
-              && reviewingOwnLight;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

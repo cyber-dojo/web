@@ -18,13 +18,6 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
-- Checkout is prevented if it undoes an auto-revert.
-  Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
-  then you are prevented from checking out 7.
-  Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
-  Are you now prevented from checking out 7,8,9,10 ?
-  Remove this restriction completely.
-
 - Merge details[x] & diffs[x] into 3 choice radio-buttons.
     diff
     (o) off 
