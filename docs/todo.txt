@@ -16,7 +16,17 @@ Are app-controller tests still using v0/v1 manifests?
   Use v2 in all tests.
   Create multi-version-tests? See source/test/test_base.rb v_tests
 
+Need to find how to put the actual 404/500 error message into the view.
+  source/config/environments/production.rb
+    # Show raw exceptions
+    config.action_dispatch.show_exceptions = true
+    # Show full error reports
+    config.consider_all_requests_local = true
+
 ------------------------------------------------------------------
+
+- checkout/revert now gives you (<-) and (V) icons, but they
+  disappear when you do a refresh.
 
 - If you revert/checkout then the tooltip for the (<-) icon is undefined.undefined.
   This is because in the controller I don't add major/minor indexes to the 
@@ -34,11 +44,13 @@ Are app-controller tests still using v0/v1 manifests?
   and on the dashboard have diff-extra[x] checkbox.
 
 - With diff-detailed, if you click a file-created icon, the new filename 
-  is not selected in the tool-tip.
+  is not selected in the tool-tip. It needs to be.
 
-- In review mode when a RAG is chosen the selection picks a non s/s/s file 
-  which is empty. Instead, select stdout/stderr
-  Have a single 'output' filename instead of stdout/stderr/status (same as [test] page).
+- In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
+  s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
+  (same as [test] page).
+
+- Make tool-tip for checkout/revert make it more obvious what the difference is.
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG does not need a diff at all!
@@ -68,9 +80,14 @@ Are app-controller tests still using v0/v1 manifests?
 - Switched to a dotted-index view
   Check CSS copes with variable size in traffic-light-navigator, eg
   [<] [14.22] [>]
+  Don't want it to change size, so need to increase the width.
+  Have 2 sizes for the index box
+   - larger  for diff-detailed ON
+   - smaller for diff-detailed OFF
 
 - Showing incorrect predictions is done with a small (x) icon at the top-left
-  of the RAG. Tweak this (x) so the background colour is RAG (instead of the border).
+  of the RAG. Tweak this (x) so the background colour of the (x) is red/amber/green 
+  (instead of just colouring the border).
 
 - Showing reverted traffic-lights is currently shown with a big (<-) icon.
   Change this to a small (<-) uncoloured icon (same size as incorrect prediction)

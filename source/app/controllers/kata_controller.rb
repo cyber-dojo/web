@@ -13,7 +13,8 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
-
+  # Main [test] event
+ 
   def run_tests
     kata = Kata.new(self, id)
     t1 = time.now
@@ -131,12 +132,43 @@ class KataController < ApplicationController
     args = [id, previous_index]
     json = source_event(id, previous_index, :revert, args)
 
-    saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
+    result = saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
+    light = json[:light]
+    light['index'] = result['next_index'] - 1
+    light['major_index'] = result['major_index']
+    light['minor_index'] = result['minor_index']
+
     render json: json
   end
+
+  # - - - - - - - - - - - - - - - - - -
+  # Checkout from the review page.
+
+  def checkout 
+    from = {
+      id:source_id,
+      index:source_index,
+      avatarIndex:source_avatar_index,
+    }
+    json = source_event(from[:id], from[:index], :checkout, from)
+    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
+        colour: @colour,
+      checkout: from
+    });
+    light = json[:light]
+    light['index'] = result['next_index'] - 1
+    light['major_index'] = result['major_index']
+    light['minor_index'] = result['minor_index']
+
+    render json: json
+  end
+
+  private
+
+  include FilesFrom
 
   def light?(event)
     create_index = 0
@@ -152,27 +184,6 @@ class KataController < ApplicationController
       false
     end
   end
-
-  # - - - - - - - - - - - - - - - - - -
-  # Checkout from the review page.
-
-  def checkout 
-    from = {
-      id:source_id,
-      index:source_index,
-      avatarIndex:source_avatar_index,
-    }
-    json = source_event(from[:id], from[:index], :checkout, from)
-    saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
-        colour: @colour,
-      checkout: from
-    });
-    render json: json
-  end
-
-  private
-
-  include FilesFrom
 
   def params_files
     data = Rack::Utils.parse_nested_query(params[:data])

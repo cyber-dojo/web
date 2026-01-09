@@ -62,9 +62,9 @@ CyberDojo::Application.configure do
   config.active_support.deprecation = :notify
 
   # Show raw exceptions
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = true
   # Show full error reports
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   config.exceptions_app = self.routes
 
