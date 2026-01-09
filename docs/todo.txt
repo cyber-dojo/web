@@ -25,10 +25,6 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- Showing incorrect predictions is done with a small (x) icon at the top-left
-  of the RAG. Tweak this (x) so the background colour of the (x) is red/amber/green 
-  (instead of just colouring the border).
-
 - Showing reverted traffic-lights is currently shown with a big (<-) icon.
   Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction above)
   at the top-left of the event being reverted to - which could be
