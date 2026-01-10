@@ -1,13 +1,15 @@
 #avatar-navigator
 {
   width: 66px;
-  height: 25px;
+  height: 23px;
   padding: 4px;
-  margin-left: 45px;
-  margin-bottom: -2px;
+  margin-left: 50px;
+  margin-bottom: -4px;
   right: 0px;
   top: 5px;
   transform: scale(1.4);
+  position: relative;
+  top: -2px;
 }
 #review-avatar-image-box
 {
