@@ -25,19 +25,17 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
+- Add CSS styling for diff radio buttons
+
+- Merge details[x] & diffs[x] into 3 choice radio-buttons.
+  and on the dashboard have diff-extra[x] checkbox.
+  - Need to show (o) detailed radio-button only if there are inter-test events.
+
 - Showing reverted traffic-lights is currently shown with a big (<-) icon.
   Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction)
   at the top-left of the event being reverted to - which will be either
   - a RAG, which will appear on the main [test] page, or
   - a file-event, which will appear only on the [review] with diff-detailed[x] ON
-
-- Merge details[x] & diffs[x] into 3 choice radio-buttons.
-    diff
-    (o) off 
-    (o) on (lights only, red/amber/green only)
-    (o) detailed (show file-events)
-  and on the dashboard have diff-extra[x] checkbox.
-  There is some radio button code in the settings/config, eg for colour-syntax
 
 - With diff-detailed, if you click a file-created icon, the new filename 
   is not selected in the tool-tip. It needs to be.
@@ -49,7 +47,7 @@ Need to find how to put the actual 404/500 error message into the view.
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
 - The diff tool-tip when details[x] now looks too busy.
-  A RAG does not need a diff at all!
+  A RAG in diff-mode=detailed does not need a diff at all!
   The file-events themselves can each contain details of the one file they are about. 
   Eg Instead of...
     - + =

@@ -13,7 +13,6 @@ $(() => {
         was_index:previousIndex(review.index),
         now_index:review.index
       };
-      //alert(`Calling diff_lines(${JSON.stringify(args)})`);
       review.getJSON('differ', 'diff_lines', args, (diffs) => {
         augmentDiffs(diffs);
         review.refreshFilenames(diffs);
@@ -24,7 +23,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const previousIndex = (index) => {
-    if (!review.diffCheckBox.isChecked()) {
+    if (review.diff.isOff()) {
       return index;
     } else {
       return review.previousIndex(index);

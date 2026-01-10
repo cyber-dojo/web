@@ -45,7 +45,7 @@ $(() => {
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
-    } else if (cd.lib.isFileEvent(event) && review.detailsCheckBox.isChecked()) {
+    } else if (cd.lib.isFileEvent(event) && review.diff.isDetailed()) {
       return true;
     } else {
       return false;

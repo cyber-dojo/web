@@ -20,8 +20,8 @@ $(() => {
     // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
     // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
     // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
-    // which is index=10, which is 10-0, where the 0 comes the minor index of 2 (=='')
-    if (review.detailsCheckBox.isChecked()) {
+    // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
+    if (cd.review.diff.isDetailed()) {
       return index;
     } else {
       return index - review.events[index].minor_index;
@@ -31,7 +31,7 @@ $(() => {
   review.previousIndex = (index) => {
     if (index == 0) {
       return 0;
-    } else if (review.detailsCheckBox.isChecked()) {
+    } else if (cd.review.diff.isDetailed()) {
       return index - 1;
     } else {
       return index - 1 - review.events[index - 1].minor_index;

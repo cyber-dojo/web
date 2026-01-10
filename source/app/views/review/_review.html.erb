@@ -20,8 +20,7 @@
           
       <tr><td><%= render partial: 'review/checkout_button' %>
               <%= render partial: 'review/fork_button' %></td>
-          <td><%= render partial: 'review/details_checkbox' %>
-              <%= render partial: 'review/diff_checkbox' %>
+          <td><%= render partial: 'review/diff' %>
               <%= render partial: 'review/help_icon' %></td></tr>                  
     </table>
     <table>
@@ -68,15 +67,21 @@ $(() => {
     review.output         .refresh();
     review.trafficLights  .refresh(); // TODO: also does navigator update
     review.checkoutButton .refresh();
-    review.detailsCheckBox.setVisibility();
+    //review.detailsCheckBox.setVisibility();
   };
 
   const startup = (id, index) => {
     cd.settings.hideButton();
     cd.lib.getEvents(id, (events) => {
       review.events = events;
-      review.diffCheckBox.refresh(index != -1);
-      review.detailsCheckBox.refresh(false);
+      
+      // TODO: restore?
+      //if (index == -1) {
+      //  review.diff.off();
+      //} else {
+      //  review.diff.simple();
+      //}
+
       review.forkButton.refresh();
       review.refresh(id, index);
     });

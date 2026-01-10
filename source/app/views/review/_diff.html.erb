@@ -1,0 +1,33 @@
+
+<div id="diff">
+  <div class="diff-title">diff</div>
+  <input type="radio" id="off"  name="diff" value="off" >
+  <label for="off">off</label><br/>
+  <input type="radio" id="simple" name="diff" value="simple" checked>
+  <label for="simple">light-light</label><br/>
+  <input type="radio" id="detailed" name="diff" value="detailed">
+  <label for="detailed">detailed</label><br/>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  let diffRadioValue = 'simple';
+
+  review.diff = {
+    isOn: () => diffRadioValue != 'off',
+    isOff: () => diffRadioValue == 'off',
+    isSimple: () => diffRadioValue == 'simple',
+    isDetailed: () => diffRadioValue == 'detailed'
+  };
+
+  $(`input[type=radio][name=diff]`, $('#diff')).change(function() { 
+    diffRadioValue = this.value;
+    review.refresh(review.id, review.index);
+  });
+
+});
+</script>

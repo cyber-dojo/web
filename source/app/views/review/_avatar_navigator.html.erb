@@ -1,3 +1,4 @@
+
 <span id="avatar-navigator" style="display:none;">
   <button id="prev-avatar" class="triangle button">
     <img src="/images/triangle_prev.gif"
@@ -69,7 +70,7 @@ $(() => {
     //   [x] ==> move to its _first_ event
     //   [ ] ==> move to its _last_  traffic-light
     review.events = avatar.events;
-    const index = review.diffCheckBox.isChecked() ? 0 : -1;
+    const index = review.diff.isOn() ? 0 : -1;
     review.refresh(avatar.id, index);
   };
 

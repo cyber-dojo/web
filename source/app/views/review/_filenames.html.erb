@@ -23,7 +23,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
-    if (review.diffCheckBox.isChecked()) {
+    if (review.diff.isOn()) {
       $tr.append($makeDiffTypeTd(diff));
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));
