@@ -26,6 +26,47 @@ Need to find how to put the actual 404/500 error message into the view.
 ------------------------------------------------------------------
 
 - Tool tip for checkout says Green 12 where 12 is the index. Needs to be the dottedIndex.
+  This is interesting - this is the dottedIndex into a _different_ events sequence.
+  Does the tool-tip require an extra $.getJSON() call?
+  Can I avoid this extra call if the data stored in the event is augmented with 
+  major_index and minor_index?
+  Eg
+  {
+    "checkout": {
+      "id": "vQfTr8",
+      "index": 4,
+      "avatarIndex": 51
+    },
+  }
+  would become 
+  {
+    "checkout": {
+      "id": "vQfTr8",
+      "index": 4,
+      "major_index": 2,
+      "minor_index": 0,
+      "avatarIndex": 51
+    },
+  }
+  This may also mean some polyfilling of the "checkout" in saver for v0,v1 where 
+  {
+    "checkout": {
+      "id": "vQfTr8",
+      "index": 4,
+      "avatarIndex": 51
+    },
+  }
+  becomes
+  {
+    "checkout": {
+      "id": "vQfTr8",
+      "index": 4,
+      "major_index": 4,
+      "minor_index": 0,
+      "avatarIndex": 51
+    },
+  }
+
 
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
