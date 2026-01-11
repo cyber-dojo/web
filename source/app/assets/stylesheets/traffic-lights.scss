@@ -25,27 +25,14 @@ img.diff-traffic-light
   margin: { left:0px; right:2px; }
 }
 
+img.tick, img.cross-red, img.cross-amber, img.cross-green,
 img.revert, img.checkout
-{
-  width: $traffic-light-size - 2px;
-  height: $traffic-light-size - 2px;
-  @include circle-border($traffic-light-size);
-}
-
-img.tick, img.cross-red, img.cross-amber, img.cross-green
 {
   width: 11px;
   height: 11px;
   @include circle-border(11px);
   margin-right: -1px;
   &.hide { display:none; }
-}
-
-img.revert, img.checkout, img.tick
-{
-  &.red   { border: 1px solid $red  ; }
-  &.amber { border: 1px solid $amber; }
-  &.green { border: 1px solid $green; }
 }
 
 img.cross-red, img.cross-amber, img.cross-green 

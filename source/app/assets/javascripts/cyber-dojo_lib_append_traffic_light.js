@@ -11,12 +11,17 @@ var cyberDojo = ((cd, $) => {
   cd.lib.appendTrafficLight = ($lights, light, option={isCurrentIndex:false}) => {
     if (cd.lib.hasPrediction(light)) {
       $lights.append($predictImage(light));
+    } else if (cd.lib.isCheckout(light)) {
+      $lights.append($checkoutImage(light));
+    } else if (cd.lib.isRevert(light)) {
+      $lights.append($revertImage(light));
     }
+
     const $light = $trafficLightImage(light);
     if (option.isCurrentIndex) {
-      const $lightBox = $('<div>', { class:'current-light-box' });
-      $lightBox.append($light, $lightMarker(light.colour));
-      $lights.append($lightBox);
+      const $box = $('<div>', { class:'current-light-box' });
+      $box.append($light, $lightMarker(light.colour));
+      $lights.append($box);
     } else {
       $lights.append($light);
     }
@@ -33,16 +38,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const $trafficLightImage = (light) => {
-    if (cd.lib.isRevert(light)) {
-      return $revertImage(light);
-    }
-    else if (cd.lib.isCheckout(light)) {
-      if (light.checkout.id === cd.kata.id) {
-        return $revertImage(light);
-      } else {
-        return $checkoutImage(light);
-      }      
-    } else if (cd.lib.isLight(light)) {
+    if (cd.lib.isLight(light)) {
       return $ragImage(light);
     } else {
       return $fileEventImage(light);
@@ -55,7 +51,7 @@ var cyberDojo = ((cd, $) => {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${light.colour}.png`,
         alt: `${light.colour} traffic-light`,
-      'data-colour': light.colour, // Revert needs colour+index
+      'data-colour': light.colour, // Revert needs colour+index, TODO: no longer true
       'data-index': light.index
     });
   };
@@ -97,14 +93,10 @@ var cyberDojo = ((cd, $) => {
   cd.lib.isCheckout = (light) => light.checkout != undefined;
 
   const $checkoutImage = (light) => {
-    if (light.checkout.avatarIndex != '') {
-      return $('<img>', {
-        class:`diff-traffic-light checkout ${light.colour}`,
-          src:'/images/traffic-light/circle-checkout.png'
-      });
-    } else {
-      return $('<span>');
-    }
+    return $('<img>', {
+      class:`diff-traffic-light checkout ${light.colour}`,
+        src:'/images/traffic-light/circle-checkout.png'
+    });
   };
 
   return cd;

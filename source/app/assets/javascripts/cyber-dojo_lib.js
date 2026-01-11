@@ -16,18 +16,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.isLight = (event) => {
-    switch (event.colour) {
-    case 'create':
-    case 'red':
-    case 'red_special':
-    case 'amber':
-    case 'amber_special':
-    case 'green':
-    case 'green_special':
-      return true;
-    default:
-      return false;
-    }
+    return !cd.lib.isFileEvent(event);
   };
 
   cd.lib.isFileEvent = (event) => {
@@ -43,7 +32,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.dottedIndex = (light) => {
-    if (light.minor_index == '') {
+    if (light.minor_index == 0) {
       return `${light.major_index}`;
     } else {
       return `${light.major_index}.${light.minor_index}`;

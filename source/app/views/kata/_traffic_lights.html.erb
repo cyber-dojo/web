@@ -43,11 +43,11 @@ $(() => {
     kata.predictCounts.update(light);
     $light.click(() => cd.review.fromTestPage(kata.id, light.index));
     cd.setupTrafficLightTip($light, light, kata.id, previousIndex, light.index);
-    previousIndex = light.index;
+    previousIndex = light.major_index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Don't use show() or hide() here as the animation is far
+  // Dont use show() or hide() here as the animation is far
   // too slow (even on 'fast') when you have a reasonably
   // large number of traffic-lights.
 

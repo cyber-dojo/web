@@ -80,7 +80,7 @@ var cyberDojo = (function(cd, $) {
 
   const trafficLightRevertInfo = (light) => {
     const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, light.index - 2)
+    const index = cssColour(light.colour, light.major_index - 2)
     return `auto-reverted to ${colour} ${index}`;
   };
 

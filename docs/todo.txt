@@ -25,11 +25,14 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- Showing reverted traffic-lights is currently shown with a big (<-) icon.
-  Change this to a small (<-) uncoloured icon (same size as incorrect (x) prediction)
-  at the top-left of the event being reverted to - which will be either
-  - a RAG, which will appear on the main [test] page, or
-  - a file-event, which will appear only on the [review] with diff-detailed[x] ON
+- Reverting to a non RAG event...
+  What is the tool-tip for this?
+  Is it 'reverted to X.Y' and is only visible in diff-mode=detailed?
+
+- review/_traffic_lights.html.erb has this, which looks suspicious:
+      if (review.index === -1) {
+        review.index = review.events.length - 1; // Need by [fork] and [checkout]
+      }
 
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
