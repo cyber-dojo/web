@@ -44,7 +44,8 @@ var cyberDojo = ((cd, $) => {
   const $trafficLightImage = (light) => {
     if (cd.lib.isLight(light)) {
       return $ragImage(light);
-    } else {
+    } 
+    else {
       return $fileEventImage(light);
     }
   };

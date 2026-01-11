@@ -108,9 +108,11 @@ $(() => {
   const lastEventIndex = (index) => {
     if (index == review.events.length - 1) {
       return disableIndex;
-    } else if (cd.review.diff.isDetailed()) {
+    } 
+    else if (cd.review.diff.isDetailed()) {
       return review.events.length - 1;
-    } else {
+    } 
+    else {
       return lastLightIndex(index + 1);
     }
   };

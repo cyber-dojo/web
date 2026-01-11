@@ -34,7 +34,8 @@ var cyberDojo = ((cd, $) => {
   cd.lib.dottedIndex = (light) => {
     if (light.minor_index == 0) {
       return `${light.major_index}`;
-    } else {
+    } 
+    else {
       return `${light.major_index}.${light.minor_index}`;
     }
   };

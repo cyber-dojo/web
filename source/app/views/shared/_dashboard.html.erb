@@ -10,7 +10,8 @@ $(() => {
 
   if (groupId === undefined || cd.env['DASHBOARD_BUTTON'] === 'off') {
 	  $dashboardButton.remove();
-  } else {
+  } 
+  else {
 	  $dashboardButton.click(() => {
 	      const url = `/dashboard/show/${manifest.group_id}`;
 	      window.open(url);

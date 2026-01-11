@@ -90,7 +90,8 @@ var cyberDojo = (function(cd, $) {
     const index = cssColour(light.colour, light.checkout.index);
     if (kataId === light.checkout.id) {
       return `Reverted to ${colour} ${index}`;
-    } else {
+    } 
+    else {
       const name = cd.lib.avatarName(light.checkout.avatarIndex);
       return `Checked-out ${name}'s ${colour} ${index}`;
     }
@@ -164,7 +165,8 @@ var cyberDojo = (function(cd, $) {
   const diffFilename = (diff) => {
     if (diff.type === 'deleted') {
       return diff.old_filename;
-    } else {
+    } 
+    else {
       return diff.new_filename;
     }
   };
