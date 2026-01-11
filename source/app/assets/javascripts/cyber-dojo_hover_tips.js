@@ -62,6 +62,9 @@ var cyberDojo = (function(cd, $) {
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
     }
+    else if (cd.lib.isAutoRevert(light)) {
+      return trafficLightAutoRevertInfo(light);
+    }
     else if (cd.lib.isRevert(light)) {
       return trafficLightRevertInfo(light);
     }
@@ -79,21 +82,27 @@ var cyberDojo = (function(cd, $) {
     return `Predicted ${cssColour(predicted)}, got ${cssColour(colour)}`;
   };
 
+  const trafficLightAutoRevertInfo = (light) => {
+    const colour = cssColour(light.colour);
+    const index = cssColour(light.colour, light.major_index - 2);
+    return `Auto reverted to ${colour} ${index}`;
+  };
+
   const trafficLightRevertInfo = (light) => {
     const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, light.major_index - 2)
-    return `Auto-reverted to ${colour} ${index}`;
+    const index = cssColour(light.colour, light.major_index - 2); // TODO: -2 ???
+    return `Reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
     const colour = cssColour(light.colour);
     const index = cssColour(light.colour, light.checkout.index);
-    if (kataId === light.checkout.id) {
+    if (kataId == light.checkout.id) {
       return `Reverted to ${colour} ${index}`;
     } 
     else {
       const name = cd.lib.avatarName(light.checkout.avatarIndex);
-      return `Checked-out ${name}'s ${colour} ${index}`;
+      return `Checked out ${name}'s ${colour} ${index}`;
     }
   };
 

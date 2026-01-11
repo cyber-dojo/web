@@ -25,30 +25,7 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- If you do a manual revert, the tool-tip says "Auto-reverted" which is not right.
-  Manula revert...
-  {
-    "checkout": {
-      "id": "SyHHHb",
-      "index": 7,
-      "avatarIndex": 27
-    },
-    "index": 12,
-  }
-  Incorrect prediction with auto-revert... 
-  (BUG: reverted-to-RAG does not have arrow-icon top-left of RAG)
-  {
-    "predicted": "green",
-    "revert_if_wrong": "on",
-    "index": 14,
-  },
-  {
-    "revert": [
-      "SyHHHb",
-      12
-    ],
-    "index": 15,
-  }
+- Tool tip for checkout says Green 12 where 12 is the index. Needs to be the dottedIndex.
 
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
