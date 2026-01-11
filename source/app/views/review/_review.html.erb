@@ -57,7 +57,7 @@ $(() => {
 
   review.page = $('#review-page'); // Used by _faders and _filenames
   
-  review.isFromDashboardPage = () => $('#kata-page').length === 0;
+  review.isFromDashboardPage = () => $('#kata-page').length == 0;
 
   review.refresh = (id, index) => {
     review.id = id;

@@ -30,7 +30,7 @@ $(() => {
     //      ...
     //  ]
 
-    const index = avatars.findIndex((avatar) => avatar.id === id);
+    const index = avatars.findIndex((avatar) => avatar.id == id);
 
     return [
       avatarIndex(avatars, index, -1),
@@ -51,7 +51,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - -
   const avatarIndex = (avatars, n, delta) => {
     const i = n + delta;
-    if (n === -1) {
+    if (n == -1) {
       return '';
     } 
     else if (i >= 0 && i < avatars.length) {

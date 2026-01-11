@@ -26,7 +26,7 @@ $(() => {
   cd.review.predictCounts.update = (light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      const isRight = (colour === light.predicted);
+      const isRight = (colour == light.predicted);
       const name = isRight ? 'tick' : 'cross';
       setPredict(name, counts[name] + 1);
       $counts.show();

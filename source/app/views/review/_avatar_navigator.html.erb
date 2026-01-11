@@ -48,7 +48,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshAvatar = (button, joined, index) => {
     button
-      .attr('disabled', index === '')
+      .attr('disabled', index == '')
       .off('click')
       .on('click', () => moveToAvatar(joined[index]));
   };

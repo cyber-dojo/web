@@ -10,7 +10,7 @@ $(() => {
 
   review.trafficLights = {
     refresh: () => {
-      if (review.index === -1) {
+      if (review.index == -1) {
         review.index = review.events.length - 1; // Need by [fork] and [checkout]
       }
       $lights.empty();
@@ -29,7 +29,7 @@ $(() => {
     events.forEach(event => {
       if (isVisible(event)) {
         const light = event;
-        const isCurrentIndex = (review.index === light.index);
+        const isCurrentIndex = (review.index == light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));      
         cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);

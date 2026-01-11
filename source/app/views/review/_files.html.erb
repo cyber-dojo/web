@@ -50,7 +50,7 @@ $(() => {
     });
   };
 
-  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type === 'section'), 0);
+  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type == 'section'), 0);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFileContent = (diff) => {
