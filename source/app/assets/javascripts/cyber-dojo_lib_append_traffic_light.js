@@ -9,7 +9,6 @@ var cyberDojo = ((cd, $) => {
   // Both were light.revert == [id,index]
 
   cd.lib.appendTrafficLight = ($lights, light, option={isCurrentIndex:false}) => {
-    //alert(`appendTrafficLight ${JSON.stringify(light)}`);
     if (cd.lib.hasPrediction(light)) {
       $lights.append($predictImage(light));
     } 
@@ -86,16 +85,7 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.isRevert = (light) => {
-    // TODO: also revert if light.checkout.avatarIndex == current avatar's index
-    if (light.checkout) {
-      if (light.checkout.avatarIndex == '') {
-        return true;
-      }
-      else if (cd.kata.id == cd.review.id) { // TODO: is this enough?
-        return true;
-      }
-    }
-    return false;
+    return light.checkout && light.checkout.id == cd.kata.id;
   };
 
   const $revertImage = (light) => {
@@ -107,13 +97,7 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.isCheckout = (light) => {
-    //return light.checkout != undefined;
-    if (light.checkout) {
-      return cd.kata.id == cd.review.id;
-    }
-    else {
-      return false;
-    }
+    return light.checkout && light.checkout.id != cd.kata.id;
   };
 
   const $checkoutImage = (light) => {
