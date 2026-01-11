@@ -45,7 +45,8 @@ $(() => {
     // See app/views/shared/_hotkeys.html.erb
     if (tabs.selected().text() === 'output') {
       tabs.filename().click();
-    } else {
+    } 
+    else {
       tabs.output().click();
     }
   };
@@ -66,7 +67,8 @@ $(() => {
       select($tab);
       if (filename === 'output') {
         cd.kata.filenames.unselectAll();
-      } else {
+      } 
+      else {
         cd.kata.filenames.select(filename);
       }
     });

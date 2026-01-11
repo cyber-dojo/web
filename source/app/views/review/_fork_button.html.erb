@@ -65,7 +65,8 @@ $(() => {
            const id = response[method];
            if (id) {
              window.open(`/creator/enter?id=${id}`);
-           } else {
+           }
+           else {
              cd.dialogError(response);
            }
         }

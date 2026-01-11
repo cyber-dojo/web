@@ -45,7 +45,7 @@ $(() => {
       }
       kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       kata.tabs.output().click();
-      kata.filenames.refresh();
+      kata.filenames.refresh();      
       kata.appendTrafficLight(data.light, {scrollIntoView: true});
     }, 'json');
   };

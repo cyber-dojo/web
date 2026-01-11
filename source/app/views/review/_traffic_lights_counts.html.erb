@@ -52,16 +52,21 @@ $(() => {
     // An incorrect prediction with revert-on for the predicted
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.
+
     const colour = light.colour;
     const $count = $(`.${colour}.count`, $counts);
+
     // The 2nd revert light does _not_ contribute to the count
     // totals which is the number of times there has been
     // a test submission (with or without a prediction).
+
     if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
       setCount(colour, counts[colour] + 1);
     }
+    
     // Most katas will have only red/amber/green totals,
-    // so don't show timed_out,pulling,faulty unless they occur.
+    // so dont show timed_out,pulling,faulty unless they occur.
+
     if (counts[colour] > 0) {
       $(`.${colour}.box`, $counts).show();
     }

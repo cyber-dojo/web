@@ -25,6 +25,16 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
+- In a kata with an avatar, both revert and checkout both give down-arrow icon 
+  to top-left if RAG which is the checkout icon from nginx. 
+  The revert arrow should be left-arrow.
+  events.json shows that both have the same format...
+  "checkout": {
+      "id": "WeHe7Y",
+      "index": 3,
+      "avatarIndex": 51
+    },
+
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
 - Reverting to a non RAG event...

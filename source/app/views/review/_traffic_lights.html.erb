@@ -45,9 +45,11 @@ $(() => {
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
-    } else if (cd.lib.isFileEvent(event) && review.diff.isDetailed()) {
+    } 
+    else if (cd.lib.isFileEvent(event) && review.diff.isDetailed()) {
       return true;
-    } else {
+    } 
+    else {
       return false;
     }
   };

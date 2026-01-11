@@ -48,7 +48,8 @@ $(() => {
   const firstEventIndex = (index) => {
     if (index == createIndex) {
       return disableIndex;
-    } else {
+    } 
+    else {
       return createIndex;
     }
   };
@@ -57,9 +58,11 @@ $(() => {
   const prevEventIndex = (index) => {
     if (index == createIndex) {
       return disableIndex;
-    } else if (cd.review.diff.isDetailed()) {
+    } 
+    else if (cd.review.diff.isDetailed()) {
       return index - 1;
-    } else {
+    } 
+    else {
       return prevLightIndex(index - 1);
     }
   };
@@ -68,7 +71,8 @@ $(() => {
       while (index >= 0) {
         if (cd.lib.isLight(review.events[index])) {
           return index;
-        } else {
+        } 
+        else {
           index -= 1;
         }
       }
@@ -79,9 +83,11 @@ $(() => {
   const nextEventIndex = (index) => {
     if (index == review.events.length - 1) {
       return disableIndex;
-    } else if (cd.review.diff.isDetailed()) {
+    } 
+    else if (cd.review.diff.isDetailed()) {
       return index + 1;
-    } else {
+    } 
+    else {
       return nextLightIndex(index + 1);
     }
   };
@@ -90,7 +96,8 @@ $(() => {
       while (index < review.events.length) {
         if (cd.lib.isLight(review.events[index])) {
           return index;
-        } else {
+        } 
+        else {
           index += 1;
         }
       }

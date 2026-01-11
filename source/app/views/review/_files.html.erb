@@ -25,7 +25,8 @@ $(() => {
   const previousIndex = (index) => {
     if (review.diff.isOff()) {
       return index;
-    } else {
+    } 
+    else {
       return review.previousIndex(index);
     }
   };
@@ -100,7 +101,8 @@ $(() => {
     diff_lines.forEach(diff_line => {
       if (diff_line.type == 'section') {
         html.push(`<span id='diff-chunk-${id}-${diff_line.index}'></span>`);
-      } else {
+      } 
+      else {
         let line = cd.htmlEscape(diff_line.line);
         if (line == '') { line = '&nbsp'; }
         html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);

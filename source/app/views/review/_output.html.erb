@@ -13,7 +13,8 @@ $(() => {
         review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
           outputRefresher(event);
         });
-      } else {
+      } 
+      else {
         const $diffOutputFilenames = $('#diff-output-filenames');
         $diffOutputFilenames.html('');
       }

@@ -44,7 +44,8 @@ $(() => {
     const index = indexOfSelected();
     if (index === -1) {
       return 0;
-    } else {
+    } 
+    else {
       return (index + 1) % filenames.length();
     }
   };
@@ -53,7 +54,8 @@ $(() => {
     const index = indexOfSelected();
     if (index === 0 || index === -1) {
       return filenames.length() - 1;
-    } else {
+    } 
+    else {
       return index - 1;
     }
   };
@@ -64,6 +66,7 @@ $(() => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
+
     const $filename = $(`[id="radio_${filename}"]`, $filenames);
     filenames.unselectAll();
     $filename.addClass('selected');
@@ -97,7 +100,8 @@ $(() => {
     sorted.forEach(filename => $filenames.append(makeFilename(filename)));
     if (sorted.includes(selected)) {
       filenames.select(selected);
-    } else {
+    }
+    else {
       filenames.select(sorted[0]);
     }
   };

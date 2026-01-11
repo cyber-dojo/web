@@ -10,7 +10,8 @@ $(() => {
     const lastIndex = lastEvent.index;
     if (index == -1) {
       return visibleIndex(lastIndex);
-    } else {
+    } 
+    else {
       return visibleIndex(index);
     }
   };
@@ -23,7 +24,8 @@ $(() => {
     // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
     if (cd.review.diff.isDetailed()) {
       return index;
-    } else {
+    } 
+    else {
       return index - review.events[index].minor_index;
     }
   };
@@ -31,9 +33,11 @@ $(() => {
   review.previousIndex = (index) => {
     if (index == 0) {
       return 0;
-    } else if (cd.review.diff.isDetailed()) {
+    } 
+    else if (cd.review.diff.isDetailed()) {
       return index - 1;
-    } else {
+    } 
+    else {
       return index - 1 - review.events[index - 1].minor_index;
     }
   };
