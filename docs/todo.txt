@@ -25,8 +25,9 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- When you make an edit to a file and then do a prediction
-  you do NOT get a file-event.
+- Change tool-tip 
+  - Kata created (for index=0)
+  - File created/deleted/renamed/edited
 
 - Reverting to a non RAG event...
   What is the tool-tip for this?

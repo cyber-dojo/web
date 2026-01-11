@@ -119,7 +119,8 @@ class SaverService
   end
 
   def kata_predicted_right(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
+    #@http.post(__method__, {
+    @http.post('kata_predicted_right2', {
       id:id, 
       index:index,
       files:files, 
@@ -131,7 +132,8 @@ class SaverService
   end
 
   def kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
+    #@http.post(__method__, {
+    @http.post('kata_predicted_wrong2', {
       id:id, 
       index:index,
       files:files, 
