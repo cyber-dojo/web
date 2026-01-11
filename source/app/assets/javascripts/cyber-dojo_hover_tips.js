@@ -45,18 +45,19 @@ var cyberDojo = (function(cd, $) {
 
   const miniTextInfo = (kataId, light) => {
     switch (light.colour) {
-      case 'pulling':     return 'image being prepared';
-      case 'timed_out':   return 'timed out';
-      case 'file_create': return 'create file';
-      case 'file_delete': return 'delete file';
-      case 'file_rename': return 'rename file';    
-      case 'file_edit':   return 'edit file';
+      case 'create':      return 'Kata created';
+      case 'pulling':     return 'Image being prepared';
+      case 'timed_out':   return 'Timed out';
+      case 'file_create': return 'File created';
+      case 'file_delete': return 'File deleted';
+      case 'file_rename': return 'File renamed';    
+      case 'file_edit':   return 'File edited';
     }
     if (light.colour == 'faulty') {
       const cssRed = cssColour('red');
       const cssAmber = cssColour('amber');
       const cssGreen = cssColour('green');
-      return `fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
+      return `Fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
     }
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
@@ -75,28 +76,32 @@ var cyberDojo = (function(cd, $) {
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `predicted ${cssColour(predicted)}, got ${cssColour(colour)}`;
+    return `Predicted ${cssColour(predicted)}, got ${cssColour(colour)}`;
   };
 
   const trafficLightRevertInfo = (light) => {
     const colour = cssColour(light.colour);
     const index = cssColour(light.colour, light.major_index - 2)
-    return `auto-reverted to ${colour} ${index}`;
+    return `Auto-reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
     const colour = cssColour(light.colour);
     const index = cssColour(light.colour, light.checkout.index);
     if (kataId === light.checkout.id) {
-      return `reverted to ${colour} ${index}`;
+      return `Reverted to ${colour} ${index}`;
     } else {
       const name = cd.lib.avatarName(light.checkout.avatarIndex);
-      return `checked-out ${name}'s ${colour} ${index}`;
+      return `Checked-out ${name}'s ${colour} ${index}`;
     }
   };
 
-  const cssColour = (colour, text = colour) => {
+  const cssColour = (colour, text = capitalized(colour)) => {
     return `<span class="${colour}">${text}</span>`;
+  };
+
+  const capitalized = (word) => {
+    return word[0].toUpperCase() + word.substring(1);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

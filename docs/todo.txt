@@ -25,28 +25,25 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- Change tool-tip 
-  - Kata created (for index=0)
-  - File created/deleted/renamed/edited
-
-- Reverting to a non RAG event...
-  What is the tool-tip for this?
-  Is it 'reverted to X.Y' and is only visible in diff-mode=detailed?
-
-- assets/javascripts/cyber-dojo_hover_tips.js define trafficLightCheckoutInfo()
-  which has this which needs to be updated to use major_index
-      const index = cssColour(light.colour, light.checkout.index);
-
-- review/_traffic_lights.html.erb has this, which looks suspicious:
-      if (review.index === -1) {
-        review.index = review.events.length - 1; // Need by [fork] and [checkout]
-      }
-
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
 
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
+
+- Reverting to a non RAG event...
+  What is the tool-tip for this?
+  Is it 'reverted to X.Y' and is only visible in diff-mode=detailed?
+
+- assets/javascripts/cyber-dojo_hover_tips.js defines trafficLightCheckoutInfo()
+  which has this ... which needs to be updated to use major_index
+      const index = cssColour(light.colour, light.checkout.index);
+
+- review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
+  Why is it needed by [fork] and [checkout] ?
+      if (review.index === -1) {
+        review.index = review.events.length - 1; // Need by [fork] and [checkout]
+      }
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG in diff-mode=detailed does not need a diff at all!
