@@ -23,7 +23,7 @@ $(() => {
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
     refresh: () => {
-      const title = (kata.id === review.id) ? 'revert' : 'checkout!';
+      const title = (kata.id == review.id) ? 'revert' : 'checkout!';
       $button.html(title);      
     }
   };

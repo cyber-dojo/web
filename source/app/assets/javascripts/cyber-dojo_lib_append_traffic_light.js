@@ -87,7 +87,15 @@ var cyberDojo = ((cd, $) => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.isRevert = (light) => {
     // TODO: also revert if light.checkout.avatarIndex == current avatar's index
-    return light.checkout && light.checkout.avatarIndex == '';
+    if (light.checkout) {
+      if (light.checkout.avatarIndex == '') {
+        return true;
+      }
+      else if (cd.kata.id == cd.review.id) { // TODO: is this enough?
+        return true;
+      }
+    }
+    return false;
   };
 
   const $revertImage = (light) => {
@@ -99,7 +107,13 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.isCheckout = (light) => {
-    return light.checkout != undefined;
+    //return light.checkout != undefined;
+    if (light.checkout) {
+      return cd.kata.id == cd.review.id;
+    }
+    else {
+      return false;
+    }
   };
 
   const $checkoutImage = (light) => {
