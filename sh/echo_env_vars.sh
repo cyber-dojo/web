@@ -33,9 +33,6 @@ echo_env_vars()
   #
   # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
   # echo CYBER_DOJO_SAVER_TAG=fef7a58
-  #
-  echo CYBER_DOJO_SAVER_SHA=e6518bd660d5ffa2a51da26e4dfffb8fb2d6612a
-  echo CYBER_DOJO_SAVER_TAG=e6518bd
 }
 
 run_versioner()

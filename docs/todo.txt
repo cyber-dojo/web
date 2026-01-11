@@ -25,15 +25,15 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
-  s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
-  (same as [test] page).
-
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
 - Reverting to a non RAG event...
   What is the tool-tip for this?
   Is it 'reverted to X.Y' and is only visible in diff-mode=detailed?
+
+- In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
+  s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
+  (same as [test] page).
 
 - assets/javascripts/cyber-dojo_hover_tips.js defines trafficLightCheckoutInfo()
   which has this ... which needs to be updated to use major_index
