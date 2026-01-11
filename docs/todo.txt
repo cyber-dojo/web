@@ -25,8 +25,8 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- On the main [test] page, when you turn on/off prediction, the small
-  (x) or tick icons need to be shown/hidden.
+- When you make an edit to a file and then do a prediction
+  you do NOT get a file-event.
 
 - Reverting to a non RAG event...
   What is the tool-tip for this?
@@ -80,7 +80,7 @@ Need to find how to put the actual 404/500 error message into the view.
 
 - On the dashboard have diff-extra[x] checkbox.
 
-- Need to show (o) detailed radio-button only if there are inter-test events?
+- Show (o) detailed radio-button only if there are inter-test events?
 
 - Polyfill old checkouts on saver model?
   having index=0 -> colour="create" would be handy.
@@ -95,10 +95,9 @@ Need to find how to put the actual 404/500 error message into the view.
   Add cd.lib.isTest(event) and check that also gives true for 
   'faulty' and 'pulling'
   Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
-  Could implement cd.lib.isLight() as !cd.lib.isFileEvent()?
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
-  Maybe set a timeout of eg 5? seconds so it always goes away?
+  Maybe set a timeout of a few seconds so it always goes away?
 
 ------------------------------------------------------------------
 
