@@ -79,7 +79,7 @@ var cyberDojo = (function(cd, $) {
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `Predicted ${cssColour(predicted)}, got ${cssColour(colour)}`;
+    return `Predicted ${cssColour(predicted)}, was ${cssColour(colour)}`;
   };
 
   const trafficLightAutoRevertInfo = (light) => {
