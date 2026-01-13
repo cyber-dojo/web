@@ -67,7 +67,17 @@ Need to find how to put the actual 404/500 error message into the view.
   (different avatar) then will need to get its events to calculate 
   correct major/minor.
 
-- Make tool-tip for checkout/revert make it more obvious what the difference is.
+- Make tool-tip for checkout/revert button more obvious what the difference is.
+  Currently says "Revert back to this traffic-light's files"
+  Could be refreshed when currently selected event changes. eg
+  ...
+  Currently viewing salmon 2.3 File edited.
+  You are a salmon.
+  Click [revert] to make these files your files.
+  ...
+  Currently viewing hippo 4 Red.
+  You are an elephant.
+  Click [revert!] to make these files your files.
 
 - Reverting to a non RAG event...
   What is the tool-tip for this?
