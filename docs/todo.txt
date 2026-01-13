@@ -67,9 +67,6 @@ Need to find how to put the actual 404/500 error message into the view.
   (different avatar) then will need to get its events to calculate 
   correct major/minor.
 
-- With fix in place for revert/checkout tool-tip, in the [review] page 
-  the RAG icon for revert/checkout has no PNG, traffic-light/null.png
-
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
 - Reverting to a non RAG event...

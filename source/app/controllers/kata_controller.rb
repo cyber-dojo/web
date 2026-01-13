@@ -157,8 +157,9 @@ class KataController < ApplicationController
       minor_index:source_minor_index,
       avatarIndex:source_avatar_index,
     }
-    summary = { colour: @colour, checkout: from }
     json = source_event(from[:id], from[:index], :checkout, from)
+    # @variables are set by source_event()
+    summary = { colour: @colour, checkout: from }
     result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
     light = json[:light]
     light['index'] = result['next_index'] - 1
