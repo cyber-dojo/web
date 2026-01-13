@@ -25,6 +25,15 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
+- If you are in [test] mode and do an edit and then switch to review mode.
+  Should this switch cause a file-edit event?
+  I think no. But, if you are then in review mode and you click revert/checkout 
+  then you should get a file-edit event before the revert/checkout.
+
+- saver v2 should do checked_out2 and reverted2
+
+- saver v2 is always returning { 'minor_index' => 0 } which is wrong
+
 - Tool tip for checkout fixed by adding major/minor index.
   Eg
   {
@@ -71,13 +80,12 @@ Need to find how to put the actual 404/500 error message into the view.
   Currently says "Revert back to this traffic-light's files"
   Could be refreshed when currently selected event changes. eg
   ...
-  Currently viewing salmon 2.3 File edited.
-  You are a salmon.
-  Click [revert] to make these files your files.
+  Currently reviewing 2.3 File edited.
+  Click [revert] to go back to these files.
   ...
-  Currently viewing hippo 4 Red.
+  Currently reviewing hippo 4 Red.
   You are an elephant.
-  Click [revert!] to make these files your files.
+  Click [checkout] to make these files your files.
 
 - Reverting to a non RAG event...
   What is the tool-tip for this?
