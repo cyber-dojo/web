@@ -27,21 +27,24 @@ class CheckoutTest  < AppControllerTestBase
         src_id: @id,
         src_avatar_index: '',
         src_index: 2,
+        src_major_index: 2,
+        src_minor_index: 0,
         id: @id,
         index: 5
       }
       assert_response :success
 
-      #files = json['files']
-      #refute_nil files
-      #refute_nil files[filename]
-      #assert_equal old_content, files[filename]
-
       assert_equal 6, kata.events.size
       event = kata.event(5)
       assert_equal old_content, event['files'][filename]['content']
 
-      expected = { 'id' => @id, 'avatarIndex' => '', 'index' => 2 }
+      expected = {
+        'id' => @id,
+        'avatarIndex' => '',
+        'index' => 2,
+        'major_index' => 2,
+        'minor_index' => 0
+      }
       assert_equal expected, event['checkout']
     end
   end
@@ -63,6 +66,8 @@ class CheckoutTest  < AppControllerTestBase
           src_id: lion.id,
           src_avatar_index: lion_avatar_index,
           src_index: 1,
+          src_major_index: 1,
+          src_minor_index: 0,
           id: hippo.id,
           index: 1
         }
@@ -76,7 +81,13 @@ class CheckoutTest  < AppControllerTestBase
         assert_equal 2, hippo.events.size
         checkout_event = hippo.event(-1)
         assert_equal new_content, checkout_event['files'][filename]['content']
-        expected = { 'id' => lion.id, 'avatarIndex' => lion_avatar_index, 'index' => 1 }
+        expected = {
+          'id' => lion.id,
+          'avatarIndex' => lion_avatar_index,
+          'index' => 1,
+          'major_index' => 1,
+          'minor_index' => 0
+        }
         assert_equal expected, checkout_event['checkout']
       end
     end
