@@ -77,10 +77,9 @@ Need to find how to put the actual 404/500 error message into the view.
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
 
-- assets/javascripts/cyber-dojo_hover_tips.js defines trafficLightCheckoutInfo()
-  which has this ... which needs to be updated to use major_index
-      const index = cssColour(light.colour, light.checkout.index);
-
+- Auto-reverted tool-tip is 'Reverted to...'
+  Maybe this should be more obvious as, eg, 'Predicted wrong, auto-reverted to...'
+  
 - review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
   Why is it needed by [fork] and [checkout] ?
       if (review.index === -1) {
