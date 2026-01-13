@@ -90,20 +90,15 @@ var cyberDojo = (function(cd, $) {
 
   const trafficLightRevertInfo = (light) => {
     const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, light.major_index - 2); // TODO: -2 ???
+    const index = cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
     return `Reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
     const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, light.checkout.index);
-    if (kataId == light.checkout.id) {
-      return `Reverted to ${colour} ${index}`;
-    } 
-    else {
-      const name = cd.lib.avatarName(light.checkout.avatarIndex);
-      return `Checked out ${name}'s ${colour} ${index}`;
-    }
+    const index = cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
+    const name = cd.lib.avatarName(light.checkout.avatarIndex);
+    return `Checked out ${name}'s ${colour} ${index}`;
   };
 
   const cssColour = (colour, text = capitalized(colour)) => {

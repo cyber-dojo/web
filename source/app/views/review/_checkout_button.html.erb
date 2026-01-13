@@ -8,6 +8,7 @@ $(() => {
   const review = cd.review;
 
   const $button = $('#checkout-button');
+  
   cd.createTip($button, () => {
     if (kata.id == review.id) {
       return `revert back to this<br/>traffic-light's files`;
@@ -29,11 +30,15 @@ $(() => {
   };
 
   const checkout = () => {
+    const event = review.events[review.index];
+
     const args = {       // where we are writing to
       id: kata.id,       // eg 'Xd4f2P'
       index: kata.index, // eg 17
       src_id: review.id, // where we are reading from
-      src_index: review.index,
+      src_index: event.index,
+      src_major_index: event.major_index,
+      src_minor_index: event.minor_index,
       src_avatar_index: review.avatarIndex
     };
     cd.settings.showButton();

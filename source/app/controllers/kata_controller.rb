@@ -118,7 +118,7 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
-  # A revert, eg for an incorrect prediction with auto-revert from the test page.
+  # An auto-revert for an incorrect prediction from the [test] page.
 
   def revert
     # Eg [14=green], [15=red (amber=incorrect)], [index=16 ==> revert to 14]
@@ -145,19 +145,21 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
-  # Checkout from the review page.
+  # Checkout/Revert from the review page.
+  # Revert: going back to one of your own previous traffic-lights.
+  # Checkout: going back to a different avatar's traffic-light.
 
   def checkout 
     from = {
       id:source_id,
       index:source_index,
+      major_index:source_major_index,
+      minor_index:source_minor_index,
       avatarIndex:source_avatar_index,
     }
+    summary = { colour: @colour, checkout: from }
     json = source_event(from[:id], from[:index], :checkout, from)
-    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
-        colour: @colour,
-      checkout: from
-    });
+    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
     light = json[:light]
     light['index'] = result['next_index'] - 1
     light['major_index'] = result['major_index']
@@ -234,18 +236,25 @@ class KataController < ApplicationController
     params[:index].to_i
   end
 
+  # source_X fields are used in checkout() but not in revert()
+
   def source_id
-    # Used in checkout (not in revert)
     params[:src_id]
   end
 
   def source_index
-    # Used in checkout (not in revert)
     params[:src_index].to_i
   end
 
+  def source_major_index
+    params[:src_major_index].to_i
+  end
+
+  def source_minor_index
+    params[:src_minor_index].to_i
+  end
+
   def source_avatar_index
-    # Used in checkout (not in revert)
     param = params[:src_avatar_index]
     (param != '') ? param.to_i : ''
   end

@@ -76,16 +76,19 @@ var cyberDojo = ((cd, $) => {
     return ['red','amber','green'].includes(light.predicted);
   };
 
-  cd.lib.isCheckout = (light) => {
-    return light.checkout && light.checkout.id != cd.kata.id;
+  cd.lib.isAutoRevert = (light) => {
+    // Auto-Revert is from [test] page, from incorrect prediction.
+    return light.revert;
   };
 
   cd.lib.isRevert = (light) => {
+    // Revert is from [review] page, go back to one of our own previous traffic-lights.
     return light.checkout && light.checkout.id == cd.kata.id;
   };
 
-  cd.lib.isAutoRevert = (light) => {
-    return light.revert;
+  cd.lib.isCheckout = (light) => {
+    // Checkout is from [review] page, go back to different avatar's traffic-light.
+    return light.checkout && light.checkout.id != cd.kata.id;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

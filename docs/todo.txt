@@ -25,11 +25,7 @@ Need to find how to put the actual 404/500 error message into the view.
 
 ------------------------------------------------------------------
 
-- Tool tip for checkout says Green 12 where 12 is the index. Needs to be the dottedIndex.
-  This is interesting - this is the dottedIndex into a _different_ events sequence.
-  Does the tool-tip require an extra $.getJSON() call?
-  Can I avoid this extra call if the data stored in the event is augmented with 
-  major_index and minor_index?
+- Tool tip for checkout fixed by adding major/minor index.
   Eg
   {
     "checkout": {
@@ -38,7 +34,7 @@ Need to find how to put the actual 404/500 error message into the view.
       "avatarIndex": 51
     },
   }
-  would become 
+  has become 
   {
     "checkout": {
       "id": "vQfTr8",
@@ -48,7 +44,7 @@ Need to find how to put the actual 404/500 error message into the view.
       "avatarIndex": 51
     },
   }
-  This may also mean some polyfilling of the "checkout" in saver for v0,v1 where 
+  Now need to polyfill the "checkout" in saver for v0,v1,v2 where 
   {
     "checkout": {
       "id": "vQfTr8",
@@ -66,7 +62,13 @@ Need to find how to put the actual 404/500 error message into the view.
       "avatarIndex": 51
     },
   }
+  v0,v1 will be repeat of index, and 0
+  for v2 will need to check if id matches manifest, and if not 
+  (different avatar) then will need to get its events to calculate 
+  correct major/minor.
 
+- With fix in place for revert/checkout tool-tip, in the [review] page 
+  the RAG icon for revert/checkout has no PNG, traffic-light/null.png
 
 - Make tool-tip for checkout/revert make it more obvious what the difference is.
 
