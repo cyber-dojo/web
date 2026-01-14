@@ -28,33 +28,26 @@ There a quick way to determine if a v2 kata has file-events
   no_file_events = (event['index'] == event['major_index'])
 
 Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
-  Fix this.
+  Is this correct? 
+  I think it is, as long as you can only checkout/revert from a RAG event.
+  The new file-event methods return only next_index, but if a non-RAG
+  saver method returned the full triple, then the minor_index=0 would be wrong.
+
 
 ------------------------------------------------------------------
 
-- If you are in [test] mode and do an edit and then switch to review mode.
+- Suppose you are in [test] mode, do an edit, then switch to review mode.
   Should this switch cause a file-edit event?
   Yes. And this may update kata.index 
   And then the revert/checkout (which may not happen) can proceed as normal.
-  Works as long kata_events() polyfills major/minor for v0,v1,v2.
 
-- Tool-tip for checkout. 
-  If avatar is different, make kata_events() call to get major,minor data.
-  Note: don't use kata_event() singular, as that is not polyfilled with 
-  major,minor index yet.
+- Forbid revert/checkout on a non RAG event.
+  If this is ever relaxed, then the tool-tip for a checkout/revert would 
+  need to ensure saver's kata_events() polyfills major/minor for v0,v1,v2.
 
-- Make tool-tip for checkout/revert button more obvious what the difference is.
-  Currently says "Revert back to this traffic-light's files"
-  Could be refreshed when currently selected event changes. eg
-  ...
-  Currently reviewing 2.3 File edited.
-  Click [revert] to go back to these files.
-  ...
-  Currently reviewing hippo 4 Red.
-  You are an elephant.
-  Click [checkout] to make these files your files.
+- Forbid [fork] on a non RAG event.
 
-- Forbid reverting to a non RAG event
+- If there are no minor-index == 0 events then remove/disable the (o)details radio button
 
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 

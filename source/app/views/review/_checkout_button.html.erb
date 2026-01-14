@@ -8,24 +8,39 @@ $(() => {
   const review = cd.review;
 
   const $button = $('#checkout-button');
-  
-  cd.createTip($button, () => {
-    if (kata.id == review.id) {
-      return `revert back to this<br/>traffic-light's files`;
-    } 
-    else {
-      return `make this traffic-light's<br/>files your current files`;
-    }
-  });
+
+  const refreshToolTip = () => {
+    cd.createTip($button, () => {
+      const event = review.events[review.index];
+      const index = cd.lib.dottedIndex(event);
+      const rag = cd.cssColour(`${index} ${event.colour}`);
+      if (kata.id == review.id) {
+        const info = `Reviewing: ${rag}.`;
+        const action = 'Click to go back to these files.';
+        return `${info}<br/>${action}`;
+      } 
+      else {
+        const name = cd.lib.avatarName(review.avatarIndex);
+        const info = `Reviewing: ${name} ${rag}.`;
+        const action = `Click to make these files your files.`;
+        return `${info}<br/>${action}`;
+      }
+    });
+  };
+
   $button.click(() => review.fadeOut(checkout));
 
   review.checkoutButton = {
-    show: () => $button.show(),
+    show: () => {
+      refreshToolTip();
+      $button.show();
+    },
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       const title = (kata.id == review.id) ? 'revert' : 'checkout!';
-      $button.html(title);      
+      $button.html(title);
+      refreshToolTip();
     }
   };
 

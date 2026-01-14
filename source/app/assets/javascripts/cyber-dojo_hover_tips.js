@@ -54,9 +54,9 @@ var cyberDojo = (function(cd, $) {
       case 'file_edit':   return 'File edited';
     }
     if (light.colour == 'faulty') {
-      const cssRed = cssColour('red');
-      const cssAmber = cssColour('amber');
-      const cssGreen = cssColour('green');
+      const cssRed = cd.cssColour('red');
+      const cssAmber = cd.cssColour('amber');
+      const cssGreen = cd.cssColour('green');
       return `Fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
     }
     else if (cd.lib.hasPrediction(light)) {
@@ -72,36 +72,36 @@ var cyberDojo = (function(cd, $) {
       return trafficLightCheckoutInfo(kataId, light);
     }
     else {
-      return cssColour(light.colour);
+      return cd.cssColour(light.colour);
     }
   };
 
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `Predicted ${cssColour(predicted)}, was ${cssColour(colour)}`;
+    return `Predicted ${cd.cssColour(predicted)}, was ${cd.cssColour(colour)}`;
   };
 
   const trafficLightAutoRevertInfo = (light) => {
-    const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, light.major_index - 2);
+    const colour = cd.cssColour(light.colour);
+    const index = cd.cssColour(light.colour, light.major_index - 2);
     return `Auto reverted to ${colour} ${index}`;
   };
 
   const trafficLightRevertInfo = (light) => {
-    const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
+    const colour = cd.cssColour(light.colour);
+    const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
     return `Reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
-    const colour = cssColour(light.colour);
-    const index = cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
+    const colour = cd.cssColour(light.colour);
+    const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
     const name = cd.lib.avatarName(light.checkout.avatarIndex);
     return `Checked out ${name}'s ${colour} ${index}`;
   };
 
-  const cssColour = (colour, text = capitalized(colour)) => {
+  cd.cssColour = (colour, text = capitalized(colour)) => {
     return `<span class="${colour}">${text}</span>`;
   };
 

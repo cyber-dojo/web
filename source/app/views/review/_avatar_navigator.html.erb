@@ -66,9 +66,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
-    // diff[?]
-    //   [x] ==> move to its _first_ event
-    //   [ ] ==> move to its _last_  traffic-light
     review.events = avatar.events;
     const index = review.diff.isOn() ? 0 : -1;
     review.refresh(avatar.id, index);
