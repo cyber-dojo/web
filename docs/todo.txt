@@ -32,6 +32,18 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
+- Fix location of (?) help for diff.
+
+- Fix CSS so review page looks ok when arriving from dashboard.
+
+- Increase width of code in [review] page to match that in [test] page.
+
+- Should I have separate buttons for [revert] and [checkout!]
+  and arrange the small buttons vertically?
+  [revert]
+  [checkout!]
+  [fork]
+
 - Currently, in review mode, you sometimes go back to index==0 
   Would it be better, by default, to go back to index=1
   which is the first actual change?
@@ -57,19 +69,21 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
 
-- The diff tool-tip when details[x] now looks too busy.
-  A RAG in diff-mode=detailed does not need a diff at all!
-  The file-events themselves can each contain details of the one file they are about. 
+- The diff tool-tip is too busy.
   Eg Instead of...
     - + =
         15 = readme.txt
     1 1  7 ! hiker.sh 
-         8 = test_hiker.sh
+    3 4  8 ! test_hiker.sh
          3 = bats_help.sh
          2 = cyber-dojo.sh 
   
    it can be simply...
-    1 1  hiker.sh 
+    - + 
+    1 1 hiker.sh 
+    3 4 test_hiker.sh
+
+  In diff-mode=detailed, there will always be only ONE file listed.
 
 - In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
   can be simplified using code in _review.html.erb
