@@ -1,4 +1,4 @@
-<button id="checkout-button" type="button" style="display:none;">checkout</button>
+<button id="checkout-button" type="button">checkout</button>
 
 <script>
 'use strict';
@@ -14,21 +14,14 @@ $(() => {
       const event = review.currentEvent();
       const index = cd.lib.dottedIndex(event);
       const rag = cd.cssColour(`${index} ${event.colour}`);
-      if (kata.id == review.id) {
-        const info = `Reviewing: ${rag}`;
-        const action = 'Click to go back to these files';
-        return `${info}<br/>${action}`;
-      } 
-      else {
-        const name = cd.lib.avatarName(review.avatarIndex);
-        const info = `Reviewing: ${name} ${rag}`;
-        const action = `Click to make these files your files`;
-        return `${info}<br/>${action}`;
-      }
+      const name = cd.lib.avatarName(review.avatarIndex);
+      const info = `Reviewing: ${name} ${rag}`;
+      const action = `Click to make these files your files`;
+      return `${info}<br/>${action}`;
     });
   };
 
-  $button.click(() => review.fadeOut(checkout));
+  $button.click(() => review.fadeOut(cd.revertOrCheckout));
 
   review.checkoutButton = {
     show: () => {
@@ -38,19 +31,20 @@ $(() => {
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
     refresh: () => {
-      const title = (kata.id == review.id) ? 'revert' : 'checkout!';
-      $button.html(title);
       refreshToolTip();
       if (cd.review.isOnFileEvent()) {
         review.checkoutButton.disable();
       } 
+      else if (kata.id == review.id) {
+        review.checkoutButton.disable();
+      }
       else {
         review.checkoutButton.enable();
       }
     }
   };
 
-  const checkout = () => {
+  cd.revertOrCheckout = () => {
     const event = review.currentEvent();
 
     const args = {       // where we are writing to
