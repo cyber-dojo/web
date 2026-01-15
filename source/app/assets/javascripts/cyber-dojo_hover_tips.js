@@ -111,13 +111,15 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $diffLinesTable = (diffs) => {
-    const $table = $('<table>', { class:'filenames' });
+    let count = 0;
+    const $table = $('<table style="margin-top: 5px;">', { class:'filenames' });
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
       const fileDiff = diffs.find(diff => diffFilename(diff) === filename);
       const addedCount = fileDiff.line_counts['added'];
       const deletedCount = fileDiff.line_counts['deleted'];
       if (fileDiff.type != 'unchanged') {
+        count += 1;
         const $tr = $('<tr>');
         $tr.append($lineCountTd('deleted', fileDiff));
         $tr.append($lineCountTd('added', fileDiff));
@@ -126,7 +128,12 @@ var cyberDojo = (function(cd, $) {
         $table.append($tr);
       }
     });
-    return $table;
+    if (count == 0) {
+      return '';
+    }
+    else {    
+      return $table;
+    }
   };
 
   const $lineCountTd = (type, file) => {
