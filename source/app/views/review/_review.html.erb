@@ -16,13 +16,15 @@
   <div class="left-column">
     <table class="controls">
       <tr><td><%= render partial: 'review/resume_button' %></td>
+          <td><%= render partial: 'review/help_icon' %></td>
           <td><%= render partial: 'review/avatar_navigator' %></td></tr>
           
       <tr><td><%= render partial: 'review/revert_button' %>
               <%= render partial: 'review/checkout_button' %>
               <%= render partial: 'review/fork_button' %></td>
+          <td></td>
           <td><%= render partial: 'review/diff' %>
-              <%= render partial: 'review/help_icon' %></td></tr>                  
+              </td></tr>                  
     </table>
     <table>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>

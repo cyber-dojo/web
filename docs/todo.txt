@@ -36,9 +36,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 - Increase width of code in [review] page to match that in [test] page.
 
-- Fix location of (?) help for diff.
-  To right of [resume]
-
 - When you [revert] or [checkout] does the output s/s/s get restored?
   Check it.
 
