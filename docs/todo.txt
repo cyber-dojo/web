@@ -56,19 +56,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
-  
-- review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
-  I think -1 is converted in review.refresh() so fork/checkout will never see -1
-  Why is it needed by [fork] and [checkout] ?
-      if (review.index === -1) {
-        review.index = review.events.length - 1; // Need by [fork] and [checkout]
-      }
-
-- Move TODO comments from code to here.
-
-- Show (o) detailed radio-button only if there are inter-test events?
-  See _review.html.erb
-  //review.detailsCheckBox.setVisibility();
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG in diff-mode=detailed does not need a diff at all!
@@ -119,6 +106,54 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
   Maybe set a timeout of a few seconds so it always goes away?
+
+------------------------------------------------------------------
+
+- TODO: review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
+  I think -1 is converted in review.refresh() so fork/checkout will never see -1
+  Why is it needed by [fork] and [checkout] ?
+      if (review.index === -1) {
+        review.index = review.events.length - 1; // Need by [fork] and [checkout]
+      }
+
+- TODO: _review.html.erb ...
+  review.refresh = (id, index) => {
+    ...
+    review.trafficLights  .refresh(); // TODO: also does navigator update
+
+- TODO: _review.html.erb ...
+  review.refresh = (id, index) => {
+    ...
+    //review.detailsCheckBox.setVisibility();
+  Show (o) detailed radio-button only if there are inter-test events
+
+- TODO: _review.html.erb ...
+  const startup = (id, index) => {
+    ...
+    cd.lib.getEvents(id, (events) => {      
+      //if (index == -1) {
+      //  review.diff.off();
+      //} else {
+      //  review.diff.simple();
+      //}
+
+- TODO: _details_checkbox.html.erb ...
+    refresh: (checked) => {
+      $box
+        .on('click', () => {
+          review.trafficLights.refresh(); // TODO: dont need to refresh the traffic-light-navigator
+
+- TODO: assets/javascripts/cyber-dojo_lib_append_traffic_light.js ...
+      const $ragImage = (light) => {
+        ...
+        'data-colour': light.colour, // Revert needs colour+index, TODO: no longer true
+
+- TODO: review/_traffic_lights.html.erb ...
+  review.trafficLights = {
+    refresh: () => {
+      ...
+      $lights.empty();
+      appendTrafficLights(review.events); // TODO: only need to do this for new avatar
 
 ------------------------------------------------------------------
 

@@ -67,24 +67,16 @@ $(() => {
     review.avatarNavigator.refresh();
     review.files          .refresh();
     review.output         .refresh();
-    review.trafficLights  .refresh(); // TODO: also does navigator update
+    review.trafficLights  .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
-    //review.detailsCheckBox.setVisibility(); // TODO:
+    //review.detailsCheckBox.setVisibility();
   };
 
   const startup = (id, index) => {
     cd.settings.hideButton();
     cd.lib.getEvents(id, (events) => {
       review.events = events;
-      
-      // TODO: restore?
-      //if (index == -1) {
-      //  review.diff.off();
-      //} else {
-      //  review.diff.simple();
-      //}
-
       review.refresh(id, index);
     });
   };

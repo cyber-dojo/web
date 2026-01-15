@@ -55,7 +55,7 @@ var cyberDojo = ((cd, $) => {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${light.colour}.png`,
         alt: `${light.colour} traffic-light`,
-      'data-colour': light.colour, // Revert needs colour+index, TODO: no longer true
+      'data-colour': light.colour, // Revert needs colour+index
       'data-index': light.index
     });
   };

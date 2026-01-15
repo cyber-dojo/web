@@ -14,7 +14,7 @@ $(() => {
         review.index = review.events.length - 1; // Need by [fork] and [checkout]
       }
       $lights.empty();
-      appendTrafficLights(review.events); // TODO: only need to do this for new avatar
+      appendTrafficLights(review.events);
       scrollCurrentTrafficLightIntoView();
       review.refreshTrafficLightsNavigator();
     }
