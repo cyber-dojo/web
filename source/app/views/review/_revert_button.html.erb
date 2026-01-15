@@ -31,7 +31,10 @@ $(() => {
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       refreshToolTip();
-      if (cd.review.isOnFileEvent()) {
+      if (review.isFromDashboardPage()) {
+        review.revertButton.disable();
+      }
+      else if (cd.review.isOnFileEvent()) {
         review.revertButton.disable();
       } 
       else if (kata.id != review.id) {
