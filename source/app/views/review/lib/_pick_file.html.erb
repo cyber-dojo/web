@@ -6,7 +6,7 @@ $(() => {
 
   review.pickFile = (diffs, previousFilename) => {
     // Rule 0: if current event is a file-event use its filename
-    const event = review.events[review.index];
+    const event = review.currentEvent();
     if (cd.lib.isFileEvent(event)) {
       switch (event.colour) {
       case 'file_create': return findDiff(diffs, event.filename);

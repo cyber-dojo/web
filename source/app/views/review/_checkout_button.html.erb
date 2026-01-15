@@ -11,8 +11,7 @@ $(() => {
 
   const refreshToolTip = () => {
     cd.createTip($button, () => {
-      const event = review.events[review.index];
-      const index = cd.lib.dottedIndex(event);
+      const index = cd.lib.dottedIndex(review.currentEvent());
       const rag = cd.cssColour(`${index} ${event.colour}`);
       if (kata.id == review.id) {
         const info = `Reviewing: ${rag}.`;
@@ -41,11 +40,17 @@ $(() => {
       const title = (kata.id == review.id) ? 'revert' : 'checkout!';
       $button.html(title);
       refreshToolTip();
+      if (cd.review.isOnFileEvent()) {
+        review.checkoutButton.disable();
+      } 
+      else {
+        review.checkoutButton.enable();
+      }
     }
   };
 
   const checkout = () => {
-    const event = review.events[review.index];
+    const event = review.currentEvent();
 
     const args = {       // where we are writing to
       id: kata.id,       // eg 'Xd4f2P'

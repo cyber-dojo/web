@@ -23,10 +23,6 @@ Need to find how to put the actual 404/500 error message into the view.
     # Show full error reports
     config.consider_all_requests_local = true
 
-There a quick way to determine if a v2 kata has file-events
-  event = events[-1]
-  no_file_events = (event['index'] == event['major_index'])
-
 Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   Is this correct? 
   I think it is, as long as you can only checkout/revert from a RAG event.
@@ -36,31 +32,38 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
+- Fix [revert]/[checkout!] tool-tip.
+
 - Suppose you are in [test] mode, do an edit, then switch to review mode.
   Should this switch cause a file-edit event?
-  Yes. And this may update kata.index 
+  Yes. And this may update kata.index which you can then see!
   And then the revert/checkout (which may not happen) can proceed as normal.
 
-- Forbid revert/checkout on a non RAG event.
-  If this is ever relaxed, then the tool-tip for a checkout/revert would 
-  need to ensure saver's kata_events() polyfills major/minor for v0,v1,v2.
-
-- Forbid [fork] on a non RAG event.
-
 - If there are no minor-index == 0 events then remove/disable the (o)details radio button
+  There is a quick way to determine if a kata has any file-events
+    event = events[-1]
+    no_file_events = (event['index'] == event['major_index'])
+
+- If there are a lot of file-events and you switch on diff-details make sure 
+  that the currently selected event is still visible - there could be a lot more events
+  requiring the current one to be brought back into view.
 
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
-
-- Auto-reverted tool-tip is 'Reverted to...'
-  Maybe this should be more obvious as, eg, 'Predicted wrong, auto-reverted to...'
   
 - review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
+  I think -1 is converted in review.refresh() so fork/checkout will never see -1
   Why is it needed by [fork] and [checkout] ?
       if (review.index === -1) {
         review.index = review.events.length - 1; // Need by [fork] and [checkout]
       }
+
+- Move TODO comments from code to here.
+
+- Show (o) detailed radio-button only if there are inter-test events?
+  See _review.html.erb
+  //review.detailsCheckBox.setVisibility();
 
 - The diff tool-tip when details[x] now looks too busy.
   A RAG in diff-mode=detailed does not need a diff at all!
@@ -94,8 +97,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
    - smaller for diff-detailed OFF
 
 - On the dashboard have diff-extra[x] checkbox.
-
-- Show (o) detailed radio-button only if there are inter-test events?
 
 - Polyfill old checkouts on saver model?
   having index=0 -> colour="create" would be handy.

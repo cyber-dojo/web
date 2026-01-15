@@ -8,7 +8,7 @@ $(() => {
 
   review.output = {
     refresh: () => {
-      const isLight = cd.lib.isLight(review.events[review.index]);
+      const isLight = cd.lib.isLight(review.currentEvent());
       if (isLight && review.index != 0) {
         review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
           outputRefresher(event);

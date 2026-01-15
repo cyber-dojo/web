@@ -25,15 +25,23 @@ $(() => {
   const $fork = $('#fork-dialog');
 
   cd.review.forkButton = {
+    enable: () => $button.prop('disabled', false),
+    disable: () => $button.prop('disabled', true),
     refresh: () => {
       if (cd.env['FORK_BUTTON'] !== 'off') {
         $button.show();
+      }
+      if (cd.review.isOnFileEvent()) {
+        cd.review.forkButton.disable();
+      }
+      else {
+        cd.review.forkButton.enable();
       }
     }
   };
 
   const tip = [
-    'create a new',
+    'Create a new',
     'practice from this',
     "traffic-light's files"
   ].join('<br/>');
