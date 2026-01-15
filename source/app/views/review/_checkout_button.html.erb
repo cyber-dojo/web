@@ -11,7 +11,8 @@ $(() => {
 
   const refreshToolTip = () => {
     cd.createTip($button, () => {
-      const index = cd.lib.dottedIndex(review.currentEvent());
+      const event = review.currentEvent();
+      const index = cd.lib.dottedIndex(event);
       const rag = cd.cssColour(`${index} ${event.colour}`);
       if (kata.id == review.id) {
         const info = `Reviewing: ${rag}.`;

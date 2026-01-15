@@ -32,8 +32,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
-- Fix [revert]/[checkout!] tool-tip.
-
 - Suppose you are in [test] mode, do an edit, then switch to review mode.
   Should this switch cause a file-edit event?
   Yes. And this may update kata.index which you can then see!
