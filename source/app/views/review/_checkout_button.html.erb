@@ -1,4 +1,4 @@
-<button id="checkout-button" type="button">checkout</button>
+<button id="checkout-button" type="button">checkout!</button>
 
 <script>
 'use strict';
@@ -16,7 +16,7 @@ $(() => {
       const rag = cd.cssColour(`${index} ${event.colour}`);
       const name = cd.lib.avatarName(review.avatarIndex);
       const info = `Reviewing: ${name} ${rag}`;
-      const action = `Click to make these files your files`;
+      const action = `Click to checkout these files!`;
       return `${info}<br/>${action}`;
     });
   };

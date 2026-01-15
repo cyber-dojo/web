@@ -29,8 +29,21 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   The new file-event methods return only next_index, but if a non-RAG
   saver method returned the full triple, then the minor_index=0 would be wrong.
 
+Dashboard, in refresh.js save events in global so they are available 
+  to JS, eg to calculate the previous index. Prepares the way for details[x]
+  checkbox in dashboard.
 
 ------------------------------------------------------------------
+
+- ?Tweak resume/revert/checkout button tool-tips to say 
+    Click to resume with ????
+    Click to resume with the files of: panda 1 red.
+    Click to resume with the files of: lion 2 green.
+
+- Make revert/checkout/fork buttons slightly bigger.
+
+- Be consistent with capitalization of colour in tool-tips.
+  Red or red, but not both.
 
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from penguin 1 red"
@@ -40,25 +53,27 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   Yes. And this may update kata.index which you can then see!
   And then the revert/checkout (which may not happen) can proceed as normal.
 
-- If there are no minor-index == 0 events then remove/disable the (o)details radio button
+- If there are no minor-index == 0 events then remove/disable the (o)details radio button.
+  First step for this is to add all the radio buttons dynamically in Javascript.
   There is a quick way to determine if a kata has any file-events
     event = events[-1]
     no_file_events = (event['index'] == event['major_index'])
 
-- Increase width of code in [review] page to match that in [test] page.
+- Increase height and the width of code in [review] page to match that in [test] page.
 
 - When you [revert] or [checkout] does the output s/s/s get restored?
-  Check it.
+  It should do. Check it.
 
 - Currently, in review mode, you sometimes go back to index==0 
   (when diff is ON and you switch avatar)
     Would it be better, by default, to go back to index=1
     which is the first actual change?
     Or if diff-mode=light-light, to the first actual light?
+    Yes. This will mean you don't, by default, get "0 Create" in a revert/checkout tool-tip.
 
 - If there are a lot of file-events and you switch on diff-details make sure 
   that the currently selected event is still visible - there could be a lot more events
-  requiring the current one to be brought back into view.
+  requiring the current one to be scrolled back into view.
 
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
@@ -69,10 +84,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 - In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
   can be simplified using code in _review.html.erb
-
-- In dashboard, in refresh.js save events in global so they are available 
-  to JS, eg to calculate the previous index. Prepares the way for details[x]
-  checkbox in dashboard.
 
 - Switched to a dotted-index view
   Check CSS copes with variable size in traffic-light-navigator, eg
