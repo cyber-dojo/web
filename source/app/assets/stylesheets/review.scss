@@ -35,10 +35,11 @@
     font-size: 25px;
     padding: { top:1px; bottom:3px; left:7px; right:6px; }
     margin-right:5px;
-    //margin: { bottom:5px; right:5px; }
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.02em;
+    position: relative;
+    top: 1px;
   }
   #checkout-button, #fork-button
   {
