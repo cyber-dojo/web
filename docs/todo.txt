@@ -40,15 +40,17 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   Where to put it?
   Below resume?
 
-- Should I have separate buttons for [revert] and [checkout!]
-  and arrange the small buttons vertically?
+- Separate the buttons for [revert] and [checkout!]
+  and arrange the small buttons vertically
   [revert]
   [checkout!]
   [fork]
 
 - Currently, in review mode, you sometimes go back to index==0 
-  Would it be better, by default, to go back to index=1
-  which is the first actual change?
+  (when diff is ON and you switch avatar)
+    Would it be better, by default, to go back to index=1
+    which is the first actual change?
+    Or if diff-mode=light-light, to the first actual light?
 
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from penguin 1 red"
@@ -71,9 +73,8 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
 
-- The event tool-tip in detailed mode has the diff-type-marker 
-  Eg + - = 
-  This can be dropped if you are in diff-mode=detailed 
+- In the event tool-tip diff, raise the filename slightly so it aligns 
+  vertically with the +/- counts.
 
 - In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
   can be simplified using code in _review.html.erb

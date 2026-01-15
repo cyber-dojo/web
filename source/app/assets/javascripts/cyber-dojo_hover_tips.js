@@ -123,7 +123,9 @@ var cyberDojo = (function(cd, $) {
         const $tr = $('<tr>');
         $tr.append($lineCountTd('deleted', fileDiff));
         $tr.append($lineCountTd('added', fileDiff));
-        $tr.append($diffTypeTd(fileDiff));
+        if (!cd.review.id || !cd.review.diff.isDetailed()) {
+          $tr.append($diffTypeTd(fileDiff));
+        }
         $tr.append($diffFilenameTd(fileDiff));
         $table.append($tr);
       }
