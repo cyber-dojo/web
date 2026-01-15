@@ -32,6 +32,13 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
+- Currently, in review mode, you sometimes go back to index==0 
+  Would it be better, by default, to go back to index=1
+  which is the first actual change?
+
+- Tweak [fork] button tool-tip to say 
+  "Create a new practice from penguin 1 red"
+
 - Suppose you are in [test] mode, do an edit, then switch to review mode.
   Should this switch cause a file-edit event?
   Yes. And this may update kata.index which you can then see!

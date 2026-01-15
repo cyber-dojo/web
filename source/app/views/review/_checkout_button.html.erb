@@ -15,14 +15,14 @@ $(() => {
       const index = cd.lib.dottedIndex(event);
       const rag = cd.cssColour(`${index} ${event.colour}`);
       if (kata.id == review.id) {
-        const info = `Reviewing: ${rag}.`;
-        const action = 'Click to go back to these files.';
+        const info = `Reviewing: ${rag}`;
+        const action = 'Click to go back to these files';
         return `${info}<br/>${action}`;
       } 
       else {
         const name = cd.lib.avatarName(review.avatarIndex);
-        const info = `Reviewing: ${name} ${rag}.`;
-        const action = `Click to make these files your files.`;
+        const info = `Reviewing: ${name} ${rag}`;
+        const action = `Click to make these files your files`;
         return `${info}<br/>${action}`;
       }
     });
