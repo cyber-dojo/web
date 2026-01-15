@@ -1,24 +1,37 @@
-<button id="resume-button" type="button" style="display:none;">resume</button>
+<button id="resume-button" type="button">resume</button>
 
 <script>
 'use strict';
 $(() => {
 
+  const kata = cd.kata;
+  const review = cd.review;
+
   const $button = $('#resume-button');
 
-  cd.review.resumeButton = {
-    show: () => $button.show()
+  review.resumeButton = {
+    enable: () => $button.prop('disabled', false),
+    disable: () => $button.prop('disabled', true),
+    refresh: () => {
+      $button.show();
+      if (review.isFromDashboardPage()) {
+        review.resumeButton.disable();
+      }
+      else {
+        review.resumeButton.enable();
+      }
+    }
   };
 
   $button.click(() => {
     delete cd.review.id;
     cd.settings.showButton();
-    cd.review.fadeOut(() => {
-      cd.kata.editor.refocus();
+    review.fadeOut(() => {
+      kata.editor.refocus();
       // Hide the avatar-navigator to avoid 'flash' when
       // from kata/edit your go to the review which was
       // previously looking at a different avatar.
-      cd.review.avatarNavigator.hide();
+      review.avatarNavigator.hide();
     });
   });
 

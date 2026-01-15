@@ -32,19 +32,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
-- Fix CSS so review page looks ok when arriving from dashboard.
-
-- Increase width of code in [review] page to match that in [test] page.
-
-- When you [revert] or [checkout] does the output s/s/s get restored?
-  Check it.
-
-- Currently, in review mode, you sometimes go back to index==0 
-  (when diff is ON and you switch avatar)
-    Would it be better, by default, to go back to index=1
-    which is the first actual change?
-    Or if diff-mode=light-light, to the first actual light?
-
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from penguin 1 red"
 
@@ -57,6 +44,17 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
   There is a quick way to determine if a kata has any file-events
     event = events[-1]
     no_file_events = (event['index'] == event['major_index'])
+
+- Increase width of code in [review] page to match that in [test] page.
+
+- When you [revert] or [checkout] does the output s/s/s get restored?
+  Check it.
+
+- Currently, in review mode, you sometimes go back to index==0 
+  (when diff is ON and you switch avatar)
+    Would it be better, by default, to go back to index=1
+    which is the first actual change?
+    Or if diff-mode=light-light, to the first actual light?
 
 - If there are a lot of file-events and you switch on diff-details make sure 
   that the currently selected event is still visible - there could be a lot more events
@@ -75,8 +73,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 - In dashboard, in refresh.js save events in global so they are available 
   to JS, eg to calculate the previous index. Prepares the way for details[x]
   checkbox in dashboard.
-
-- Fix layout/CSS for review-mode from dashboard
 
 - Switched to a dotted-index view
   Check CSS copes with variable size in traffic-light-navigator, eg

@@ -71,6 +71,7 @@ $(() => {
     review.files          .refresh();
     review.output         .refresh();
     review.trafficLights  .refresh();
+    review.resumeButton   .refresh();
     review.revertButton   .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
@@ -88,7 +89,7 @@ $(() => {
   review.fromTestPage = (id, index) => {
     review.fadeIn(() => {
       review.checkoutButton.show();
-      review.resumeButton.show();
+      //review.resumeButton.show();
     });
     startup("<%= @id %>", index);
   };
