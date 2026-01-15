@@ -109,13 +109,6 @@ Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
 
-- TODO: review/_traffic_lights.html.erb has this, which looks suspicious/wrong.
-  I think -1 is converted in review.refresh() so fork/checkout will never see -1
-  Why is it needed by [fork] and [checkout] ?
-      if (review.index === -1) {
-        review.index = review.events.length - 1; // Need by [fork] and [checkout]
-      }
-
 - TODO: _review.html.erb ...
   review.refresh = (id, index) => {
     ...

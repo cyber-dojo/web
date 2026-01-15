@@ -10,9 +10,6 @@ $(() => {
 
   review.trafficLights = {
     refresh: () => {
-      if (review.index == -1) {
-        review.index = review.events.length - 1; // Need by [fork] and [checkout]
-      }
       $lights.empty();
       appendTrafficLights(review.events);
       scrollCurrentTrafficLightIntoView();
