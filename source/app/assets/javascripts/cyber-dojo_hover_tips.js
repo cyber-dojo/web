@@ -45,19 +45,19 @@ var cyberDojo = (function(cd, $) {
 
   const miniTextInfo = (kataId, light) => {
     switch (light.colour) {
-      case 'create':      return 'Kata created';
-      case 'pulling':     return 'Image being prepared';
-      case 'timed_out':   return 'Timed out';
-      case 'file_create': return 'File created';
-      case 'file_delete': return 'File deleted';
-      case 'file_rename': return 'File renamed';    
-      case 'file_edit':   return 'File edited';
+      case 'create':      return 'kata created';
+      case 'pulling':     return 'image being prepared';
+      case 'timed_out':   return 'timed out';
+      case 'file_create': return 'file created';
+      case 'file_delete': return 'file deleted';
+      case 'file_rename': return 'file renamed';    
+      case 'file_edit':   return 'file edited';
     }
     if (light.colour == 'faulty') {
       const cssRed = cd.cssColour('red');
       const cssAmber = cd.cssColour('amber');
       const cssGreen = cd.cssColour('green');
-      return `Fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
+      return `fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
     }
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
@@ -79,26 +79,26 @@ var cyberDojo = (function(cd, $) {
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `Predicted ${cd.cssColour(predicted)}, was ${cd.cssColour(colour)}`;
+    return `predicted ${cd.cssColour(predicted)}, was ${cd.cssColour(colour)}`;
   };
 
   const trafficLightAutoRevertInfo = (light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, light.major_index - 2);
-    return `Auto reverted to ${colour} ${index}`;
+    return `auto reverted to ${colour} ${index}`;
   };
 
   const trafficLightRevertInfo = (light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
-    return `Reverted to ${colour} ${index}`;
+    return `reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
     const name = cd.lib.avatarName(light.checkout.avatarIndex);
-    return `Checked out ${name}'s ${colour} ${index}`;
+    return `checked out ${name}'s ${colour} ${index}`;
   };
 
   cd.cssColour = (colour, text = colour) => {
