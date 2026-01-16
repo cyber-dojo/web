@@ -5,13 +5,6 @@ app/controllers/application_controller.rb container render 404, 500
 In web, improve dialog-box errors, eg when you get a server 500
  this needs to be logged so it is visible in a docker-logs command.
 
-In revert_test.rb instead of 
-  @files[filename] = 'Hello'
-if you write
-  @files[filename] = {'content' => 'Hello'}
-then it seems to cause saver to silently drop its incoming call.
-There needs to be some pydantic-like checking of the parameters.
-
 Any app-controller tests use RunnerService when they could use RunnerStub?
 
 Are app-controller tests still using v0/v1 manifests?
@@ -27,6 +20,13 @@ Need to find how to put the actual 404/500 error message into the view.
 
 saver
 -----
+In web's revert_test.rb instead of 
+  @files[filename] = 'Hello'
+if you write
+  @files[filename] = {'content' => 'Hello'}
+then it seems to cause saver to silently drop its incoming call.
+There needs to be some pydantic-like checking of the parameters.
+
 Currently always returns minor_index=0 from v2 git_commit_tag_sss
   Is this correct? 
   I think it is, as long as you can only checkout/revert from a RAG event.
@@ -39,7 +39,7 @@ Polyfill old checkouts on saver model?
 
 dashboard
 ---------
-Have diff-extra[x] checkbox.
+Add diff-extra[x] checkbox.
 
 In refresh.js save events in global so they are available 
   to JS, eg to calculate the previous index. Prepares the way for details[x]
@@ -57,6 +57,9 @@ In refresh.js save events in global so they are available
     Resume coding & testing 
     after checking out 
     lion 2 green (you are a panda)
+
+- Tweak [revert] [checkout] button tool-tips for index=0 to 
+  not contain the word "create"
 
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from: penguin 1 red"
