@@ -101,12 +101,8 @@ var cyberDojo = (function(cd, $) {
     return `Checked out ${name}'s ${colour} ${index}`;
   };
 
-  cd.cssColour = (colour, text = capitalized(colour)) => {
+  cd.cssColour = (colour, text = colour) => {
     return `<span class="${colour}">${text}</span>`;
-  };
-
-  const capitalized = (word) => {
-    return word[0].toUpperCase() + word.substring(1);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
