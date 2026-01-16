@@ -47,12 +47,6 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- If there are no minor-index == 0 events then remove/disable the (o)details radio button.
-  First step for this is to add all the radio buttons dynamically in Javascript.
-  There is a quick way to determine if a kata has any file-events
-    event = events[-1]
-    no_file_events = (event['index'] == event['major_index'])
-
 - Tweak resume/revert/checkout button tool-tips to say 
     Resume coding & testing
     
