@@ -1,4 +1,6 @@
 
+web
+---
 app/controllers/application_controller.rb container render 404, 500
 In web, improve dialog-box errors, eg when you get a server 500
  this needs to be logged so it is visible in a docker-logs command.
@@ -23,25 +25,37 @@ Need to find how to put the actual 404/500 error message into the view.
     # Show full error reports
     config.consider_all_requests_local = true
 
-Saver currently always returns minor_index=0 from v2 git_commit_tag_sss
+saver
+-----
+Currently always returns minor_index=0 from v2 git_commit_tag_sss
   Is this correct? 
   I think it is, as long as you can only checkout/revert from a RAG event.
   The new file-event methods return only next_index, but if a non-RAG
   saver method returned the full triple, then the minor_index=0 would be wrong.
 
-Dashboard, in refresh.js save events in global so they are available 
+Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
+  adding diff-added/deleted-count in index=0 also
+
+dashboard
+---------
+Have diff-extra[x] checkbox.
+
+In refresh.js save events in global so they are available 
   to JS, eg to calculate the previous index. Prepares the way for details[x]
   checkbox in dashboard.
 
 ------------------------------------------------------------------
 
-- ?Tweak resume/revert/checkout button tool-tips to say 
+- Tweak resume/revert/checkout button tool-tips to say 
     Resume coding & testing
     
-    Resume after reverting to
+    Resume coding & testing 
+    after reverting to
     panda 1 red (you are a panda)
 
-    Resume after checking out 
+    Resume coding & testing 
+    after checking out 
     lion 2 green (you are a panda)
 
 - Tweak [fork] button tool-tip to say 
@@ -57,8 +71,6 @@ Dashboard, in refresh.js save events in global so they are available
   There is a quick way to determine if a kata has any file-events
     event = events[-1]
     no_file_events = (event['index'] == event['major_index'])
-
-- Increase height and the width of code in [review] page to match that in [test] page.
 
 - When you [revert] or [checkout] does the output s/s/s get restored?
   It should do. Check it.
@@ -92,11 +104,7 @@ Dashboard, in refresh.js save events in global so they are available
    - larger  for diff-detailed ON
    - smaller for diff-detailed OFF
 
-- On the dashboard have diff-extra[x] checkbox.
-
-- Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-  adding diff-added/deleted-count in index=0 also
+- Increase height and the width of code in [review] page to match that in [test] page.
 
 - Refactor JS so refresh methods are called only when needed.
 

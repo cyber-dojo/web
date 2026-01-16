@@ -9,6 +9,8 @@ $(() => {
 
   const $button = $('#resume-button');
 
+  cd.createTip($button, () => `Resume coding & testing`);
+
   review.resumeButton = {
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
