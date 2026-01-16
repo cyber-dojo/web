@@ -36,24 +36,16 @@ Dashboard, in refresh.js save events in global so they are available
 ------------------------------------------------------------------
 
 - ?Tweak resume/revert/checkout button tool-tips to say 
-    Click to resume with ????
+    Resume coding & testing
     
-    Click to resume with the files of:
-      panda 1 Red
-    You are a panda
+    Resume after reverting to
+    panda 1 red (you are a panda)
 
-    Click to resume with the files of: 
-      lion 2 Green
-    You are a panda
-
-- When you revert/checkout then lots of files are potentially changed at once.
-  These files are not just reverted in the browser - but in saver too. 
-  This is correct.
-
-- Make revert/checkout/fork buttons slightly bigger.
+    Resume after checking out 
+    lion 2 green (you are a panda)
 
 - Tweak [fork] button tool-tip to say 
-  "Create a new practice with the files of: penguin 1 red"
+  "Create a new practice from: penguin 1 red"
 
 - Suppose you are in [test] mode, do an edit, then switch to review mode.
   Should this switch cause a file-edit event?
