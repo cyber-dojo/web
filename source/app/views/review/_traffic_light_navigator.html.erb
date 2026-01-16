@@ -59,7 +59,7 @@ $(() => {
     if (index == createIndex) {
       return disableIndex;
     } 
-    else if (cd.review.diff.isDetailed()) {
+    else if (cd.review.diffRadio.isDetailed()) {
       return index - 1;
     } 
     else {
@@ -84,7 +84,7 @@ $(() => {
     if (index == review.events.length - 1) {
       return disableIndex;
     } 
-    else if (cd.review.diff.isDetailed()) {
+    else if (cd.review.diffRadio.isDetailed()) {
       return index + 1;
     } 
     else {
@@ -109,7 +109,7 @@ $(() => {
     if (index == review.events.length - 1) {
       return disableIndex;
     } 
-    else if (cd.review.diff.isDetailed()) {
+    else if (cd.review.diffRadio.isDetailed()) {
       return review.events.length - 1;
     } 
     else {

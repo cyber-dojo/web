@@ -23,7 +23,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
-    if (review.diff.isOn()) {
+    if (review.diffRadio.isOn()) {
       $tr.append($makeDiffTypeTd(diff));
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));

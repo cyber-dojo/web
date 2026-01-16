@@ -67,7 +67,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
     review.events = avatar.events;
-    const index = review.diff.isOn() ? 0 : -1;
+    const index = review.diffRadio.isOn() ? 0 : -1;
     review.refresh(avatar.id, index);
   };
 

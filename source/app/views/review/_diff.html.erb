@@ -17,11 +17,16 @@ $(() => {
 
   let diffRadioValue = 'simple';
 
-  review.diff = {
+  review.diffRadio = {
     isOn: () => diffRadioValue != 'off',
     isOff: () => diffRadioValue == 'off',
     isSimple: () => diffRadioValue == 'simple',
-    isDetailed: () => diffRadioValue == 'detailed'
+    isDetailed: () => diffRadioValue == 'detailed',
+    refresh: () => {
+      const lastEvent = review.events[review.events.length - 1];
+      const noFileEvents = (lastEvent.index == lastEvent.major_index);
+      $('#diff #detailed').prop('disabled', noFileEvents);
+    }
   };
 
   $(`input[type=radio][name=diff]`, $('#diff')).change(function() { 

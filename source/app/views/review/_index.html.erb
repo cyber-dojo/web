@@ -22,7 +22,7 @@ $(() => {
     // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
     // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
     // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
-    if (cd.review.diff.isDetailed()) {
+    if (cd.review.diffRadio.isDetailed()) {
       return index;
     } 
     else {
@@ -34,7 +34,7 @@ $(() => {
     if (index == 0) {
       return 0;
     } 
-    else if (cd.review.diff.isDetailed()) {
+    else if (cd.review.diffRadio.isDetailed()) {
       return index - 1;
     } 
     else {

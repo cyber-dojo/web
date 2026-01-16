@@ -47,6 +47,12 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
+- If there are no minor-index == 0 events then remove/disable the (o)details radio button.
+  First step for this is to add all the radio buttons dynamically in Javascript.
+  There is a quick way to determine if a kata has any file-events
+    event = events[-1]
+    no_file_events = (event['index'] == event['major_index'])
+
 - Tweak resume/revert/checkout button tool-tips to say 
     Resume coding & testing
     
@@ -65,12 +71,6 @@ In refresh.js save events in global so they are available
   Should this switch cause a file-edit event?
   Yes. And this may update kata.index which you can then see!
   And then the revert/checkout (which may not happen) can proceed as normal.
-
-- If there are no minor-index == 0 events then remove/disable the (o)details radio button.
-  First step for this is to add all the radio buttons dynamically in Javascript.
-  There is a quick way to determine if a kata has any file-events
-    event = events[-1]
-    no_file_events = (event['index'] == event['major_index'])
 
 - When you [revert] or [checkout] does the output s/s/s get restored?
   It should do. Check it.
@@ -125,12 +125,6 @@ In refresh.js save events in global so they are available
   review.refresh = (id, index) => {
     ...
     review.trafficLights  .refresh(); // TODO: also does navigator update
-
-- TODO: _review.html.erb ...
-  review.refresh = (id, index) => {
-    ...
-    //review.detailsCheckBox.setVisibility();
-  Show (o) detailed radio-button only if there are inter-test events
 
 - TODO: _review.html.erb ...
   const startup = (id, index) => {
