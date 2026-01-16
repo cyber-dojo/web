@@ -18,6 +18,7 @@ Need to find how to put the actual 404/500 error message into the view.
     # Show full error reports
     config.consider_all_requests_local = true
 
+
 saver
 -----
 In web's revert_test.rb instead of 
@@ -35,7 +36,7 @@ Currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 Polyfill old checkouts on saver model?
   having index=0 -> colour="create" would be handy.
-  adding diff-added/deleted-count in index=0 also
+
 
 dashboard
 ---------
@@ -57,9 +58,6 @@ In refresh.js save events in global so they are available
     Resume coding & testing 
     after checking out 
     lion 2 green (you are a panda)
-
-- Tweak [revert] [checkout] button tool-tips for index=0 to 
-  not contain the word "create"
 
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from: penguin 1 red"
