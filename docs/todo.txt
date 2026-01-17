@@ -47,17 +47,6 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- Tweak resume/revert/checkout button tool-tips to say 
-    Resume coding & testing
-    
-    Resume coding & testing 
-    after reverting to
-    panda 1 red (you are a panda)
-
-    Resume coding & testing 
-    after checking out 
-    lion 2 green (you are a panda)
-
 - Tweak [fork] button tool-tip to say 
   "Create a new practice from: penguin 1 red"
 
@@ -65,9 +54,6 @@ In refresh.js save events in global so they are available
   Should this switch cause a file-edit event?
   Yes. And this may update kata.index which you can then see!
   And then the revert/checkout (which may not happen) can proceed as normal.
-
-- When you [revert] or [checkout] does the output s/s/s get restored?  
-  It should do. Check it.
 
 - Currently, in review mode, you sometimes go back to index==0 
   (when diff is ON and you switch avatar)
@@ -80,6 +66,22 @@ In refresh.js save events in global so they are available
   that the currently selected event is still visible - there could be a lot more events
   requiring the current one to be scrolled back into view.
 
+- Switched to a dotted-index view
+  Check CSS copes with variable size in traffic-light-navigator, eg
+  [<] [14.22] [>]
+  Don't want it to change size, so need to increase the width.
+  Have 2 sizes for the index box
+   - larger  for diff-detailed ON
+   - smaller for diff-detailed OFF
+
+- Sometimes get RAG tool-tip appearing in top-left and not going away.
+  Maybe set a timeout of a few seconds so it always goes away?
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+- When you [revert] or [checkout] does the output s/s/s get restored?  
+  It should do. Check it.
+
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
@@ -89,14 +91,6 @@ In refresh.js save events in global so they are available
 
 - In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
   can be simplified using code in _review.html.erb
-
-- Switched to a dotted-index view
-  Check CSS copes with variable size in traffic-light-navigator, eg
-  [<] [14.22] [>]
-  Don't want it to change size, so need to increase the width.
-  Have 2 sizes for the index box
-   - larger  for diff-detailed ON
-   - smaller for diff-detailed OFF
 
 - Increase height and the width of code in [review] page to match that in [test] page.
 
@@ -109,9 +103,6 @@ In refresh.js save events in global so they are available
   Add cd.lib.isTest(event) and check that also gives true for 
   'faulty' and 'pulling'
   Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
-
-- Sometimes get RAG tool-tip appearing in top-left and not going away.
-  Maybe set a timeout of a few seconds so it always goes away?
 
 ------------------------------------------------------------------
 

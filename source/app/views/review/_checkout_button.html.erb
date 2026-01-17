@@ -11,13 +11,14 @@ $(() => {
 
   const refreshToolTip = () => {
     cd.createTip($button, () => {
-      const name = cd.lib.avatarName(review.avatarIndex);
       const event = review.currentEvent();
       const rag = cd.cssColour(event.colour, `${event.major_index}`);
       const colour = event.index == 0 ? '' : cd.cssColour(event.colour);
-      const info = `Reviewing: ${name} ${rag} ${colour}`;
-      const action = `Click to checkout these files!`;
-      return `${info}<br/>${action}`;
+      const action = `Resume coding & testing`;
+      const context = 'after checking out';
+      const name = cd.lib.avatarName(review.avatarIndex);
+      const identity = `${name} ${rag} ${colour}`;
+      return `${action}<br/>${context}<br/>${identity}`;
     });
   };
 

@@ -14,9 +14,16 @@ $(() => {
       const event = review.currentEvent();
       const rag = cd.cssColour(event.colour, `${event.major_index}`);
       const colour = event.index == 0 ? '' : cd.cssColour(event.colour);
-      const info = `Reviewing: ${rag} ${colour}`;
-      const action = 'Click to revert back to these files';
-      return `${info}<br/>${action}`;
+      const action = `Resume coding & testing`;
+      const context = 'after reverting to';
+      if (kata.id == review.id || review.avatarIndex == '') {
+        const name = '';
+      }
+      else {
+        const name = cd.lib.avatarName(review.avatarIndex) + ' ';
+      }
+      const identity = `${name}${rag} ${colour}`;
+      return `${action}<br/>${context}<br/>${identity}`;
     });
   };
 
