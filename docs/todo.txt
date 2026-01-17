@@ -34,12 +34,11 @@ Currently always returns minor_index=0 from v2 git_commit_tag_sss
   The new file-event methods return only next_index, but if a non-RAG
   saver method returned the full triple, then the minor_index=0 would be wrong.
 
-Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-
 
 dashboard
 ---------
+Simplify event tool-tip in same way as web
+
 Add diff-extra[x] checkbox.
 
 In refresh.js save events in global so they are available 
@@ -67,7 +66,7 @@ In refresh.js save events in global so they are available
   Yes. And this may update kata.index which you can then see!
   And then the revert/checkout (which may not happen) can proceed as normal.
 
-- When you [revert] or [checkout] does the output s/s/s get restored?
+- When you [revert] or [checkout] does the output s/s/s get restored?  
   It should do. Check it.
 
 - Currently, in review mode, you sometimes go back to index==0 

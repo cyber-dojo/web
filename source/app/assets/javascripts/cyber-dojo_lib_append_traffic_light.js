@@ -82,7 +82,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.isRevert = (light) => {
-    // Revert is from [review] page, go back to one of our own previous traffic-lights.
+    // Revert is from [review] page, go back to one of your own previous traffic-lights.
     return light.checkout && light.checkout.id == cd.kata.id;
   };
 
