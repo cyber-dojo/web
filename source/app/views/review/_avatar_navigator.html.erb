@@ -32,7 +32,7 @@ $(() => {
     const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(review.id, joined);
     review.avatarIndex = avatarIndex; // eg 23 or ''  for [revert]/[checkout] buttons
 	
-    if (avatarIndex !== '') {
+    if (avatarIndex != '') {
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);

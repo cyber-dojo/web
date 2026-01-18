@@ -46,7 +46,7 @@ In refresh.js save events in global so they are available
   checkbox in dashboard.
 
 ------------------------------------------------------------------
-
+  
 - Increase spacing around diff-type marker [...-...]
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.

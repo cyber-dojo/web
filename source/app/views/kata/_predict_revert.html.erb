@@ -168,7 +168,7 @@ $(() => {
     // 1) edit.html.erb when page refreshes
     // 2) run_tests.js.erb when test has run
 
-    if (settings.predict() === 'on') {
+    if (settings.predict() == 'on') {
       predictOn(); // enables auto-revert after first test
     } 
     else {
@@ -176,7 +176,7 @@ $(() => {
     }
   };
 
-  if (cd.env['PREDICT'] !== 'off') {
+  if (cd.env['PREDICT'] != 'off') {
     $predictCell.show();
     $revertTitle.show();
     $buttonsCell.show();
