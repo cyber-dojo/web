@@ -67,23 +67,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
     review.events = avatar.events;
-    const index = review.diffRadio.isOn() ? firstEventIndex() : -1;
+    const index = review.diffRadio.isOn() ? review.firstEventIndex() : review.lastEventIndex();
     review.refresh(avatar.id, index);
-  };
-
-  const firstEventIndex = () => {
-    const events = review.events;
-    if (review.diffRadio.isDetailed()) {
-      return (events.length == 0) ? 0 : 1;
-    }
-    else {
-      for (var i = 1; i < events.length; i++) {
-        if (events[i].major_index == 1) {
-          return i;
-        }
-      }
-      return 0;
-    }
   };
 
 });

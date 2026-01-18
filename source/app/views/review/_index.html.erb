@@ -4,29 +4,38 @@ $(() => {
 
   const review = cd.review;
 
-  review.pickIndex = (index) => {
-    if (index == -1) {
-      const events = review.events;
-      const lastEvent = events[events.length - 1];
-      const lastIndex = lastEvent.index;
-      return visibleIndex(lastIndex);
-    } 
+  review.firstEventIndex = () => {
+    const events = review.events;
+    if (review.diffRadio.isDetailed()) {
+      return (events.length == 0) ? 0 : 1;
+    }
     else {
-      return index;
+      for (var i = 1; i < events.length; i++) {
+        if (events[i].major_index == 1) {
+          return i;
+        }
+      }
+      return 0;
     }
   };
 
-  const visibleIndex = (index) => {
+  review.lastEventIndex = () => {
+    const events = review.events;
+    const lastEvent = events[events.length - 1];
+    const lastIndex = lastEvent.index;
+
     // Make sure we are on a light
     // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
     // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
     // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
     // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
+
     if (cd.review.diffRadio.isDetailed()) {
-      return index;
+      // Dont think we ever get here...
+      return lastIndex;
     } 
     else {
-      return index - review.events[index].minor_index;
+      return lastIndex - events[lastIndex].minor_index;
     }
   };
 

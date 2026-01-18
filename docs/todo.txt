@@ -47,17 +47,12 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
   
-- Increase spacing around diff-type marker [...-...]
+- Should traffic-light navigator [<] button take you to the FIRST event?
 
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
   Maybe set a timeout of a few seconds so it always goes away?
 
-- make review.firstEventIndex() and review.lastEventIndex() 
-  and aim to NOT have line
-    review.index = review.pickIndex(index);
-  and instead have 
-    review.index = index;
-  in _review.html.erb
+- Increase spacing around diff-type marker [...-...]
 
 - If there are a lot of file-events and you switch on diff-details make sure 
   that the currently selected event is still visible - there could be a lot more events

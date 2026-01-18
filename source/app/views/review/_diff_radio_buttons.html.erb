@@ -24,15 +24,14 @@ $(() => {
     isDetailed: () => diffRadioValue == 'detailed',
     refresh: () => {
       const lastEvent = review.events[review.events.length - 1];
-      const noFileEvents = (lastEvent.index == lastEvent.major_index);
-      $('#diff #detailed').prop('disabled', noFileEvents);
+      const zeroFileEvents = (lastEvent.index == lastEvent.major_index);
+      $('#diff #detailed').prop('disabled', zeroFileEvents);
     }
   };
 
   $(`input[type=radio][name=diff]`, $('#diff')).change(function() { 
     diffRadioValue = this.value;
-    review.index = pickIndex();
-    review.refresh(review.id, review.index);
+    review.refresh(review.id, pickIndex());
   });
 
   const pickIndex = () => {
@@ -47,13 +46,7 @@ $(() => {
     } 
     else {
       // NOT detailed, current-event == kata-create, go *forward* to 1st major event (if it exists)
-      const events = review.events;
-      for (var i = 1; i < events.length; i++) {
-        if (events[i].major_index == 1) {
-          return i;
-        }
-      }
-      return 0;
+      return review.firstEventIndex();
     }
   };
 

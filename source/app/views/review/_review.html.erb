@@ -66,7 +66,8 @@ $(() => {
 
   review.refresh = (id, index) => {
     review.id = id;
-    review.index = review.pickIndex(index);
+    review.index = index;
+
     review.avatarNavigator.refresh();
     review.files          .refresh();
     review.output         .refresh();
@@ -94,7 +95,7 @@ $(() => {
 
   if (review.isFromDashboardPage()) {
     review.page.show();
-    const index = parseInt(cd.urlParam('now_index', -1));
+    const index = parseInt(cd.urlParam('now_index', review.lastEventIndex()));
     startup("<%= @id %>", index);
   }
 
