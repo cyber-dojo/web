@@ -47,8 +47,7 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- Tweak [fork] button tool-tip to say 
-  "Create a new practice from: 1 red"
+- Increase spacing around diff-type marker [...-...]
 
 - Currently, in review mode, you sometimes go back to index==0 
   (when diff is ON and you switch avatar)

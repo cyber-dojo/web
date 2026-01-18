@@ -11,14 +11,9 @@ $(() => {
 
   const refreshToolTip = () => {
     cd.createTip($button, () => {
-      const event = review.currentEvent();
-      const rag = cd.cssColour(event.colour, `${event.major_index}`);
-      const colour = event.index == 0 ? '' : cd.cssColour(event.colour);
       const action = `Resume coding & testing`;
       const context = 'after checking out';
-      const name = cd.lib.avatarName(review.avatarIndex);
-      const identity = `${name} ${rag} ${colour}`;
-      return `${action}<br/>${context}<br/>${identity}`;
+      return `${action}<br/>${context}<br/>${review.nameRagColour()}`;
     });
   };
 

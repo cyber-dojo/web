@@ -23,7 +23,7 @@
               <%= render partial: 'review/checkout_button' %>
               <%= render partial: 'review/fork_button' %></td>
           <td></td>
-          <td><%= render partial: 'review/diff' %>
+          <td><%= render partial: 'review/diff_radio_buttons' %>
               </td></tr>                  
     </table>
     <table>
@@ -89,7 +89,6 @@ $(() => {
   review.fromTestPage = (id, index) => {
     review.fadeIn(() => {
       review.checkoutButton.show();
-      //review.resumeButton.show();
     });
     startup("<%= @id %>", index);
   };
