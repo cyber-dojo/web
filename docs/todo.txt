@@ -48,12 +48,7 @@ In refresh.js save events in global so they are available
 ------------------------------------------------------------------
 
 - Tweak [fork] button tool-tip to say 
-  "Create a new practice from: penguin 1 red"
-
-- Suppose you are in [test] mode, do an edit, then switch to review mode.
-  Should this switch cause a file-edit event?
-  Yes. And this may update kata.index which you can then see!
-  And then the revert/checkout (which may not happen) can proceed as normal.
+  "Create a new practice from: 1 red"
 
 - Currently, in review mode, you sometimes go back to index==0 
   (when diff is ON and you switch avatar)

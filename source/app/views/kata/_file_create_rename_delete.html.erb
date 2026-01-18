@@ -62,7 +62,7 @@ $(() => {
     });
   };
 
-  cd.fileEditITE = () => {
+  cd.fileEditITE = (callback = doNothing) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
@@ -71,8 +71,11 @@ $(() => {
     };
     $.post('/kata/file_edit', args, (newIndex) => {
       cd.kata.setIndex(newIndex);
+      callback();
     });
   };
+
+  const doNothing = () => {};
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
