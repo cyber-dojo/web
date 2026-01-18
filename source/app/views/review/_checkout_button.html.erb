@@ -20,10 +20,6 @@ $(() => {
   $button.click(() => review.fadeOut(cd.revertOrCheckout));
 
   review.checkoutButton = {
-    show: () => {
-      refreshToolTip();
-      $button.show();
-    },
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
     refresh: () => {

@@ -55,6 +55,8 @@ In refresh.js save events in global so they are available
 - make review.firstEventIndex() and review.lastEventIndex() 
   and aim to NOT have line
     review.index = review.pickIndex(index);
+  and instead have 
+    review.index = index;
   in _review.html.erb
 
 - If there are a lot of file-events and you switch on diff-details make sure 

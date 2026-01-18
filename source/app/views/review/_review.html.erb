@@ -88,9 +88,8 @@ $(() => {
 
   review.fromTestPage = (id, index) => {
     review.fadeIn(() => {
-      review.checkoutButton.show();
+      startup(id, index);
     });
-    startup("<%= @id %>", index);
   };
 
   if (review.isFromDashboardPage()) {
