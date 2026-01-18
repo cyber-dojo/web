@@ -49,12 +49,13 @@ In refresh.js save events in global so they are available
 
 - Increase spacing around diff-type marker [...-...]
 
-- Currently, in review mode, you sometimes go back to index==0 
-  (when diff is ON and you switch avatar)
-    Would it be better, by default, to go back to index=1
-    which is the first actual change?
-    Or if diff-mode=light-light, to the first actual light?
-    Yes. This will mean you don't, by default, get "0 Create" in a revert/checkout tool-tip.
+- Sometimes get RAG tool-tip appearing in top-left and not going away.
+  Maybe set a timeout of a few seconds so it always goes away?
+
+- make review.firstEventIndex() and review.lastEventIndex() 
+  and aim to NOT have line
+    review.index = review.pickIndex(index);
+  in _review.html.erb
 
 - If there are a lot of file-events and you switch on diff-details make sure 
   that the currently selected event is still visible - there could be a lot more events
@@ -67,9 +68,6 @@ In refresh.js save events in global so they are available
   Have 2 sizes for the index box
    - larger  for diff-detailed ON
    - smaller for diff-detailed OFF
-
-- Sometimes get RAG tool-tip appearing in top-left and not going away.
-  Maybe set a timeout of a few seconds so it always goes away?
 
 - - - - - - - - - - - - - - - - - - - - - - -
 

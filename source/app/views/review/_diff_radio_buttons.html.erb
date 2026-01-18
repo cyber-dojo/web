@@ -31,8 +31,31 @@ $(() => {
 
   $(`input[type=radio][name=diff]`, $('#diff')).change(function() { 
     diffRadioValue = this.value;
+    review.index = pickIndex();
     review.refresh(review.id, review.index);
   });
+
+  const pickIndex = () => {
+    const event = review.currentEvent();    
+    if (review.diffRadio.isDetailed()) {
+      // DETAILED, *stay* on current event
+      return event.index;
+    }
+    else if (event.major_index > 0) {
+      // NOT detailed, go *backwards* to previous major-event (which is NOT kata-create)
+      return event.index - event.minor_index;
+    } 
+    else {
+      // NOT detailed, current-event == kata-create, go *forward* to 1st major event (if it exists)
+      const events = review.events;
+      for (var i = 1; i < events.length; i++) {
+        if (events[i].major_index == 1) {
+          return i;
+        }
+      }
+      return 0;
+    }
+  };
 
 });
 </script>

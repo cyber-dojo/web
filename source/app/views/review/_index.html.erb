@@ -5,14 +5,14 @@ $(() => {
   const review = cd.review;
 
   review.pickIndex = (index) => {
-    const events = review.events;
-    const lastEvent = events[events.length - 1];
-    const lastIndex = lastEvent.index;
     if (index == -1) {
+      const events = review.events;
+      const lastEvent = events[events.length - 1];
+      const lastIndex = lastEvent.index;
       return visibleIndex(lastIndex);
     } 
     else {
-      return visibleIndex(index);
+      return index;
     }
   };
 
