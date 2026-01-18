@@ -32,8 +32,8 @@ $(() => {
         cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);
 
         if (light.index <= review.index) {
-          cd.review.trafficLightsCounts.update(light);
-          cd.review.predictCounts.update(light);
+          review.trafficLightsCounts.update(light);
+          review.predictCounts.update(light);
         }
       }
     });

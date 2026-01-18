@@ -69,7 +69,7 @@ $(() => {
     const method = `${type}_fork`;
     $.ajax({
             type: 'POST',
-             url: `/saver/${method}?id=${cd.review.id}&index=${cd.review.index}`,
+             url: `/saver/${method}?id=${review.id}&index=${review.index}`,
         dataType: 'json', // format we want response in
            async: true,
            error: error,

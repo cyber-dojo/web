@@ -27,7 +27,7 @@ $(() => {
       if (review.isFromDashboardPage()) {
         review.checkoutButton.disable();
       }
-      else if (cd.review.isOnFileEvent()) {
+      else if (review.isOnFileEvent()) {
         review.checkoutButton.disable();
       } 
       else if (kata.id == review.id) {

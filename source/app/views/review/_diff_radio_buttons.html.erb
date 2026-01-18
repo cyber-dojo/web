@@ -42,7 +42,7 @@ $(() => {
     }
     else if (event.major_index > 0) {
       // NOT detailed, go *backwards* to previous major-event (which is NOT kata-create)
-      return event.index - event.minor_index;
+      return review.majorEventIndex(event.index);
     } 
     else {
       // NOT detailed, current-event == kata-create, go *forward* to 1st major event (if it exists)

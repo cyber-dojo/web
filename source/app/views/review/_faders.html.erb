@@ -2,16 +2,18 @@
 'use strict';
 $(() => {
 
-  cd.review.fadeIn = (onComplete) => {
+  const review = cd.review;
+
+  review.fadeIn = (onComplete) => {
     cd.kata.page.fadeOut('fast', () => {
-      cd.review.page.fadeIn('fast', () => {
+      review.page.fadeIn('fast', () => {
         onComplete();
       });
     });
   };
 
-  cd.review.fadeOut = (onComplete) => {
-    cd.review.page.fadeOut('fast', () => {
+  review.fadeOut = (onComplete) => {
+    review.page.fadeOut('fast', () => {
       cd.kata.page.fadeIn('fast', () => {
         onComplete();
       });

@@ -49,6 +49,15 @@ In refresh.js save events in global so they are available
   
 - Should traffic-light navigator [<] button take you to the FIRST event?
 
+- _index.html.erb has this...
+  review.lastEventIndex = () => {
+    ...
+    if (cd.review.diffRadio.isDetailed()) {
+      return lastIndex; // TODO: Dont think we ever get here...
+    }
+    ... 
+  };
+
 - Sometimes get RAG tool-tip appearing in top-left and not going away.
   Maybe set a timeout of a few seconds so it always goes away?
 

@@ -43,7 +43,7 @@ $(() => {
       if (review.isFromDashboardPage()) {
         review.revertButton.disable();
       }
-      else if (cd.review.isOnFileEvent()) {
+      else if (review.isOnFileEvent()) {
         review.revertButton.disable();
       } 
       else if (kata.id != review.id) {

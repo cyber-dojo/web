@@ -24,18 +24,11 @@ $(() => {
     const lastEvent = events[events.length - 1];
     const lastIndex = lastEvent.index;
 
-    // Make sure we are on a light
-    // Eg if index=10, viewed as 2.3, and you unclick details[x] then go back to 2
-    // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
-    // Eg if index=10, viewed as 2, and you unclick details[x] then stay on 2 
-    // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
-
-    if (cd.review.diffRadio.isDetailed()) {
-      // Dont think we ever get here...
+    if (review.diffRadio.isDetailed()) {
       return lastIndex;
     } 
     else {
-      return lastIndex - events[lastIndex].minor_index;
+      return review.majorEventIndex(lastIndex);
     }
   };
 
@@ -43,12 +36,22 @@ $(() => {
     if (index == 0) {
       return 0;
     } 
-    else if (cd.review.diffRadio.isDetailed()) {
+    else if (review.diffRadio.isDetailed()) {
       return index - 1;
     } 
     else {
-      return index - 1 - review.events[index - 1].minor_index;
+      return review.majorEventIndex(index - 1);
     }
+  };
+
+  review.majorEventIndex = (index) => {
+    // Make sure we are on a light
+    // Eg if index=10, viewed as 2.3, and you unclick detailed[x] then go back to 2
+    // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
+    // Eg if index=10, viewed as 2, and you unclick detailed[x] then stay on 2 
+    // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
+
+    return index - review.events[index].minor_index;
   };
 
 });

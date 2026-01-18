@@ -29,6 +29,8 @@
 'use strict';
 $(() => {
 
+  const review = cd.review;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.kata.updateTrafficLightsCounts() is called from:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
@@ -42,13 +44,13 @@ $(() => {
     timed_out: 0, pulling: 0, faulty:0,
   };
 
-  cd.review.trafficLightsCounts = {};
+  review.trafficLightsCounts = {};
 
-  cd.review.trafficLightsCounts.reset = () => {
+  review.trafficLightsCounts.reset = () => {
     Object.keys(counts).forEach(key => setCount(key, 0));
   };
 
-  cd.review.trafficLightsCounts.update = (light) => {
+  review.trafficLightsCounts.update = (light) => {
     // An incorrect prediction with revert-on for the predicted
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.
