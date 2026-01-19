@@ -47,7 +47,7 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
   
-- Should traffic-light navigator [<] button take you to the FIRST event?
+- Should traffic-light navigator small [<] button take you to the FIRST event?
 
 - _index.html.erb has this...
   review.lastEventIndex = () => {
@@ -57,9 +57,6 @@ In refresh.js save events in global so they are available
     }
     ... 
   };
-
-- Sometimes get RAG tool-tip appearing in top-left and not going away.
-  Maybe set a timeout of a few seconds so it always goes away?
 
 - Increase spacing around diff-type marker [...-...]
 

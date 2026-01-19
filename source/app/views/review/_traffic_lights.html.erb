@@ -28,7 +28,10 @@ $(() => {
         const light = event;
         const isCurrentIndex = (review.index == light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
-        $light.click(() => review.refresh(review.id, light.index));      
+        $light.click(() => {
+          cd.removeTip();
+          review.refresh(review.id, light.index);
+        });
         cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);
 
         if (light.index <= review.index) {
