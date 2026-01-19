@@ -46,17 +46,6 @@ In refresh.js save events in global so they are available
   checkbox in dashboard.
 
 ------------------------------------------------------------------
-  
-- Should traffic-light navigator small [<] button take you to the FIRST event?
-
-- _index.html.erb has this...
-  review.lastEventIndex = () => {
-    ...
-    if (cd.review.diffRadio.isDetailed()) {
-      return lastIndex; // TODO: Dont think we ever get here...
-    }
-    ... 
-  };
 
 - If there are a lot of file-events and you switch on diff-details make sure 
   that the currently selected event is still visible - there could be a lot more events
@@ -66,9 +55,18 @@ In refresh.js save events in global so they are available
   Check CSS copes with variable size in traffic-light-navigator, eg
   [<] [14.22] [>]
   Don't want it to change size, so need to increase the width.
-  Have 2 sizes for the index box
+  Have 2 sizes for the index box?
    - larger  for diff-detailed ON
    - smaller for diff-detailed OFF
+
+- _index.html.erb has this...
+  review.lastEventIndex = () => {
+    ...
+    if (cd.review.diffRadio.isDetailed()) {
+      return lastIndex; // TODO: Dont think we ever get here...
+    }
+    ... 
+  };
 
 - - - - - - - - - - - - - - - - - - - - - - -
 
