@@ -9,7 +9,7 @@
 
   #traffic-light-navigator
   {
-    width: 100px;
+    width: 115px;
     max-height: 25px;
     vertical-align: top;
     margin: { left: 0px; right: 2px; top: 1px; bottom: 0px; }
@@ -18,7 +18,7 @@
   #review-traffic-lights
   {
     display: inline-flex;
-    width: 651px;
+    width: 630px;
     margin: { top:2px; bottom:5px; }
   }
 
@@ -57,18 +57,15 @@
     border-radius: 5px;
     background: lighten($darker-color,10%);
     padding: 4px;
-    padding-bottom: 0px;
     #review-index-box
     {
-      min-width: 30px;
+      min-width: 40px;
       #index-number
       {
         border-radius: 4px;
         padding: { left: 3px; right: 3px; }
-        font-size: 22px;
+        font-size: 17px;
         text-align: center;
-        position: relative;
-        top: -3px;
       }
     }
     .triangle.button
@@ -109,10 +106,13 @@
         width: 6px;
        height: 6px;
        padding: 0px;
-       position: relative; top: -1px; // up
+       position: relative; top: -2px; // up
       }
     }
   }
 }
+
+#traffic-light-navigator { padding-bottom: 3px !important; }
+#avatar-navigator { padding-bottom: 2px !important; }
 
 .no-title .ui-dialog-titlebar { display: none; }
