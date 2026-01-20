@@ -2,6 +2,22 @@
 'use strict';
 $(() => {
 
+  // Each event has three indices. 
+  // The simplest is 'index' where review.events[i].index == i
+  // The other two are 'major_index' and 'minor_index' where
+  // - minor_index != 0 indicates an inter-test file-event, eg a file-edit 
+  //   For example: 
+  //       event[15].index == 15
+  //       event[15].major_index == 4
+  //       event[15].minor_index == 3 
+  //   means that event[15] is displayed as 4.3 (when diff? detailed mode is on)
+  // - minor_index == 0 indicates a red/amber/green test-event.
+  //   For example: 
+  //       event[22].index == 22
+  //       event[22].major_index == 5
+  //       event[22].minor_index == 0
+  //   means that event[22] is displayed as 5
+
   const review = cd.review;
 
   review.firstEventIndex = () => {
