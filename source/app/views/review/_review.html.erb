@@ -62,6 +62,7 @@ $(() => {
   
   review.isFromDashboardPage = () => $('#kata-page').length == 0;
   review.currentEvent = () => review.events[review.index];
+  review.lastEvent = () => review.events[review.events.length - 1];
   review.isOnFileEvent = () => cd.lib.isFileEvent(review.currentEvent());
 
   review.refresh = (id, index) => {

@@ -23,7 +23,7 @@ $(() => {
     isSimple: () => diffRadioValue == 'simple',
     isDetailed: () => diffRadioValue == 'detailed',
     refresh: () => {
-      const lastEvent = review.events[review.events.length - 1];
+      const lastEvent = review.lastEvent();
       const zeroFileEvents = (lastEvent.index == lastEvent.major_index);
       $('#diff #detailed').prop('disabled', zeroFileEvents);
     }

@@ -23,7 +23,7 @@ $(() => {
   review.firstEventIndex = () => {
     const events = review.events;
     if (review.diffRadio.isDetailed()) {
-      return (events.length == 0) ? 0 : 1;
+      return (events.length == 1) ? 0 : 1;
     }
     else {
       for (var i = 1; i < events.length; i++) {
@@ -36,10 +36,7 @@ $(() => {
   };
 
   review.lastEventIndex = () => {
-    const events = review.events;
-    const lastEvent = events[events.length - 1];
-    const lastIndex = lastEvent.index;
-
+    const lastIndex = review.lastEvent().index;
     if (review.diffRadio.isDetailed()) {
       return lastIndex;
     } 
