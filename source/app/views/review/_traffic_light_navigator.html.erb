@@ -56,6 +56,32 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  const lastEventIndex = (index) => {
+    const events = review.events;
+    if (index == events.length - 1) {
+      return disableIndex;
+    } 
+    else if (review.diffRadio.isDetailed()) {
+      return events.length - 1;
+    } 
+    else {
+      return lastLightIndex(index + 1);
+    }
+  };
+
+  const lastLightIndex = (index) => {
+    const events = review.events;
+    let lastLightIndex = null;
+    while (index < events.length) {
+      if (lib.isLight(events[index])) {
+        lastLightIndex = index;
+      }
+      index += 1;
+    }
+    return lastLightIndex;  
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const prevEventIndex = (index) => {
     if (index == createIndex) {
       return disableIndex;
@@ -105,32 +131,6 @@ $(() => {
       }
     }
     return disableIndex;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const lastEventIndex = (index) => {
-    const events = review.events;
-    if (index == events.length - 1) {
-      return disableIndex;
-    } 
-    else if (review.diffRadio.isDetailed()) {
-      return events.length - 1;
-    } 
-    else {
-      return lastLightIndex(index + 1);
-    }
-  };
-
-  const lastLightIndex = (index) => {
-    const events = review.events;
-    let lastLightIndex = null;
-    while (index < events.length) {
-      if (lib.isLight(events[index])) {
-        lastLightIndex = index;
-      }
-      index += 1;
-    }
-    return lastLightIndex;  
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
