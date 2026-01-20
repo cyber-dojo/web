@@ -47,14 +47,6 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- Switched to a dotted-index view
-  Check CSS copes with variable size in traffic-light-navigator, eg
-  [<] [14.22] [>]
-  Don't want it to change size, so need to increase the width.
-  Have 2 sizes for the index box?
-   - larger  for diff-detailed ON
-   - smaller for diff-detailed OFF
-
 - _index.html.erb has this...
   review.lastEventIndex = () => {
     ...
