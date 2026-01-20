@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../../lib/cleaner'
+require_relative '../../lib/files_from'
 
 class Runner
 
@@ -7,10 +7,8 @@ class Runner
     @externals = externals
   end
 
-  # - - - - - - - - - - - - - - -
-
   def run(params)
-    files = files_from(params)
+    files = files_from(params[:file_content])
     args = {
       id: params[:id] + '-' + (params[:index] || '0'),
       files: plain(files),
@@ -35,32 +33,13 @@ class Runner
 
   private
 
-  include Cleaner
-
-  def files_from(params)
-    files = cleaned_files(params[:file_content])
-    files.delete('output')
-    files.each.with_object({}) do |(filename,content),memo|
-      memo[filename] = { 'content' => sanitized(content) }
-    end
-  end
-
-  # - - - - - - - - - - - - - - -
+  include FilesFrom
 
   def plain(files)
     files.each.with_object({}) do |(filename,file),memo|
       memo[filename] = file['content']
     end
   end
-
-  # - - - - - - - - - - - - - - -
-
-  def sanitized(content)
-    max_file_size = 50 * 1024
-    content[0..max_file_size]
-  end
-
-  # - - - - - - - - - - - - - - -
 
   def runner
     @externals.runner

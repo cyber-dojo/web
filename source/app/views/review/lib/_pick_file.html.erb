@@ -2,7 +2,20 @@
 'use strict';
 $(() => {
 
-  cd.review.pickFile = (diffs, previousFilename) => {
+  const review = cd.review;
+
+  review.pickFile = (diffs, previousFilename) => {
+    // Rule 0: if current event is a file-event use its filename
+    const event = review.currentEvent();
+    if (cd.lib.isFileEvent(event)) {
+      switch (event.colour) {
+      case 'file_create': return findDiff(diffs, event.filename);
+      case 'file_delete': return findDiff(diffs, event.filename);
+      case 'file_rename': return findDiff(diffs, event.new_filename);
+      case 'file_edit':   return findDiff(diffs, event.filename);
+      }
+    }
+
     const isPreviousFile = (diff) => diffFilename(diff) === previousFilename;
     // Rule 1: Pick previous-filename with diff.
     const r1 = diffs.find(diff => hasChanged(diff) && isPreviousFile(diff));
@@ -74,6 +87,9 @@ $(() => {
 
   const isIdenticalRename = (diff) =>
     diff.type === 'renamed' && changeCount(diff) === 0;
+
+  const findDiff = (diffs, filename) => 
+    diffs.find(diff => diffFilename(diff) == filename);
 
 });
 </script>

@@ -14,14 +14,16 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffFilenames = (diffs) => {
     const $table = $('<table>', { class:'filenames' });
-    sortedDiffs(diffs).forEach(diff => $table.append($makeDiffTr(diff)));
+    sortedDiffs(diffs).forEach((diff) => {
+      $table.append($makeDiffTr(diff));
+    });
     return $table;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
-    if (review.diffCheckBox.isChecked()) {
+    if (review.diffRadio.isOn()) {
       $tr.append($makeDiffTypeTd(diff));
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));
@@ -30,10 +32,10 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTypeTd = (diff) => {
-    if (diff === '&nbsp;') { return diff; }
+    if (diff == '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     let tip = '';
-    if (diff.type === 'renamed') {
+    if (diff.type == 'renamed') {
       tip += oldFilenameTip(diff);
     }
     if (diff.chunkCount > 0) {
@@ -58,11 +60,11 @@ $(() => {
   };
 
   const diffChunkPlural = (count) => {
-    return `${count} diff chunk${count === 1 ? '' : 's'}`;
+    return `${count} diff chunk${count == 1 ? '' : 's'}`;
   };
 
   const linesPlural = (count, type) => {
-    return `<span class="diff-type ${type}">${count} ${type} line${count === 1 ? '' : 's'}</span>`;
+    return `<span class="diff-type ${type}">${count} ${type} line${count == 1 ? '' : 's'}</span>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -80,7 +82,7 @@ $(() => {
     // Ensure filenames appear in the same order as kata/edit page
     const filenames = diffs.map(diff => diff.filename);
     const sorted = cd.sortedFilenames(filenames);
-    const diffFor = (filename) => diffs.find(diff => diff.filename === filename);
+    const diffFor = (filename) => diffs.find(diff => diff.filename == filename);
     return sorted.map(filename => diffFor(filename));
   };
 
@@ -101,7 +103,7 @@ $(() => {
   const scrollToNextDiffChunkOnReclick = (diff) => {
     const hasDiffChunks = () => diff.chunkCount > 0;
     const isFirstClick = () => !diff.hasBeenClicked;
-    const isReClick = () => review.filename === diff.filename;
+    const isReClick = () => review.filename == diff.filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`#diff-sheet-${diff.id}`);
       const $diffChunk = $(`#diff-chunk-${diff.id}-${diff.chunkIndex}`);

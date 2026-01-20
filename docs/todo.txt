@@ -1,7 +1,133 @@
 
-In review-mode, always do diff-summary of index,index-1
-and always show file-type markers. Make the diff[x] checkbox
-control whether the [+][-] diffs are visible. Need to try this.
-What about [+] created files and [-] deleted files?
+web
+---
+app/controllers/application_controller.rb container render 404, 500
+In web, improve dialog-box errors, eg when you get a server 500
+ this needs to be logged so it is visible in a docker-logs command.
 
-Polyfill old checkouts on model?
+Any app-controller tests use RunnerService when they could use RunnerStub?
+
+Are app-controller tests still using v0/v1 manifests?
+  Use v2 in all tests.
+  Create multi-version-tests? See source/test/test_base.rb v_tests
+
+Need to find how to put the actual 404/500 error message into the view.
+  source/config/environments/production.rb
+    # Show raw exceptions
+    config.action_dispatch.show_exceptions = true
+    # Show full error reports
+    config.consider_all_requests_local = true
+
+
+saver
+-----
+In web's revert_test.rb instead of 
+  @files[filename] = 'Hello'
+if you write
+  @files[filename] = {'content' => 'Hello'}
+then it seems to cause saver to silently drop its incoming call.
+There needs to be some pydantic-like checking of the parameters.
+
+Currently always returns minor_index=0 from v2 git_commit_tag_sss
+  Is this correct? 
+  I think it is, as long as you can only checkout/revert from a RAG event.
+  The new file-event methods return only next_index, but if a non-RAG
+  saver method returned the full triple, then the minor_index=0 would be wrong.
+
+
+dashboard
+---------
+Simplify event tool-tip in same way as web
+
+Add diff-extra[x] checkbox.
+
+In refresh.js save events in global so they are available 
+  to JS, eg to calculate the previous index. Prepares the way for details[x]
+  checkbox in dashboard.
+
+------------------------------------------------------------------
+
+- In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
+  s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
+  (same as [test] page).
+
+- - - - - - - - - - - - - - - - - - - - - - - -
+
+- _index.html.erb has this...
+  review.lastEventIndex = () => {
+    ...
+    if (cd.review.diffRadio.isDetailed()) {
+      return lastIndex; // TODO: Dont think we ever get here...
+    }
+    ... 
+  };
+
+- In traffic-light-navigator, I think lastEventIndex() and lastEventIndex()
+  can be simplified using code in _review.html.erb
+
+- Increase height and the width of code in [review] page to match that in [test] page.
+
+- Refactor JS so refresh methods are called only when needed.
+
+- In demo, add events for 'faulty' and 'pulling'.
+  Check review with details[x] and moving [<][>] across them
+
+- cd.lib.isLight(event) also gives true for create event. Not clear?
+  Add cd.lib.isTest(event) and check that also gives true for 
+  'faulty' and 'pulling'
+  Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)?
+
+------------------------------------------------------------------
+
+- TODO: _review.html.erb ...
+  review.refresh = (id, index) => {
+    ...
+    review.trafficLights  .refresh(); // TODO: also does navigator update
+
+- TODO: _review.html.erb ...
+  const startup = (id, index) => {
+    ...
+    cd.lib.getEvents(id, (events) => {      
+      //if (index == -1) {
+      //  review.diff.off();
+      //} else {
+      //  review.diff.simple();
+      //}
+
+- TODO: _details_checkbox.html.erb ...
+    refresh: (checked) => {
+      $box
+        .on('click', () => {
+          review.trafficLights.refresh(); // TODO: dont need to refresh the traffic-light-navigator
+
+- TODO: assets/javascripts/cyber-dojo_lib_append_traffic_light.js ...
+      const $ragImage = (light) => {
+        ...
+        'data-colour': light.colour, // Revert needs colour+index, TODO: no longer true
+
+- TODO: review/_traffic_lights.html.erb ...
+  review.trafficLights = {
+    refresh: () => {
+      ...
+      $lights.empty();
+      appendTrafficLights(review.events); // TODO: only need to do this for new avatar
+
+------------------------------------------------------------------
+
+- pre-release
+- switch web to call saver.ran_tests() instead of saver.ran_tests2()      
+- comment out JS calls to file-create/delete/rename/edit 
+- do careful check that everything still works: 
+    [test]-review, [dashboard]-review, revert, checkout, predict, etc
+- check for stability, continue testing/checking
+
+- release
+  - use saver.ran_tests2()
+  - turn on file-create/delete/rename/edit
+  - check index numbering in details mode
+
+- post-release
+  o) reimplement saver.ran_test() to be the same as saver.ran_tests2()
+  o) switch web to call saver.ran_tests()
+  o) delete saver.ran_tests2()
+

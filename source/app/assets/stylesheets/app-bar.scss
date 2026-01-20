@@ -2,7 +2,7 @@
 {
   @include plaintext-font();
   display: flex;
-  background: lighten($darker-color, 8%);
+  background: lighten($darker-color, 10%);
   color: $lighter-color;
   font-size: 1.05em;
   width: 100%;

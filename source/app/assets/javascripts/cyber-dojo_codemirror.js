@@ -47,7 +47,8 @@ var cyberDojo = ((cd, $) => {
         Tab: (cm) => {
           if (cm.somethingSelected()) {
             cm.indentSelection('add');
-          } else {
+          } 
+          else {
             cm.execCommand('insertSoftTab');
           }
         }
@@ -156,7 +157,8 @@ var cyberDojo = ((cd, $) => {
     const lastPoint = filename.lastIndexOf('.');
     if (lastPoint === -1) {
       return '';
-    } else {
+    } 
+    else {
       return filename.substring(lastPoint);
     }
   };

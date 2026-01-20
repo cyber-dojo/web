@@ -12,6 +12,73 @@ $(() => {
 
   const kata = cd.kata;
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Inter-Test-Events
+  // Called whenever a file is created, deleted, renamed, or selected 
+  // (from the filename-list). Saved inter-test events are only
+  // visible in review mode.
+
+  cd.interTestEvents = () => {
+    return true;
+  };
+
+  cd.fileCreateITE = (newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_create', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileDeleteITE = (newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_delete', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileRenameITE = (oldFilename, newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      old_filename: oldFilename,
+      new_filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_rename', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileEditITE = (callback = doNothing) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_edit', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+      callback();
+    });
+  };
+
+  const doNothing = () => {};
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.createFileButton = () => $('.create-file');
   cd.deleteFileButton = () => $('.delete-file');
   cd.renameFileButton = () => $('.rename-file');
@@ -32,6 +99,9 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
+      if (cd.interTestEvents()) {
+        cd.fileCreateITE(newFilename);
+      }
       kata.editor.createFile(newFilename, {content:''});
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -45,6 +115,9 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
+      if (cd.interTestEvents()) {
+        cd.fileDeleteITE(filename);
+      }
       kata.editor.deleteFile(filename);
       kata.filenames.refresh();
       kata.filenames.select(kata.filenames.top());
@@ -58,6 +131,9 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
+      if (cd.interTestEvents()) {
+        cd.fileRenameITE(oldFilename, newFilename);
+      }
       kata.editor.renameFile(oldFilename, newFilename);
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -84,6 +160,7 @@ $(() => {
 
     // Position dialog near to tab.filename because if tab.output is
     // selected then filename will not be selected in filename list.
+    
     const pos = kata.tabs.filename().offset();
     const xPos = pos.left + 2;
     const yPos = pos.top + 25;
@@ -171,12 +248,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const isValidFilename = (filename) => {
     const alreadyExists = (filename) => kata.editor.filenames().includes(filename);
-    const contains = (illegal) => filename.indexOf(illegal) !== -1;
+    const contains = (illegal) => filename.indexOf(illegal) != -1;
     if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
-    if (filename === '+REPL') { return false; }
     if (filename === '') { return false; }
     return true;
   };

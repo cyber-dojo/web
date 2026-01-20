@@ -8,19 +8,17 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  # - - - - - - - - - - - - - - - -
-
   def in_kata(options={}, &block)
     create_language_kata(options)
     @files = plain(kata.event(-1)['files'])
-    @index = 0
+    @index = 1
     block.call(kata)
   end
 
   def create_language_kata(options = {})
-    manifest = starter_manifest
-    manifest['version'] = (options[:version] || 1)
-    @id = saver.kata_create(manifest)
+    @manifest = starter_manifest
+    @manifest['version'] = (options[:version] || 2)
+    @id = saver.kata_create(@manifest)
     nil
   end
 
@@ -28,46 +26,32 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     Kata.new(self, @id)
   end
 
-  # - - - - - - - - - - - - - - - -
-
-  def sub_file(filename, from, to)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    content = @files[filename]
-    assert content.include?(from)
-    @files[filename] = content.sub(from, to)
+  def post_json(path, params)
+    params['format'] = 'js'
+    if params.key?(:data)
+      params[:data] = Rack::Utils.build_nested_query(params[:data])
+    end
+    post path, params: params
+    events = saver.kata_events(@id)
+    @index = events[-1]['index'] + 1
   end
-
-  # - - - - - - - - - - - - - - - -
-
-  def change_file(filename, content)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    @files[filename] = content
-  end
-
-  # - - - - - - - - - - - - - - - -
 
   def post_run_tests(options = {})
-    post '/kata/run_tests', params:run_test_params(options)
-    @index += 1
+    params = run_test_params(options)
+    post_json '/kata/run_tests', params
     assert_response :success, response.body
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def run_test_params(options = {})
     {
-      'format'           => 'js',
-      'id'               => (options['id'] || kata.id),
-      'image_name'       => kata.manifest['image_name'],
-      'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
-      'index'            => @index + 1,
-      'file_content'     => @files
+      id: (options[:id] || kata.id),
+      image_name: @manifest['image_name'],
+      max_seconds: (options[:max_seconds] || @manifest['max_seconds']),
+      index: (options[:index] || @index),
+      file_content: @files,
+      predicted: (options[:predicted] || 'none')
     }
   end
-
-  # - - - - - - - - - - - - - - - -
 
   def json
     ActiveSupport::JSON.decode(html)

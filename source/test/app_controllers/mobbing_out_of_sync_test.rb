@@ -9,44 +9,27 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
     'zW7'
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'B30', %w(
-  given two (or more) laptops as the same avatar
-  and one has not synced (by hitting refresh in their browser)
-  and so their current traffic-light-index lags behind
-  when they run their tests
-  then it is a 200 (and not a 500)
-  and information is logged to stdout.
+  | given two (or more) laptops as the same avatar
+  | and one has not synced (by hitting refresh in their browser)
+  | and so their current traffic-light-index lags behind
+  | when they run their tests
+  | then it is a 200 (and not a 500)
+  | but no extra saver event is created.
   ) do
-    set_runner_class('RunnerStub')
     in_kata do |kata|
-      params = {
-        'format' => 'js',
-        'id' => kata.id,
-        'image_name' => kata.manifest['image_name'],
-        'file_content' => plain(kata.event(-1)['files']),
-        'max_seconds' => kata.manifest['max_seconds'],
-      }
-      params['index'] = 1
-      post '/kata/run_tests', params:params
-      assert_response :success
+      post_run_tests
+      assert_equal 2, @index
 
-      params['index'] = 2
-      post '/kata/run_tests', params:params
-      assert_response :success
+      post_run_tests
+      assert_equal 3, @index
 
-      params['index'] = 3
-      post '/kata/run_tests', params:params
-      assert_response :success
-
-      params['index'] = 1 # lagging
       stdout,stderr = capture_stdout_stderr {
-        post '/kata/run_tests', params:params
+        post_run_tests({index: 2})
       }
+      assert_equal 3, @index
       assert_equal '', stderr
-      refute_equal '', stdout
-      assert_response :success
+      assert stdout.include?('"message": "Out of order event"'), stdout
     end
   end
 

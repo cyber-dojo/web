@@ -8,11 +8,11 @@ services:
 
   nginx:
     image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
+    container_name: test_web_nginx
     depends_on:
       - web
     user: root
     init: true
-    container_name: test_web_nginx
     ports: [ "${CYBER_DOJO_NGINX_PORT}:80" ]
     restart: "no"
 

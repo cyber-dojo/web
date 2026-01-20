@@ -22,49 +22,111 @@
 'use strict';
 $(() => {
 
-  const review = cd.review;
+  const createIndex = 0;
+  const disableIndex = null;
 
-  review.refreshTrafficLightsNavigator = (events) => {
+  const review = cd.review;
+  const lib = cd.lib;
+
+  review.refreshTrafficLightsNavigator = () => {
     const index = review.index;
-    refreshMoveTo($('#first-index'), prevEventIndex(index, 0));
-    refreshMoveTo($('#prev-index'),  prevEventIndex(index, index-1));
-    $('#review-index-box').html($makeIndexNumber(index, events));
-    refreshMoveTo($('#next-index'),  nextEventIndex(events, index, index+1));
-    refreshMoveTo($('#last-index'),  nextEventIndex(events, index, events.length-1));
+    refreshMoveTo($('#first-index'), firstEventIndex(index));
+    refreshMoveTo($('#prev-index'),  prevEventIndex(index));
+    $('#review-index-box').html($makeIndexNumber(index));
+    refreshMoveTo($('#next-index'),  nextEventIndex(index));
+    refreshMoveTo($('#last-index'),  lastEventIndex(index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshMoveTo = (button, index) => {
     button
-      .attr('disabled', index === null)
+      .attr('disabled', index == disableIndex)
       .off('click')
       .on('click', () => review.refresh(review.id, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const prevEventIndex = (index, n) => {
-    if (index === 0) { // 0 is creation event
-      return null; // Disable
-    } else {
-      return n;
+  const firstEventIndex = (index) => {
+    if (index == createIndex) {
+      return disableIndex;
+    } 
+    else {
+      return review.firstEventIndex();
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nextEventIndex = (events, index, n) => {
-    if (index === events.length-1) {
-      return null; // Disable
-    } else {
-      return n;
+  const lastEventIndex = (index) => {
+    const events = review.events;
+    if (index == events.length - 1) {
+      return disableIndex;
+    } 
+    else if (review.diffRadio.isDetailed()) {
+      return events.length - 1;
+    } 
+    else {
+      return lastLightIndex(index + 1); // can be disableIndex
+    }
+  };
+
+  const lastLightIndex = (index) => {
+    const events = review.events;
+    let lastLightIndex = null;
+    while (index < events.length) {
+      if (lib.isLight(events[index])) {
+        lastLightIndex = index;
+      }
+      index += 1;
+    }
+    return lastLightIndex;  
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const prevEventIndex = (index) => {
+    if (index == createIndex) {
+      return disableIndex;
+    } 
+    else if (review.diffRadio.isDetailed()) {
+      return index - 1;
+    } 
+    else {
+      return review.majorEventIndex(index - 1);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeIndexNumber = (index, events) => {
+  const nextEventIndex = (index) => {
+    if (index == review.events.length - 1) {
+      return disableIndex;
+    } 
+    else if (review.diffRadio.isDetailed()) {
+      return index + 1;
+    } 
+    else {
+      return nextLightIndex(index + 1);
+    }
+  };
+
+  const nextLightIndex = (index) => {
+    const events = review.events;
+    while (index < events.length) {
+      if (lib.isLight(events[index])) {
+        return index;
+      } 
+      else {
+        index += 1;
+      }
+    }
+    return disableIndex;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeIndexNumber = (index) => {
+    const event = review.events[index];
     return $('<div>', {
       id:'index-number',
-      class:events[index].colour
-    }).html(index);
+      class:event.colour
+    }).html(lib.dottedIndex(event));
   };
 
 });

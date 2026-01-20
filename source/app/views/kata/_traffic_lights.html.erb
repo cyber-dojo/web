@@ -29,29 +29,33 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  var previousIndex = 0;
+
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
-    if (cd.lib.isVisible(light)) {
-      const $light = cd.lib.appendTrafficLight($lights, light);
-      if (option.scrollIntoView) {
-        $light.scrollIntoView({
-          direction: 'horizontal',
-           duration: 'slow'
-        });
-      }
-      kata.trafficLightsCounts.update(light);
-      kata.predictCounts.update(light);
-      $light.click(() => cd.review.fromTestPage(kata.id, light.index));
-      const delta = light.index === 0 ? 0 : 1;
-      cd.setupTrafficLightTip($light, light, kata.id, light.index-delta, light.index);
+    const $light = cd.lib.appendTrafficLight($lights, light);
+    if (option.scrollIntoView) {
+      $light.scrollIntoView({
+        direction: 'horizontal',
+          duration: 'slow'
+      });
     }
+    kata.trafficLightsCounts.update(light);
+    kata.predictCounts.update(light);
+    $light.click(() => {
+      cd.fileEditITE(() => {
+        cd.review.fromTestPage(kata.id, light.index);
+      });
+    });
+    cd.setupTrafficLightTip($light, light, kata.id, previousIndex, light.index);
+    previousIndex = light.major_index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Don't use show() or hide() here as the animation is far
+  // Dont use show() or hide() here as the animation is far
   // too slow (even on 'fast') when you have a reasonably
   // large number of traffic-lights.
 
-  const $predictImages = () => $('img.tick, img.cross', $lights);
+  const $predictImages = () => $('img.tick, img.cross-red, img.cross-amber, img.cross-green', $lights);
 
   kata.predictImages = {
     hide: () => {

@@ -11,6 +11,7 @@
   margin: 2px;
   position: relative;
   top: -1px;
+  left: 5px;
 }
 // Use large left margin when _not_ in diff-help-icon's hover-tip text.
 .diff-filename:not(.hover) { padding-left: $left-column-left-margin; }
@@ -22,6 +23,7 @@
 {
   font-size: 14px;
   padding: 2px;
+  margin: { left: 2px; right: 2px; }
   text-align: center;
   $n_dash: '\2013';
   $curved_right_arrow: '\21B7';
@@ -117,7 +119,7 @@ table.sss { margin-top: 15px; }
 #diff-content, #diff-content-output
 {
   position: relative;
-  top: 10px;
+  top: 18px;
 }
 
 .diff-line-numbers,

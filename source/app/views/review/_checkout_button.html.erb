@@ -1,4 +1,4 @@
-<button id="checkout-button" type="button" style="display:none;">checkout</button>
+<button id="checkout-button" type="button">checkout</button>
 
 <script>
 'use strict';
@@ -8,31 +8,47 @@ $(() => {
   const review = cd.review;
 
   const $button = $('#checkout-button');
-  cd.createTip($button, () => {
-    if (kata.id === review.id) {
-      return `revert back to this<br/>traffic-light's files`;
-    } else {
-      return `make this traffic-light's<br/>files your current files`;
-    }
-  });
-  $button.click(() => review.fadeOut(checkout));
+
+  const refreshToolTip = () => {
+    cd.createTip($button, () => {
+      const action = `Resume coding & testing`;
+      const context = 'after checking out';
+      return `${action}<br/>${context}<br/>${review.nameRagColour()}`;
+    });
+  };
+
+  $button.click(() => review.fadeOut(cd.revertOrCheckout));
 
   review.checkoutButton = {
-    show: () => $button.show(),
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true),
     refresh: () => {
-      const title = (kata.id === review.id) ? 'revert' : 'checkout!';
-      $button.html(title);
+      refreshToolTip();
+      if (review.isFromDashboardPage()) {
+        review.checkoutButton.disable();
+      }
+      else if (review.isOnFileEvent()) {
+        review.checkoutButton.disable();
+      } 
+      else if (kata.id == review.id) {
+        review.checkoutButton.disable();
+      }
+      else {
+        review.checkoutButton.enable();
+      }
     }
   };
 
-  const checkout = () => {
+  cd.revertOrCheckout = () => {
+    const event = review.currentEvent();
+
     const args = {       // where we are writing to
       id: kata.id,       // eg 'Xd4f2P'
       index: kata.index, // eg 17
       src_id: review.id, // where we are reading from
-      src_index: review.index,
+      src_index: event.index,
+      src_major_index: event.major_index,
+      src_minor_index: event.minor_index,
       src_avatar_index: review.avatarIndex
     };
     cd.settings.showButton();
@@ -40,13 +56,13 @@ $(() => {
       kata.incrementIndex();
       kata.editor.deleteFiles();
       for (const filename in data.files) {
-        kata.editor.createFile(filename, { content:data.files[filename] });
+        kata.editor.createFile(filename, { content: data.files[filename] });
         kata.editor.showFile(filename);
       }
       kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       kata.tabs.output().click();
-      kata.filenames.refresh();
-      kata.appendTrafficLight(data.light, {scrollIntoView:true});
+      kata.filenames.refresh();      
+      kata.appendTrafficLight(data.light, {scrollIntoView: true});
     }, 'json');
   };
 

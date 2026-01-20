@@ -26,15 +26,16 @@ $(() => {
     "<%= j raw(@status) %>"
   );
 
-  cd.kata.filenames.refresh();
-
   const events = <%= raw @events.to_json %>;
   events.forEach((event) => {
-    cd.kata.appendTrafficLight(event);
-    cd.kata.incrementIndex();
+    if (cd.lib.isLight(event)) {
+      cd.kata.appendTrafficLight(event);
+    }
   });
+  cd.kata.setIndex(events.length);
   cd.kata.scrollLastTrafficLightIntoView();
   cd.kata.setupPrediction();
+  cd.kata.filenames.refresh();
 
   cd.showSettingsButton();
   cd.setupHotkeys();

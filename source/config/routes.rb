@@ -10,10 +10,14 @@ CyberDojo::Application.routes.draw do
   get '/web/sha',        to: proc { json_triple(       'sha' => ENV['SHA']) }
 
   scope path: '/kata', controller: :kata do
-    get  'edit(/:id)'       => :edit
-    post 'run_tests(/:id)'  => :run_tests, :constraints => { :format => :json }
-    post 'checkout'         => :checkout,  :constraints => { :format => :json }
-    post 'revert'           => :revert,    :constraints => { :format => :json }
+    get  'edit(/:id)'        => :edit
+    post 'run_tests(/:id)'   => :run_tests,   :constraints => { :format => :json }
+    post 'checkout'          => :checkout,    :constraints => { :format => :json }
+    post 'revert'            => :revert,      :constraints => { :format => :json }
+    post 'file_create'       => :file_create, :constraints => { :format => :json }
+    post 'file_delete'       => :file_delete, :constraints => { :format => :json }
+    post 'file_rename'       => :file_rename, :constraints => { :format => :json }
+    post 'file_edit'         => :file_edit,   :constraints => { :format => :json }
   end
 
   scope path: '/review', controller: :review do

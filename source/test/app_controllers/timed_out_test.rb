@@ -6,20 +6,12 @@ class TimedOutTest  < AppControllerTestBase
     'jB4'
   end
 
-  test '221', %w( timed_out ) do
-    set_runner_class('RunnerService')
+  test '221', %w( 
+  | timed_out 
+  ) do
     in_kata do |kata|
-      change_file('hiker.sh',
-        <<~BASH_CODE
-        answer()
-        {
-          while true; do
-            :
-          done
-        }
-        BASH_CODE
-      )
-      post_run_tests({ 'max_seconds' => 3 })
+      runner.stub_run({outcome: 'timed_out'})
+      post_run_tests
       assert_equal 'timed_out', kata.event(-1)['colour']
     end
   end

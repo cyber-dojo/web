@@ -9,8 +9,8 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '862', %w(
-  an individual kata is created from a well-formed manifest,
-  and is not a member of a group
+  | an individual kata is created from a well-formed manifest,
+  | and is not a member of a group
   ) do
     in_new_kata do |kata|
       assert_equal 1, kata.events.size
@@ -21,9 +21,9 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '864', %w(
-  after run_tests()/ran_tests(),
-  there is a new traffic-light event,
-  which is now the most recent event
+  | after run_tests()/ran_tests(),
+  | there is a new traffic-light event,
+  | which is now the most recent event
   ) do
     in_new_kata do |kata|
       files = kata.event(-1)['files']
@@ -44,9 +44,9 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '860', %w(
-  after revert,
-  there is a new traffic-light event,
-  which is now the most recent event
+  | after revert,
+  | there is a new traffic-light event,
+  | which is now the most recent event
   ) do
     in_new_kata do |kata|
       files = kata.event(-1)['files']
@@ -85,7 +85,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '866', %w(
-  kata.event(-1) returns the most recent event
+  | kata.event(-1) returns the most recent event
   ) do
     in_new_kata do |kata|
       assert_equal kata.event(0), kata.event(-1)
@@ -110,10 +110,10 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1,2], '824', %w(
-  given a saver outage during a session
-  when kata.event(-1) is called
-  then v0 raises
-  but v1 v2 handles it
+  | given a saver outage during a session
+  | when kata.event(-1) is called
+  | then v0 raises
+  | but v1 v2 handles it
   ) do
     in_new_kata do |kata|
       files = kata.event(-1)['files']
@@ -139,11 +139,11 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1,2], '825', %w(
-  given two laptops as the same avatar
-  when one is behind (has not synced by hitting refresh in their browser)
-  and they hit the [test] button
-  a SaverService::Error is raised
-  and a new event is not created in the saver
+  | given two laptops as the same avatar
+  | when one is behind (has not synced by hitting refresh in their browser)
+  | and they hit the [test] button
+  | a SaverService::Error is raised
+  | and a new event is not created in the saver
   ) do
     in_new_kata do |kata|
       files = kata.event(-1)['files']

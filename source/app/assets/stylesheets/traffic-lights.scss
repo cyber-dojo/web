@@ -25,14 +25,8 @@ img.diff-traffic-light
   margin: { left:0px; right:2px; }
 }
 
+img.tick, img.cross-red, img.cross-amber, img.cross-green,
 img.revert, img.checkout
-{
-  width: $traffic-light-size - 2px;
-  height: $traffic-light-size - 2px;
-  @include circle-border($traffic-light-size);
-}
-
-img.tick, img.cross
 {
   width: 11px;
   height: 11px;
@@ -41,11 +35,9 @@ img.tick, img.cross
   &.hide { display:none; }
 }
 
-img.revert, img.checkout, img.tick, img.cross
+img.cross-red, img.cross-amber, img.cross-green 
 {
-  &.red   { border: 1px solid $red  ; }
-  &.amber { border: 1px solid $amber; }
-  &.green { border: 1px solid $green; }
+  border: 1px solid Gray;
 }
 
 .current-light-box { display: grid; }

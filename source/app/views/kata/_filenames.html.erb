@@ -11,7 +11,7 @@ $(() => {
     const all = cd.kata.editor.filenames();
     const listed = all.filter(filename => !cd.kata.tabs.reserves(filename));
     return cd.sortedFilenames(listed);
-  }
+  };
 
   filenames.length = () => filenames.sorted().length;
   filenames.selected = () => $('.filename.selected', $filenames).text().trim();
@@ -44,7 +44,8 @@ $(() => {
     const index = indexOfSelected();
     if (index === -1) {
       return 0;
-    } else {
+    } 
+    else {
       return (index + 1) % filenames.length();
     }
   };
@@ -53,7 +54,8 @@ $(() => {
     const index = indexOfSelected();
     if (index === 0 || index === -1) {
       return filenames.length() - 1;
-    } else {
+    } 
+    else {
       return index - 1;
     }
   };
@@ -64,10 +66,12 @@ $(() => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
+
     const $filename = $(`[id="radio_${filename}"]`, $filenames);
     filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
+    
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);
     cd.renameFileButton().attr('disabled', disabled);
@@ -78,7 +82,17 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const error = (request, status, thrown) => {
+    const message = [
+      request.responseText,
+      'FileSwitch----------------------------',
+      `Status=${status}`,
+      thrown
+    ].join("\n");
+    cd.dialogError(message);
+  };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const rebuildFilenameList = () => {
     const selected = filenames.selected(); // Try to keep selected
     const sorted = filenames.sorted();
@@ -86,11 +100,13 @@ $(() => {
     sorted.forEach(filename => $filenames.append(makeFilename(filename)));
     if (sorted.includes(selected)) {
       filenames.select(selected);
-    } else {
+    }
+    else {
       filenames.select(sorted[0]);
     }
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const makeFilename = (filename) => {
     const $div = $('<div>', {
         class: 'filename',
@@ -103,7 +119,12 @@ $(() => {
     if (cd.isSourceFile(filename)) {
       $div.addClass('source');
     }
-    $div.click(() => filenames.select(filename));
+    $div.click(() => {
+      filenames.select(filename);
+      if (cd.interTestEvents()) {
+        cd.fileEditITE();
+      }
+    });
     return $div;
   };
 

@@ -6,8 +6,9 @@ class KataEdit200Test  < AppControllerTestBase
     'BE7'
   end
 
-  test '9B9', %w( edit landing page ) do
-    set_runner_class('RunnerService')
+  test '9B9', %w(
+  | edit landing page smoke test
+  ) do
     in_kata do |kata|
       get "/kata/edit/#{kata.id}"
       assert_response :success

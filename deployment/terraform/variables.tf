@@ -55,7 +55,6 @@ variable "app_env_vars" {
     FORK_BUTTON                = ""
     DASHBOARD_BUTTON           = ""
     PREDICT                    = ""
-    REPL                       = "off"
     STARTING_INFO_DIALOG       = ""
   }
 }

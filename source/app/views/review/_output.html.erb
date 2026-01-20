@@ -8,9 +8,16 @@ $(() => {
 
   review.output = {
     refresh: () => {
-      review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
-        outputRefresher(event);
-      });
+      const isLight = cd.lib.isLight(review.currentEvent());
+      if (isLight && review.index != 0) {
+        review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
+          outputRefresher(event);
+        });
+      } 
+      else {
+        const $diffOutputFilenames = $('#diff-output-filenames');
+        $diffOutputFilenames.html('');
+      }
     }
   };
 
@@ -20,12 +27,11 @@ $(() => {
     const stderr = makeNoDiffOutput('stderr', event.stderr.content);
     const status = makeNoDiffOutput('status', event.status);
 
-    const $diffContentOutput = $('#diff-content-output');
     const $stdout = review.makeDiffFileContent(stdout);
     const $stderr = review.makeDiffFileContent(stderr);
     const $status = review.makeDiffFileContent(status);
+    const $diffContentOutput = $('#diff-content-output');
     $diffContentOutput.empty().append($stdout, $stderr, $status);
-
     const $diffOutputFilenames = $('#diff-output-filenames');
     $diffOutputFilenames.html($makeOutputFilenames(stdout, stderr, status));
   };

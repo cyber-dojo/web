@@ -10,14 +10,15 @@ $(() => {
   const tip = [
     "Download your practice session as",
     "a git repository (in a .tgz file)",
-    "with one commit per test run."
+    "with one commit per test/edit event."
   ].join('<br/>');
 
   cd.createTip($button, tip);
 
   if (cd.kata.manifest().version < 2) {
     $button.hide();
-  } else {
+  } 
+  else {
     $button.click(() => {
       $.ajax({
             type: 'GET',

@@ -10,15 +10,10 @@ $(() => {
 
   review.trafficLights = {
     refresh: () => {
-      review.getJSON('saver', 'kata_events', {id:review.id}, (events) => {
-        if (review.index === -1) {
-          review.index = events.length - 1; // Need by [fork] and [checkout]
-        }
-        $lights.empty();
-        appendTrafficLights(events);
-        scrollCurrentTrafficLightIntoView();
-        review.refreshTrafficLightsNavigator(events);
-      });
+      $lights.empty();
+      appendTrafficLights(review.events);
+      scrollCurrentTrafficLightIntoView();
+      review.refreshTrafficLightsNavigator();
     }
   };
 
@@ -27,37 +22,36 @@ $(() => {
     review.checkoutButton.enable();
     review.trafficLightsCounts.reset();
     review.predictCounts.reset();
+
     events.forEach(event => {
-      if (cd.lib.isVisible(event)) {
+      if (isVisible(event)) {
         const light = event;
-        const isCurrentIndex = (review.index === light.index);
+        const isCurrentIndex = (review.index == light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
-        $light.click(() => review.refresh(review.id, light.index));
-        const delta = light.index === 0 ? 0 : 1;
-        cd.setupTrafficLightTip($light, light, review.id, light.index-delta, light.index);
+        $light.click(() => {
+          cd.removeTip();
+          review.refresh(review.id, light.index);
+        });
+        cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);
+
         if (light.index <= review.index) {
-          cd.review.trafficLightsCounts.update(light);
-          cd.review.predictCounts.update(light);
-        }
-        if (isOwnRevertedIncorrectPredictionLight(light)) {
-          review.checkoutButton.disable();
+          review.trafficLightsCounts.update(light);
+          review.predictCounts.update(light);
         }
       }
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isOwnRevertedIncorrectPredictionLight = (light) => {
-    const isCurrentIndex    = (review.index === light.index);
-    const predictedWrong    = (light.colour != light.predicted);
-    const wasReverted       = (light.revert_if_wrong === 'on');
-    const reviewingOwnLight = (cd.kata.id === review.id);
-    return isCurrentIndex
-      && cd.lib.hasPrediction(light)
-        && predictedWrong
-          && wasReverted
-            && !review.isIndependent()
-              && reviewingOwnLight;
+  const isVisible = (event) => {
+    if (cd.lib.isLight(event)) {
+      return true;
+    } 
+    else if (cd.lib.isFileEvent(event) && review.diffRadio.isDetailed()) {
+      return true;
+    } 
+    else {
+      return false;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

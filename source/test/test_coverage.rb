@@ -2,6 +2,13 @@ require 'simplecov'
 
 SimpleCov.start do
 
+  # what to cover
+  root File.expand_path('..', __dir__)  
+  # where coverage reports are written
+  coverage_dir(ENV['COVERAGE_DIR'])
+  # Silence 'failed to recognize the test framework' warning
+  command_name('Unit Tests')
+
   web_home = '/cyber-dojo'
   modyule = ARGV[0]                      # eg 'app_helpers'
   slashed_modyule = modyule.sub('_','/') # eg 'app/helpers'
@@ -13,12 +20,6 @@ SimpleCov.start do
     src.filename.start_with?("#{web_home}/#{slashed_modyule}/")
   }
 end
-
-# what to cover
-cov_root = File.expand_path('..', __dir__)
-SimpleCov.root(cov_root)
-# where coverage reports are written
-SimpleCov.coverage_dir(ENV['COVERAGE_DIR'])
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 #filters.clear

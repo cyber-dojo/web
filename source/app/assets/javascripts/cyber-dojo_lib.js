@@ -7,29 +7,39 @@ var cyberDojo = ((cd, $) => {
     return params.get(name) || fallBack;
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.getEvents = (id, callback) => {
+    const name = 'kata_events';
+    $.getJSON(`/saver/${name}`, {id: id}, (json) => {
+      const events = json[name];
+      callback(events);
+    });
+  };
 
-  cd.lib.isVisible = (event) => {
-    // Used by both app/views/kata and app/view/review
-    // Eg don't show event[0] == creation
+  cd.lib.isLight = (event) => {
+    return !cd.lib.isFileEvent(event);
+  };
+
+  cd.lib.isFileEvent = (event) => {
     switch (event.colour) {
-    case 'create':
-    case 'red':
-    case 'red_special':
-    case 'amber':
-    case 'amber_special':
-    case 'green':
-    case 'green_special':
-    case 'pulling':
-    case 'timed_out':
-    case 'faulty':
+    case 'file_create':
+    case 'file_delete':
+    case 'file_rename':
+    case 'file_edit':
       return true;
     default:
       return false;
     }
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.dottedIndex = (light) => {
+    if (light.minor_index == 0) {
+      return `${light.major_index}`;
+    } 
+    else {
+      return `${light.major_index}.${light.minor_index}`;
+    }
+  };
+
   cd.lib.$makeAvatarImage = (avatarIndex) => {
     const $img = $('<img>', {
       class:'avatar-image',

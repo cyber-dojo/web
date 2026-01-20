@@ -1,5 +1,5 @@
 
-Cyber-dojo values
+cyber-dojo values
 -----------------
 
 1. It should support teams first, and individuals second.

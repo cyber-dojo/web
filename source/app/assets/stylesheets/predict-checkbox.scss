@@ -6,11 +6,12 @@
   border-radius: 3px;
   color: Black;
   background: lighten($darker-color,40%);
-  padding: { left:3px; right:1px; top:0px; bottom:0px; }
-  margin-top: 2px;
+  padding: { left:3px; right:1px; top:0px; bottom:1px; }
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
-#predict-checkbox-title,
+#predict-checkbox-title
 {
   display: inline;
   font: bold 11px sans-serif;
@@ -20,7 +21,7 @@
   letter-spacing: 0.02em;
 }
 
-#predict-checkbox,
+#predict-checkbox
 {
   display: inline;
   margin: 0px;

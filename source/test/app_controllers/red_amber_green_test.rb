@@ -6,17 +6,40 @@ class RedAmberGreenTest  < AppControllerTestBase
     'gh6'
   end
 
-  test '223', %w( red-green-amber ) do
-    set_runner_class('RunnerService')
+  test '223', %w( 
+  | red-green-amber 
+  ) do
     in_kata do |kata|
+      runner.stub_run({outcome: 'red'})
       post_run_tests
       assert_equal 'red', kata.event(-1)['colour']
-      sub_file('hiker.sh', '6 * 9', '6 * 7')
+
+      runner.stub_run({outcome: 'green'})
       post_run_tests
       assert_equal 'green', kata.event(-1)['colour']
-      change_file('hiker.sh', 'syntax-error')
+
+      runner.stub_run({outcome: 'amber'})
       post_run_tests
       assert_equal 'amber', kata.event(-1)['colour']
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '224', %w(
+  | when run_tests() is 'red' and creates a file called outcome.special
+  | then the colour becomes 'red_special
+  | and the outcome.special file is not saved
+  ) do
+    in_kata do |kata|
+      runner.stub_run({
+        outcome: 'red',
+        created: {'outcome.special' => content('Hello')}
+      })
+      post_run_tests 
+      last = kata.event(-1)
+      assert_equal 'red_special', last['colour']
+      refute last['files'].keys.include?('outcome.special')
     end
   end
 

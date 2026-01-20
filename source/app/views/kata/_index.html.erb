@@ -1,5 +1,5 @@
 <%# An incrementing index is held in the browser. %>
-<%# This allow out-of-sync mobbing detection.     %>
+<%# This allows out-of-sync mobbing detection.     %>
 <input name="index" type="hidden" value="0">
 
 <script>
@@ -10,7 +10,15 @@ $(() => {
 
   cd.kata.index = 0;
 
-  cd.kata.incrementIndex = () => $index.val(cd.kata.index += 1);
+  cd.kata.incrementIndex = () => {
+    cd.kata.index += 1;
+    $index.val(cd.kata.index);
+  };
+
+  cd.kata.setIndex = (index) => {
+    cd.kata.index = index;
+    $index.val(cd.kata.index);
+  };
 
 });
 </script>

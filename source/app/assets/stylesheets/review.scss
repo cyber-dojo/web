@@ -9,45 +9,45 @@
 
   #traffic-light-navigator
   {
-    width: 100px;
+    width: 115px;
     max-height: 25px;
     vertical-align: top;
+    margin: { left: 0px; right: 2px; top: 1px; bottom: 0px; }
   }
 
   #review-traffic-lights
   {
     display: inline-flex;
-    width: 651px;
+    width: 630px;
     margin: { top:2px; bottom:5px; }
   }
 
   //- - - - - - - - - - - - - - - - - -
 
-  #resume-button-box, #fork-button-box, #checkout-button-box
-  {
-    display: inline;
-    margin: 0px;
-  }
-
   #resume-button
   {
     font-size: 25px;
     padding: { top:1px; bottom:3px; left:7px; right:6px; }
-    margin: { bottom:15px; right:5px; }
+    margin-right:5px;
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.02em;
+    position: relative;
+    top: 1px;
   }
-  #checkout-button, #fork-button
+  #checkout-button, #revert-button, #fork-button
   {
-    font-size: 10px;
+    font-size: 11px;
     padding: { top:1px; bottom:1px; left:3px; right:3px; }
+    margin-top: 5px;
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.02em;
+    position: relative;
+    top: -3px;
   }
   #fork-button { width: 38px; }
-  #checkout-button { width: 61px; }
+  #revert-button, #checkout-button { width: 70px; }
 
   //- - - - - - - - - - - - - - - - - -
 
@@ -57,18 +57,15 @@
     border-radius: 5px;
     background: lighten($darker-color,10%);
     padding: 4px;
-    padding-bottom: 0px;
     #review-index-box
     {
-      min-width: 30px;
+      min-width: 40px;
       #index-number
       {
         border-radius: 4px;
         padding: { left: 3px; right: 3px; }
-        font-size: 22px;
+        font-size: 17px;
         text-align: center;
-        position: relative;
-        top: -3px;
       }
     }
     .triangle.button
@@ -109,10 +106,13 @@
         width: 6px;
        height: 6px;
        padding: 0px;
-       position: relative; top: -1px; // up
+       position: relative; top: -2px; // up
       }
     }
   }
 }
+
+#traffic-light-navigator { padding-bottom: 3px !important; }
+#avatar-navigator { padding-bottom: 2px !important; }
 
 .no-title .ui-dialog-titlebar { display: none; }

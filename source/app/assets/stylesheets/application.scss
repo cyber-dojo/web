@@ -29,7 +29,7 @@
  *= depend_on file-content.scss
  *= depend_on fork-dialog.scss
  *= depend_on diff.scss
- *= depend_on diff-checkbox.scss
+ *= depend_on diff-radio.scss
  *= depend_on diff-hover-tip.scss
  *= depend_on info.scss
  *= depend_on errors.scss
@@ -54,7 +54,6 @@
  *= depend_on download.scss
  *= depend_on charity.scss
  *= depend_on sponsorship.scss
- *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-grays.scss
@@ -84,7 +83,7 @@
 @import "file-content.scss";
 @import "fork-dialog.scss";
 @import "diff.scss";
-@import "diff-checkbox.scss";
+@import "diff-radio.scss";
 @import "diff-hover-tip.scss";
 @import "info.scss";
 @import "errors.scss";
@@ -109,7 +108,6 @@
 @import "download.scss";
 @import "charity.scss";
 @import "sponsorship.scss";
-@import "xterm.css";
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-grays.scss";

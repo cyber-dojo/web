@@ -13,20 +13,22 @@
 'use strict';
 $(() => {
 
+  const review = cd.review;
+
   const $counts = $('.review.predict-counts');
 
   const counts = { cross: 0, tick: 0 };
 
-  cd.review.predictCounts = {};
+  review.predictCounts = {};
 
-  cd.review.predictCounts.reset = () => {
+  review.predictCounts.reset = () => {
     Object.keys(counts).forEach(key => setPredict(key, 0));
   };
 
-  cd.review.predictCounts.update = (light) => {
+  review.predictCounts.update = (light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      const isRight = (colour === light.predicted);
+      const isRight = (colour == light.predicted);
       const name = isRight ? 'tick' : 'cross';
       setPredict(name, counts[name] + 1);
       $counts.show();

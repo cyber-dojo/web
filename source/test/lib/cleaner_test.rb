@@ -9,6 +9,8 @@ class CleanerTest < LibTestBase
 
   include Cleaner
 
+  # - - - - - - - - - - - - - - - - - - -
+
   test '982',
   'cleaned_string cleans away invalid-encodings' do
     refute dirty.valid_encoding?

@@ -2,6 +2,7 @@
 <%#  - from review/show.html.erb %>
 <%#  - from kata/edit.html.erb   %>
 
+<%= render partial: 'review/index' %>
 <%= render partial: 'review/faders' %>
 <%= render partial: 'review/lib/avatars' %>
 <%= render partial: 'review/lib/get_json' %>
@@ -14,14 +15,18 @@
 
   <div class="left-column">
     <table class="controls">
-      <tr><td><%= render partial: 'review/resume_button' %>
-              <%= render partial: 'review/avatar_navigator' %></td></tr>
-      <tr><td><%= render partial: 'review/checkout_button' %>
-              <%= render partial: 'review/fork_button' %></td></tr>
+      <tr><td><%= render partial: 'review/resume_button' %></td>
+          <td><%= render partial: 'review/help_icon' %></td>
+          <td><%= render partial: 'review/avatar_navigator' %></td></tr>
+          
+      <tr><td><%= render partial: 'review/revert_button' %>
+              <%= render partial: 'review/checkout_button' %>
+              <%= render partial: 'review/fork_button' %></td>
+          <td></td>
+          <td><%= render partial: 'review/diff_radio_buttons' %>
+              </td></tr>                  
     </table>
     <table>
-      <tr><td><%= render partial: 'review/diff_checkbox' %>
-              <%= render partial: 'review/help_icon' %></td></tr>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
       <tr><td><%= render partial: 'review/files' %></td></tr>
       <tr><td><%= render partial: 'review/output' %></td></tr>
@@ -49,46 +54,50 @@ $(() => {
 
   const review = cd.review;
 
-  review.page = $('#review-page'); // Used by faders
+  review.id = undefined;
+  review.index = undefined;
+  review.events = undefined;
 
-  review.isIndependent = () => $('#kata-page').length === 0;
+  review.page = $('#review-page'); // Used by _faders and _filenames
+  
+  review.isFromDashboardPage = () => $('#kata-page').length == 0;
+  review.currentEvent = () => review.events[review.index];
+  review.lastEvent = () => review.events[review.events.length - 1];
+  review.isOnFileEvent = () => cd.lib.isFileEvent(review.currentEvent());
 
-  review.refresh = (id, index, showDiff = review.diffCheckBox.isChecked()) => {
-    cd.settings.hideButton();
+  review.refresh = (id, index) => {
     review.id = id;
     review.index = index;
+
     review.avatarNavigator.refresh();
-    review.diffCheckBox   .refresh(showDiff);
     review.files          .refresh();
     review.output         .refresh();
     review.trafficLights  .refresh();
+    review.resumeButton   .refresh();
+    review.revertButton   .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
+    review.diffRadio      .refresh();
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  // When arriving from a dashboard *avatar*
-  //    o) wasIndex == -1, nowIndex == -1
-  //    o) we are *not* showing a diff.
-  // When arriving from traffic-light (on test-page or dashboard-page)
-  //    o) wasIndex == nowIndex-1
-  //    o) we *are* showing a diff.
+  const startup = (id, index) => {
+    cd.settings.hideButton();
+    cd.lib.getEvents(id, (events) => {
+      review.events = events;
+      review.refresh(id, index);
+    });
+  };
 
   review.fromTestPage = (id, index) => {
     review.fadeIn(() => {
-      review.checkoutButton.show();
-      review.resumeButton.show();
+      startup(id, index);
     });
-    const showDiff = true;
-    review.refresh(id, index, showDiff);
   };
 
-  if (review.isIndependent()) {
-    const wasIndex = parseInt(cd.urlParam('was_index', -1));
-    const nowIndex = parseInt(cd.urlParam('now_index', -1));
-    const showDiff = (wasIndex != nowIndex);
+  if (review.isFromDashboardPage()) {
     review.page.show();
-    review.refresh("<%= @id %>", nowIndex, showDiff);
+    const index = parseInt(cd.urlParam('now_index', review.lastEventIndex()));
+    startup("<%= @id %>", index);
   }
 
 });

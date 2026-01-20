@@ -1,3 +1,4 @@
+
 <span id="avatar-navigator" style="display:none;">
   <button id="prev-avatar" class="triangle button">
     <img src="/images/triangle_prev.gif"
@@ -29,9 +30,9 @@ $(() => {
 
   const avatarNavigatorRefresher = (joined) => {
     const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(review.id, joined);
-    review.avatarIndex = avatarIndex; // eg 23/''  for [checkout] button
+    review.avatarIndex = avatarIndex; // eg 23 or ''  for [revert]/[checkout] buttons
 	
-    if (avatarIndex !== '') {
+    if (avatarIndex != '') {
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
@@ -47,7 +48,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshAvatar = (button, joined, index) => {
     button
-      .attr('disabled', index === '')
+      .attr('disabled', index == '')
       .off('click')
       .on('click', () => moveToAvatar(joined[index]));
   };
@@ -63,9 +64,10 @@ $(() => {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
-    const index = review.diffCheckBox.isChecked() ? 1 : avatar.events.length - 1;
+    review.events = avatar.events;
+    const index = review.diffRadio.isOn() ? review.firstEventIndex() : review.lastEventIndex();
     review.refresh(avatar.id, index);
   };
 

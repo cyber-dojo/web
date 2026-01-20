@@ -11,13 +11,21 @@ var cyberDojo = ((cd, $) => {
   cd.lib.appendTrafficLight = ($lights, light, option={isCurrentIndex:false}) => {
     if (cd.lib.hasPrediction(light)) {
       $lights.append($predictImage(light));
+    } 
+    else if (cd.lib.isRevert(light) || cd.lib.isAutoRevert(light)) {
+      $lights.append($revertImage(light));
     }
+    else if (cd.lib.isCheckout(light)) {
+      $lights.append($checkoutImage(light));
+    } 
+
     const $light = $trafficLightImage(light);
     if (option.isCurrentIndex) {
-      const $lightBox = $('<div>', { class:'current-light-box' });
-      $lightBox.append($light, $lightMarker(light.colour));
-      $lights.append($lightBox);
-    } else {
+      const $box = $('<div>', { class:'current-light-box' });
+      $box.append($light, $lightMarker(light.colour));
+      $lights.append($box);
+    } 
+    else {
       $lights.append($light);
     }
     return $light;
@@ -33,17 +41,11 @@ var cyberDojo = ((cd, $) => {
   };
 
   const $trafficLightImage = (light) => {
-    if (cd.lib.isRevert(light)) {
-      return $revertImage(light);
-    }
-    else if (cd.lib.isCheckout(light)) {
-      if (light.checkout.id === cd.kata.id) {
-        return $revertImage(light);
-      } else {
-        return $checkoutImage(light);
-      }
-    } else {
+    if (cd.lib.isLight(light)) {
       return $ragImage(light);
+    } 
+    else {
+      return $fileEventImage(light);
     }
   };
 
@@ -59,11 +61,40 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.hasPrediction = (light) => ['red','amber','green'].includes(light.predicted);
+  const $fileEventImage = (event) => {
+    return $('<img>', {
+      class: 'diff-traffic-light',
+        src: `/images/traffic-light/${event.colour}.png`,
+        alt: `${event.colour} traffic-light`,
+      'data-colour': event.colour,
+      'data-index': event.index
+    });
+  };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.hasPrediction = (light) => {
+    return ['red','amber','green'].includes(light.predicted);
+  };
+
+  cd.lib.isAutoRevert = (light) => {
+    // Auto-Revert is from [test] page, from incorrect prediction.
+    return light.revert;
+  };
+
+  cd.lib.isRevert = (light) => {
+    // Revert is from [review] page, go back to one of your own previous traffic-lights.
+    return light.checkout && light.checkout.id == cd.kata.id;
+  };
+
+  cd.lib.isCheckout = (light) => {
+    // Checkout is from [review] page, go back to different avatar's traffic-light.
+    return light.checkout && light.checkout.id != cd.kata.id;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $predictImage = (light) => {
     const correct = (light.predicted === light.colour);
-    const icon = correct ? 'tick' : 'cross';
+    const icon = correct ? 'tick' : `cross-${light.predicted}`;
     return $('<img>', {
       class: `${icon} ${light.predicted}`,
         src: `/images/traffic-light/circle-${icon}.png`
@@ -71,8 +102,6 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.isRevert = (light) => light.revert != undefined;
-
   const $revertImage = (light) => {
     return $('<img>', {
       class: `diff-traffic-light revert ${light.colour}`,
@@ -81,17 +110,11 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.isCheckout = (light) => light.checkout != undefined;
-
   const $checkoutImage = (light) => {
-    if (light.checkout.avatarIndex != '') {
-      return $('<img>', {
-        class:`diff-traffic-light checkout ${light.colour}`,
-          src:'/images/traffic-light/circle-checkout.png'
-      });
-    } else {
-      return $('<span>');
-    }
+    return $('<img>', {
+      class:`diff-traffic-light checkout ${light.colour}`,
+        src:'/images/traffic-light/circle-checkout.png'
+    });
   };
 
   return cd;

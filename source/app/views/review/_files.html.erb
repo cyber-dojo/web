@@ -10,7 +10,7 @@ $(() => {
     refresh: () => {
       const args = {
         id:review.id,
-        was_index:review.index - diffDelta(),
+        was_index:previousIndex(review.index),
         now_index:review.index
       };
       review.getJSON('differ', 'diff_lines', args, (diffs) => {
@@ -22,11 +22,12 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const diffDelta = () => {
-    if (review.index === 0) {
-      return 0;
-    } else {
-      return review.diffCheckBox.isChecked() ? 1 : 0;
+  const previousIndex = (index) => {
+    if (review.diffRadio.isOff()) {
+      return index;
+    } 
+    else {
+      return review.previousIndex(index);
     }
   };
 
@@ -40,16 +41,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const augmentDiffs = (diffs) => {
-    diffs.forEach((diff,index) => {
+    diffs.forEach((diff, index) => {
       diff.id = `id_${index}`;
       diff.chunkIndex = 0
       diff.chunkCount = chunkCount(diff.lines);
       diff.hasBeenClicked = false;
-      diff.filename = (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
+      diff.filename = (diff.type == 'deleted') ? diff.old_filename : diff.new_filename;
     });
   };
 
-  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type === 'section'), 0);
+  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type == 'section'), 0);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFileContent = (diff) => {
@@ -98,11 +99,12 @@ $(() => {
   const makeContent = (id, diff_lines) => {
     let html = [];
     diff_lines.forEach(diff_line => {
-      if (diff_line.type === 'section') {
+      if (diff_line.type == 'section') {
         html.push(`<span id='diff-chunk-${id}-${diff_line.index}'></span>`);
-      } else {
+      } 
+      else {
         let line = cd.htmlEscape(diff_line.line);
-        if (line === '') { line = '&nbsp'; }
+        if (line == '') { line = '&nbsp'; }
         html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
       }
     });

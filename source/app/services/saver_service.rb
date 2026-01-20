@@ -11,10 +11,7 @@ class SaverService
   end
 
   def initialize(externals)
-    hostname = ENV['CYBER_DOJO_SAVER_HOSTNAME']
-    if hostname.nil?
-      hostname = 'saver'
-    end    
+    hostname = ENV.fetch('CYBER_DOJO_SAVER_HOSTNAME', 'saver')
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     requester = HttpJson::Requester.new(externals.http, hostname, port)
     @http = HttpJson::Responder.new(requester, Error)
@@ -70,32 +67,38 @@ class SaverService
 
   # - - - - - - - - - - - - - - - - - -
 
-  def file_create(id, index, files, filename)
+  def kata_file_create(id, index, files, filename)
     @http.post(__method__, {
-      id:id, index:index,
-      files:files, filename:filename
+      id:id, 
+      index:index,
+      files:files, 
+      filename:filename
     })
   end
 
-  def file_delete(id, index, files, filename)
+  def kata_file_delete(id, index, files, filename)
     @http.post(__method__, {
-      id:id, index:index,
-      files:files, filename:filename
+      id:id, 
+      index:index,
+      files:files, 
+      filename:filename
     })
   end
 
-  def file_rename(id, index, files, old_filename, new_filename)
+  def kata_file_rename(id, index, files, old_filename, new_filename)
     @http.post(__method__, {
-      id:id, index:index,
+      id:id, 
+      index:index,
       files:files, 
       old_filename:old_filename,
       new_filename:new_filename
     })
   end
 
-  def file_switch(id, index, files)
+  def kata_file_edit(id, index, files)
     @http.post(__method__, {
-      id:id, index:index,
+      id:id, 
+      index:index,
       files:files
     })
   end
@@ -103,41 +106,64 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
-      id:id, index:index,
-      files:files, stdout:stdout, stderr:stderr, status:status,
+    #@http.post(__method__, {
+    @http.post('kata_ran_tests2', {
+      id:id, 
+      index:index,
+      files:files, 
+      stdout:stdout, 
+      stderr:stderr, 
+      status:status,
       summary:summary
     })
   end
 
   def kata_predicted_right(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
-      id:id, index:index,
-      files:files, stdout:stdout, stderr:stderr, status:status,
+    #@http.post(__method__, {
+    @http.post('kata_predicted_right2', {
+      id:id, 
+      index:index,
+      files:files, 
+      stdout:stdout, 
+      stderr:stderr, 
+      status:status,
       summary:summary
     })
   end
 
   def kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
-      id:id, index:index,
-      files:files, stdout:stdout, stderr:stderr, status:status,
+    #@http.post(__method__, {
+    @http.post('kata_predicted_wrong2', {
+      id:id, 
+      index:index,
+      files:files, 
+      stdout:stdout, 
+      stderr:stderr, 
+      status:status,
       summary:summary
     })
   end
 
   def kata_reverted(id, index, files, stdout, stderr, status, summary)
     @http.post(__method__, {
-      id:id, index:index,
-      files:files, stdout:stdout, stderr:stderr, status:status,
+      id:id, 
+      index:index,
+      files:files, 
+      stdout:stdout, 
+      stderr:stderr, 
+      status:status,
       summary:summary
     })
   end
 
   def kata_checked_out(id, index, files, stdout, stderr, status, summary)
     @http.post(__method__, {
-      id:id, index:index,
-      files:files, stdout:stdout, stderr:stderr, status:status,
+      id:id, 
+      index:index,
+      files:files, 
+      stdout:stdout, 
+      stderr:stderr, 
+      status:status,
       summary:summary
     })
   end
