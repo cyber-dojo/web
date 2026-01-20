@@ -65,7 +65,7 @@ $(() => {
       return events.length - 1;
     } 
     else {
-      return lastLightIndex(index + 1);
+      return lastLightIndex(index + 1); // can be disableIndex
     }
   };
 
@@ -90,21 +90,8 @@ $(() => {
       return index - 1;
     } 
     else {
-      return prevLightIndex(index - 1);
+      return review.majorEventIndex(index - 1);
     }
-  };
-
-  const prevLightIndex = (index) => {
-    const events = review.events;
-    while (index >= 0) {
-      if (lib.isLight(events[index])) {
-        return index;
-      } 
-      else {
-        index -= 1;
-      }
-    }
-    return disableIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
