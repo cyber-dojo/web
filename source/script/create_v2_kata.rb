@@ -31,7 +31,7 @@ def create_avatar(gid, inter_test_events)
   end
   index = red_traffic_light(id, index, files)
   if inter_test_events
-    index = file_edit(id, index, files)  
+    index = file_edit(id, index, files)
     index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
   end
   index = amber_traffic_light(id, index, files)

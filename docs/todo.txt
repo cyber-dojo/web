@@ -47,10 +47,6 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- If there are a lot of file-events and you switch on diff-details make sure 
-  that the currently selected event is still visible - there could be a lot more events
-  requiring the current one to be scrolled back into view.
-
 - Switched to a dotted-index view
   Check CSS copes with variable size in traffic-light-navigator, eg
   [<] [14.22] [>]
