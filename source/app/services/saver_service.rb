@@ -106,8 +106,7 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
-    #@http.post(__method__, {
-    @http.post('kata_ran_tests2', {
+    @http.post(__method__, {
       id:id, 
       index:index,
       files:files, 
@@ -119,8 +118,7 @@ class SaverService
   end
 
   def kata_predicted_right(id, index, files, stdout, stderr, status, summary)
-    #@http.post(__method__, {
-    @http.post('kata_predicted_right2', {
+    @http.post(__method__, {
       id:id, 
       index:index,
       files:files, 
@@ -132,8 +130,7 @@ class SaverService
   end
 
   def kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
-    #@http.post(__method__, {
-    @http.post('kata_predicted_wrong2', {
+    @http.post(__method__, {
       id:id, 
       index:index,
       files:files, 
