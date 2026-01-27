@@ -96,7 +96,7 @@ $(() => {
 
   if (review.isFromDashboardPage()) {
     review.page.show();
-    const index = parseInt(cd.urlParam('now_index', review.lastEventIndex()));
+    const index = parseInt(cd.urlParam('now_index', -1));
     startup("<%= @id %>", index);
   }
 
