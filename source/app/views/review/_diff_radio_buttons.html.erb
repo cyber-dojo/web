@@ -25,7 +25,12 @@ $(() => {
     refresh: () => {
       const lastEvent = review.lastEvent();
       const zeroFileEvents = (lastEvent.index == lastEvent.major_index);
-      $('#diff #detailed').prop('disabled', zeroFileEvents);
+      const $detailed = $('#diff #detailed');
+      $detailed.prop('disabled', zeroFileEvents);
+      if (review.isOnFileEvent()) {
+        $detailed.prop('checked', true);
+        diffRadioValue = 'detailed';
+      } 
     }
   };
 
