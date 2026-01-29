@@ -24,8 +24,8 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const outputRefresher = (event) => {
     const lines = "" + 
-      ":stdout:\n" + rstrip(event.stdout.content) + "\n\n" +
-      ":stderr:\n" + rstrip(event.stderr.content) + "\n\n" +
+      ":stdout:\n" + rstrip(event.stdout.content) +
+      ":stderr:\n" + rstrip(event.stderr.content) +
       ":status:\n" + event.status;
     const output = makeNoDiffOutput('output', lines);
     const $output = review.makeDiffFileContent(output);
@@ -38,7 +38,13 @@ $(() => {
   };
 
   const rstrip = (s) => {
-    return s.replace(/\s+$/, '');
+    const stripped = s.replace(/\s+$/, '');
+    if (stripped == '') {
+      return "\n";
+    }
+    else {
+      return stripped + "\n\n";
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
