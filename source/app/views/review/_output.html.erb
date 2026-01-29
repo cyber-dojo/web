@@ -20,20 +20,25 @@ $(() => {
       }
     }
   };
-
+  
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const outputRefresher = (event) => {
-    const stdout = makeNoDiffOutput('stdout', event.stdout.content);
-    const stderr = makeNoDiffOutput('stderr', event.stderr.content);
-    const status = makeNoDiffOutput('status', event.status);
+    const lines = "" + 
+      ":stdout:\n" + rstrip(event.stdout.content) + "\n\n" +
+      ":stderr:\n" + rstrip(event.stderr.content) + "\n\n" +
+      ":status:\n" + event.status;
+    const output = makeNoDiffOutput('output', lines);
+    const $output = review.makeDiffFileContent(output);
 
-    const $stdout = review.makeDiffFileContent(stdout);
-    const $stderr = review.makeDiffFileContent(stderr);
-    const $status = review.makeDiffFileContent(status);
     const $diffContentOutput = $('#diff-content-output');
-    $diffContentOutput.empty().append($stdout, $stderr, $status);
+    $diffContentOutput.empty().append($output);
+
     const $diffOutputFilenames = $('#diff-output-filenames');
-    $diffOutputFilenames.html($makeOutputFilenames(stdout, stderr, status));
+    $diffOutputFilenames.html($makeOutputFilename(output));
+  };
+
+  const rstrip = (s) => {
+    return s.replace(/\s+$/, '');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,11 +62,9 @@ $(() => {
   const lines = (str) => str.toString().replace(/\n$/, '').split(/\r?\n/);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeOutputFilenames = (stdout, stderr, status) => {
+  const $makeOutputFilename = (output) => {
     const $table = $('<table>', { class:'sss filenames' });
-    $table.append($makeOutputFilenameTr(stdout));
-    $table.append($makeOutputFilenameTr(stderr));
-    $table.append($makeOutputFilenameTr(status));
+    $table.append($makeOutputFilenameTr(output));
     return $table;
   };
 

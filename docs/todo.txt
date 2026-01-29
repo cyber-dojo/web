@@ -52,6 +52,9 @@ In refresh.js save events in global so they are available
 - In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
   s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
   (same as [test] page).
+  Ideally the stdout lines would begin with line number 1,
+  then stderr lines would begin with line number 1,
+  then status would be line number 1 too.
 
 - When you run a demo and hit refresh, the [output] for the most recent RAG 
   is empty. However, when you run [test] again, the output is correct.
