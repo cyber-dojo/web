@@ -21,6 +21,7 @@ Need to find how to put the actual 404/500 error message into the view.
 
 saver
 -----
+
 In web's revert_test.rb instead of 
   @files[filename] = 'Hello'
 if you write
@@ -37,7 +38,8 @@ Currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 dashboard
 ---------
-Simplify event tool-tip in same way as web
+
+Fix tool-tip for v0, v1 katas.
 
 Add diff-extra[x] checkbox.
 
@@ -47,13 +49,16 @@ In refresh.js save events in global so they are available
 
 ------------------------------------------------------------------
 
-- In review mode, when you move from a diff=detailed on a file-event (eg 3.4), 
-  to diff=light-light, and then back to diff=detailed it would be nice if 
-  you went back to 3.4 and not 3
+- In review mode, ideally the stdout lines would begin with line number 1,
+  then stderr lines would begin with line number 1,
+  then status would be line number 1 too.
 
-- In review mode with diff-detailed selected, when a RAG is chosen the selection picks a non 
-  s/s/s file. Instead, select a single 'output' filename instead of stdout/stderr/status 
-  (same as [test] page).
+- When you run a demo and hit refresh, the [output] for the most recent RAG 
+  is empty. However, when you run [test] again, the output is correct.
+
+- In review mode, when you move from a diff=detailed on a file-event (eg 3.4), 
+  to diff=test-test, and then back to diff=detailed would it be nice if 
+  you went back to 3.4 and not 3 ?
 
 - - - - - - - - - - - - - - - - - - - - - - - -
 

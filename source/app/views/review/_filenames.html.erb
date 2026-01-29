@@ -41,12 +41,14 @@ $(() => {
     if (diff.chunkCount > 0) {
       if (tip != '') { tip += '<br/>'; }
       tip += diffChunkPlural(diff.chunkCount);
-      tip += '<br/>';
-      tip += linesPlural(diff.line_counts.deleted, 'deleted');
-      tip += '<br/>';
-      tip += linesPlural(diff.line_counts.added, 'added');
-      tip += '<br/>';
-      tip += linesPlural(diff.line_counts.same, 'unchanged');
+      if (Number(diff.line_counts.deleted) > 0) {
+        tip += '<br/>';
+        tip += linesPlural(diff.line_counts.deleted, 'deleted');
+      }
+      if (Number(diff.line_counts.added) > 0) {
+        tip += '<br/>';
+        tip += linesPlural(diff.line_counts.added, 'added');
+      }
     }
     if (tip != '') {
       cd.createTip($div, tip);

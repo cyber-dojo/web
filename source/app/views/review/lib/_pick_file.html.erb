@@ -16,6 +16,10 @@ $(() => {
       }
     }
 
+    if (review.diffRadio.isDetailed()) {
+      return { id: 'output' };
+    }
+
     const isPreviousFile = (diff) => diffFilename(diff) === previousFilename;
     // Rule 1: Pick previous-filename with diff.
     const r1 = diffs.find(diff => hasChanged(diff) && isPreviousFile(diff));
