@@ -48,19 +48,6 @@ In refresh.js save events in global so they are available
   checkbox in dashboard.
 
 ------------------------------------------------------------------
-
-- click on avatar, should open review mode showing latest code.
-  This is NOT coming from dashboard.
-  Fails. Javascript error.
-  But if you click a RAG, then [resume] then click avatar again, it works.
-  review.refresh is calling
-  review.diffRadio      .refresh();
-  review.isOnFileEvent = () => cd.lib.isFileEvent(review.currentEvent());
-  cd.lib.isFileEvent = (event) => {
-    switch (event.colour) {
-  Avatar image is calling...
-     cd.review.fromTestPage(cd.kata.id, -1))
-     
   
 - In review mode, ideally the stdout lines would begin with line number 1,
   then stderr lines would begin with line number 1,
