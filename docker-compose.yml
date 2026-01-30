@@ -19,7 +19,7 @@ services:
     env_file: [ web.env ]
     restart: no
     volumes:
-      - ./sh/create_v2_kata.rb:/cyber-dojo/script/create_v2_kata.rb:ro
+      - ./bin/create_v2_kata.rb:/cyber-dojo/script/create_v2_kata.rb:ro
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
