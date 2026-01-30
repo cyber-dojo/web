@@ -5,16 +5,16 @@ IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 .PHONY: image test probe demo snyk-container snyk-code
 
 image:
-	${PWD}/sh/build.sh
+	${PWD}/bin/build.sh
 
 test:
-	${PWD}/sh/run_tests.sh
+	${PWD}/bin/run_tests.sh
 
 demo:
-	${PWD}/sh/demo.sh
+	${PWD}/bin/demo.sh
 
 probe_demo:
-	${PWD}/sh/probe_demo.sh
+	${PWD}/bin/probe_demo.sh
 
 snyk-container-scan: image
 	snyk container test ${IMAGE_NAME} \

@@ -7,7 +7,7 @@
 !/.github
 !/deployment
 !/docs
-!/sh
+!/bin
 !/source
 
 # and these files...

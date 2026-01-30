@@ -4,12 +4,12 @@ set -Eeu
 # Brings up a local server (without using commander).
 
 repo_root() { git rev-parse --show-toplevel; }
-readonly SH_DIR="$(repo_root)/sh"
+readonly BIN_DIR="$(repo_root)/bin"
 
-source "${SH_DIR}/echo_env_vars.sh"
-source "${SH_DIR}/copy_in_saver_test_data.sh"
-source "${SH_DIR}/create_v2_kata.sh"
-source "${SH_DIR}/lib.sh"
+source "${BIN_DIR}/echo_env_vars.sh"
+source "${BIN_DIR}/copy_in_saver_test_data.sh"
+source "${BIN_DIR}/create_v2_kata.sh"
+source "${BIN_DIR}/lib.sh"
 export $(echo_env_vars)
 
 web_build()

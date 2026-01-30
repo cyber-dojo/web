@@ -20,7 +20,7 @@ $ make image
 $ make test
 
 # Run only specific tests
-$ ./sh/run_tests.sh app_controllers 87C
+$ ./bin/run_tests.sh app_controllers 87C
 ...
 ======app_controllers======
 Run options: --seed 42705
