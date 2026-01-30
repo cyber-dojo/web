@@ -84,7 +84,7 @@ $(() => {
     cd.settings.hideButton();
     cd.lib.getEvents(id, (events) => {
       review.events = events;
-      review.refresh(id, index);
+      review.refresh(id, index == -1 ? events.length-1 : index);
     });
   };
 
