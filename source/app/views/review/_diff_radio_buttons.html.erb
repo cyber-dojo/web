@@ -3,7 +3,7 @@
   <div id="diff-title">diff?</div>
   <input type="radio" id="off"  name="diff" value="off" >
   <label for="off">off</label><br/>
-  <input type="radio" id="simple" name="diff" value="simple" checked>
+  <input type="radio" id="simple" name="diff" value="simple">
   <label for="simple">test - test</label><br/>
   <input type="radio" id="detailed" name="diff" value="detailed">
   <label for="detailed">detailed</label><br/>
@@ -15,13 +15,17 @@ $(() => {
 
   const review = cd.review;
 
-  let diffRadioValue = 'simple';
+  let diffValue = cd.urlParam('diff', 'simple');
+  if (diffValue != 'off' && diffValue != 'simple' && diffValue != 'detailed') {
+    diffValue = 'simple';
+  }
+  $(`#diff #${diffValue}`).prop('checked', true);
 
   review.diffRadio = {
-    isOn: () => diffRadioValue != 'off',
-    isOff: () => diffRadioValue == 'off',
-    isSimple: () => diffRadioValue == 'simple',
-    isDetailed: () => diffRadioValue == 'detailed',
+    isOn: () => diffValue != 'off',
+    isOff: () => diffValue == 'off',
+    isSimple: () => diffValue == 'simple',
+    isDetailed: () => diffValue == 'detailed',
     refresh: () => {
       const lastEvent = review.lastEvent();
       const zeroFileEvents = (lastEvent.index == lastEvent.major_index);
@@ -29,13 +33,13 @@ $(() => {
       $detailed.prop('disabled', zeroFileEvents);
       if (review.isOnFileEvent()) {
         $detailed.prop('checked', true);
-        diffRadioValue = 'detailed';
+        diffValue = 'detailed';
       } 
     }
   };
 
   $(`input[type=radio][name=diff]`, $('#diff')).change(function() { 
-    diffRadioValue = this.value;
+    diffValue = this.value;
     review.refresh(review.id, pickIndex());
   });
 

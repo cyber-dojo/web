@@ -13,16 +13,20 @@ $green: lighten(#0F0, $fadePercent);
 
 $blue:  #00F;
 
-.pulling   { color: $pulling; }
-.red       { color: $red    ; }
-.amber     { color: $amber  ; }
-.green     { color: $green  ; }
-.file_create { color: Gray  ; }
-.file_delete { color: Gray  ; }
-.file_rename { color: Gray  ; }
-.file_edit   { color: Gray  ; }
-.timed_out { color: Gray    ; }
+.create { color: Gray; }
+
+.red       { color: $red;   }
+.amber     { color: $amber; }
+.green     { color: $green; }
+
+.file_create { color: Gray; }
+.file_delete { color: Gray; }
+.file_rename { color: Gray; }
+.file_edit   { color: Gray; }
+
+.timed_out { color: Gray;     }
 .faulty    { color: DarkGray; }
+.pulling   { color: $pulling;   }
 
 $diff-added-count-color: lighten($green, 20%);
 $diff-deleted-count-color: lighten($red, 20%);

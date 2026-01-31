@@ -11,6 +11,7 @@ $(() => {
   //       event[15].major_index == 4
   //       event[15].minor_index == 3 
   //   means that event[15] is displayed as 4.3 (when diff? detailed mode is on)
+  //
   // - minor_index == 0 indicates a red/amber/green test-event.
   //   For example: 
   //       event[22].index == 22
@@ -59,9 +60,9 @@ $(() => {
 
   review.majorEventIndex = (index) => {
     // Make sure we are on a light
-    // Eg if index=10, viewed as 2.3, and you unclick detailed[x] then go back to 2
+    // Eg if index=10, viewed as 2.3, and you uncheck detailed[x] then go back to 2
     // which is index=7, which is 10-3, where the 3 comes from the minor_index of 2.3
-    // Eg if index=10, viewed as 2, and you unclick detailed[x] then stay on 2 
+    // Eg if index=10, viewed as 2, and you uncheck detailed[x] then stay on 2 
     // which is index=10, which is 10-0, where the 0 comes the minor_index of 2.0
 
     return index - review.events[index].minor_index;
