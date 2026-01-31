@@ -22,38 +22,17 @@ Need to find how to put the actual 404/500 error message into the view.
 saver
 -----
 
-In web's revert_test.rb instead of 
-  @files[filename] = 'Hello'
-if you write
-  @files[filename] = {'content' => 'Hello'}
-then it seems to cause saver to silently drop its incoming call.
-There needs to be some pydantic-like checking of the parameters.
-
 Currently always returns minor_index=0 from v2 git_commit_tag_sss
   Is this correct? 
   I think it is, as long as you can only checkout/revert from a RAG event.
   The new file-event methods return only next_index, but if a non-RAG
   saver method returned the full triple, then the minor_index=0 would be wrong.
 
-
-dashboard
----------
-
-Fix tool-tip for v0, v1 katas.
-
-Add diff-extra[x] checkbox.
-
-In refresh.js save events in global so they are available 
-  to JS, eg to calculate the previous index. Prepares the way for details[x]
-  checkbox in dashboard.
-
 ------------------------------------------------------------------
   
-- if dashboard's detailed[x] and you click a RAG, it would be nice if
-  the review opened in detailed[x] mode.
-  http://localhost/review/show/nGnDsn?now_index=3
-  would become, eg
-  http://localhost/review/show/nGnDsn?now_index=3&diff=detailed
+- when a file has multiple diff chunks you can re-click on the filename 
+  to move to cycle through the chunks. You could make re-clicking on the 
+  rag/file-event do the same thing for the currently selected file.
 
 - replace now_index in URLs with index 
 
