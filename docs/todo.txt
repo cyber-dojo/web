@@ -55,6 +55,8 @@ In refresh.js save events in global so they are available
   would become, eg
   http://localhost/review/show/nGnDsn?now_index=3&diff=detailed
 
+- replace now_index in URLs with index 
+
 - In review mode, ideally the stdout lines would begin with line number 1,
   then stderr lines would begin with line number 1,
   then status would be line number 1 too.
