@@ -31,7 +31,7 @@
   &.deleted   { &:before { content: $n_dash; } }
   &.renamed   { &:before { content: $curved_right_arrow; } }
   &.changed   { &:before { content: '!'; } }
-  &.unchanged { &:before { content: '='; } }
+  &.unchanged { &:before { content: ' '; } }
 }
 
 .diff-type-marker, .diff-filename
