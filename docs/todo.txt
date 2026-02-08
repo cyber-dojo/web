@@ -30,6 +30,14 @@ Currently always returns minor_index=0 from v2 git_commit_tag_sss
 
 ------------------------------------------------------------------
   
+- add ADR saying that we dont save to saver, and then populate the 
+  UX from saver (after each event). This is because web is designed
+  to work if saver is down (as long as you don't refresh the browser!)
+  So instead, there is an attempt to save to saver, but if that fails 
+  the web UX is populated directly from the result of the event.
+
+- in detailed review mode, don't need to prefix each unedited filename with a = marker
+
 - when a file has multiple diff chunks you can re-click on the filename 
   to move to cycle through the chunks. You could make re-clicking on the 
   rag/file-event do the same thing for the currently selected file.
