@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative '../../test/app_services/runner_stub'
 require_relative '../../lib/time_adapter'
 require_relative 'runner_service'

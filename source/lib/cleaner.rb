@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Cleaner # mix-in
 
   def cleaned_files(files)

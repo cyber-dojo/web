@@ -195,7 +195,7 @@ class KataTest < AppModelsTestBase
   def captured_stdout
     begin
       old_stdout = $stdout
-      $stdout = StringIO.new('', 'w')
+      $stdout = StringIO.new(+'', 'w')
       yield
       captured = $stdout.string
     ensure

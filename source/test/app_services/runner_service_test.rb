@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative 'app_services_test_base'
 require_relative 'http_json_requester_not_json_stub'
 require 'json'
@@ -18,7 +17,7 @@ class RunnerServiceTest < AppServicesTestBase
   test '3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    stdout,stderr = capture_stdout_stderr do        
+    _stdout, _stderr = capture_stdout_stderr do
       error = assert_raises(RunnerService::Error) { runner.ready? }
       assert_equal 'body is not JSON', error.message, :error_message
     end

@@ -12,7 +12,6 @@ class FileEditTest  < AppControllerTestBase
   | file_edit() does NOT create a file-edit event in saver 
   | when no file has changed
   ) do
-    edited_filename = 'readme.txt'
     in_kata do
       post_json '/kata/file_edit', {
         id: @id,
