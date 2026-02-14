@@ -14,8 +14,10 @@ build_tagged_images()
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "${CYBER_DOJO_WEB_IMAGE}:latest"
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "cyberdojo/web:$(image_tag)"
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" cyberdojo/web:latest
+  echo
   echo "  echo CYBER_DOJO_WEB_SHA=${CYBER_DOJO_WEB_SHA}"
   echo "  echo CYBER_DOJO_WEB_TAG=${CYBER_DOJO_WEB_TAG}"
+  echo
   echo "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)"
   echo "cyberdojo/web:$(image_tag)"
 }
