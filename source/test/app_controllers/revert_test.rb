@@ -14,7 +14,6 @@ class RevertTest  < AppControllerTestBase
   ) do
     in_kata do
       post_run_tests # 1==ran-tests
-      events = kata.events      
       assert_equal 2, kata.events.size
 
       post_json '/kata/revert', {
@@ -23,7 +22,6 @@ class RevertTest  < AppControllerTestBase
       }
       assert_response :success
 
-      events = kata.events
       assert_equal 3, kata.events.size
       event = kata.event(2)
       expected = [@id, 0]
@@ -45,12 +43,10 @@ class RevertTest  < AppControllerTestBase
 
       @files[filename] = new_content
       post_run_tests # 1==file-edit, 2==ran-tests
-      events = kata.events      
       assert_equal 3, kata.events.size
       assert_equal new_content, kata.event(2)['files'][filename]['content']
 
       post_run_tests # 3==ran-tests (no change to @files)
-      events = kata.events      
       assert_equal 4, kata.events.size
       assert_equal new_content, kata.event(3)['files'][filename]['content']
 
@@ -60,7 +56,6 @@ class RevertTest  < AppControllerTestBase
       }
       assert_response :success
 
-      events = kata.events
       assert_equal 5, kata.events.size
       event = kata.event(4)
       expected = [@id, 2]
@@ -80,14 +75,12 @@ class RevertTest  < AppControllerTestBase
       filename = 'hiker.sh'
       old_content = @files[filename]      
       post_run_tests # 1==ran-tests
-      events = kata.events   
       assert_equal 2, kata.events.size
       assert_equal old_content, kata.event(1)['files'][filename]['content']
 
       new_content = 'something_different'
       @files[filename] = new_content
       post_run_tests # 2==file-edit, 3==ran-tests
-      events = kata.events   
       assert_equal 4, kata.events.size
       assert_equal new_content, kata.event(3)['files'][filename]['content']
 
@@ -97,7 +90,6 @@ class RevertTest  < AppControllerTestBase
       }
       assert_response :success
 
-      events = kata.events
       assert_equal 5, kata.events.size
       event = kata.event(4)
       expected = [@id, 1] # actually [@id, 2] 2==4-2
@@ -156,7 +148,6 @@ class RevertTest  < AppControllerTestBase
     in_kata do            
       runner.stub_run({outcome: 'green'})
       post_run_tests # 1==ran-tests
-      events = kata.events
       assert_equal 2, kata.events.size, kata.events
 
       assert_equal 2, @index
@@ -168,7 +159,6 @@ class RevertTest  < AppControllerTestBase
         filename: filename
       }
       assert_response :success
-      events = kata.events
       assert_equal 3, kata.events.size, kata.events
       @files[filename] = ''
 
@@ -180,7 +170,6 @@ class RevertTest  < AppControllerTestBase
         filename: filename
       }
       assert_response :success
-      events = kata.events
       assert_equal 4, kata.events.size, kata.events
 
       # REVERT
@@ -190,7 +179,6 @@ class RevertTest  < AppControllerTestBase
         index: 4 # revert back to 1st traffic-light @[1]
       }
       assert_response :success
-      events = kata.events
       assert_equal 5, kata.events.size
       event = kata.event(4)
       expected = [@id, 1]

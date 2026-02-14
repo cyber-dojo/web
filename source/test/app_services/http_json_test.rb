@@ -30,7 +30,6 @@ class HttpJsonTest < AppServicesTestBase
     end
     assert_equal '', stderr, :stderr_is_empty
     refute_equal '', stdout, :stdout_is_not_empty
-    json = JSON.parse!(stdout)
     expected = {
       'Exception: HttpJson::Responder' => {
         'path' => 'ready?',
@@ -61,7 +60,6 @@ class HttpJsonTest < AppServicesTestBase
     end
     assert_equal '', stderr, :stderr_is_empty
     refute_equal '', stdout, :stdout_is_not_empty
-    json = JSON.parse!(stdout)
     expected = {
       'Exception: HttpJson::Responder' => {
         'path' => 'ready?',
@@ -92,7 +90,6 @@ class HttpJsonTest < AppServicesTestBase
     end
     assert_equal '', stderr, :stderr_is_empty
     refute_equal '', stdout, :stdout_is_not_empty
-    json = JSON.parse!(stdout)
     expected = {
       'Exception: HttpJson::Responder' => {
         'path' => 'ready?',
