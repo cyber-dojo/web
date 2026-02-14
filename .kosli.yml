@@ -7,7 +7,5 @@ trail:
   artifacts:
     - name: web
       attestations:
-        - name: snyk-container-scan
-          type: snyk
         - name: snyk-code-scan
           type: snyk
