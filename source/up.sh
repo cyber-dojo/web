@@ -9,5 +9,7 @@ rm -f ${WEB_HOME}/tmp/pids/server.pid # [1]
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_SAVER_CLASS=SaverService
 
+export RUBYOPT='-W2 --enable-frozen-string-literal'
+
 rails server \
   --environment=production

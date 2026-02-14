@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative '../../lib/files_from'
 
 class Runner

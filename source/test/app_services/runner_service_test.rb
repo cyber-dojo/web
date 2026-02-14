@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative 'app_services_test_base'
 require_relative 'http_json_requester_not_json_stub'
 require 'json'
