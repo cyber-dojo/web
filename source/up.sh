@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -Eeu
 
 # [1] https://github.com/docker/compose/issues/1393
 # [1] http://stackoverflow.com/questions/35022428
