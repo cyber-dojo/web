@@ -160,6 +160,60 @@ jobs:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
+  snyk-container-scan:
+    needs: [build-image]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    env:
+      IMAGE_NAME:        ${{ needs.build-image.outputs.tagged_image_name }}
+      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+      SARIF_FILENAME:    snyk.container.scan.json
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID_BETA }}:role/gh_actions_services
+          aws-region: ${{ env.AWS_REGION }}
+          role-duration-seconds: 2400
+          role-session-name: ${{ github.event.repository.name }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Pull the docker image
+        run:
+          docker pull --platform linux/amd64 "${IMAGE_NAME}"
+
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+        with:
+          snyk-version: v1.1300.2        
+
+      - name: Run Snyk container scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run:
+          snyk container test "${IMAGE_NAME}"
+            --org=jonjagger
+            --debug
+            --policy-path=.snyk
+            --sarif
+            --sarif-file-output="${SARIF_FILENAME}"
+
+      - name: Snyk-container-test's exit code can be zero when no sarif file is produced!
+        run:
+          cat "${SARIF_FILENAME}"
+
+
   run-tests:
     needs: [setup, build-image]
     runs-on: ubuntu-latest
