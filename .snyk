@@ -2,20 +2,11 @@
 # If this file contains only comments, then no vulnerabilities are ignored
 # but do not delete this file - it is needed for the live-snyk-scans repo workflows.
 
-# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.25.0
-
 patch: {}
+
 exclude:
   global:
     - config/initializers/secret_token.rb
     - config/initializers/session_store.rb
     - config/environments/production.rb
     - config/environments/development.rb
-
-ignore:
-  SNYK-ALPINE321-RUBY-14100871:
-    - '*':
-      reason: Waiting for fix
-      expires: 2025-12-23T10:53:10.182Z
-      created: 2025-11-23T10:53:10.201Z
