@@ -16,25 +16,20 @@ module Externals
   # - - - - - - - - - - - - - - -
 
   def runner
-    @runner ||= external
+    @runner ||= external('runner')
   end
 
   def saver
-    @saver ||= external
+    @saver ||= external('saver')
   end
 
   private
 
-  def external
+  def external(caller)
     # See comment below
-    key = 'CYBER_DOJO_' + name_of(caller).upcase + '_CLASS'
+    key = 'CYBER_DOJO_' + caller.upcase + '_CLASS'
     var = ENV[key] || fail("ENV[#{key}] not set")
     Object.const_get(var).new(self)
-  end
-
-  def name_of(caller)
-    # eg caller[0] == "externals.rb:36:in `runner'"
-    /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
 end
