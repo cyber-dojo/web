@@ -97,49 +97,6 @@ jobs:
             --name=pull-request
 
 
-  # snyk-code-scan:
-  #   needs: [setup]
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     SARIF_FILENAME: snyk.code.scan.json
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@v2
-  #       with:
-  #         egress-policy: audit
-
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 1
-
-  #     - name: Setup Snyk
-  #       uses: snyk/actions/setup@master
-
-  #     - name: Run Snyk code scan
-  #       env:
-  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #       run:
-  #         snyk code test 
-  #           --policy-path=.snyk 
-  #           --sarif 
-  #           --sarif-file-output="${SARIF_FILENAME}" 
-  #           .
-
-  #     - name: Setup Kosli CLI
-  #       if: ${{ github.ref == 'refs/heads/main' }}
-  #       uses: kosli-dev/setup-cli-action@v2
-  #       with:
-  #         version: ${{ vars.KOSLI_CLI_VERSION }}
-
-  #     - name: Attest evidence to Kosli
-  #       if: ${{ github.ref == 'refs/heads/main' }}
-  #       run:
-  #         kosli attest snyk 
-  #           --attachments=.snyk
-  #           --name=web.snyk-code-scan 
-  #           --scan-results="${SARIF_FILENAME}"
-
-
   build-image:
     needs: [setup]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
