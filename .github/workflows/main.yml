@@ -132,27 +132,30 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v4
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID_BETA }}:role/gh_actions_services
+      #     aws-region: ${{ env.AWS_REGION }}
+      #     role-duration-seconds: 2400
+      #     role-session-name: ${{ github.event.repository.name }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID_BETA }}:role/gh_actions_services
-          aws-region: ${{ env.AWS_REGION }}
-          role-duration-seconds: 2400
-          role-session-name: ${{ github.event.repository.name }}
+      # - name: Login to Amazon ECR
+      #   uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+      # - name: Pull the docker image
+      #   run:
+      #     docker pull --platform=linux/amd64 "${IMAGE_NAME}"
 
-      - name: Pull the docker image
-        run:
-          docker pull --platform=linux/amd64 "${IMAGE_NAME}"
+      - name: Load image from registry
+        uses: cyber-dojo/load-image-from-registry@main
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
         with:
           snyk-version: v1.1300.2        
+
+      - uses: actions/checkout@v4
 
       - name: Run Snyk container scan
         env:
