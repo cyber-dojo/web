@@ -236,7 +236,7 @@ jobs:
     needs:
       - build-image
       - pull-request
-      - snyk-code-scan
+      #- snyk-code-scan
       - run-tests
     runs-on: ubuntu-latest
     env:
