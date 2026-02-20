@@ -4,3 +4,9 @@ trail:
   attestations:
     - name: pull-request
       type: pull_request
+
+  artifacts:
+    - name: saver
+      attestations:
+        - name: snyk-container-scan
+          type: snyk
