@@ -59,7 +59,6 @@ jobs:
             echo "kosli_trail=${KOSLI_TRAIL}"                  
           } >> ${GITHUB_OUTPUT}          
 
-      # https://github.com/cyber-dojo/kosli-begin-trail
       - name: Begin Kosli Trail
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: cyber-dojo/kosli-begin-trail@main
