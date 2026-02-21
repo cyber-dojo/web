@@ -122,48 +122,14 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    env:
-      IMAGE_NAME:        ${{ needs.build-image.outputs.tagged_image_name }}
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-      SARIF_FILENAME:    snyk.container.scan.json
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
+      - name: Run snyk-container-test and attest results to Kosli
+        uses: cyber-dojo/snyk-container-test@main
         with:
-          egress-policy: audit
-
-      - name: Load image from registry
-        uses: cyber-dojo/load-image-from-registry@main
-
-      - name: Setup Snyk
-        uses: snyk/actions/setup@master
-        with:
-          snyk-version: v1.1300.2        
-
-      - uses: actions/checkout@v4
-
-      - name: Run Snyk container scan
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run:
-          snyk container test "${IMAGE_NAME}"
-            --policy-path=.snyk
-            --sarif
-            --sarif-file-output="${SARIF_FILENAME}"
-
-      - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest evidence to Kosli
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run:
-          kosli attest snyk
-            --attachments=.snyk
-            --name=web.snyk-container-scan
-            --scan-results="${SARIF_FILENAME}"
+          snyk_token:        ${{ secrets.SNYK_TOKEN }}
+          image_name:        ${{ needs.build-image.outputs.tagged_image_name }}
+          kosli_cli_version: ${{ vars.KOSLI_CLI_VERSION }}
+          attestation_name:  web.snyk-container-scan
 
 
   run-tests:
