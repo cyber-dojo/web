@@ -137,9 +137,9 @@ class KataController < ApplicationController
       revert: args
     });
     light = json[:light]
-    light['index'] = result['next_index'] - 1
-    light['major_index'] = result['major_index']
-    light['minor_index'] = result['minor_index']
+    light[:index] = result['next_index'] - 1
+    light[:major_index] = result['major_index']
+    light[:minor_index] = result['minor_index']
 
     render json: json
   end
@@ -162,10 +162,9 @@ class KataController < ApplicationController
     summary = { colour: @colour, checkout: from }
     result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
     light = json[:light]
-    light['index'] = result['next_index'] - 1
-    light['major_index'] = result['major_index']
-    light['minor_index'] = result['minor_index']
-
+    light[:index] = result['next_index'] - 1
+    light[:major_index] = result['major_index']
+    light[:minor_index] = result['minor_index']
     render json: json
   end
 
