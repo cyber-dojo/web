@@ -17,6 +17,10 @@ class Runner
       }
     }
 
+    if params[:rag_lambda] != ""
+      args[:manifest][:rag_lambda] = params[:rag_lambda]
+    end
+
     result = runner.run_cyber_dojo_sh(args)
 
     created = result.delete('created')

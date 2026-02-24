@@ -4,6 +4,7 @@
 
 <%= form_tag( action: 'run_tests', id: @id ) do %>
   <%= render partial: 'image_name' %>
+  <%= render partial: 'rag_lambda' %>
   <%= render partial: 'index' %>
   <%= render partial: 'max_seconds' %>
   <div class="left-column">
