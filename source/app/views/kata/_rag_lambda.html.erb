@@ -1,0 +1,12 @@
+<input name="rag_lambda" type="hidden" value="">
+
+<script>
+'use strict';
+$(() => {
+
+  const $ragLambda = $("input[name='rag_lambda']");
+  const manifest = cd.kata.manifest();
+  $ragLambda.val(manifest.rag_lambda);
+
+});
+</script>
