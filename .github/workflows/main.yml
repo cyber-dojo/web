@@ -118,21 +118,19 @@ jobs:
 
   snyk-container-scan:
     needs: [build-image]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run snyk-container-test and attest results to Kosli
-        uses: cyber-dojo/live-snyk-scans/.github/workflows/artifact_snyk_test.yml@main
-        with:
-          artifact_name:        ${{needs.build-image.outputs.tagged_image_name}}
-          artifact_fingerprint: ${{needs.build-image.outputs.digest}}
-          repo_name:            ${{github.event.repository.name}}
-          git_commit:           ${{github.sha}}
-          commit_url:           https://github.com/cyber-dojo/${{github.event.repository.name}}/commit/${{github.sha}}
-          raw_snyk_policy_url:  https://https://raw.githubusercontent.com/cyber-dojo/${{github.event.repository.name}}/${{github.sha}}/.snyk
-          kosli_env:            ${{vars.KOSLI_AWS_BETA}}
-        secrets:
-          snyk_token:      ${{secrets.SNYK_TOKEN}}
-          kosli_api_token: ${{secrets.KOSLI_API_TOKEN}}
+    uses: cyber-dojo/live-snyk-scans/.github/workflows/artifact_snyk_test.yml@main
+    with:
+      artifact_name:        ${{needs.build-image.outputs.tagged_image_name}}
+      artifact_fingerprint: ${{needs.build-image.outputs.digest}}
+      repo_name:            ${{github.event.repository.name}}
+      git_commit:           ${{github.sha}}
+      commit_url:           https://github.com/cyber-dojo/${{github.event.repository.name}}/commit/${{github.sha}}
+      raw_snyk_policy_url:  https://https://raw.githubusercontent.com/cyber-dojo/${{github.event.repository.name}}/${{github.sha}}/.snyk
+      kosli_env:            ${{vars.KOSLI_AWS_BETA}}
+    secrets:
+      snyk_token:      ${{secrets.SNYK_TOKEN}}
+      kosli_api_token: ${{secrets.KOSLI_API_TOKEN}}
+
 
   # snyk-container-scan:
   #   needs: [build-image]
