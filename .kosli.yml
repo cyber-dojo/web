@@ -8,5 +8,5 @@ trail:
   artifacts:
     - name: web
       attestations:
-        - name: snyk-code-test
+        - name: snyk-container-test
           type: snyk
