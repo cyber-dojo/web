@@ -10,3 +10,7 @@ trail:
       attestations:
         - name: snyk-container-test
           type: snyk
+        - name: provenance-attestation
+          type: generic
+        - name: sbom
+          type: generic
