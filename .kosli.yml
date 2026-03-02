@@ -6,7 +6,7 @@ trail:
       type: pull_request
 
   # artifacts:
-  #   - name: saver
+  #   - name: artifact
   #     attestations:
-  #       - name: snyk-container-scan
-  #         type: snyk
+  #       - name: VULN-NAME
+  #         type: aws-snyk-vuln-ages

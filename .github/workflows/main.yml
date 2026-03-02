@@ -116,7 +116,6 @@ jobs:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
-  # OIDC fails because this is not a composite workflow
   snyk-container-scan:
     needs: [build-image]
     uses: cyber-dojo/live-snyk-scans/.github/workflows/artifact_snyk_test.yml@main
@@ -129,6 +128,8 @@ jobs:
       raw_snyk_policy_url:  https://raw.githubusercontent.com/cyber-dojo/${{github.event.repository.name}}/${{github.sha}}/.snyk
       aws_rolename:         gh_actions_services
       kosli_env:            ${{vars.KOSLI_AWS_BETA}}
+      kosli_flow:           ${{vars.KOSLI_FLOW}}
+      kosli_cat:            ${{vars.KOSLI_AWS_BETA}}-synk-vuln-ages
     secrets:
       snyk_token:      ${{secrets.SNYK_TOKEN}}
       kosli_api_token: ${{secrets.KOSLI_API_TOKEN}}
