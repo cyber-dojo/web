@@ -21,7 +21,7 @@ class KataController < ApplicationController
     result, files, @created, @changed = kata.run_tests(params)
     t2 = time.now
 
-    duration = Time.mktime(*t2) - Time.mktime(*t1)
+    @duration = Time.mktime(*t2) - Time.mktime(*t1)
     @id = id
     @stdout = result['stdout']
     @stderr = result['stderr']
@@ -40,23 +40,25 @@ class KataController < ApplicationController
       # index is maintained in the browser and holds the next-available event index.
       # For example, if saver's JSON events are currently
       #  [..., {'index':23 }] 
-      # then index == 24. Saver uses it to detect out-of-order events.
-      # Historically, ran_tests() only ever created a single new saved event. Eg
-      #  [..., {'index':24, 'colour':'red'}] CASE-1
-      # However it might now create two events, a file-edit, and a red/amber/green. Eg
+      # then index == 24. Saver uses index to detect out-of-order events.
+      # Historically, ran_tests() only ever created a single new saved event. 
+      # Eg CASE1
+      #  [..., {'index':24, 'colour':'red'}]
+      # However it might now create two events, a file-edit, and a red/amber/green. 
+      # Eg CASE2
       #  [..., {'index':24, 'event':'file-edit'},
-      #        {'index':25,'colour':'red'}]  CASE-2
+      #        {'index':25,'colour':'red'}]
       # So ran_tests() now returns the next_index, which is:
-      #  - 25 in CASE-1
-      #  - 26 in CASE-2
-      # The index of the traffic-light is always next_index - 1.
-      # Once upon a time, the browser used to simply increment its index after a ran_tests()
-      # but now, because of CASE-2, it has to set it directly from light.index+1
-      # index is also set directly in the inter-test-event (ITE) functions
+      #  - 25 in CASE1
+      #  - 26 in CASE2
+      # The index of the traffic-light is always next_index - 1. Once upon a time,
+      # the browser used to simply increment its index after a ran_tests(),
+      # but now, because of CASE2, it has to set it directly from light.index+1
+      # Note that index is also set directly in the inter-test-event (ITE) functions
       # See app/views/kata/_file_create_rename_delete.html.erb
 
       result = ran_tests(@id, index, files, @stdout, @stderr, @status, {
-        duration: duration,
+        duration: @duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
@@ -65,7 +67,7 @@ class KataController < ApplicationController
       major_index = result['major_index']
       minor_index = result['minor_index']
     rescue SaverService::Error => error
-      next_index = index + 1 # Act as if CASE-1 occurred.
+      next_index = index + 1 # Act as if CASE1 occurred.
       major_index = index + 1
       minor_index = ''
       @saved = false
@@ -79,6 +81,7 @@ class KataController < ApplicationController
       'major_index' => major_index,
       'minor_index' => minor_index,
       'colour' => @outcome,
+      'duration' => @duration,
       'predicted' => params['predicted'],
       'revert_if_wrong' => params['revert_if_wrong']
     }

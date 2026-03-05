@@ -48,10 +48,10 @@ var cyberDojo = (function(cd, $) {
       case 'create':      return 'kata created';
       case 'pulling':     return 'image being prepared';
       case 'timed_out':   return 'timed out';
-      case 'file_create': return 'file created';
-      case 'file_delete': return 'file deleted';
-      case 'file_rename': return 'file renamed';    
-      case 'file_edit':   return 'file edited';
+      case 'file_create': return 'Review created file';
+      case 'file_delete': return 'Review deleted file';
+      case 'file_rename': return 'Review renamed file';    
+      case 'file_edit':   return 'Review edited file';
     }
     if (light.colour == 'faulty') {
       const cssRed = cd.cssColour('red');
@@ -72,33 +72,34 @@ var cyberDojo = (function(cd, $) {
       return trafficLightCheckoutInfo(kataId, light);
     }
     else {
-      return cd.cssColour(light.colour);
+      const colour = cd.cssColour(light.colour);
+      return `Review ${colour}`;
     }
   };
 
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `predicted ${cd.cssColour(predicted)}, was ${cd.cssColour(colour)}`;
+    return `Predicted ${cd.cssColour(predicted)}, was ${cd.cssColour(colour)}`;
   };
 
   const trafficLightAutoRevertInfo = (light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, light.major_index - 2);
-    return `auto reverted to ${colour} ${index}`;
+    return `Auto reverted to ${colour} ${index}`;
   };
 
   const trafficLightRevertInfo = (light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
-    return `reverted to ${colour} ${index}`;
+    return `Reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, cd.lib.dottedIndex(light.checkout));
     const name = cd.lib.avatarName(light.checkout.avatarIndex);
-    return `checked out ${name}'s ${colour} ${index}`;
+    return `Checked out ${name}'s ${colour} ${index}`;
   };
 
   cd.cssColour = (colour, text = colour) => {
