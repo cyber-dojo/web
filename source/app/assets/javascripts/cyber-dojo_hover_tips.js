@@ -45,9 +45,9 @@ var cyberDojo = (function(cd, $) {
 
   const miniTextInfo = (kataId, light) => {
     switch (light.colour) {
-      case 'create':      return 'kata created';
-      case 'pulling':     return 'image being prepared';
-      case 'timed_out':   return 'timed out';
+      case 'create':      return 'Kata created';
+      case 'pulling':     return 'Image being prepared';
+      case 'timed_out':   return 'Timed out';
       case 'file_create': return 'Review created file';
       case 'file_delete': return 'Review deleted file';
       case 'file_rename': return 'Review renamed file';    
@@ -57,7 +57,7 @@ var cyberDojo = (function(cd, $) {
       const cssRed = cd.cssColour('red');
       const cssAmber = cd.cssColour('amber');
       const cssGreen = cd.cssColour('green');
-      return `fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
+      return `Fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
     }
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
@@ -86,7 +86,7 @@ var cyberDojo = (function(cd, $) {
   const trafficLightAutoRevertInfo = (light) => {
     const colour = cd.cssColour(light.colour);
     const index = cd.cssColour(light.colour, light.major_index - 2);
-    return `Auto reverted to ${colour} ${index}`;
+    return `Auto-reverted to ${colour} ${index}`;
   };
 
   const trafficLightRevertInfo = (light) => {
