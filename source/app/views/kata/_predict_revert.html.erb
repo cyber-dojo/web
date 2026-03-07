@@ -75,13 +75,14 @@ $(() => {
           .click(() => predictCheckBoxChanged());
 
   const predictCheckBoxChanged = () => {
-    cd.fileEditITE();
-    if ($predict.prop('checked')) {
-      predictOn();
-    } 
-    else {
-      predictOff();
-    }
+    cd.saveAnyFileChangesITE(() => {
+      if ($predict.prop('checked')) {
+        predictOn();
+      }
+      else {
+        predictOff();
+      }
+    });
   };
 
   const predictOn = () => {
@@ -126,7 +127,6 @@ $(() => {
   const $buttons = $('button.predict');
 
   $('button.predict').click((event) => {
-    cd.fileEditITE();
     $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
@@ -154,6 +154,12 @@ $(() => {
     ].join('<br/>'));
 
   $('.revert-checkbox').click((event) => {
+    cd.saveAnyFileChangesITE(() => {
+      saveCheckBoxSetting(event);
+    });
+  });
+
+  const saveCheckBoxSetting = (event) => {
     const $box = $(event.target);
     const colour = $box.data('colour');
     if ($box.is(':checked')) {
@@ -163,7 +169,7 @@ $(() => {
       settings.revert(colour, 'off');
     }
     kata.editor.refocus();
-  });
+  };
 
   cd.kata.setupPrediction = () => {
     // called from

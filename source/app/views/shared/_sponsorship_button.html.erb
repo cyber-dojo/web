@@ -9,14 +9,15 @@ $(() => {
   $button.click(() => openSponsorshipDialog());
 
   const openSponsorshipDialog = () => {
-    cd.fileEditITE();
-    $('#sponsorship-dialog').dialog({
-              width: 440,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('sponsorship'),
-        beforeClose: () => cd.kata.editor.refocus()
+    cd.saveAnyFileChangesITE(() => {
+      $('#sponsorship-dialog').dialog({
+                width: 440,
+            autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('sponsorship'),
+          beforeClose: () => cd.kata.editor.refocus()
+      });
     });
   };
 

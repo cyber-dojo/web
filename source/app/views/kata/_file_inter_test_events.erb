@@ -10,7 +10,7 @@ $(() => {
   // or selected (from the filename-list). Saved inter-test events are 
   // only visible in review mode.
 
-  cd.fileCreateITE = (newFilename) => {
+  cd.fileCreateITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -18,12 +18,10 @@ $(() => {
       filename: newFilename,
       data: $('form').serialize()
     };
-    $.post('/kata/file_create', args, (newIndex) => {
-      kata.setIndex(newIndex);
-    });
+    syncPostWithCallbackITE('/kata/file_create', args, callback);
   };
 
-  cd.fileDeleteITE = (newFilename) => {
+  cd.fileDeleteITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -31,12 +29,10 @@ $(() => {
       filename: newFilename,
       data: $('form').serialize()
     };
-    $.post('/kata/file_delete', args, (newIndex) => {
-      kata.setIndex(newIndex);
-    });
+    syncPostWithCallbackITE('/kata/file_delete', args, callback);
   };
 
-  cd.fileRenameITE = (oldFilename, newFilename) => {
+  cd.fileRenameITE = (oldFilename, newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -45,22 +41,32 @@ $(() => {
       new_filename: newFilename,
       data: $('form').serialize()
     };
-    $.post('/kata/file_rename', args, (newIndex) => {
-      kata.setIndex(newIndex);
-    });
+    syncPostWithCallbackITE('/kata/file_rename', args, callback);
   };
 
-  cd.fileEditITE = () => {
+  cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
       index: kata.index,
       data: $('form').serialize()
     };
-    $.post('/kata/file_edit', args, (newIndex) => {
+    syncPostWithCallbackITE('/kata/file_edit', args, callback);
+  };
+
+  const syncPostWithCallbackITE = (url, data, callback) => {
+    $.ajax({
+      timeout: 2*1000,
+      type: 'POST',
+      url: url,
+      data: data
+    }).done(function(newIndex) {
       kata.setIndex(newIndex);
+    }).always(function() {
+      callback();
     });
   };
+
 
 });
 </script>
