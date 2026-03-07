@@ -75,6 +75,7 @@ $(() => {
           .click(() => predictCheckBoxChanged());
 
   const predictCheckBoxChanged = () => {
+    cd.fileEditITE();
     if ($predict.prop('checked')) {
       predictOn();
     } 
@@ -125,6 +126,7 @@ $(() => {
   const $buttons = $('button.predict');
 
   $('button.predict').click((event) => {
+    cd.fileEditITE();
     $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
