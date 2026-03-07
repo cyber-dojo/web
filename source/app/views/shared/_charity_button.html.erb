@@ -9,13 +9,15 @@ $(() => {
   $button.click(() => openCharityInfoDialog());
 
   const openCharityInfoDialog = () => {
-    $('#charity-dialog').dialog({
-              width: 700,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('charity'),
-        beforeClose: () => cd.kata.editor.refocus()
+    cd.saveAnyFileChangesITE(() => {
+      $('#charity-dialog').dialog({
+                width: 700,
+            autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('charity'),
+          beforeClose: () => cd.kata.editor.refocus()
+      });
     });
   };
 

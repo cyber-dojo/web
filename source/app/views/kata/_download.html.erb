@@ -20,14 +20,16 @@ $(() => {
   } 
   else {
     $button.click(() => {
-      $.ajax({
-            type: 'GET',
-        dataType: 'json',
-              url: '/saver/kata_download',
-            data: { id: cd.kata.id },
-            async: false,
-            error: (xhr, text, thrown) => downloadError(xhr, text, thrown),
-          success: (data) => downloadKata(data['kata_download'])
+      cd.saveAnyFileChangesITE(() => {
+        $.ajax({
+              type: 'GET',
+          dataType: 'json',
+                url: '/saver/kata_download',
+              data: { id: cd.kata.id },
+              async: false,
+              error: (xhr, text, thrown) => downloadError(xhr, text, thrown),
+            success: (data) => downloadKata(data['kata_download'])
+        });
       });
     });
   }

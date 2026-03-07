@@ -120,10 +120,9 @@ $(() => {
       $div.addClass('source');
     }
     $div.click(() => {
-      filenames.select(filename);
-      if (cd.interTestEvents()) {
-        cd.fileEditITE();
-      }
+      cd.saveAnyFileChangesITE(() => {
+        filenames.select(filename);
+      });
     });
     return $div;
   };
