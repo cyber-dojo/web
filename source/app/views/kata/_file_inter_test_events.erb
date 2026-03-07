@@ -1,0 +1,69 @@
+<script>
+'use strict';
+$(() => {
+
+  const kata = cd.kata;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Inter-Test-Events
+  // Called in many places, eg when a file is created, deleted, renamed, 
+  // or selected (from the filename-list). Saved inter-test events are 
+  // only visible in review mode.
+
+  cd.fileCreateITE = (newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: kata.id,
+      index: kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_create', args, (newIndex) => {
+      kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileDeleteITE = (newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: kata.id,
+      index: kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_delete', args, (newIndex) => {
+      kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileRenameITE = (oldFilename, newFilename) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: kata.id,
+      index: kata.index,
+      old_filename: oldFilename,
+      new_filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_rename', args, (newIndex) => {
+      kata.setIndex(newIndex);
+    });
+  };
+
+  cd.fileEditITE = (callback = doNothing) => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: kata.id,
+      index: kata.index,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_edit', args, (newIndex) => {
+      kata.setIndex(newIndex);
+      callback();
+    });
+  };
+
+  const doNothing = () => {};
+
+});
+</script>
