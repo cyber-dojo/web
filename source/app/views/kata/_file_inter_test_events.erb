@@ -60,13 +60,25 @@ $(() => {
       type: 'POST',
       url: url,
       data: data
-    }).done(function(newIndex) {
+    })
+    .done(function(newIndex) {
       kata.setIndex(newIndex);
-    }).always(function() {
+    })
+    .always(function() {
       callback();
     });
   };
 
+  const snycGetWithCallback = (url, callback) => {
+    $.ajax({
+      timeout: 2*1000,
+      type: 'GET',
+      url: url
+    })
+    .done(function(data) {
+      callback(data);
+    })
+  };
 
 });
 </script>

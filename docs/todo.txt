@@ -1,4 +1,12 @@
 
+If saver is offline, I don't think these will work, and will bork the page:
+- auto-revert
+- review by clicking a traffic-light
+I could add a snycReadyITE probe (like already exists) to only
+try do those things if saver is alive. That would save the page
+being borked.
+
+
 web
 ---
 app/controllers/application_controller.rb container render 404, 500
