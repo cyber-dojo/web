@@ -75,12 +75,14 @@ $(() => {
           .click(() => predictCheckBoxChanged());
 
   const predictCheckBoxChanged = () => {
-    cd.saveAnyFileChangesITE(() => {
-      if ($predict.prop('checked')) {
-        predictOn();
-      }
-      else {
-        predictOff();
+    cd.saveAnyFileChangesITE({
+      complete: () => {
+        if ($predict.prop('checked')) {
+          predictOn();
+        }
+        else {
+          predictOff();
+        }
       }
     });
   };
@@ -154,8 +156,8 @@ $(() => {
     ].join('<br/>'));
 
   $('.revert-checkbox').click((event) => {
-    cd.saveAnyFileChangesITE(() => {
-      saveCheckBoxSetting(event);
+    cd.saveAnyFileChangesITE({
+      'complete': () => saveCheckBoxSetting(event);
     });
   });
 

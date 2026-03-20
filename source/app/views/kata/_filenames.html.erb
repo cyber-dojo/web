@@ -120,8 +120,8 @@ $(() => {
       $div.addClass('source');
     }
     $div.click(() => {
-      cd.saveAnyFileChangesITE(() => {
-        filenames.select(filename);
+      cd.saveAnyFileChangesITE({
+        'complete': () => filenames.select(filename)
       });
     });
     return $div;

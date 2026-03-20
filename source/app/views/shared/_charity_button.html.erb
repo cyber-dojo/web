@@ -9,15 +9,17 @@ $(() => {
   $button.click(() => openCharityInfoDialog());
 
   const openCharityInfoDialog = () => {
-    cd.saveAnyFileChangesITE(() => {
-      $('#charity-dialog').dialog({
-                width: 700,
-            autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('charity'),
-          beforeClose: () => cd.kata.editor.refocus()
-      });
+    cd.saveAnyFileChangesITE({
+      complete: () => {
+        $('#charity-dialog').dialog({
+                  width: 700,
+              autoOpen: true,
+          closeOnEscape: true,
+                  modal: true,
+                  title: cd.dialogTitle('charity'),
+            beforeClose: () => cd.kata.editor.refocus()
+        });
+      }
     });
   };
 

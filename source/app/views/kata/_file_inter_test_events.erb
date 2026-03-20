@@ -10,7 +10,7 @@ $(() => {
   // or selected (from the filename-list). Saved inter-test events are 
   // only visible in review mode.
 
-  cd.fileCreateITE = (newFilename, callback) => {
+  cd.fileCreateITE = (newFilename, callbacks) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -18,10 +18,10 @@ $(() => {
       filename: newFilename,
       data: $('form').serialize()
     };
-    syncPostWithCallbackITE('/kata/file_create', args, callback);
+    syncPostWithCallbackITE('/kata/file_create', args, callbacks);
   };
 
-  cd.fileDeleteITE = (newFilename, callback) => {
+  cd.fileDeleteITE = (newFilename, callbacks) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -29,10 +29,10 @@ $(() => {
       filename: newFilename,
       data: $('form').serialize()
     };
-    syncPostWithCallbackITE('/kata/file_delete', args, callback);
+    syncPostWithCallbackITE('/kata/file_delete', args, callbacks);
   };
 
-  cd.fileRenameITE = (oldFilename, newFilename, callback) => {
+  cd.fileRenameITE = (oldFilename, newFilename, callbacks) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
@@ -41,43 +41,37 @@ $(() => {
       new_filename: newFilename,
       data: $('form').serialize()
     };
-    syncPostWithCallbackITE('/kata/file_rename', args, callback);
+    syncPostWithCallbackITE('/kata/file_rename', args, callbacks);
   };
 
-  cd.saveAnyFileChangesITE = (callback) => {
+  cd.saveAnyFileChangesITE = (callbacks) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: kata.id,
       index: kata.index,
       data: $('form').serialize()
     };
-    syncPostWithCallbackITE('/kata/file_edit', args, callback);
+    syncPostWithCallbackITE('/kata/file_edit', args, callbacks);
   };
 
-  const syncPostWithCallbackITE = (url, data, callback) => {
+  const doNothing = () => {};
+
+  const syncPostWithCallbackITE = (url, data, callbacks) => {
+    const callback = (name) => {
+      return callbacks.hasOwnProperty(name) ? callbacks[name] : doNothing;
+    };
     $.ajax({
       timeout: 2*1000,
       type: 'POST',
       url: url,
       data: data
     })
-    .done(function(newIndex) {
+    .success(function(newIndex) {
       kata.setIndex(newIndex);
+      callback('success')();
     })
-    .always(function() {
-      callback();
-    });
-  };
-
-  const snycGetWithCallback = (url, callback) => {
-    $.ajax({
-      timeout: 2*1000,
-      type: 'GET',
-      url: url
-    })
-    .done(function(data) {
-      callback(data);
-    })
+    .error(callback('error'))
+    .complete(callback('complete'));
   };
 
 });
