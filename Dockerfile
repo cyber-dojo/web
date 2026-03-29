@@ -3,6 +3,7 @@ FROM cyberdojo/web-base:8a409cd@sha256:d8fda7714933d9312720f01244c8de8bce8fdfbf4
 LABEL maintainer=jon@jaggersoft.com
 
 RUN apk add --upgrade expat=2.7.5-r0    # https://security.snyk.io/vuln/SNYK-ALPINE322-EXPAT-15704589
+RUN apk add --upgrade nodejs=22.22.2-r0 # https://security.snyk.io/vuln/SNYK-ALPINE322-NODEJS-15801872
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
