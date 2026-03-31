@@ -86,7 +86,7 @@ jobs:
           fetch-depth: 1
 
       - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
+        uses: kosli-dev/setup-cli-action@v3
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
@@ -114,25 +114,6 @@ jobs:
       attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}
     secrets:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
-
-
-  # snyk-container-scan:
-  #   needs: [build-image]
-  #   uses: cyber-dojo/live-snyk-scans/.github/workflows/artifact_snyk_test.yml@main
-  #   with:
-  #     artifact_name:        ${{needs.build-image.outputs.tagged_image_name}}
-  #     artifact_fingerprint: ${{needs.build-image.outputs.digest}}
-  #     repo_name:            ${{github.event.repository.name}}
-  #     git_commit:           ${{github.sha}}
-  #     commit_url:           https://github.com/cyber-dojo/${{github.event.repository.name}}/commit/${{github.sha}}
-  #     raw_snyk_policy_url:  https://raw.githubusercontent.com/cyber-dojo/${{github.event.repository.name}}/${{github.sha}}/.snyk
-  #     aws_rolename:         gh_actions_services
-  #     kosli_env:            ${{vars.KOSLI_AWS_BETA}}
-  #     kosli_flow:           ${{vars.KOSLI_FLOW}}
-  #     kosli_cat:            ${{vars.KOSLI_AWS_BETA}}-synk-vuln-ages
-  #   secrets:
-  #     snyk_token:      ${{secrets.SNYK_TOKEN}}
-  #     kosli_api_token: ${{secrets.KOSLI_API_TOKEN}}
 
 
   snyk-container-test:
@@ -191,7 +172,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
+        uses: kosli-dev/setup-cli-action@v3
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
@@ -224,7 +205,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
+        uses: kosli-dev/setup-cli-action@v3
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
