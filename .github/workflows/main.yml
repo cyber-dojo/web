@@ -186,38 +186,8 @@ jobs:
             --environment=${KOSLI_AWS_BETA}
 
 
-  approve-deployment-to-beta:
-    needs: [build-image, sdlc-control-gate]
-    runs-on: ubuntu-latest
-    env:
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-    environment:
-      name: staging
-      url:  https://beta.cyber-dojo.org
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest approval of deployment to Kosli
-        run:
-          kosli report approval
-            --approver="${{ github.actor }}"
-            --environment=${KOSLI_AWS_BETA}
-
-
   deploy-to-beta:
-    needs: [setup, build-image, approve-deployment-to-beta]
+    needs: [setup, build-image,sdlc-control-gate]
     permissions:
       id-token: write
       contents: write
