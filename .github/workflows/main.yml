@@ -16,7 +16,6 @@ env:
   AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
   AWS_REGION:          ${{ vars.AWS_REGION }}
   AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
-  DOCKER_API_VERSION:  ${{ vars.DOCKER_API_VERSION }}
   SERVICE_NAME:        ${{ github.event.repository.name }}  # web
 
 jobs:
