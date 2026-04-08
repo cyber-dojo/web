@@ -3,12 +3,13 @@
 
   const editor = cd.kata.editor;
 
-  const   light = <%= raw @light.to_json %>;
-  const outcome = "<%= j raw(@outcome) %>";
-  const  stdout = "<%= j raw(@stdout['content']) %>";
-  const  stderr = "<%= j raw(@stderr['content']) %>";
-  const  status = "<%= j raw(@status.to_s) %>";
-  const     log = "<%= j raw(@log) %>";
+  const     light = <%= raw @light.to_json %>;
+  const   outcome = "<%= j raw(@outcome) %>";
+  const    stdout = "<%= j raw(@stdout['content']) %>";
+  const    stderr = "<%= j raw(@stderr['content']) %>";
+  const    status = "<%= j raw(@status.to_s) %>";
+  const       log = "<%= j raw(@log) %>";
+  const outOfSync = "<%= j raw(@out_of_sync) %>" === 'true';
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
@@ -31,10 +32,9 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoIfAvatarsOutOfSync = () => {
-    const outOfSync = "<%= j raw(@out_of_sync) %>";
-    if (outOfSync === 'true') {
+    if (outOfSync) {
       const message = [
-        `Failed to save the traffic-light.`,
+        `Failed to save the ${light.colour} traffic-light.`,
         `Are you mobbing in a practice session?`,
         `If so, please refresh your browser to resync.`,
       ].join("\n");
@@ -156,9 +156,11 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  refreshFromTest();
+  if (!outOfSync) {
+    refreshFromTest();
+  }
   showInfoDialogs();
-  if (runNeedsReverting()) {
+  if (!outOfSync && runNeedsReverting()) {
     revert();
   }
 
