@@ -16,6 +16,7 @@
 !/.gitignore
 !/.kosli.yml
 !/.snyk
+!/CLAUDE.md
 !/CONTRIBUTING.md
 !/docker-compose.yml
 !/docker-compose-depends.yml
