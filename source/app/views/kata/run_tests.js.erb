@@ -34,9 +34,10 @@
   const showInfoIfAvatarsOutOfSync = () => {
     if (outOfSync) {
       const message = [
-        `Failed to save the ${light.colour} traffic-light.`,
-        `Are you mobbing in a practice session?`,
-        `If so, please refresh your browser to resync.`,
+        `You made a change to your exercise - ${cd.kata.id}.`,
+        `It was ${light.colour} but it could not be saved.`,
+        'Your copy is out of sync with the latest version of exercise.',
+        'Please refresh your browser to get the latest version.',
       ].join("\n");
       const html = $('<textarea>', {
         'data-width':500,
