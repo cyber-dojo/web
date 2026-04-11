@@ -11,10 +11,10 @@
     <script type="text/javascript">
       var cyberDojo = {
         env: {
-          "DASHBOARD_BUTTON":     "<%= @env['DASHBOARD_BUTTON'] %>",
-          "FORK_BUTTON":          "<%= @env['FORK_BUTTON'] %>",
-          "PREDICT":              "<%= @env['PREDICT'] %>",
-          "STARTING_INFO_DIALOG": "<%= @env['STARTING_INFO_DIALOG'] %>"
+          "DASHBOARD_BUTTON":     "<%= @runtime_env['DASHBOARD_BUTTON'] %>",
+          "FORK_BUTTON":          "<%= @runtime_env['FORK_BUTTON'] %>",
+          "PREDICT":              "<%= @runtime_env['PREDICT'] %>",
+          "STARTING_INFO_DIALOG": "<%= @runtime_env['STARTING_INFO_DIALOG'] %>"
         },
         kata: {
           id: "<%= @id %>",

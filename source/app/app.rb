@@ -79,7 +79,7 @@ class App < Sinatra::Base
   # Kata
 
   get '/kata/edit/:id' do
-    @env = ENV
+    @runtime_env = ENV
     @id = @title = params[:id]
     @events = saver.kata_events(@id)
     last = saver.kata_event(@id, -1)
@@ -207,7 +207,7 @@ class App < Sinatra::Base
   # Review
 
   get '/review/show/:id' do
-    @env = ENV
+    @runtime_env = ENV
     @id = params[:id]
     @title = "review:#{@id}"
     erb :'review/show'
