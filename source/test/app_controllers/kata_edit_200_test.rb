@@ -15,4 +15,20 @@ class KataEdit200Test  < AppControllerTestBase
     end
   end
 
+  test '9BA', %w(
+  | j() escapes special characters for safe embedding in JavaScript string literals
+  ) do
+    in_kata do |kata|
+      runner.stub_run(stdout: "BACK\\SLASH CRLF\r\nNEW\nLINE CR\rRETURN SINGLE'QUOTE DOUBLE\"QUOTE")
+      post_run_tests
+      body = last_response.body
+      assert_includes body, 'BACK\\\\SLASH'  # \    -> \\
+      assert_includes body, 'CRLF\\nNEW'    # \r\n -> \n
+      assert_includes body, 'NEW\\nLINE'    # \n   -> \n
+      assert_includes body, 'CR\\nRETURN'   # \r   -> \n
+      assert_includes body, "SINGLE\\'"     # '    -> \'
+      assert_includes body, 'DOUBLE\\"'     # "    -> \"
+    end
+  end
+
 end
