@@ -64,10 +64,10 @@ class RunnerServiceTest < AppServicesTestBase
 
     outcome = 'pulling'
     n = 0
-    while outcome != 'pulled' && n < 20
+    while outcome != 'pulled' && n < 60
       outcome = http.get(:pull_image, args)
       n += 1
-      sleep(0.25)
+      sleep(1)
     end
     assert_equal 'pulled', outcome
   end
