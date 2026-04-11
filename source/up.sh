@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# [1] https://github.com/docker/compose/issues/1393
-# [1] http://stackoverflow.com/questions/35022428
-readonly WEB_HOME=/cyber-dojo
-rm -f ${WEB_HOME}/tmp/pids/server.pid # [1]
+readonly PORT="${CYBER_DOJO_WEB_PORT}"
+readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_SAVER_CLASS=SaverService
 
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 
-rails server \
-  --environment=production
+puma \
+  --port=${PORT} \
+  --config=${MY_DIR}/config/puma.rb

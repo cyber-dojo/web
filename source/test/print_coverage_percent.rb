@@ -12,7 +12,7 @@ html = html.encode('UTF-8', 'UTF-16')
 
 pattern = /<div class=\"file_list_container\" id=\"#{flat}\">
 \s*<h2>\s*<span class=\"group_name\">#{filter}<\/span>
-\s*\(<span class=\"covered_percent\"><span class=\"\w+\">([\d\.]*)\%/m
+\s*\(<span class=\"covered_percent\">\s*<span class=\"\w+\">\s*([\d\.]*)\%/m
 
 r = html.match(pattern)
 

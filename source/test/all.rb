@@ -2,14 +2,14 @@
 # This line must come first, before any required/loaded files to be covered.
 require_relative './test_coverage'
 
-web_home = '/cyber-dojo'
+app_root = File.expand_path('..', __dir__)
 
 %w(
   lib
   app/models
   app/services
 ).each do |dir|
-  Dir.glob("#{web_home}/#{dir}/*.rb").each { |filename|
+  Dir.glob("#{app_root}/#{dir}/*.rb").each { |filename|
     require filename
   }
 end

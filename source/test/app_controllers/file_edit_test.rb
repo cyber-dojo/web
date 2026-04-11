@@ -18,7 +18,7 @@ class FileEditTest  < AppControllerTestBase
         index: @index,
         data: { file_content: @files }
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 1, kata.events.size
     end
   end
@@ -37,7 +37,7 @@ class FileEditTest  < AppControllerTestBase
         index: @index,
         data: { file_content: @files }
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file_edit', event['colour']

@@ -19,7 +19,7 @@ class FileDeleteTest  < AppControllerTestBase
         data: { file_content: @files },
         filename: deleted_filename
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file_delete', event['colour']

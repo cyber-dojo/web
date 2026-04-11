@@ -32,7 +32,7 @@ class CheckoutTest  < AppControllerTestBase
         id: @id,
         index: 5
       }
-      assert_response :success
+      assert last_response.ok?
 
       assert_equal 6, kata.events.size
       event = kata.event(5)
@@ -71,7 +71,7 @@ class CheckoutTest  < AppControllerTestBase
           id: hippo.id,
           index: 1
         }
-        assert_response :success
+        assert last_response.ok?
 
         files = json['files']
         refute_nil files

@@ -2,48 +2,48 @@
 <%#  - from review/show.html.erb %>
 <%#  - from kata/edit.html.erb   %>
 
-<%= render partial: 'review/index' %>
-<%= render partial: 'review/faders' %>
-<%= render partial: 'review/lib/avatars' %>
-<%= render partial: 'review/lib/get_json' %>
-<%= render partial: 'review/lib/pick_file' %>
-<%= render partial: 'shared/charity_dialog' %>
-<%= render partial: 'shared/sponsorship_dialog' %>
-<%= render partial: 'shared/sorted_filenames' %>
+<%= partial('review/index') %>
+<%= partial('review/faders') %>
+<%= partial('review/lib/avatars') %>
+<%= partial('review/lib/get_json') %>
+<%= partial('review/lib/pick_file') %>
+<%= partial('shared/charity_dialog') %>
+<%= partial('shared/sponsorship_dialog') %>
+<%= partial('shared/sorted_filenames') %>
 
 <div class="review-grid">
 
   <div class="left-column">
     <table class="controls">
-      <tr><td><%= render partial: 'review/resume_button' %></td>
-          <td><%= render partial: 'review/help_icon' %></td>
-          <td><%= render partial: 'review/avatar_navigator' %></td></tr>
+      <tr><td><%= partial('review/resume_button') %></td>
+          <td><%= partial('review/help_icon') %></td>
+          <td><%= partial('review/avatar_navigator') %></td></tr>
           
-      <tr><td><%= render partial: 'review/revert_button' %>
-              <%= render partial: 'review/checkout_button' %>
-              <%= render partial: 'review/fork_button' %></td>
+      <tr><td><%= partial('review/revert_button') %>
+              <%= partial('review/checkout_button') %>
+              <%= partial('review/fork_button') %></td>
           <td></td>
-          <td><%= render partial: 'review/diff_radio_buttons' %>
+          <td><%= partial('review/diff_radio_buttons') %>
               </td></tr>                  
     </table>
     <table>
-      <tr><td><%= render partial: 'review/filenames' %></td></tr>
-      <tr><td><%= render partial: 'review/files' %></td></tr>
-      <tr><td><%= render partial: 'review/output' %></td></tr>
+      <tr><td><%= partial('review/filenames') %></td></tr>
+      <tr><td><%= partial('review/files') %></td></tr>
+      <tr><td><%= partial('review/output') %></td></tr>
     </table>
   </div>
 
   <div class="right-column">
-    <%= render partial: 'review/traffic_light_navigator' %>
-    <%= render partial: 'review/traffic_lights' %>
+    <%= partial('review/traffic_light_navigator') %>
+    <%= partial('review/traffic_lights') %>
     <div id="diff-content"></div>
     <div id="diff-content-output"></div>
   </div>
 
   <div class="right-gutter">
-    <%= render partial: 'review/traffic_lights_counts' %>
-    <%= render partial: 'review/predict_counts' %>
-    <%= render partial: 'shared/sponsorship' %>
+    <%= partial('review/traffic_lights_counts') %>
+    <%= partial('review/predict_counts') %>
+    <%= partial('shared/sponsorship') %>
   </div>
 
 </div>

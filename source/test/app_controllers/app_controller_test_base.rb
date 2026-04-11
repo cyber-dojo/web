@@ -1,8 +1,20 @@
-require_relative '../../test/all'
-require_relative '../../config/environment'
+require_relative '../all'
+require_relative '../../app/app'
+require 'rack/test'
 require 'json'
 
-class AppControllerTestBase < ActionDispatch::IntegrationTest
+class AppControllerTestBase < TestBase
+
+  include Rack::Test::Methods
+
+  def app
+    Rack::Builder.new do
+      use Rack::Session::Cookie,
+        key: '_cyber_dojo_session',
+        secret: 'test_secret_key_that_is_long_enough_to_meet_racks_minimum_requirement!'
+      run App
+    end
+  end
 
   include TestDomainHelpers
   include TestExternalHelpers
@@ -27,38 +39,36 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def post_json(path, params)
-    params['format'] = 'js'
     if params.key?(:data)
       params[:data] = Rack::Utils.build_nested_query(params[:data])
     end
-    post path, params: params
+    post path, params
     events = saver.kata_events(@id)
     @index = events[-1]['index'] + 1
   end
 
   def post_run_tests(options = {})
     params = run_test_params(options)
-    post_json '/kata/run_tests', params
-    assert_response :success, response.body
+    post_json '/kata/run_tests/' + (options[:id] || kata.id), params
+    assert last_response.ok?, last_response.body
   end
 
   def run_test_params(options = {})
     {
-      id: (options[:id] || kata.id),
-      image_name: @manifest['image_name'],
-      max_seconds: (options[:max_seconds] || @manifest['max_seconds']),
-      index: (options[:index] || @index),
+      index:        (options[:index]       || @index),
+      image_name:   @manifest['image_name'],
+      max_seconds:  (options[:max_seconds] || @manifest['max_seconds']),
       file_content: @files,
-      predicted: (options[:predicted] || 'none')
+      predicted:    (options[:predicted]   || 'none')
     }
   end
 
   def json
-    ActiveSupport::JSON.decode(html)
+    JSON.parse(last_response.body)
   end
 
   def html
-    @response.body
+    last_response.body
   end
 
 end

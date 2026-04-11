@@ -131,6 +131,43 @@ The app uses Rails' cookie session store (`_blog_session`) but does not actually
 
 In Sinatra, `rack-protection` (included by default) provides CSRF protection. The cookie session moves to `Rack::Session::Cookie`. The jQuery UJS CSRF integration continues to work as long as the meta tag is present with the correct token.
 
+### Dockerfile
+
+The current `FROM` line is `cyberdojo/web-base` which carries Rails, `sassc-rails`,
+`uglifier`, and `nodejs`. All of that goes away.
+
+The new `FROM` line uses the same base image as all other Sinatra services:
+
+```dockerfile
+FROM ghcr.io/cyber-dojo/sinatra-base:3ce6c9b@sha256:7e53acc4239e11722997e85367eb8e995d995ceec05f1cc6430da989bb09b108
+```
+
+`sinatra-base` already contains:
+- `sinatra`, `sinatra-contrib`, `rack`, `rack-test`, `puma`
+- `sprockets` (for the asset_builder service — not needed at runtime in web)
+- `minitest`, `minitest-ci`, `minitest-reporters`, `simplecov`
+- `json`, `oj`, `rest-client`, `prometheus-client`
+- Security upgrades for `expat`, `c-ares`, `openssl` (already baked in)
+- `tini`, `bash`, `curl`, `tar`
+
+The web app only needs `net/http` and `uri` beyond this (both stdlib) for its
+service calls to saver/runner/differ.
+
+The `RUN apk add --upgrade expat` and `RUN apk add --upgrade nodejs` lines in the
+current Dockerfile both disappear: `expat` is already upgraded inside `sinatra-base`,
+and `nodejs` was only needed for the Rails asset pipeline.
+
+Following the dashboard pattern, the Dockerfile also gains an `APP_DIR` build arg,
+drops `EXPOSE 3000`, and the `COPY` becomes:
+
+```dockerfile
+ARG APP_DIR=/web
+ENV APP_DIR=${APP_DIR}
+
+WORKDIR ${APP_DIR}/source
+COPY source/ .
+```
+
 ### The `Externals` Module
 
 This is already framework-agnostic. It uses `ENV` variables and `Object.const_get` to inject service classes. It will work unchanged in Sinatra — just `include Externals` in the Sinatra app class instead of in `ApplicationController`.
@@ -151,7 +188,7 @@ This is already framework-agnostic. It uses `ENV` variables and `Object.const_ge
 | Model/service tests (14 files) | None | Pure Minitest, no Rails coupling |
 | CSRF / session setup | Small | `rack-protection` + `Rack::Session::Cookie` |
 | `Gemfile` | Trivial | Drop `rails`, `sassc-rails`; add `sinatra`, `rack-protection`, `rack-test` |
-| Docker / `up.sh` | Trivial | Replace `rails server` with `rackup` or `ruby app.rb` |
+| Docker / `up.sh` | Trivial | Change `FROM cyberdojo/web-base` to `FROM ghcr.io/cyber-dojo/sinatra-base`; drop `nodejs` and security-upgrade `RUN` lines already baked into sinatra-base; replace `rails server` with puma via `up.sh` |
 
 **Overall assessment:** This is a straightforward port. The codebase is already thinly coupled to Rails, and the asset pipeline — the one real decision point — is now done. Everything remaining is mechanical.
 
@@ -159,21 +196,90 @@ The primary benefit of the port would be a significantly smaller runtime depende
 
 ## Summary
 
-The app is already very thinly coupled to Rails.
-It uses no ActiveRecord, no mailer, no background jobs, and no database.
-The remaining Rails surface area is:
-1. ActionController::Base — parameter parsing, render, protect_from_forgery, rescue_from
-2. ActionDispatch::IntegrationTest — used in the 16 controller test files
+The port is complete. The app runs on Sinatra 4.x + Puma + Rack, with no Rails dependency.
 
-The asset pipeline — previously the one real decision point — is done. The
-`cyberdojo/asset_builder` service pre-compiles SCSS and JS; the output is committed
-to the repo and served as static files. Rails magic is no longer involved in asset serving.
+---
 
-Remaining work:
+## Runtime Gotchas
 
-- Routes, controller logic, models, services: trivial — all pure Ruby
-- ERB views: no content changes, just mechanical substitution of `render partial:`, `raw`, `csrf_meta_tag` across ~50 files
-- Controller tests: replace `ActionDispatch::IntegrationTest` with `Rack::Test` (16 files)
-- Model/service tests: zero changes needed
+A few non-obvious issues found during the bring-up that are worth documenting.
 
-This is a manageable, low-risk port — mostly mechanical work with no remaining architectural decisions.
+### 1. Puma rackup path: `__dir__` vs the file location
+
+`source/config/puma.rb` is one directory below `source/config.ru`. Using a bare
+relative path fails:
+
+```ruby
+# Wrong — looks for source/config/config.ru (doesn't exist)
+rackup "#{__dir__}/config.ru"
+
+# Right — resolves one level up from source/config/ to source/
+rackup File.expand_path('../config.ru', __dir__)
+```
+
+### 2. `Rack::Session::Cookie` secret must be ≥ 64 bytes
+
+Rack enforces a minimum 64-byte secret at startup. The dev fallback must meet that:
+
+```ruby
+secret: ENV.fetch('SECRET_KEY_BASE', 'cyber-dojo-dev-secret-key-base-must-be-at-least-64-bytes-long!!!')
+```
+
+### 3. `set :layout` in Sinatra 4.x does NOT change the default layout
+
+`set :layout, :'layouts/application'` creates a class-level method called `layout`
+that returns the symbol — but Sinatra's render engine reads `@default_layout`, an
+**instance variable** on the request handler that is always initialised to `:layout`
+(looking for `views/layout.erb`). Since `views/layout.erb` doesn't exist, Sinatra
+silently skips the layout, and the response is the bare body content with no `<head>`
+and no `<script src="/assets/app.js">` — causing "$ is not defined" in the browser.
+
+The fix: override `initialize` to set `@default_layout` correctly.
+
+```ruby
+class App < Sinatra::Base
+  def initialize
+    super
+    @default_layout = :'layouts/application'
+  end
+  ...
+end
+```
+
+### 4. Asset serving — use the dashboard pattern
+
+`Sinatra::Base` does not serve static files from `public/` by default (unlike
+top-level Sinatra DSL). `set :static, true` and `set :public_folder` can be enabled,
+but the more reliable approach — already used in the `dashboard` service — is to
+read the compiled files into constants at class load time and expose them via
+explicit GET routes:
+
+```ruby
+PUBLIC_DIR = File.expand_path('../public', __dir__)
+CSS = File.read("#{PUBLIC_DIR}/assets/app.css")
+JS  = File.read("#{PUBLIC_DIR}/assets/app.js")
+
+get '/assets/app.css' do
+  content_type 'text/css'
+  CSS
+end
+
+get '/assets/app.js' do
+  content_type 'application/javascript'
+  JS
+end
+```
+
+### 5. `create_v2_kata.sh` — path and TTY flag
+
+With `APP_DIR=/web` and `WORKDIR /web/source`, the script moved from the old
+`/cyber-dojo/script/` path. Also, `docker exec -it` requires a TTY; removing `-t`
+allows the script to run non-interactively (e.g., captured into a shell variable):
+
+```bash
+# Wrong
+docker exec -it test_web bash -c 'ruby /cyber-dojo/script/create_v2_kata.rb'
+
+# Right
+docker exec test_web bash -c 'ruby /web/source/script/create_v2_kata.rb'
+```

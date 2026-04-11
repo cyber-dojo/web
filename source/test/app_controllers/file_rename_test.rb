@@ -21,7 +21,7 @@ class FileRenameTest  < AppControllerTestBase
         old_filename: old_filename,
         new_filename: new_filename
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file_rename', event['colour']

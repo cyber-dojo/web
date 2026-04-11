@@ -8,7 +8,7 @@
     <meta name="author" content="Jon Jagger" />
     <title><%= @title %></title>
 
-    <%= csrf_meta_tag %>
+    <meta name="csrf-token" content="<%= session[:csrf] %>">
     <link rel="stylesheet" href="/assets/app.css">
     <script src="/assets/app.js"></script>
 
