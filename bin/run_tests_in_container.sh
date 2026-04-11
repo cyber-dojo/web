@@ -6,8 +6,8 @@ set -Eeu
 # Done here to ensure it always happens before tests are run.
 
 readonly CONTAINER=test_web_saver
-readonly SRC_PATH=$(repo_root)/source/test/data/web/source
-readonly DEST_PATH=/web/source
+readonly SRC_PATH=$(repo_root)/source/test/data/cyber-dojo
+readonly DEST_PATH=/cyber-dojo
 
 run_tests_in_container()
 {

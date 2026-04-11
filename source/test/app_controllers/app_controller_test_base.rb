@@ -11,7 +11,7 @@ class AppControllerTestBase < TestBase
     Rack::Builder.new do
       use Rack::Session::Cookie,
         key: '_cyber_dojo_session',
-        secret: 'test_secret_key_that_is_long_enough!'
+        secret: 'test_secret_key_that_is_long_enough_to_meet_racks_minimum_requirement!'
       run App
     end
   end

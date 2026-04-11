@@ -11,6 +11,7 @@ class App < Sinatra::Base
   register Sinatra::Contrib
 
   set :views, "#{__dir__}/views"
+  set :host_authorization, {}
 
   def initialize
     super
