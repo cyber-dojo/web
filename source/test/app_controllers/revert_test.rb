@@ -20,7 +20,7 @@ class RevertTest  < AppControllerTestBase
         id: @id,
         index: 2 # revert back to creation @[0]
       }
-      assert_response :success
+      assert last_response.ok?
 
       assert_equal 3, kata.events.size
       event = kata.event(2)
@@ -54,7 +54,7 @@ class RevertTest  < AppControllerTestBase
         id: @id,
         index: 4 # revert back to 1st traffic-light @[2]
       }
-      assert_response :success
+      assert last_response.ok?
 
       assert_equal 5, kata.events.size
       event = kata.event(4)
@@ -88,7 +88,7 @@ class RevertTest  < AppControllerTestBase
         id: @id,
         index: 4 # revert back to 1st traffic-light @[1]
       }
-      assert_response :success
+      assert last_response.ok?
 
       assert_equal 5, kata.events.size
       event = kata.event(4)
@@ -126,7 +126,7 @@ class RevertTest  < AppControllerTestBase
         id: @id,
         index: 3 # revert back to 1st traffic-light @[1]
       }
-      assert_response :success
+      assert last_response.ok?
 
       events = kata.events
       assert_equal 4, kata.events.size
@@ -158,7 +158,7 @@ class RevertTest  < AppControllerTestBase
         data: { file_content: @files },
         filename: filename
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 3, kata.events.size, kata.events
       @files[filename] = ''
 
@@ -169,7 +169,7 @@ class RevertTest  < AppControllerTestBase
         data: { file_content: @files },
         filename: filename
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 4, kata.events.size, kata.events
 
       # REVERT
@@ -178,7 +178,7 @@ class RevertTest  < AppControllerTestBase
         id: @id,
         index: 4 # revert back to 1st traffic-light @[1]
       }
-      assert_response :success
+      assert last_response.ok?
       assert_equal 5, kata.events.size
       event = kata.event(4)
       expected = [@id, 1]

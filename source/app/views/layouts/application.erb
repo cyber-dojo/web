@@ -27,7 +27,7 @@
       var cd = cyberDojo;
     </script>
 
-    <%= csrf_meta_tag %>
+    <meta name="csrf-token" content="<%= session[:csrf] %>">
     <link rel="stylesheet" href="/assets/app.css">
     <script src="/assets/app.js"></script>
 
@@ -43,7 +43,7 @@
   </head>
 
   <body>
-    <%= render partial: 'layouts/wait_spinner' %>
+    <%= partial('layouts/wait_spinner') %>
     <div id="cyber-dojo-page">
       <%= yield %>
     </div>

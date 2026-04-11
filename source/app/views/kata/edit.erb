@@ -1,8 +1,8 @@
-<%= render partial: 'show_starting_info' %>
-<%= render partial: 'shared/app_bar' %>
+<%= partial('kata/show_starting_info') %>
+<%= partial('shared/app_bar') %>
 <div id="top-spacer"></div>
-<div id="review-page"><%= render partial: 'review/review' %></div>
-<div id="kata-page">  <%= render partial: 'view_test' %>    </div>
+<div id="review-page"><%= partial('review/review') %></div>
+<div id="kata-page">  <%= partial('kata/view_test') %>    </div>
 
 <script>
 'use strict';
@@ -15,18 +15,18 @@ $(() => {
 
   <% @files.each do |filename,file| %>
     cd.kata.editor.createFile(
-      "<%= j raw(filename) %>",
-      { content:"<%= j raw(file['content']) %>" }
+      "<%= j(filename) %>",
+      { content:"<%= j(file['content']) %>" }
     );
   <% end %>
 
   cd.kata.editor.output(
-    "<%= j raw(@stdout['content']) %>",
-    "<%= j raw(@stderr['content']) %>",
-    "<%= j raw(@status) %>"
+    "<%= j(@stdout['content']) %>",
+    "<%= j(@stderr['content']) %>",
+    "<%= j(@status) %>"
   );
 
-  const events = <%= raw @events.to_json %>;
+  const events = <%= @events.to_json %>;
   events.forEach((event) => {
     if (cd.lib.isLight(event)) {
       cd.kata.appendTrafficLight(event);

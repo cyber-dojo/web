@@ -11,7 +11,7 @@ class KataEdit200Test  < AppControllerTestBase
   ) do
     in_kata do |kata|
       get "/kata/edit/#{kata.id}"
-      assert_response :success
+      assert last_response.ok?
     end
   end
 

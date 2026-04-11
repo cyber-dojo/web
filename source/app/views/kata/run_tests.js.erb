@@ -3,20 +3,20 @@
 
   const editor = cd.kata.editor;
 
-  const     light = <%= raw @light.to_json %>;
-  const   outcome = "<%= j raw(@outcome) %>";
-  const    stdout = "<%= j raw(@stdout['content']) %>";
-  const    stderr = "<%= j raw(@stderr['content']) %>";
-  const    status = "<%= j raw(@status.to_s) %>";
-  const       log = "<%= j raw(@log) %>";
-  const outOfSync = "<%= j raw(@out_of_sync) %>" === 'true';
+  const     light = <%= @light.to_json %>;
+  const   outcome = "<%= j(@outcome) %>";
+  const    stdout = "<%= j(@stdout['content']) %>";
+  const    stderr = "<%= j(@stderr['content']) %>";
+  const    status = "<%= j(@status.to_s) %>";
+  const       log = "<%= j(@log) %>";
+  const outOfSync = "<%= j(@out_of_sync) %>" === 'true';
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
       editor.createFile(
-        "<%= j raw(filename) %>",
-        { content: "<%= j raw(file['content']) %>" }
+        "<%= j(filename) %>",
+        { content: "<%= j(file['content']) %>" }
       );
     <% end %>
   };
@@ -24,8 +24,8 @@
   const updateChangedFiles = () => {
     <% @changed.each do |filename,file| %>
       editor.changeFile(
-        "<%= j raw(filename) %>",
-        { content: "<%= j raw(file['content']) %>" }
+        "<%= j(filename) %>",
+        { content: "<%= j(file['content']) %>" }
       );
     <% end %>
   };

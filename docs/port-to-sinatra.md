@@ -131,6 +131,43 @@ The app uses Rails' cookie session store (`_blog_session`) but does not actually
 
 In Sinatra, `rack-protection` (included by default) provides CSRF protection. The cookie session moves to `Rack::Session::Cookie`. The jQuery UJS CSRF integration continues to work as long as the meta tag is present with the correct token.
 
+### Dockerfile
+
+The current `FROM` line is `cyberdojo/web-base` which carries Rails, `sassc-rails`,
+`uglifier`, and `nodejs`. All of that goes away.
+
+The new `FROM` line uses the same base image as all other Sinatra services:
+
+```dockerfile
+FROM ghcr.io/cyber-dojo/sinatra-base:3ce6c9b@sha256:7e53acc4239e11722997e85367eb8e995d995ceec05f1cc6430da989bb09b108
+```
+
+`sinatra-base` already contains:
+- `sinatra`, `sinatra-contrib`, `rack`, `rack-test`, `puma`
+- `sprockets` (for the asset_builder service — not needed at runtime in web)
+- `minitest`, `minitest-ci`, `minitest-reporters`, `simplecov`
+- `json`, `oj`, `rest-client`, `prometheus-client`
+- Security upgrades for `expat`, `c-ares`, `openssl` (already baked in)
+- `tini`, `bash`, `curl`, `tar`
+
+The web app only needs `net/http` and `uri` beyond this (both stdlib) for its
+service calls to saver/runner/differ.
+
+The `RUN apk add --upgrade expat` and `RUN apk add --upgrade nodejs` lines in the
+current Dockerfile both disappear: `expat` is already upgraded inside `sinatra-base`,
+and `nodejs` was only needed for the Rails asset pipeline.
+
+Following the dashboard pattern, the Dockerfile also gains an `APP_DIR` build arg,
+drops `EXPOSE 3000`, and the `COPY` becomes:
+
+```dockerfile
+ARG APP_DIR=/web
+ENV APP_DIR=${APP_DIR}
+
+WORKDIR ${APP_DIR}/source
+COPY source/ .
+```
+
 ### The `Externals` Module
 
 This is already framework-agnostic. It uses `ENV` variables and `Object.const_get` to inject service classes. It will work unchanged in Sinatra — just `include Externals` in the Sinatra app class instead of in `ApplicationController`.
@@ -151,7 +188,7 @@ This is already framework-agnostic. It uses `ENV` variables and `Object.const_ge
 | Model/service tests (14 files) | None | Pure Minitest, no Rails coupling |
 | CSRF / session setup | Small | `rack-protection` + `Rack::Session::Cookie` |
 | `Gemfile` | Trivial | Drop `rails`, `sassc-rails`; add `sinatra`, `rack-protection`, `rack-test` |
-| Docker / `up.sh` | Trivial | Replace `rails server` with `rackup` or `ruby app.rb` |
+| Docker / `up.sh` | Trivial | Change `FROM cyberdojo/web-base` to `FROM ghcr.io/cyber-dojo/sinatra-base`; drop `nodejs` and security-upgrade `RUN` lines already baked into sinatra-base; replace `rails server` with puma via `up.sh` |
 
 **Overall assessment:** This is a straightforward port. The codebase is already thinly coupled to Rails, and the asset pipeline — the one real decision point — is now done. Everything remaining is mechanical.
 

@@ -1,17 +1,15 @@
-FROM cyberdojo/web-base:8a409cd@sha256:d8fda7714933d9312720f01244c8de8bce8fdfbf45030ba2c634bac4d486db01
-# The FROM statement above is typically set via an automated pull-request from the web-base repo
+FROM ghcr.io/cyber-dojo/sinatra-base:3ce6c9b@sha256:7e53acc4239e11722997e85367eb8e995d995ceec05f1cc6430da989bb09b108
+# The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 LABEL maintainer=jon@jaggersoft.com
-
-RUN apk add --upgrade expat=2.7.5-r0    # https://security.snyk.io/vuln/SNYK-ALPINE322-EXPAT-15704589
-RUN apk add --upgrade nodejs=22.22.2-r0 # https://security.snyk.io/vuln/SNYK-ALPINE322-NODEJS-15801872
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-WORKDIR /cyber-dojo
-RUN chown nobody:nogroup .
-COPY --chown=nobody:nogroup source .
-EXPOSE 3000
+ARG APP_DIR=/web
+ENV APP_DIR=${APP_DIR}
+
+WORKDIR ${APP_DIR}/source
+COPY source/ .
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh
 ENTRYPOINT ["/sbin/tini", "-g", "--"]

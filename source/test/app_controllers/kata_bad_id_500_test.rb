@@ -18,7 +18,7 @@ class KataControllerTest  < AppControllerTestBase
       end
       assert_equal '', stderr        
       assert stdout.include?('no implicit conversion of String into Integer')
-      assert_response 200
+      assert_equal 200, last_response.status
     end
   end
 

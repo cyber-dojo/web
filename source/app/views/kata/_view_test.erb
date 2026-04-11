@@ -1,0 +1,32 @@
+<%= partial('kata/editor_tab_size') %>
+<%= partial('kata/traffic_lights_scroller') %>
+<%= partial('kata/file_inter_test_events') %>
+<%= partial('kata/run_tests') %>
+
+<form action="/kata/run_tests/<%= @id %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= session[:csrf] %>">
+  <%= partial('kata/image_name') %>
+  <%= partial('kata/rag_lambda') %>
+  <%= partial('kata/index') %>
+  <%= partial('kata/max_seconds') %>
+  <div class="left-column">
+    <%= partial('kata/avatar_image') %>
+    <div id="test-control">
+      <%= partial('kata/test_button') %>
+      <%= partial('kata/predict_revert') %>
+    </div>
+    <%= partial('kata/file_create_rename_delete') %>
+    <%= partial('kata/filenames') %>
+    <%= partial('kata/download') %>
+  </div><div class="right-column">
+    <%= partial('kata/traffic_lights') %>
+    <%= partial('kata/tabs') %>
+    <%= partial('kata/files') %>
+  </div>
+</form>
+
+<div class="right-gutter">
+  <%= partial('kata/traffic_lights_counts') %>
+  <%= partial('kata/predict_counts') %>
+  <%= partial('shared/sponsorship') %>
+</div>

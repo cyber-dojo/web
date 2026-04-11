@@ -6,8 +6,8 @@ set -Eeu
 # Done here to ensure it always happens before tests are run.
 
 readonly CONTAINER=test_web_saver
-readonly SRC_PATH=$(repo_root)/source/test/data/cyber-dojo
-readonly DEST_PATH=/cyber-dojo
+readonly SRC_PATH=$(repo_root)/source/test/data/web/source
+readonly DEST_PATH=/web/source
 
 run_tests_in_container()
 {
@@ -19,12 +19,12 @@ run_tests_in_container()
   #- - - - - - - - - - - - - - - - - - - -
   # Now docker exec in and run the tests
   local -r WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "^test_web$")
-  local -r SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
+  local -r SRC=${WEB_CID}:/tmp/web/source/coverage
   local -r DST=$(repo_root)/coverage/
 
   # Drop set -e because we want to get coverage stats out
   set +e
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${*:-}"
+  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/source/test && ./run.sh ${*:-}"
   readonly STATUS=$?
   set -e
 
