@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'sinatra/contrib'
 require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
@@ -8,7 +7,6 @@ require_relative '../lib/files_from'
 Dir.glob("#{__dir__}/models/*.rb").each { |f| require f }
 
 class App < Sinatra::Base
-  register Sinatra::Contrib
 
   set :views, "#{__dir__}/views"
   set :host_authorization, {}
