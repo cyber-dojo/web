@@ -3,6 +3,21 @@ set -Eeu
 
 echo_env_vars()
 {
+  #--------------------
+  # Set env-vars for SCSS/JS asset-builder
+
+  local -r asset_builder_port=5135
+  local -r asset_env_filename="$(root_dir)/.env.asset_builder"
+
+  echo "# This file is generated in bin/echo_env_vars.sh echo_env_vars()" > "${asset_env_filename}"
+  echo CYBER_DOJO_ASSET_BUILDER_PORT=${asset_builder_port}               >> "${asset_env_filename}"
+
+  echo CYBER_DOJO_ASSET_BUILDER_PORT=${asset_builder_port}
+  echo CYBER_DOJO_ASSET_BUILDER_IMAGE=cyberdojo/asset_builder
+  echo CYBER_DOJO_ASSET_BUILDER_TAG=2bbe111
+  echo CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME=asset_builder
+
+  #--------------------
   # Set env-vars for this repo
   if [[ ! -v COMMIT_SHA ]] ; then
     echo COMMIT_SHA="$(image_sha)"  # --build-arg

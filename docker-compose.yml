@@ -6,6 +6,23 @@ networks:
 
 services:
 
+  asset_builder:
+    image: ${CYBER_DOJO_ASSET_BUILDER_IMAGE}:${CYBER_DOJO_ASSET_BUILDER_TAG}
+    user: nobody
+    container_name: ${CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_ASSET_BUILDER_PORT}:${CYBER_DOJO_ASSET_BUILDER_PORT}" ]
+    env_file: [ .env.asset_builder ]
+    read_only: true
+    restart: no
+    volumes:
+      - ./source/app/assets/stylesheets:/app/app/assets/stylesheets:ro
+      - ./source/app/assets/javascripts:/app/app/assets/javascripts:ro
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
   web:
     image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
     ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
