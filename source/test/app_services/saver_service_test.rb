@@ -141,6 +141,48 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'QJ7',
+  'kata_file_edit() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    files = manifest['visible_files']
+    files[files.keys.first]['content'] += "\n# comment"
+    next_index = saver.kata_file_edit(kid, 1, files)
+    assert_equal 2, next_index
+  end
+
+  test 'QJ8',
+  'kata_file_create() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    next_index = saver.kata_file_create(kid, 1, manifest['visible_files'], 'new_file.txt')
+    assert_equal 2, next_index
+  end
+
+  test 'QJ9',
+  'kata_file_delete() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    existing_filename = manifest['visible_files'].keys.first
+    next_index = saver.kata_file_delete(kid, 1, manifest['visible_files'], existing_filename)
+    assert_equal 2, next_index
+  end
+
+  test 'QJA',
+  'kata_file_rename() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    old_name = manifest['visible_files'].keys.first
+    next_index = saver.kata_file_rename(kid, 1, manifest['visible_files'], old_name, 'renamed_file.txt')
+    assert_equal 2, next_index
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'eJ5',
   'kata_event() smoke test' do
     manifest = starter_manifest
