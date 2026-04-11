@@ -20,7 +20,7 @@ run_tests_in_container()
   # Now docker exec in and run the tests
   local -r WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "^test_web$")
   local -r SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
-  local -r DST=$(repo_root)/coverage/
+  local -r DST=$(repo_root)/coverage
 
   # Drop set -e because we want to get coverage stats out
   set +e
