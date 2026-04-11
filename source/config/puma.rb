@@ -1,4 +1,4 @@
 #!/usr/bin/env puma
 
 environment 'production'
-rackup "#{__dir__}/config.ru"
+rackup File.expand_path('../config.ru', __dir__)

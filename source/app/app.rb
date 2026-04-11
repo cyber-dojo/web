@@ -11,7 +11,15 @@ class App < Sinatra::Base
   register Sinatra::Contrib
 
   set :views, "#{__dir__}/views"
-  set :layout, :'layouts/application'
+
+  def initialize
+    super
+    @default_layout = :'layouts/application'
+  end
+
+  PUBLIC_DIR = File.expand_path('../public', __dir__)
+  CSS = File.read("#{PUBLIC_DIR}/assets/app.css")
+  JS  = File.read("#{PUBLIC_DIR}/assets/app.js")
 
   include Externals
   include FilesFrom
@@ -34,6 +42,19 @@ class App < Sinatra::Base
         .gsub("'") { "\\'" }
     end
 
+  end
+
+  # - - - - - - - - - - - - - - - -
+  # Assets
+
+  get '/assets/app.css' do
+    content_type 'text/css'
+    CSS
+  end
+
+  get '/assets/app.js' do
+    content_type 'application/javascript'
+    JS
   end
 
   # - - - - - - - - - - - - - - - -

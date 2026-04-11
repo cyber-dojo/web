@@ -196,21 +196,90 @@ The primary benefit of the port would be a significantly smaller runtime depende
 
 ## Summary
 
-The app is already very thinly coupled to Rails.
-It uses no ActiveRecord, no mailer, no background jobs, and no database.
-The remaining Rails surface area is:
-1. ActionController::Base — parameter parsing, render, protect_from_forgery, rescue_from
-2. ActionDispatch::IntegrationTest — used in the 16 controller test files
+The port is complete. The app runs on Sinatra 4.x + Puma + Rack, with no Rails dependency.
 
-The asset pipeline — previously the one real decision point — is done. The
-`cyberdojo/asset_builder` service pre-compiles SCSS and JS; the output is committed
-to the repo and served as static files. Rails magic is no longer involved in asset serving.
+---
 
-Remaining work:
+## Runtime Gotchas
 
-- Routes, controller logic, models, services: trivial — all pure Ruby
-- ERB views: no content changes, just mechanical substitution of `render partial:`, `raw`, `csrf_meta_tag` across ~50 files
-- Controller tests: replace `ActionDispatch::IntegrationTest` with `Rack::Test` (16 files)
-- Model/service tests: zero changes needed
+A few non-obvious issues found during the bring-up that are worth documenting.
 
-This is a manageable, low-risk port — mostly mechanical work with no remaining architectural decisions.
+### 1. Puma rackup path: `__dir__` vs the file location
+
+`source/config/puma.rb` is one directory below `source/config.ru`. Using a bare
+relative path fails:
+
+```ruby
+# Wrong — looks for source/config/config.ru (doesn't exist)
+rackup "#{__dir__}/config.ru"
+
+# Right — resolves one level up from source/config/ to source/
+rackup File.expand_path('../config.ru', __dir__)
+```
+
+### 2. `Rack::Session::Cookie` secret must be ≥ 64 bytes
+
+Rack enforces a minimum 64-byte secret at startup. The dev fallback must meet that:
+
+```ruby
+secret: ENV.fetch('SECRET_KEY_BASE', 'cyber-dojo-dev-secret-key-base-must-be-at-least-64-bytes-long!!!')
+```
+
+### 3. `set :layout` in Sinatra 4.x does NOT change the default layout
+
+`set :layout, :'layouts/application'` creates a class-level method called `layout`
+that returns the symbol — but Sinatra's render engine reads `@default_layout`, an
+**instance variable** on the request handler that is always initialised to `:layout`
+(looking for `views/layout.erb`). Since `views/layout.erb` doesn't exist, Sinatra
+silently skips the layout, and the response is the bare body content with no `<head>`
+and no `<script src="/assets/app.js">` — causing "$ is not defined" in the browser.
+
+The fix: override `initialize` to set `@default_layout` correctly.
+
+```ruby
+class App < Sinatra::Base
+  def initialize
+    super
+    @default_layout = :'layouts/application'
+  end
+  ...
+end
+```
+
+### 4. Asset serving — use the dashboard pattern
+
+`Sinatra::Base` does not serve static files from `public/` by default (unlike
+top-level Sinatra DSL). `set :static, true` and `set :public_folder` can be enabled,
+but the more reliable approach — already used in the `dashboard` service — is to
+read the compiled files into constants at class load time and expose them via
+explicit GET routes:
+
+```ruby
+PUBLIC_DIR = File.expand_path('../public', __dir__)
+CSS = File.read("#{PUBLIC_DIR}/assets/app.css")
+JS  = File.read("#{PUBLIC_DIR}/assets/app.js")
+
+get '/assets/app.css' do
+  content_type 'text/css'
+  CSS
+end
+
+get '/assets/app.js' do
+  content_type 'application/javascript'
+  JS
+end
+```
+
+### 5. `create_v2_kata.sh` — path and TTY flag
+
+With `APP_DIR=/web` and `WORKDIR /web/source`, the script moved from the old
+`/cyber-dojo/script/` path. Also, `docker exec -it` requires a TTY; removing `-t`
+allows the script to run non-interactively (e.g., captured into a shell variable):
+
+```bash
+# Wrong
+docker exec -it test_web bash -c 'ruby /cyber-dojo/script/create_v2_kata.rb'
+
+# Right
+docker exec test_web bash -c 'ruby /web/source/script/create_v2_kata.rb'
+```
