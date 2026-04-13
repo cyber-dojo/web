@@ -9,7 +9,9 @@ Dir.glob("#{__dir__}/models/*.rb").each { |f| require f }
 class App < Sinatra::Base
 
   set :views, "#{__dir__}/views"
+  set :public_folder, File.expand_path('../public', __dir__)
   set :host_authorization, {}
+  enable :static
 
   def initialize
     super
@@ -52,7 +54,7 @@ class App < Sinatra::Base
   end
 
   get '/assets/app.js' do
-    content_type 'application/javascript'
+    content_type 'text/javascript'
     JS
   end
 
