@@ -42,14 +42,6 @@ variable "TAGGED_IMAGE" {
   type = string
 }
 
-variable "SECRET_KEY_BASE" {
-  type = string
-  validation {
-    condition     = length(var.SECRET_KEY_BASE) >= 128
-    error_message = "SECRET_KEY_BASE must be at least 128 characters."
-  }
-}
-
 # App variables
 variable "app_env_vars" {
   type = map(any)
