@@ -11,6 +11,7 @@ class App < Sinatra::Base
   set :views, "#{__dir__}/views"
   set :public_folder, File.expand_path('../public', __dir__)
   set :host_authorization, {}
+  set :protection, except: :http_origin
   enable :static
 
   def initialize
