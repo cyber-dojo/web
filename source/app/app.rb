@@ -54,7 +54,7 @@ class App < Sinatra::Base
   end
 
   get '/assets/app.js' do
-    content_type 'application/javascript'
+    content_type 'text/javascript'
     JS
   end
 

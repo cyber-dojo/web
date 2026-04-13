@@ -19,7 +19,7 @@ class AssetsTest < AppControllerTestBase
   ) do
     get '/assets/app.js'
     assert last_response.ok?
-    assert_includes last_response.content_type, 'application/javascript'
+    assert_includes last_response.content_type, 'text/javascript'
   end
 
 end
