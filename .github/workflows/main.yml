@@ -185,8 +185,16 @@ jobs:
             --environment=${KOSLI_AWS_BETA}
 
 
+  read-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      web_secret_key_base: ${{ steps.read.outputs.web_secret_key_base }}
+    steps:
+      - id: read
+        run: echo "web_secret_key_base=${{ secrets.WEB_SECRET_KEY_BASE }}" >> $GITHUB_OUTPUT
+
   deploy-to-beta:
-    needs: [setup, build-image,sdlc-control-gate]
+    needs: [setup, build-image, sdlc-control-gate, read-secrets]
     permissions:
       id-token: write
       contents: write
@@ -201,7 +209,7 @@ jobs:
       tf_version:             v1.9.1
       tf_additional_env_vars: >-
         {"TF_VAR_TAGGED_IMAGE":    "${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}",
-         "TF_VAR_SECRET_KEY_BASE": "${{ secrets.WEB_SECRET_KEY_BASE }}"}
+         "TF_VAR_SECRET_KEY_BASE": "${{ needs.read-secrets.outputs.web_secret_key_base }}"}
 
 
 # Deployment to aws-prod Environment is done with a Promotion workflow.
