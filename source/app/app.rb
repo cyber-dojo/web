@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'digest'
 require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
@@ -32,8 +33,17 @@ class App < Sinatra::Base
   end
 
   PUBLIC_DIR = File.expand_path('../public', __dir__)
-  CSS = File.read("#{PUBLIC_DIR}/assets/app.css")
-  JS  = File.read("#{PUBLIC_DIR}/assets/app.js")
+
+  def self.asset_path(filename)
+    src = "#{PUBLIC_DIR}/assets/#{filename}"
+    hash = Digest::SHA256.file(src).hexdigest[0, 8]
+    base = File.basename(filename, '.*')
+    ext  = File.extname(filename)
+    "/assets/#{base}-#{hash}#{ext}"
+  end
+
+  CSS_PATH = asset_path('app.css')
+  JS_PATH  = asset_path('app.js')
 
   include Externals
   include FilesFrom
@@ -61,14 +71,16 @@ class App < Sinatra::Base
   # - - - - - - - - - - - - - - - -
   # Assets
 
-  get '/assets/app.css' do
+  get CSS_PATH do
+    cache_control :public, max_age: 31536000
     content_type 'text/css'
-    CSS
+    send_file "#{PUBLIC_DIR}/assets/app.css"
   end
 
-  get '/assets/app.js' do
+  get JS_PATH do
+    cache_control :public, max_age: 31536000
     content_type 'text/javascript'
-    JS
+    send_file "#{PUBLIC_DIR}/assets/app.js"
   end
 
   # - - - - - - - - - - - - - - - -
