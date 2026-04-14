@@ -19,6 +19,18 @@ class App < Sinatra::Base
     @default_layout = :'layouts/application'
   end
 
+  before do
+    @csrf_token = request.cookies['csrf_token']
+    unless @csrf_token
+      @csrf_token = SecureRandom.hex(32)
+      response.set_cookie('csrf_token', value: @csrf_token, path: '/')
+    end
+    # Phase 2: uncomment once all users have reloaded and have the csrf_token cookie
+    # unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
+    #   halt 403, 'Forbidden' unless params['authenticity_token'] == @csrf_token
+    # end
+  end
+
   PUBLIC_DIR = File.expand_path('../public', __dir__)
   CSS = File.read("#{PUBLIC_DIR}/assets/app.css")
   JS  = File.read("#{PUBLIC_DIR}/assets/app.js")

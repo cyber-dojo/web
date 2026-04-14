@@ -4,7 +4,7 @@
 <%= partial('kata/run_tests') %>
 
 <form action="/kata/run_tests/<%= @id %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= session[:csrf] %>">
+  <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>">
   <%= partial('kata/image_name') %>
   <%= partial('kata/rag_lambda') %>
   <%= partial('kata/index') %>
