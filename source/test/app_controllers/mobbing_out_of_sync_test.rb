@@ -29,7 +29,7 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
       }
       assert_equal 3, @index
       assert_equal '', stderr
-      assert stdout.include?('"message": "Out of order event"'), stdout
+      assert stdout.include?("Out of order event for #{kata.id}"), stdout
     end
   end
 
