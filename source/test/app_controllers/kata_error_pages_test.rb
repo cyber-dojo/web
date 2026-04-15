@@ -5,11 +5,7 @@ class KataErrorPagesTest < AppControllerTestBase
 
   include CaptureStdoutStderr
 
-  def self.hex_prefix
-    'EB6'
-  end
-
-  test '001', %w(
+  test 'EB6001', %w(
   | GET /kata/edit2 (unknown route) returns 404
   ) do
     get '/kata/edit2'
@@ -17,7 +13,7 @@ class KataErrorPagesTest < AppControllerTestBase
     assert_includes last_response.body, '404'
   end
 
-  test '002', %w(
+  test 'EB6002', %w(
   | GET /kata/edit/:id with a bad id returns 500
   ) do
     App.set :raise_errors, false

@@ -2,13 +2,9 @@ require_relative 'app_models_test_base'
 
 class KataTest < AppModelsTestBase
 
-  def self.hex_prefix
-    'Fb9'
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '862', %w(
+  test 'Fb9862', %w(
   | an individual kata is created from a well-formed manifest,
   | and is not a member of a group
   ) do
@@ -20,7 +16,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '864', %w(
+  test 'Fb9864', %w(
   | after run_tests()/ran_tests(),
   | there is a new traffic-light event,
   | which is now the most recent event
@@ -43,7 +39,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '860', %w(
+  test 'Fb9860', %w(
   | after revert,
   | there is a new traffic-light event,
   | which is now the most recent event
@@ -84,7 +80,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '866', %w(
+  test 'Fb9866', %w(
   | kata.event(-1) returns the most recent event
   ) do
     in_new_kata do |kata|
@@ -109,7 +105,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1,2], '824', %w(
+  v_tests [0,1,2], 'Fb9824', %w(
   | given a saver outage during a session
   | when kata.event(-1) is called
   | then v0 raises
@@ -138,7 +134,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1,2], '825', %w(
+  v_tests [0,1,2], 'Fb9825', %w(
   | given two laptops as the same avatar
   | when one is behind (has not synced by hitting refresh in their browser)
   | and they hit the [test] button

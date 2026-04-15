@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class ReviewTest < AppControllerTestBase
 
-  def self.hex_prefix
-    '1CB'
-  end
-
   #- - - - - - - - - - - - - - - -
 
-  test '440', %w(
+  test '1CB440', %w(
   | was_index != now_index
   ) do
     [2].each do |version|
@@ -21,7 +17,7 @@ class ReviewTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '441', %w(
+  test '1CB441', %w(
   | (was_index,now_index) == (-1,-1)
   ) do
     [2].each do |version|
@@ -34,13 +30,13 @@ class ReviewTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '442', %w(
+  test '1CB442', %w(
   | was_index != now_index, review existing version=0 kata
   ) do
     assert_review_show('5rTJv5', 1, 2)
   end
 
-  test '443', %w(
+  test '1CB443', %w(
   | (was_index,now_index) == (-1,-1) review existing version=0 kata 
   ) do
     assert_review_show('5rTJv5', -1, -1)
@@ -48,7 +44,7 @@ class ReviewTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '444', %w( 
+  test '1CB444', %w(
   | was_index != now_index, review new version=1 kata
   ) do
     in_kata { |kata|
@@ -57,7 +53,7 @@ class ReviewTest < AppControllerTestBase
     }
   end
 
-  test '445', %w(
+  test '1CB445', %w(
   | (was_index,now_index) == (-1,-1), review new version=1 kata
   ) do
     in_kata { |kata|

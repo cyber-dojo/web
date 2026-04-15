@@ -3,17 +3,13 @@ require_relative 'runner_stub'
 
 class RunnerStubTest < AppServicesTestBase
 
-  def self.hex_prefix
-    'AF7'
-  end
-
   def hex_setup
     set_runner_class('RunnerStub')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2C0', %w(
+  test 'AF72C0', %w(
   stub_run can stub stdout and leave
   stderr defaulted to stub empty-string and,
   status defaulted to stub zero and,
@@ -30,7 +26,7 @@ class RunnerStubTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '09C',
+  test 'AF709C',
   'stdout,stderr,status,outcome can all be stubbed explicitly' do
     stub = {
       stdout: 'Assertion failed',
@@ -48,7 +44,7 @@ class RunnerStubTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '97A',
+  test 'AF797A',
   'run without preceeding stub returns so/se/0/false/red' do
     run = runner.run_cyber_dojo_sh(unused_args)
     assert_equal 'so', run['stdout']['content']
@@ -59,7 +55,7 @@ class RunnerStubTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '902',
+  test 'AF7902',
   'stub set in one thread has to be visible in another thread',
   'because app_controller methods are routed into a new thread' do
     stdout = 'syntax error line 1'

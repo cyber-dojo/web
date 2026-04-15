@@ -3,15 +3,11 @@ require_relative '../../lib/cleaner'
 
 class CleanerTest < LibTestBase
 
-  def self.hex_prefix
-    '3d9'
-  end
-
   include Cleaner
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '982',
+  test '3d9982',
   'cleaned_string cleans away invalid-encodings' do
     refute dirty.valid_encoding?
     clean = cleaned_string(dirty)
@@ -21,7 +17,7 @@ class CleanerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '983',
+  test '3d9983',
   'cleaned_string leaves valid strings untouched' do
     before = 'once upon a time'
     assert before.valid_encoding?
@@ -32,7 +28,7 @@ class CleanerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '984',
+  test '3d9984',
   'cleaned_files cleans away invalid-encodings' do
     files = {
       '/sandbox/dirty.txt' => dirty,
@@ -48,7 +44,7 @@ class CleanerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '985', %w(
+  test '3d9985', %w(
   cleaned_files() cleans away invalid-encodings
   and then converts Windows line-endings
   ) do
@@ -69,7 +65,7 @@ class CleanerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '986',
+  test '3d9986',
   'cleaned_files converts Windows line-endings to Unix line-endings' do
     plain = [
       'the boy stood on',
@@ -86,7 +82,7 @@ class CleanerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '987',
+  test '3d9987',
   'cleaned_files leaves Unix line-endings untouched' do
     plain = [
       'the boy stood on',

@@ -3,15 +3,11 @@ require_relative '../../lib/files_from'
 
 class FilesFromTest < LibTestBase
 
-  def self.hex_prefix
-    '640'
-  end
-
   include FilesFrom
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'DD8', %w(
+  test '640DD8', %w(
   files_from removes output
   ) do
     file_content = {
@@ -25,7 +21,7 @@ class FilesFromTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'DD9', %w(
+  test '640DD9', %w(
   files_from truncates to 50K content
   ) do
     biggest = "X" * (50 * 1024)

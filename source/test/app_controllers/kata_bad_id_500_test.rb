@@ -5,11 +5,7 @@ class KataControllerTest  < AppControllerTestBase
 
   include CaptureStdoutStderr
 
-  def self.hex_prefix
-    'BE8'
-  end
-
-  test '76E', %w(
+  test 'BE876E', %w(
   | run_tests with bad ID is a 200 because SaverExceptions are swallowed
   ) do
     in_kata do |kata|

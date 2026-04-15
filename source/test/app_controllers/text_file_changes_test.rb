@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class TextFileChangesTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '8q5'
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DC', %w(
+  test '8q59DC', %w(
   |when cyber-dojo.sh deletes an existing text file
   |then the saver does NOT record it
   |because the illusion is the [test] is running in the browser
@@ -27,7 +23,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DD', %w(
+  test '8q59DD', %w(
   | given cyber-dojo.sh contains a command to create new text file
   | then the saver records the new file
   ) do
@@ -46,7 +42,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DE', %w(
+  test '8q59DE', %w(
   | given cyber-dojo.sh contains a command to change an existing text file
   | then the saver records the changed file
   ) do
@@ -65,7 +61,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '736', %w(
+  test '8q5736', %w(
   | given cyber-dojo.sh contains a command to create a new text file called stdout
   | then the saver records it
   | but does not confuse it with the standard stdout stream
@@ -89,7 +85,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '737', %w(
+  test '8q5737', %w(
   | given cyber-dojo.sh contains a command to create new text file called 'stderr'
   | then the saver records it 
   | but does not confuse it with the standard stdout stream
@@ -113,7 +109,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '738', %w(
+  test '8q5738', %w(
   | given cyber-dojo.sh contains a command to create a new text file called 'status'
   | then the saver does record it
   | but does not confuse it with the standard status

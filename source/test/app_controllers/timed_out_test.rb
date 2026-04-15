@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class TimedOutTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    'jB4'
-  end
-
-  test '221', %w( 
+  test 'jB4221', %w(
   | timed_out 
   ) do
     in_kata do |kata|

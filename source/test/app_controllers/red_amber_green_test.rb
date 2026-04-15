@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class RedAmberGreenTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    'gh6'
-  end
-
-  test '223', %w( 
+  test 'gh6223', %w(
   | red-green-amber 
   ) do
     in_kata do |kata|
@@ -26,7 +22,7 @@ class RedAmberGreenTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '224', %w(
+  test 'gh6224', %w(
   | when run_tests() is 'red' and creates a file called outcome.special
   | then the colour becomes 'red_special
   | and the outcome.special file is not saved

@@ -31,7 +31,6 @@ module TestHexIdHelpers # mix-in
       src = block.source_location
       src_file = File.basename(src[0])
       src_line = src[1].to_s
-      id = hex_prefix + id
       name = words.join(' ')
       # check test-id is well-formed
       diagnostic = "'#{id}',#{name}"
