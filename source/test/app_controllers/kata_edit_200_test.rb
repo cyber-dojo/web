@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class KataEdit200Test  < AppControllerTestBase
 
-  def self.hex_prefix
-    'BE7'
-  end
-
-  test '9B9', %w(
+  test 'BE79B9', %w(
   | edit landing page smoke test
   ) do
     in_kata do |kata|
@@ -15,7 +11,7 @@ class KataEdit200Test  < AppControllerTestBase
     end
   end
 
-  test '9BA', %w(
+  test 'BE79BA', %w(
   | j() escapes special characters for safe embedding in JavaScript string literals
   ) do
     in_kata do |kata|

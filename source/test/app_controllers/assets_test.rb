@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class AssetsTest < AppControllerTestBase
 
-  def self.hex_prefix
-    'EB5'
-  end
-
-  test '001', %w(
+  test 'EB5001', %w(
   | /assets/app.css returns 200 with text/css content-type
   ) do
     get '/assets/app.css'
@@ -14,7 +10,7 @@ class AssetsTest < AppControllerTestBase
     assert_includes last_response.content_type, 'text/css'
   end
 
-  test '002', %w(
+  test 'EB5002', %w(
   | /assets/app.js returns 200 with application/javascript content-type
   ) do
     get '/assets/app.js'

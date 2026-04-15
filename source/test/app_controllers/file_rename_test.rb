@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class FileRenameTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '87C'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3ed', %w(
+  test '87C3ed', %w(
   | file_rename() creates a file-rename event in saver 
   ) do
     old_filename = 'readme.txt'

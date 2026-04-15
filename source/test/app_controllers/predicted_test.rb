@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class PredictedTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '1D3'
-  end
-
-  test '5b7', %w( 
+  test '1D35b7', %w(
   | predicted right, no auto-revert when wrong 
   ) do
     in_kata do |kata|
@@ -20,7 +16,7 @@ class PredictedTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '5b8', %w( 
+  test '1D35b8', %w(
   | predicted wrong, no auto-revert when wrong 
   ) do
     in_kata do |kata|

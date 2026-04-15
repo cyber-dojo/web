@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class FileEditTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '87C'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1cc', %w(
+  test '87C1cc', %w(
   | file_edit() does NOT create a file-edit event in saver 
   | when no file has changed
   ) do
@@ -25,7 +21,7 @@ class FileEditTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1cd', %w(
+  test '87C1cd', %w(
   | file_edit() creates a file-edit event in saver 
   | when there a file has changed
   ) do

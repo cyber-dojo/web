@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class CheckoutTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '7de'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '176', %w(
+  test '7de176', %w(
   | in individual kata, checkout your own previous traffic-light
   ) do
     filename = 'hiker.sh'
@@ -51,7 +47,7 @@ class CheckoutTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '177', %w(
+  test '7de177', %w(
   | in group kata, checkout a different avatar's traffic-light
   ) do
     filename = 'hiker.sh'

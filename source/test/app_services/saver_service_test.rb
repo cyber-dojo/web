@@ -4,13 +4,9 @@ require 'json'
 
 class SaverServiceTest < AppServicesTestBase
 
-  def self.hex_prefix
-    'D1E'
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJX',
+  test 'D1EeJX',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
     _stdout, _stderr = capture_stdout_stderr do
@@ -21,14 +17,14 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ0',
+  test 'D1EeJ0',
   'ready?() smoke test' do
     assert saver.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ1',
+  test 'D1EeJ1',
   'group_create() smoke test' do
     manifest = starter_manifest
     gid = saver.group_create(manifest)
@@ -39,7 +35,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ2',
+  test 'D1EeJ2',
   'kata_create() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -50,7 +46,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ3',
+  test 'D1EeJ3',
   'group_join() - group_joined() smoke test' do
     manifest = starter_manifest
     gid = saver.group_create(manifest)
@@ -67,7 +63,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'QJ2',
+  test 'D1EQJ2',
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -75,7 +71,7 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, saver.kata_events(kid).size
   end
 
-  test 'QJ3',
+  test 'D1EQJ3',
   'kata_predicted_right() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -87,7 +83,7 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, saver.kata_events(kid).size
   end
 
-  test 'QJ4',
+  test 'D1EQJ4',
   'kata_predicted_wrong() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -101,7 +97,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'QJ5',
+  test 'D1EQJ5',
   'kata_reverted() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -120,7 +116,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'QJ6',
+  test 'D1EQJ6',
   'kata_checked_out() smoke test' do
     manifest = starter_manifest
     gid = saver.group_create(manifest)
@@ -141,7 +137,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'QJ7',
+  test 'D1EQJ7',
   'kata_file_edit() smoke test' do
     manifest = starter_manifest
     manifest['version'] = 2
@@ -152,7 +148,7 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, next_index
   end
 
-  test 'QJ8',
+  test 'D1EQJ8',
   'kata_file_create() smoke test' do
     manifest = starter_manifest
     manifest['version'] = 2
@@ -161,7 +157,7 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, next_index
   end
 
-  test 'QJ9',
+  test 'D1EQJ9',
   'kata_file_delete() smoke test' do
     manifest = starter_manifest
     manifest['version'] = 2
@@ -171,7 +167,7 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, next_index
   end
 
-  test 'QJA',
+  test 'D1EQJA',
   'kata_file_rename() smoke test' do
     manifest = starter_manifest
     manifest['version'] = 2
@@ -183,7 +179,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ5',
+  test 'D1EeJ5',
   'kata_event() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
@@ -193,7 +189,7 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ6',
+  test 'D1EeJ6',
   'kata_events() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)

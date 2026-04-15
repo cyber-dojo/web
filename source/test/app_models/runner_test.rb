@@ -2,13 +2,9 @@ require_relative 'app_models_test_base'
 
 class RunnerTest < AppModelsTestBase
 
-  def self.hex_prefix
-    'Nn2'
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '151',
+  test 'Nn2151',
   'green: expected=42, actual=6*7' do
     runner.stub_run(outcome:'green')
     in_new_kata do |kata|
@@ -19,7 +15,7 @@ class RunnerTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '152',
+  test 'Nn2152',
   'timed_out: infinite loop' do
     runner.stub_run(outcome:'timed_out')
     in_new_kata do |kata|

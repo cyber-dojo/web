@@ -7,13 +7,9 @@ end
 
 class ExternalsTest < AppModelsTestBase
 
-  def self.hex_prefix
-    'A1k'
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '880', %w(
+  test 'A1k880', %w(
   | setting an external class to the name of an existing class succeeds
   )  do
     exists = 'ExternalDouble'
@@ -22,7 +18,7 @@ class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '881', %w(
+  test 'A1k881', %w(
   | setting an external class to the name of a non-existent class raises StandardError
   ) do
     error = StandardError

@@ -2,11 +2,7 @@ require_relative 'app_controller_test_base'
 
 class ProbeTest < AppControllerTestBase
 
-  def self.hex_prefix
-    'EB4'
-  end
-
-  test '001', %w(
+  test 'EB4001', %w(
   | /alive returns 200 with alive?:true
   ) do
     get '/alive'
@@ -14,7 +10,7 @@ class ProbeTest < AppControllerTestBase
     assert_equal({ 'alive?' => true }, JSON.parse(last_response.body))
   end
 
-  test '002', %w(
+  test 'EB4002', %w(
   | /ready returns 200 with ready?:true
   ) do
     get '/ready'
@@ -22,7 +18,7 @@ class ProbeTest < AppControllerTestBase
     assert_equal({ 'ready?' => true }, JSON.parse(last_response.body))
   end
 
-  test '003', %w(
+  test 'EB4003', %w(
   | /web/sha returns 200 with sha key
   ) do
     get '/web/sha'

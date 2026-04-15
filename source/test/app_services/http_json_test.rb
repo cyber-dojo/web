@@ -3,10 +3,6 @@ require 'ostruct'
 
 class HttpJsonTest < AppServicesTestBase
 
-  def self.hex_prefix
-    '12D'
-  end
-
   def hex_setup
     set_runner_class('RunnerService')
   end
@@ -21,7 +17,7 @@ class HttpJsonTest < AppServicesTestBase
     end
   end
 
-  test '2C7',
+  test '12D2C7',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequesterNotJsonHashStub)
     stdout,stderr = capture_stdout_stderr do
@@ -51,7 +47,7 @@ class HttpJsonTest < AppServicesTestBase
     end
   end
 
-  test '2C9',
+  test '12D2C9',
   'response.body has exception key raises' do
     set_http(HttpJsonRequesterExceptionKeyStub)
     stdout,stderr = capture_stdout_stderr do
@@ -81,7 +77,7 @@ class HttpJsonTest < AppServicesTestBase
     end
   end
 
-  test '2C8',
+  test '12D2C8',
   'JSON Hash with no key to match path raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
     stdout,stderr = capture_stdout_stderr do    
@@ -111,7 +107,7 @@ class HttpJsonTest < AppServicesTestBase
     end
   end
 
-  test '2CA',
+  test '12D2CA',
   'JSON Hash with key to match path returns the value for the key' do
     set_http(HttpJsonRequesterHasPathKeyStub)
     json = runner.ready?

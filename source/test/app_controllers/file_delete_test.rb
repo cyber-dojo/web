@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class FileDeleteTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '87C'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '145', %w(
+  test '87C145', %w(
   | file_delete() creates a file-delete event in saver 
   ) do
     deleted_filename = 'readme.txt'

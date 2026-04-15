@@ -3,13 +3,9 @@ require_relative '../../lib/time_adapter'
 
 class TimeAdapterTest < LibTestBase
 
-  def self.hex_prefix
-    'x81'
-  end
-
   # - - - - - - - - - - - - - -
 
-  test '9F0',
+  test 'x819F0',
   'now returns 7 integers to make a Time from' do
     time = TimeAdapter.new
     now1 = time.now

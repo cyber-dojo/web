@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class FileCreateTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '87C'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '276', %w(
+  test '87C276', %w(
   | file_create() creates a file-create event in saver 
   ) do
     created_filename = 'newfile.txt'

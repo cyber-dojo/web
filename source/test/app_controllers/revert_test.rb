@@ -2,13 +2,9 @@ require_relative 'app_controller_test_base'
 
 class RevertTest  < AppControllerTestBase
 
-  def self.hex_prefix
-    '81F'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '274', %w(
+  test '81F274', %w(
   | in individual kata, revert back to index=0 (created)
   | when there are *NO* file-events since creation
   ) do
@@ -33,7 +29,7 @@ class RevertTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '275', %w(
+  test '81F275', %w(
   | in individual kata, revert back to our own previous traffic-light
   | when there are *NO* file-events since the previous traffic-light 
   ) do
@@ -67,7 +63,7 @@ class RevertTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '276', %w(
+  test '81F276', %w(
   | in individual kata, revert back to our own previous traffic-light
   | when there *ARE* file-events since the previous traffic-light
   ) do
@@ -101,7 +97,7 @@ class RevertTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '277', %w(
+  test '81F277', %w(
   | in individual kata, revert back to our own previous traffic-light
   | when the previous traffic-light was a special
   ) do
@@ -140,7 +136,7 @@ class RevertTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '278', %w(
+  test '81F278', %w(
   | in individual kata, revert back to our own previous traffic-light
   | when there are multiple file-events to skip over before you
   | get to the previous traffic-light

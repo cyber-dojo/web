@@ -5,10 +5,10 @@ require 'minitest/autorun'
 
 class TestBase < Minitest::Test
 
-  def self.v_tests(versions, hex_prefix, *lines, &block)
+  def self.v_tests(versions, id_stem, *lines, &block)
     versions.each do |version|
       v_lines = ["<version=#{version}>"] + lines
-      test(hex_prefix + version.to_s, *v_lines, &block)
+      test(id_stem + version.to_s, *v_lines, &block)
     end
   end
 

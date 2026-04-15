@@ -4,17 +4,13 @@ require 'json'
 
 class RunnerServiceTest < AppServicesTestBase
 
-  def self.hex_prefix
-    '2BD'
-  end
-
   def hex_setup
     set_runner_class('RunnerService')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3A7',
+  test '2BD3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
     _stdout, _stderr = capture_stdout_stderr do
@@ -25,14 +21,14 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3A8',
+  test '2BD3A8',
   'ready? smoke test' do
     assert runner.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '812',
+  test '2BD812',
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
       pull_image(kata)  # To prevent timeout response
