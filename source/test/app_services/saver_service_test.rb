@@ -17,6 +17,17 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'D1EeJY',
+  'response.body failure on a post call is mapped to exception' do
+    set_http(HttpJsonRequesterNotJsonStub)
+    _stdout, _stderr = capture_stdout_stderr do
+      error = assert_raises(SaverService::Error) { saver.group_join('some_id') }
+      assert_equal 'body is not JSON', error.message, :error_message
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'D1EeJ0',
   'ready?() smoke test' do
     assert saver.ready?
