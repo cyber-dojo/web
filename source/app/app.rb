@@ -86,17 +86,17 @@ class App < Sinatra::Base
   # - - - - - - - - - - - - - - - -
   # Rack probes
 
-  get '/alive', '/alive/' do
+  get '/alive/?' do
     content_type :json
     { 'alive?' => true }.to_json
   end
 
-  get '/ready', '/ready/' do
+  get '/ready/?' do
     content_type :json
     { 'ready?' => true }.to_json
   end
 
-  get '/web/sha', '/web/sha/' do
+  get '/web/sha/?' do
     content_type :json
     { 'sha' => ENV['SHA'] }.to_json
   end
