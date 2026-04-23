@@ -119,7 +119,6 @@ jobs:
     needs: [build-image]
     uses: cyber-dojo/snyk-scanning/.github/workflows/artifact_snyk_test.yml@main
     with:
-      aws_rolename: gh_actions_services
       artifact_name: ${{ needs.build-image.outputs.tagged_image_name }}
       kosli_flow: ${{vars.KOSLI_FLOW}}
       kosli_trail: ${{github.sha}}
