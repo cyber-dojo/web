@@ -229,6 +229,16 @@ class App < Sinatra::Base
     saver.kata_file_edit(id, index, params_files).to_json
   end
 
+  get '/kata/events' do
+    content_type :json
+    { 'kata_events' => saver.kata_events(id) }.to_json
+  end
+
+  get '/kata/manifest' do
+    content_type :json
+    { 'kata_manifest' => saver.kata_manifest(id) }.to_json
+  end
+
   get '/kata/option_get' do
     content_type :json
     { 'kata_option_get' => saver.kata_option_get(id, params[:name]) }.to_json
