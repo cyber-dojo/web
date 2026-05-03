@@ -64,17 +64,16 @@ $(() => {
     });
   };
 
-  const fork = (type) => {
+  const fork = (url, responseKey) => {
     $fork.dialog('close');
-    const method = `${type}_fork`;
     $.ajax({
             type: 'POST',
-             url: `/saver/${method}?id=${review.id}&index=${review.index}`,
-        dataType: 'json', // format we want response in
+             url: `${url}?id=${review.id}&index=${review.index}`,
+        dataType: 'json',
            async: true,
            error: error,
          success: (response) => {
-           const id = response[method];
+           const id = response[responseKey];
            if (id) {
              window.open(`/creator/enter?id=${id}`);
            }
@@ -97,8 +96,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   $button.click(() => openForkDialog());
-  $('.kata' , $fork).click(() => fork('kata'));
-  $('.group', $fork).click(() => fork('group'));
+  $('.kata' , $fork).click(() => fork('/kata/fork',  'kata_fork'));
+  $('.group', $fork).click(() => fork('/group/fork', 'group_fork'));
 
 });
 </script>

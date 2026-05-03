@@ -228,4 +228,20 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 2, result.size
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJD',
+  'kata_fork() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    forked_id = saver.kata_fork(kid, 0)
+    assert saver.kata_exists?(forked_id)
+  end
+
+  test 'D1EQJE',
+  'group_fork() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    forked_id = saver.group_fork(kid, 0)
+    assert saver.group_exists?(forked_id)
+  end
+
 end

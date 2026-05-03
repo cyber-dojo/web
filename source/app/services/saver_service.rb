@@ -42,6 +42,10 @@ class SaverService
     @http.get(__method__, {id:id})
   end
 
+  def group_fork(id, index)
+    @http.post(__method__, {id:id, index:index})
+  end
+
   # - - - - - - - - - - - - - - - - - -
 
   def kata_create(manifest)
@@ -54,6 +58,10 @@ class SaverService
 
   def kata_manifest(id)
     @http.get(__method__, {id:id})
+  end
+
+  def kata_fork(id, index)
+    @http.post(__method__, {id:id, index:index})
   end
 
   def kata_events(id)
