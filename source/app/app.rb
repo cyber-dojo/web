@@ -229,6 +229,11 @@ class App < Sinatra::Base
     saver.kata_file_edit(id, index, params_files).to_json
   end
 
+  get '/kata/event' do
+    content_type :json
+    { 'event' => saver.kata_event(id, index) }.to_json
+  end
+
   post '/kata/fork' do
     content_type :json
     { 'kata_fork' => saver.kata_fork(id, index) }.to_json
