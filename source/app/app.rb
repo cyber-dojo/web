@@ -268,6 +268,11 @@ class App < Sinatra::Base
   # - - - - - - - - - - - - - - - -
   # Group
 
+  get '/group/joined' do
+    content_type :json
+    { 'joined' => saver.group_joined(id) }.to_json
+  end
+
   post '/group/fork' do
     content_type :json
     { 'group_fork' => saver.group_fork(id, index) }.to_json
