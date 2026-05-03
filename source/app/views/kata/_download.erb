@@ -24,7 +24,7 @@ $(() => {
         $.ajax({
               type: 'GET',
           dataType: 'json',
-                url: '/saver/kata_download',
+                url: '/kata/download',
               data: { id: cd.kata.id },
               async: false,
               error: (xhr, text, thrown) => downloadError(xhr, text, thrown),

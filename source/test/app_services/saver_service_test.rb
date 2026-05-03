@@ -217,4 +217,15 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 'off', saver.kata_option_get(kid, 'colour')
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJC',
+  'kata_download() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    result = saver.kata_download(kid)
+    assert_equal 2, result.size
+  end
+
 end

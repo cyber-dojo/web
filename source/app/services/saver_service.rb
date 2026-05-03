@@ -60,6 +60,10 @@ class SaverService
     @http.get(__method__, {id:id})
   end
 
+  def kata_download(id)
+    @http.get(__method__, {id:id})
+  end
+
   def kata_option_get(id, name)
     @http.get(__method__, {id:id, name:name})
   end
