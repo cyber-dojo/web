@@ -26,10 +26,9 @@ class App < Sinatra::Base
       @csrf_token = SecureRandom.hex(32)
       response.set_cookie('csrf_token', value: @csrf_token, path: '/')
     end
-    # Phase 2: uncomment once all users have reloaded and have the csrf_token cookie
-    # unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
-    #   halt 403, 'Forbidden' unless params['authenticity_token'] == @csrf_token
-    # end
+    unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
+      halt 403, 'Forbidden' unless params['authenticity_token'] == @csrf_token
+    end
   end
 
   PUBLIC_DIR = File.expand_path('../public', __dir__)

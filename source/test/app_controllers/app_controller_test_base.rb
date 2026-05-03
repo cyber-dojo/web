@@ -38,6 +38,13 @@ class AppControllerTestBase < TestBase
     Kata.new(self, @id)
   end
 
+  def post(path, params = {}, env = {})
+    unless rack_mock_session.cookie_jar['csrf_token']
+      get '/alive'
+    end
+    super(path, params.merge(authenticity_token: rack_mock_session.cookie_jar['csrf_token']), env)
+  end
+
   def post_json(path, params)
     if params.key?(:data)
       params[:data] = Rack::Utils.build_nested_query(params[:data])
