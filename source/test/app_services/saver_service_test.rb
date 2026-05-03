@@ -208,4 +208,13 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 1, actual.size
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJB',
+  'kata_option_set() and kata_option_get() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    saver.kata_option_set(kid, 'colour', 'off')
+    assert_equal 'off', saver.kata_option_get(kid, 'colour')
+  end
+
 end

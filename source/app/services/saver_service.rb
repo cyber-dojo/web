@@ -60,6 +60,14 @@ class SaverService
     @http.get(__method__, {id:id})
   end
 
+  def kata_option_get(id, name)
+    @http.get(__method__, {id:id, name:name})
+  end
+
+  def kata_option_set(id, name, value)
+    @http.post(__method__, {id:id, name:name, value:value})
+  end
+
   def kata_event(id, index)
     @http.get(__method__, {id:id, index:index})
   end

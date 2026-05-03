@@ -75,7 +75,7 @@ $(() => {
       $.ajax({
             type: 'GET',
         dataType: 'json',
-             url: '/saver/kata_option_get',
+             url: '/kata/option_get',
             data: {
                 id: cd.kata.id,
               name: name
@@ -92,12 +92,12 @@ $(() => {
     $.ajax({
           type: 'POST',
       dataType: 'json',
-           url: '/saver/kata_option_set',
-          data: JSON.stringify({
+           url: '/kata/option_set',
+          data: {
                id: cd.kata.id,
              name: name,
             value: value
-          }),
+          },
          async: false,
        success: () => cache[name] = value
     });
