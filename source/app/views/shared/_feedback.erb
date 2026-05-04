@@ -1,6 +1,10 @@
 <button type="button" id="feedback-button" class="info-button">feedback</button>
 
-<div id="feedback-dialog" style="display:none;">
+<dialog id="feedback-dialog" style="width:430px">
+  <header>
+    <span class="dialog-title">feedback</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
   <div class="info">
     Please email us at <em>feedback@cyber-dojo.org</em>
     <ul>
@@ -10,7 +14,7 @@
       <li>say hello :-)</li>
     </ul>
   </div>
-</div>
+</dialog>
 
 <script>
 'use strict';
@@ -18,18 +22,12 @@ $(() => {
 
   const $button = $('#feedback-button');
   cd.createTip($button, 'give us your feedback');
-  $button.click(() => openFeedbackInfoDialog());
 
-  const openFeedbackInfoDialog = () => {
-    $('#feedback-dialog').dialog({
-              width: 430,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('feedback'),
-        beforeClose: () => cd.kata.editor.refocus()
-    });
-  };
+  const dialog = document.getElementById('feedback-dialog');
+  dialog.addEventListener('close', () => cd.kata.editor.refocus());
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+
+  $button.click(() => dialog.showModal());
 
 });
 </script>
