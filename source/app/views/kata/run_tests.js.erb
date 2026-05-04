@@ -44,7 +44,7 @@
                 'id':'out-of-sync',
           'readonly':'readonly'
       }).val(message);
-      cd.dialog(html, 'mobbing?', 'close').dialog('open');
+      cd.dialog(html, 'mobbing?', 'close').showModal();
     }
   };
 
@@ -67,7 +67,7 @@
                 'id':'timed-out',
           'readonly':'readonly'
       }).val(info);
-      cd.dialog(html, 'timed out', 'close').dialog('open');
+      cd.dialog(html, 'timed out', 'close').showModal();
     }
   };
 
@@ -79,7 +79,7 @@
                  'id':'faulty',
            'readonly':'readonly'
       }).val(log);
-      cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
+      cd.dialog(html, 'faulty traffic-light', 'close').showModal();
     }
   };
 
@@ -95,7 +95,7 @@
                 'id':'pulling',
           'readonly':'readonly'
       }).val(message);
-      cd.dialog(html, 'still preparing', 'close').dialog('open');
+      cd.dialog(html, 'still preparing', 'close').showModal();
     }
   };
 

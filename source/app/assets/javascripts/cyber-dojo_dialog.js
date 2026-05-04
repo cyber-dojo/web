@@ -7,18 +7,21 @@ var cyberDojo = (function(cd, $) {
   };
 
   cd.dialog = function(html, title, close) {
-    let buttons = {};
-    buttons[close] = function() { $(this).remove(); };
-    return $('<div>')
-      .html(html)
-      .dialog({
-        title: cd.dialogTitle(title),
-        autoOpen: false,
-        width: $(html).data('width'),
-        height: $(html).data('height'),
-        modal: true,
-        buttons: buttons
-      });
+    const dialog = document.createElement('dialog');
+    const width = $(html).data('width');
+    if (width) { dialog.style.width = width + 'px'; }
+    $(dialog).html(`
+      <header>
+        <span class="dialog-title">${title}</span>
+        <button type="button" class="dialog-close">close</button>
+      </header>
+      <div class="info"></div>
+    `);
+    $('.info', dialog).append(html);
+    $('body').append(dialog);
+    $(dialog).on('close', () => dialog.remove());
+    $('.dialog-close', dialog).click(() => dialog.close());
+    return dialog;
   };
 
   return cd;
