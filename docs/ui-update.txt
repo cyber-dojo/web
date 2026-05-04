@@ -1,0 +1,145 @@
+Replace jQuery UI .dialog() with native HTML <dialog>
+======================================================
+
+Goal: remove the jQuery UI .dialog() dependency by replacing every call
+site with the native <dialog> element. This lets us delete
+jquery-ui-1.8.16.custom.scss (437 lines) and eventually jquery-ui.min.js.
+
+Dialogs fall into two patterns.
+
+Pattern A: the <div> already exists in the ERB template and jQuery UI
+wraps it at runtime. Simpler - just change <div> to <dialog> and replace
+the JS call with el.showModal().
+
+Pattern B: JS builds the HTML dynamically and calls .dialog() on it.
+Requires rewriting (or replacing) the cd.dialog() helper first.
+
+We do all of Pattern A, then all of Pattern B.
+
+===========================================================================
+PREREQUISITES (do once before starting Pattern A)
+===========================================================================
+
+P1. Add base CSS for native <dialog>
+    File: source/app/assets/stylesheets/dialog.scss
+    Add: dialog, dialog::backdrop rules.
+    The <dialog> element is hidden by default so display:none hacks go away.
+    No jQuery UI classes needed yet - they stay until cleanup at the end.
+
+===========================================================================
+PATTERN A - Pre-existing <div> becomes <dialog> in the template
+===========================================================================
+
+Each step follows the same recipe:
+  - Change <div id="X"> to <dialog id="X"> in the ERB template
+  - Remove style="display:none;" (dialogs are hidden by default)
+  - Replace $('#X').dialog({...}) with:
+      const el = document.getElementById('X');
+      el.showModal();
+  - Wire the close button / ESC via the dialog's cancel event if needed.
+  - Add a beforeClose equivalent via the cancel event where needed.
+
+A1. shared/_feedback.erb
+    Dialog id: feedback-dialog
+    Special cases: beforeClose calls cd.kata.editor.refocus()
+    -> listen for cancel event and call refocus() there instead.
+
+A2. shared/_traffic_lights.erb
+    Dialog id: traffic-lights-dialog
+    Special cases: beforeClose calls cd.kata.editor.refocus()
+    -> same as A1.
+
+A3. shared/_sponsorship_dialog.erb  (div lives here)
+    shared/_sponsorship_button.erb   (JS call lives here)
+    Dialog id: sponsorship-dialog
+    Special cases: beforeClose calls cd.kata.editor.refocus()
+    -> same as A1.
+
+A4. shared/_charity_dialog.erb  (div lives here)
+    shared/_charity_button.erb   (JS call lives here)
+    review/_charity.erb          (second JS call, same id)
+    Dialog id: charity-dialog
+    Special cases: beforeClose calls cd.kata.editor.refocus()
+    -> same as A1.
+
+A5. shared/_settings.erb
+    Dialog id: settings-dialog
+    Special cases:
+      - position: [xPos, yPos]  -- jQuery UI positions the dialog on screen.
+        After showModal(), set dialog.style.left and dialog.style.top manually.
+      - beforeClose calls cd.kata.editor.refocus()
+    -> set position in CSS after showModal(); handle refocus via cancel event.
+
+A6. review/_fork_button.erb
+    Dialog id: fork-dialog
+    Special cases:
+      - position: [xPos, yPos]  -- same as A5.
+      - $fork.dialog('close') in the fork() function -> el.close()
+    -> set position after showModal(); replace .dialog('close') with .close().
+
+===========================================================================
+PATTERN B - JS builds HTML and opens dialog dynamically
+===========================================================================
+
+B1. Rewrite cd.dialog() helper
+    File: source/app/assets/javascripts/cyber-dojo_dialog.js
+    Current: creates a jQuery <div>, calls .dialog({autoOpen:false, ...}).
+    New: creates a <dialog> element with a <header> (title + X button)
+    and a <footer> (close button). Returns the element. Callers that
+    currently call .dialog('open') afterwards just call el.showModal().
+    This is a prerequisite for B2 and B3.
+
+B2. cyber-dojo_dialog_error.js
+    Uses cd.dialog(html, 'error', 'close').dialog('open').
+    After B1: cd.dialog() returns a <dialog>; replace .dialog('open')
+    with .showModal(). One-line change.
+
+B3. kata/run_tests.js.erb  (4 calls)
+    All use cd.dialog(html, title, 'close').dialog('open').
+    Same fix as B2 - four identical one-line changes.
+
+B4. shared/_hotkeys.erb
+    Builds HTML as a string, then calls $div.dialog({autoOpen:true, ...}).
+    Replace with: create a <dialog>, set innerHTML, append to body,
+    call showModal(), remove on close.
+
+B5. cyber-dojo_dialog_donate.js
+    Special cases:
+      - beforeClose uses event.keyCode === $.ui.keyCode.ESCAPE
+        -> replace with cancel event: event.key === 'Escape'
+    Otherwise same shape as B4.
+
+B6. cyber-dojo_lib_open_avatar_selector_dialog.js
+    Special cases:
+      - position: [xPos, yPos] -> set dialog.style.left/top after showModal()
+      - .dialog('destroy') -> el.close() then el.remove()
+    Otherwise same shape as B4.
+
+B7. kata/_file_create_rename_delete.erb
+    Most complex dialog in the codebase. Special cases:
+      - position: [xPos, yPos] -> set dialog.style.left/top after showModal()
+      - $.ui.keyCode.ESCAPE -> event.key === 'Escape' in cancel handler
+      - $.ui.keyCode.ENTER  -> event.key === 'Enter' in keyup handler
+      - closeDialog() uses .closest('.ui-dialog').remove()
+        -> replace with el.close() then el.remove()
+      - open: callback (focus input, set selection range)
+        -> call that code immediately after showModal()
+
+===========================================================================
+CLEANUP (after all A and B steps pass)
+===========================================================================
+
+C1. Remove jQuery UI dialog CSS
+    File: source/app/assets/stylesheets/jquery-ui-1.8.16.custom.scss
+    Delete the dialog, button, resizable, and theme sections.
+    Leave only whatever tabs CSS is still needed (investigate separately).
+    If nothing remains, delete the whole file.
+
+C2. Update dialog.scss
+    Remove .ui-dialog-buttonset rule.
+    Finalise dialog, dialog::backdrop, dialog header, dialog footer styles.
+
+C3. Investigate tabs
+    cd.kata.tabs wraps something - confirm whether it is jQuery UI .tabs()
+    or a custom implementation. If it is jQuery UI, that is a separate
+    workstream. If not, jquery-ui.min.js can be deleted entirely.
