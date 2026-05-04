@@ -38,24 +38,21 @@
 
 <script>
 'use strict';
-$(() => {
-
-  $('button.charity').each(function() {
-    const $button = $(this);
-    if ($button.data('initialized')) return;
-    $button.data('initialized', true);
-    const dialog = $button.next('dialog')[0];
-    dialog.addEventListener('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
-    dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-    $button.click(() => {
-      // saveAnyFileChangesITE is only defined on the kata edit page, not the standalone review page
-      if (cd.saveAnyFileChangesITE) {
-        cd.saveAnyFileChangesITE(() => dialog.showModal());
-      } else {
-        dialog.showModal();
-      }
-    });
+// Inline (not $()) so document.currentScript is available, letting each partial
+// instance wire its own sibling button and dialog without a guard against
+// double-initialization when the partial appears twice on the same page.
+(function() {
+  const dialog = document.currentScript.previousElementSibling;
+  const button = dialog.previousElementSibling;
+  dialog.addEventListener('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  button.addEventListener('click', () => {
+    // saveAnyFileChangesITE is only defined on the kata edit page, not the standalone review page
+    if (cd.saveAnyFileChangesITE) {
+      cd.saveAnyFileChangesITE(() => dialog.showModal());
+    } else {
+      dialog.showModal();
+    }
   });
-
-});
+})();
 </script>
