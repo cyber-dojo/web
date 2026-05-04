@@ -55,18 +55,21 @@ $(() => {
   };
 
   const syncPostWithCallbackITE = (url, data, callback) => {
-    $.ajax({
-      timeout: 2*1000,
-      type: 'POST',
-      url: url,
-      data: data
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2000);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams(data),
+      signal: controller.signal
     })
-    .done(function(newIndex) {
-      kata.setIndex(newIndex);
-    })
-    .always(function() {
-      callback();
-    });
+    .then(r => r.json())
+    .then(newIndex => kata.setIndex(newIndex))
+    .finally(() => { clearTimeout(timer); callback(); });
   };
 
   const snycGetWithCallback = (url, callback) => {

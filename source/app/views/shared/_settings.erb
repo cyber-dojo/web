@@ -97,18 +97,15 @@
   };
 
   const setOption = (name, value) => {
-    // Only available in edit mode.
-    $.ajax({
-          type: 'POST',
-      dataType: 'json',
-           url: '/kata/option_set',
-          data: {
-               id: cd.kata.id,
-             name: name,
-            value: value
-          },
-         async: false,
-       success: () => cache[name] = value
+    cache[name] = value;
+    fetch('/kata/option_set', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams({ id: cd.kata.id, name: name, value: value })
     });
   };
 

@@ -5,11 +5,13 @@ var cyberDojo = (function(cd, $) {
   cd.setupTrafficLightTip = ($light, light, kataId, wasIndex, nowIndex) => {
     setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
-      $.getJSON('/differ/diff_summary', args, (data) => {
-        const diff = data.diff_summary;
-        const $tip = $trafficLightTip(light, kataId, diff);
-        showHoverTip($light, $tip);
-      });
+      const params = new URLSearchParams(args);
+      fetch(`/differ/diff_summary?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => r.json())
+        .then(json => {
+          const $tip = $trafficLightTip(light, kataId, json.diff_summary);
+          showHoverTip($light, $tip);
+        });
     });
   };
 

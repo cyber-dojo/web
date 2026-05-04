@@ -5,12 +5,13 @@ $(() => {
   const review = cd.review;
 
   review.getJSON = (serviceName, path, args, responder) => {
+    const params = new URLSearchParams(args);
     cd.waitSpinner.fadeIn('fast', () => {
-      $.getJSON(`/${serviceName}/${path}`, args, (json) => {
-        cd.waitSpinner.fadeOut('fast', () => {
-          responder(json[path]);
+      fetch(`/${serviceName}/${path}?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => r.json())
+        .then(json => {
+          cd.waitSpinner.fadeOut('fast', () => responder(json[path]));
         });
-      });
     });
   };
 

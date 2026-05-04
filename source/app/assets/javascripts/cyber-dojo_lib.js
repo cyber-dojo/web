@@ -8,9 +8,10 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.getEvents = (id, callback) => {
-    $.getJSON('/kata/events', {id: id}, (json) => {
-      callback(json['kata_events']);
-    });
+    const params = new URLSearchParams({id: id});
+    fetch(`/kata/events?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(r => r.json())
+      .then(json => callback(json['kata_events']));
   };
 
   cd.lib.isLight = (event) => {
