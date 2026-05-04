@@ -14,7 +14,11 @@ $(() => {
   const $button = $('#info-button');
   const $buttons = () => $('.info-button');
   cd.createTip($button, 'toggle information buttons on/off');
-  $button.clickToggle(() => $buttons().fadeIn(), () => $buttons().fadeOut());
+  let visible = false;
+  $button[0].addEventListener('click', () => {
+    visible = !visible;
+    visible ? $buttons().fadeIn() : $buttons().fadeOut();
+  });
 
   $button.click(); // Make visible
 
