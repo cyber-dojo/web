@@ -238,13 +238,15 @@ var cyberDojo = ((cd, $) => {
 
   cd.setupHotkeys = () => {
     // Called from app/views/kata/edit.html.erb
-    $(document).bind('keyup', 'alt+t', runTests);
-    $(document).bind('keyup', 'alt+r', predictRed);
-    $(document).bind('keyup', 'alt+a', predictAmber);
-    $(document).bind('keyup', 'alt+g', predictGreen);
-    $(document).bind('keyup', 'alt+j', selectNext);
-    $(document).bind('keyup', 'alt+k', selectPrevious);
-    $(document).bind('keyup', 'alt+o', toggleOutput);
+    const keyMap = { t: runTests, r: predictRed, a: predictAmber,
+                     g: predictGreen, j: selectNext, k: selectPrevious,
+                     o: toggleOutput };
+    document.addEventListener('keyup', (e) => {
+      if (e.altKey && keyMap[e.key]) {
+        e.preventDefault();
+        keyMap[e.key]();
+      }
+    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
