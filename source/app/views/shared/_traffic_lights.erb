@@ -1,12 +1,16 @@
 <button type="button" id="traffic-lights-button" class="info-button">version-control</button>
 
-<div id="traffic-lights-dialog" style="display:none;">
+<dialog id="traffic-lights-dialog" style="width:400px">
+  <header>
+    <span class="dialog-title">version-control</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
   <div class="info">
   <%= partial('shared/traffic_lights_bulb_info') %>
   <%= partial('shared/traffic_lights_click_info') %>
   </div>
   <div class="info">Tests must complete in <span id="max-seconds"></span> seconds</div>
-</div>
+</dialog>
 
 <script>
 'use strict';
@@ -16,22 +20,15 @@ $(() => {
 
   cd.createTip(cd.trafficLightsButton(), 'show version-control information');
 
-  cd.trafficLightsButton().click(() => openTrafficLightsInfoDialog());
+  const dialog = document.getElementById('traffic-lights-dialog');
+  dialog.addEventListener('close', () => cd.kata.editor.refocus());
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
 
-  const openTrafficLightsInfoDialog = () => {
+  cd.trafficLightsButton().click(() => {
     const manifest = cd.kata.manifest();
-    $('#max-seconds').html(manifest.max_seconds);
-    $('#traffic-lights-dialog').dialog({
-              width: 400,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('version-control'),
-        beforeClose: () => cd.kata.editor.refocus()
-    });
-  };
-
-  const $kataId = $('.kata-id');
+    document.getElementById('max-seconds').innerHTML = manifest.max_seconds;
+    dialog.showModal();
+  });
 
 });
 </script>
