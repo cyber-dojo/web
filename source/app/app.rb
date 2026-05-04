@@ -27,7 +27,8 @@ class App < Sinatra::Base
       response.set_cookie('csrf_token', value: @csrf_token, path: '/')
     end
     unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
-      halt 403, 'Forbidden' unless params['authenticity_token'] == @csrf_token
+      token = request.env['HTTP_X_CSRF_TOKEN'] || params['authenticity_token']
+      halt 403, 'Forbidden' unless token == @csrf_token
     end
   end
 
@@ -226,6 +227,55 @@ class App < Sinatra::Base
   post '/kata/file_edit' do
     content_type :json
     saver.kata_file_edit(id, index, params_files).to_json
+  end
+
+  get '/kata/event' do
+    content_type :json
+    { 'event' => saver.kata_event(id, index) }.to_json
+  end
+
+  post '/kata/fork' do
+    content_type :json
+    { 'kata_fork' => saver.kata_fork(id, index) }.to_json
+  end
+
+  get '/kata/events' do
+    content_type :json
+    { 'kata_events' => saver.kata_events(id) }.to_json
+  end
+
+  get '/kata/manifest' do
+    content_type :json
+    { 'kata_manifest' => saver.kata_manifest(id) }.to_json
+  end
+
+  get '/kata/download' do
+    content_type :json
+    { 'kata_download' => saver.kata_download(id) }.to_json
+  end
+
+  get '/kata/option_get' do
+    content_type :json
+    { 'kata_option_get' => saver.kata_option_get(id, params[:name]) }.to_json
+  end
+
+  post '/kata/option_set' do
+    content_type :json
+    saver.kata_option_set(id, params[:name], params[:value])
+    {}.to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
+  # Group
+
+  get '/group/joined' do
+    content_type :json
+    { 'joined' => saver.group_joined(id) }.to_json
+  end
+
+  post '/group/fork' do
+    content_type :json
+    { 'group_fork' => saver.group_fork(id, index) }.to_json
   end
 
   # - - - - - - - - - - - - - - - -

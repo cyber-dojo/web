@@ -208,4 +208,40 @@ class SaverServiceTest < AppServicesTestBase
     assert_equal 1, actual.size
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJB',
+  'kata_option_set() and kata_option_get() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    saver.kata_option_set(kid, 'colour', 'off')
+    assert_equal 'off', saver.kata_option_get(kid, 'colour')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJC',
+  'kata_download() smoke test' do
+    manifest = starter_manifest
+    manifest['version'] = 2
+    kid = saver.kata_create(manifest)
+    result = saver.kata_download(kid)
+    assert_equal 2, result.size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJD',
+  'kata_fork() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    forked_id = saver.kata_fork(kid, 0)
+    assert saver.kata_exists?(forked_id)
+  end
+
+  test 'D1EQJE',
+  'group_fork() smoke test' do
+    kid = saver.kata_create(starter_manifest)
+    forked_id = saver.group_fork(kid, 0)
+    assert saver.group_exists?(forked_id)
+  end
+
 end

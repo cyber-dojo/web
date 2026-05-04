@@ -8,10 +8,8 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.getEvents = (id, callback) => {
-    const name = 'kata_events';
-    $.getJSON(`/saver/${name}`, {id: id}, (json) => {
-      const events = json[name];
-      callback(events);
+    $.getJSON('/kata/events', {id: id}, (json) => {
+      callback(json['kata_events']);
     });
   };
 

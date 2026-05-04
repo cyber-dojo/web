@@ -8,7 +8,7 @@ var cyberDojo = ((cd, $) => {
     if (kataManifestCache === undefined) {
       $.ajax({
               type: 'GET',
-               url: `/saver/kata_manifest?id=${id}`,
+               url: `/kata/manifest?id=${id}`,
           dataType: 'json',
              async: false,
            success: (response) => {

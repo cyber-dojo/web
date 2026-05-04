@@ -37,6 +37,9 @@ services:
     restart: no
     volumes:
       - ./bin/create_v2_kata.rb:/cyber-dojo/script/create_v2_kata.rb:ro
+      - ./source/app:/web/source/app:ro
+      - ./source/test:/web/source/test:ro
+      - ./source/lib:/web/source/lib:ro
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
