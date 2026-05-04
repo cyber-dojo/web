@@ -2,10 +2,6 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.dialogTitle = (title) => {
-    return `<span class="large dialog title">${title}<span>`;
-  };
-
   cd.dialog = function(html, title, close) {
     const dialog = document.createElement('dialog');
     const width = $(html).data('width');

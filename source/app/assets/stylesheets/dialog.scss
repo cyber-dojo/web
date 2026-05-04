@@ -14,12 +14,6 @@
   }
 }
 
-.ui-dialog-buttonset
-{
-  position: relative;
-  left: -8px; // to left align custom [close] button.
-}
-
 dialog {
   background: $darker-color;
   color: $lighter-color;
