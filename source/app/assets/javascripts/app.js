@@ -22,7 +22,6 @@
 //
 //= require ./jquery.min
 //= require ./jquery_ujs
-//= require ./jquery-ui.min
 //= require ./codemirror/lib/codemirror
 //= require_tree ./codemirror/mode
 //= require_tree ./codemirror/addon
