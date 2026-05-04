@@ -6,7 +6,7 @@ $hoverFadePercent: 5%;
   @include plaintext-font();
   background: lighten($darker-color, $hoverFadePercent);
   z-index: 2000;
-  position: absolute;
+  position: fixed;
   color: darken($lighter-color, 6%);
   border: 1px dotted lighten($darker-color, 30%);
   border-radius: 5px;

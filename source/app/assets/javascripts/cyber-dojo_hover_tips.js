@@ -171,6 +171,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.removeTip = () => {
     hoverTipContainer().empty();
+    $('dialog .hover-tip').remove();
   };
 
   cd.createTip = ($node, tip, where) => {
@@ -198,10 +199,16 @@ var cyberDojo = (function(cd, $) {
       if (typeof tip === 'function') {
         tip = tip();
       }
-      const pos = $ref.offset();
+      const rect = $ref[0].getBoundingClientRect();
       const $hoverTip = $('<div>', { class: 'hover-tip' }).html(tip);
-      hoverTipContainer().html($hoverTip);
-      $hoverTip.css({ left: pos.left, top: pos.top + $ref.outerHeight() });
+      const $dialog = $node.closest('dialog');
+      if ($dialog.length) {
+        $dialog.find('.hover-tip').remove();
+        $dialog.append($hoverTip);
+      } else {
+        hoverTipContainer().html($hoverTip);
+      }
+      $hoverTip.css({ left: rect.left, top: rect.bottom });
     }
   };
 
