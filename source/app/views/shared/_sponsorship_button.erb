@@ -26,9 +26,9 @@
 (function() {
   const dialog = document.currentScript.previousElementSibling;
   const button = dialog.previousElementSibling;
-  dialog.addEventListener('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
-  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-  button.addEventListener('click', () => {
+  $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
+  $('.dialog-close', dialog).click(() => dialog.close());
+  $(button).click(() => {
     // saveAnyFileChangesITE is only defined on the kata edit page, not the standalone review page
     if (cd.saveAnyFileChangesITE) {
       cd.saveAnyFileChangesITE(() => dialog.showModal());

@@ -22,11 +22,10 @@
   const button = dialog.previousElementSibling;
   cd.trafficLightsButton = () => $(button);
   cd.createTip($(button), 'show version-control information');
-  dialog.addEventListener('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
-  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-  button.addEventListener('click', () => {
-    const manifest = cd.kata.manifest();
-    document.getElementById('max-seconds').innerHTML = manifest.max_seconds;
+  $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
+  $('.dialog-close', dialog).click(() => dialog.close());
+  $(button).click(() => {
+    $('#max-seconds').text(cd.kata.manifest().max_seconds);
     dialog.showModal();
   });
 })();

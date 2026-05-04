@@ -56,7 +56,7 @@
     }
   };
 
-  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  $('.dialog-close', dialog).click(() => dialog.close());
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -99,9 +99,9 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  button.addEventListener('click', () => openForkDialog());
-  dialog.querySelectorAll('.kata').forEach(b => b.addEventListener('click', () => fork('/kata/fork',  'kata_fork')));
-  dialog.querySelector('.group').addEventListener('click', () => fork('/group/fork', 'group_fork'));
+  $(button).click(() => openForkDialog());
+  $('.kata',  dialog).click(() => fork('/kata/fork',  'kata_fork'));
+  $('.group', dialog).click(() => fork('/group/fork', 'group_fork'));
 
 })();
 </script>

@@ -122,8 +122,8 @@
     $(button).show().on('click', () => openSettingsDialog());
   };
 
-  dialog.addEventListener('close', () => cd.kata.editor.refocus());
-  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  $(dialog).on('close', () => cd.kata.editor.refocus());
+  $('.dialog-close', dialog).click(() => dialog.close());
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
