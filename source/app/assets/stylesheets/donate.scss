@@ -1,0 +1,13 @@
+button.donate
+{
+  border-radius: 3px;
+  margin: { left:0px; right:0px; top:0px; bottom:2px; }
+  padding: { left:2px; right:2px; top:0px; bottom:1px; }
+  color: darken($darker-color, 10%);
+  font-size: 10px;
+  font-weight: bold;
+  width: 74px;
+  text-align: center;
+  position: relative;
+  right: -1px;
+}

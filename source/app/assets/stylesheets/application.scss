@@ -52,6 +52,7 @@
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
  *= depend_on download.scss
+ *= depend_on donate.scss
  *= depend_on charity.scss
  *= depend_on sponsorship.scss
  *= depend_on jquery-ui-1.8.16.custom.scss
@@ -106,6 +107,7 @@
 @import "yin-yang-logo.scss";
 @import "hotkeys.scss";
 @import "download.scss";
+@import "donate.scss";
 @import "charity.scss";
 @import "sponsorship.scss";
 @import "jquery-ui-1.8.16.custom.scss";
