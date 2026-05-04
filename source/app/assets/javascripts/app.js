@@ -21,7 +21,6 @@
 // dependent are stored in the codemirror/mode-ordered directory and required individually.
 //
 //= require ./jquery.min
-//= require ./jquery_ujs
 //= require ./codemirror/lib/codemirror
 //= require_tree ./codemirror/mode
 //= require_tree ./codemirror/addon
