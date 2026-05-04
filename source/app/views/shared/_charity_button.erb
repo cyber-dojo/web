@@ -1,25 +1,61 @@
 <button type="button" class="charity">charity</button>
 
+<dialog style="width:700px">
+  <header>
+    <span class="dialog-title">charity</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info">
+    The <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+           target="_blank">cyber-dojo Foundation</a> is a
+    Scottish Charitable Incorporated Organisation<br/>
+    <ul>
+      <li>
+        100% of license fees helps
+        <a href="https://blog.cyber-dojo.org/2020/06/supporting-turing-trust.html"
+           target="_blank">children learn about software</a>
+      </li>
+      <li>
+        if you're using <em>https://cyber-dojo.org</em> commercially, please
+        <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+           target="_blank">buy a licence</a>
+      </li>
+      <li>
+        100% of donations helps
+        <a href="https://blog.cyber-dojo.org/2016/10/cyber-dojo-raspberry-pies-in-action.html"
+           target="_blank">children learn about software</a>
+      </li>
+      <li>
+        please consider
+        <a href="javascript:;" onClick="cd.dialog_donate().dialog('open');">making a donation</a>
+      </li>
+      <li>
+        thank you
+      </li>
+    </ul>
+  </div>
+</dialog>
+
 <script>
 'use strict';
 $(() => {
 
-  const $button = $('button.charity');
-
-  $button.click(() => openCharityInfoDialog());
-
-  const openCharityInfoDialog = () => {
-    cd.saveAnyFileChangesITE(() => {
-      $('#charity-dialog').dialog({
-                width: 700,
-            autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('charity'),
-          beforeClose: () => cd.kata.editor.refocus()
-      });
+  $('button.charity').each(function() {
+    const $button = $(this);
+    if ($button.data('initialized')) return;
+    $button.data('initialized', true);
+    const dialog = $button.next('dialog')[0];
+    dialog.addEventListener('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
+    dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+    $button.click(() => {
+      // saveAnyFileChangesITE is only defined on the kata edit page, not the standalone review page
+      if (cd.saveAnyFileChangesITE) {
+        cd.saveAnyFileChangesITE(() => dialog.showModal());
+      } else {
+        dialog.showModal();
+      }
     });
-  };
+  });
 
 });
 </script>
