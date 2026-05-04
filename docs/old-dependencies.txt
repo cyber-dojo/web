@@ -33,11 +33,7 @@ All network calls go through two helpers:
 Rewrite both helpers using fetch(). Every call site already goes through one of
 these two helpers, so the blast radius is contained to those two files.
 
-One wrinkle: cyber-dojo_lib_avatar_name.js uses $.ajax({async: false, ...}) --
-synchronous XHR is deprecated; the replacement needs to make the caller async
-(or accept a callback).
-
-Once $.getJSON and $.ajax are gone, cyber-dojo_csrf.js (which hooks ajaxSend to
+Once $.getJSON is gone, cyber-dojo_csrf.js (which hooks ajaxSend to
 inject CSRF tokens) needs to be replaced -- inject the token as a header in the
 fetch() calls directly instead.
 
@@ -48,7 +44,7 @@ fetch() calls directly instead.
 The main files to rewrite:
 
   cyber-dojo_hover_tips.js
-    $(), .on(), .off(), .mouseenter(), .css(), .offset(), .outerHeight()
+    $(), .on(), .off(), .mouseenter(), .css(), .outerHeight()
 
   cyber-dojo_lib_append_traffic_light.js
     $('<div>') element construction
