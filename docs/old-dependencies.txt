@@ -22,20 +22,19 @@ jquery.hotkeys.js -- replaced in cyber-dojo_codemirror.js with a single
 document.addEventListener dispatching via a key map.
 
 
-3. Replace the AJAX layer with fetch() (medium scope)
------------------------------------------------------
+3. Replace the AJAX layer with fetch() (medium scope) -- DONE
+-------------------------------------------------------------
 
 All network calls go through two helpers:
   - cd.getJSON(name, params, ok, fail) in cyber-dojo_lib.js:11 -- wraps $.getJSON
   - review.getJSON(service, method, params, ok) in review/lib/_get_json.erb:9
     -- also wraps $.getJSON
 
-Rewrite both helpers using fetch(). Every call site already goes through one of
-these two helpers, so the blast radius is contained to those two files.
+Both helpers rewritten using fetch(). All $.ajax POST calls in
+_settings.erb, _fork_button.erb, and _file_inter_test_events.erb also
+migrated to fetch() with CSRF token injected directly in headers.
 
-Once $.getJSON is gone, cyber-dojo_csrf.js (which hooks ajaxSend to
-inject CSRF tokens) needs to be replaced -- inject the token as a header in the
-fetch() calls directly instead.
+cyber-dojo_csrf.js (which hooked ajaxSend to inject CSRF tokens) deleted.
 
 
 4. Replace jQuery DOM manipulation and events -- remove jQuery itself (large)
