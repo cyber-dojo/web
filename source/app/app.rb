@@ -27,7 +27,8 @@ class App < Sinatra::Base
       response.set_cookie('csrf_token', value: @csrf_token, path: '/')
     end
     unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
-      halt 403, 'Forbidden' unless params['authenticity_token'] == @csrf_token
+      token = request.env['HTTP_X_CSRF_TOKEN'] || params['authenticity_token']
+      halt 403, 'Forbidden' unless token == @csrf_token
     end
   end
 
