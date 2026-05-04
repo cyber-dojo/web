@@ -6,23 +6,27 @@ var cyberDojo = ((cd, $) => {
     // Used by both app/views/kata and app/view/review
     const xPos = $from.offset().left;
     const yPos = $from.offset().top + 40;
-    const $selector = $('<div>', { id:'avatar-selector-dialog'} );
-    $selector
-         .html($makeAvatarSelectorHtml($selector, kataId, setupActiveAvatar))
-         .dialog({
-                    width: 405,
-                   height: 450,
-                 autoOpen: true,
-            closeOnEscape: true,
-                    modal: true,
-                 position: [ xPos,yPos ],
-                    title: cd.dialogTitle('select an avatar'),
-                    close: () => $selector.dialog('destroy')
-          });
+    const dialog = document.createElement('dialog');
+    dialog.id = 'avatar-selector-dialog';
+    dialog.style.width = '405px';
+    dialog.style.left = xPos + 'px';
+    dialog.style.top = yPos + 'px';
+    dialog.style.margin = '0';
+    $(dialog).html(`
+      <header>
+        <span class="dialog-title">select an avatar</span>
+        <button type="button" class="dialog-close">close</button>
+      </header>
+    `);
+    $(dialog).append($makeAvatarSelectorHtml(dialog, kataId, setupActiveAvatar));
+    $('body').append(dialog);
+    $(dialog).on('close', () => dialog.remove());
+    $('.dialog-close', dialog).click(() => dialog.close());
+    dialog.showModal();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeAvatarSelectorHtml = ($selector, kataId, setupActiveAvatar) => {
+  const $makeAvatarSelectorHtml = (dialog, kataId, setupActiveAvatar) => {
     const $table = $('<table>');
     cd.review.getJSON('group', 'joined', {id:kataId}, (joined) => {
       const active = cd.review.avatarsActive(joined);
@@ -32,7 +36,7 @@ var cyberDojo = ((cd, $) => {
           const $td = $('<td>');
           const index = x*8 + y;
           const $img = active[index]
-            ? $makeColourAvatar(index, joined[index], $selector, setupActiveAvatar)
+            ? $makeColourAvatar(index, joined[index], dialog, setupActiveAvatar)
             : $makeGreyAvatar(index);
           $td.append($img);
           $tr.append($td);
@@ -60,13 +64,13 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeColourAvatar = (index, avatar, $selector, setupActiveAvatar) => {
+  const $makeColourAvatar = (index, avatar, dialog, setupActiveAvatar) => {
     const $img = $('<img>', {
         src: `/images/avatars/${index}.jpg`,
       class: 'small colour avatar',
         alt: `small colour avatar ${index}`
     });
-    setupActiveAvatar($img, index, avatar, $selector);
+    setupActiveAvatar($img, index, avatar, dialog);
     return $img;
   };
 

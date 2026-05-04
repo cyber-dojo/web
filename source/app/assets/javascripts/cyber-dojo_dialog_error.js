@@ -8,7 +8,7 @@ var cyberDojo = ((cd, $) => {
               'id':'error',
         'readonly':'readonly'
     }).val(info);
-    cd.dialog(html, 'error', 'close').dialog('open');
+    cd.dialog(html, 'error', 'close').showModal();
   };
 
   return cd;

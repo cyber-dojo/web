@@ -193,28 +193,15 @@ var cyberDojo = (function(cd, $) {
   };
 
   const showHoverTip = ($node, tip, where) => {
-    if (where === undefined) {
-      where = {};
-    }
-    if (where.my === undefined) { where.my = 'top'; }
-    if (where.at === undefined) { where.at = 'bottom'; }
-    if (where.of === undefined) { where.of = $node; }
+    const $ref = (where && where.of) ? where.of : $node;
     if (!$node.attr('disabled') && !$node.hasClass('mouse-has-left')) {
       if (typeof tip === 'function') {
         tip = tip();
       }
-      // position() is the jQuery UI plug-in
-      // https://jqueryui.com/position/
-      const $hoverTip =
-        $('<div>', { class: 'hover-tip' })
-          .html(tip)
-          .position({
-            my: where.my,
-            at: where.at,
-            of: where.of,
-            collision: 'flip flip'
-          });
+      const pos = $ref.offset();
+      const $hoverTip = $('<div>', { class: 'hover-tip' }).html(tip);
       hoverTipContainer().html($hoverTip);
+      $hoverTip.css({ left: pos.left, top: pos.top + $ref.outerHeight() });
     }
   };
 

@@ -1,6 +1,10 @@
 <img id="settings-button" src="/images/settings.png" />
 
-<div id="settings-dialog" style="display:none;">
+<dialog id="settings-dialog" style="width:250px">
+  <header>
+    <span class="dialog-title">settings</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
   <div class="info">
     <div class="info-title">colour syntax</div>
     <input type="radio" id="colour-off" name="colour" value="off">
@@ -15,21 +19,26 @@
     <input type="radio" id="light" name="theme" value="light">
     <label for="light">light</label><br/>
   </div>
-</div>
+</dialog>
 
 <script>
 'use strict';
-$(() => {
+// Inline (not $()) so document.currentScript is available, letting each partial
+// instance wire its own sibling button and dialog without a guard against
+// double-initialization when the partial appears twice on the same page.
+(function() {
+  const dialog = document.currentScript.previousElementSibling;
+  const button = dialog.previousElementSibling;
 
   cd.settings = {
-    showButton: () => $button.show(),
-    hideButton: () => $button.hide(),
+    showButton: () => $(button).show(),
+    hideButton: () => $(button).hide(),
     // Note: the CodeMirror theme is a combination of colour+theme
     colour:(value) => {
       const name = 'colour';
       if (value === undefined) {
         return getOption(name);
-      } 
+      }
       else {
         setOption(name, value);
         cd.codeMirror.resetTheme();
@@ -39,7 +48,7 @@ $(() => {
       const name = 'theme';
       if (value === undefined) {
         return getOption(name);
-      } 
+      }
       else {
         setOption(name, value);
         cd.codeMirror.resetTheme();
@@ -50,7 +59,7 @@ $(() => {
       const name = 'predict';
       if (value === undefined) {
         return getOption(name);
-      } 
+      }
       else {
         setOption(name, value);
       }
@@ -59,7 +68,7 @@ $(() => {
       const name = `revert_${colour}`;
       if (value === undefined) {
         return getOption(name);
-      } 
+      }
       else {
         setOption(name, value);
       }
@@ -106,37 +115,31 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // UI
 
-  const $button = $('#settings-button');
-
   cd.showSettingsButton = () => {
-    // The setting button is off by default so that is is not
+    // The setting button is off by default so that it is not
     // visible on a review page arrived at from a dashboard.
-    cd.createTip($button, 'open settings dialog');
-    $button.show().click(() => openSettingsDialog())
+    cd.createTip($(button), 'open settings dialog');
+    $(button).show().on('click', () => openSettingsDialog());
   };
+
+  $(dialog).on('close', () => cd.kata.editor.refocus());
+  $('.dialog-close', dialog).click(() => dialog.close());
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openSettingsDialog = () => {
-    const $settings = $('#settings-dialog');
-    [ 'colour', 'theme' ].forEach((name) => {
+    ['colour', 'theme'].forEach((name) => {
       const css = `input[type=radio][name=${name}]`;
       const cssValue = css + `[value=${cd.settings[name]()}]`;
-      $(css, $settings).change(function() { cd.settings[name](this.value); });
-      $(cssValue, $settings).prop('checked', true);
+      $(css, dialog).off('change').on('change', function() { cd.settings[name](this.value); });
+      $(cssValue, dialog).prop('checked', true);
     });
-    const xPos = $button.offset().left;
-    const yPos = $button.offset().top + 90;
-    $settings.dialog({
-              width: 250,
-           position: [ xPos, yPos ],
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('settings'),
-        beforeClose: () => cd.kata.editor.refocus()
-    });
+    const rect = button.getBoundingClientRect();
+    dialog.style.left = rect.left + 'px';
+    dialog.style.top = (rect.top + 90) + 'px';
+    dialog.style.margin = '0';
+    dialog.showModal();
   };
 
-});
+})();
 </script>

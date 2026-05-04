@@ -76,58 +76,52 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDialog = (title, initialFilename, okInitiallyDisabled, okClicked) => {
+    // Position dialog near to tab.filename because if tab.output is
+    // selected then filename will not be selected in filename list.
+    const pos = kata.tabs.filename().offset();
+    const xPos = pos.left + 2;
+    const yPos = pos.top + 25;
 
     const input = makeInput(title, initialFilename);
-    const okButton = $('<button>', {
+    const $okButton = $('<button>', {
       text: 'ok',
       id: 'file-create',
       disabled: okInitiallyDisabled,
       click: () => {
         const newFilename = $.trim(input.val());
         okClicked(newFilename);
-        closeDialog();
+        dialog.close();
       }
     });
-    const closeDialog = () => okButton.closest('.ui-dialog').remove();
 
-    // Position dialog near to tab.filename because if tab.output is
-    // selected then filename will not be selected in filename list.
-    
-    const pos = kata.tabs.filename().offset();
-    const xPos = pos.left + 2;
-    const yPos = pos.top + 25;
-
-    const onDialogOpen = () => {
-      input.focus();
-      input[0].setSelectionRange(...filenameRange(initialFilename));
-    };
-
-    const onDialogClose = (event) => {
-      if (event.keyCode === $.ui.keyCode.ESCAPE) {
-        closeDialog();
-        cd.kata.editor.refocus();
-        return true;
-      }
-    };
+    const dialog = document.createElement('dialog');
+    dialog.style.width = '450px';
+    dialog.style.left = xPos + 'px';
+    dialog.style.top = yPos + 'px';
+    dialog.style.margin = '0';
+    $(dialog).html(`
+      <header>
+        <span class="dialog-title">${title} file</span>
+        <button type="button" class="dialog-close">close</button>
+      </header>
+      <div class="info"></div>
+    `);
+    $('.info', dialog).append(input).append($okButton);
+    $('body').append(dialog);
+    $(dialog).on('close', () => { dialog.remove(); cd.kata.editor.refocus(); });
+    $('.dialog-close', dialog).click(() => dialog.close());
 
     input.keyup((event) => {
       const newFilename = $.trim(input.val());
-      okButton.prop('disabled', !isValidFilename(newFilename));
-      if (!okButton.prop('disabled') && event.keyCode === $.ui.keyCode.ENTER) {
-        okButton.click();
+      $okButton.prop('disabled', !isValidFilename(newFilename));
+      if (!$okButton.prop('disabled') && event.key === 'Enter') {
+        $okButton.click();
       }
     });
 
-    $('<div>').append(input).append(okButton).dialog({
-               open: onDialogOpen,
-  	          title: cd.dialogTitle(`${title} file`),
-    	     autoOpen: true,
-              width: 450,
-           position: [xPos,yPos],
-  	          modal: true,
-        beforeClose: onDialogClose,
-      closeOnEscape: true,
-    });
+    dialog.showModal();
+    input.focus();
+    input[0].setSelectionRange(...filenameRange(initialFilename));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

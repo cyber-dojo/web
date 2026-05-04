@@ -1,18 +1,27 @@
 <button id="fork-button" type="button">fork</button>
 
-<div id="fork-dialog" style="display:none;">
+<dialog id="fork-dialog" style="width:270px">
+  <header>
+    <span class="dialog-title">fork</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
   <div class="info">
     create a new practice<br/>
-    from this traffic-light&#39;s files
+    from this traffic-light's files
   </div>
   <button class="kata"  type="button">ensemble style</button>
   <button class="group" type="button">classroom style</button>
   <button class="kata"  type="button">solo style</button>
-</div>
+</dialog>
 
 <script>
 'use strict';
-$(() => {
+// Inline (not $()) so document.currentScript is available, letting each partial
+// instance wire its own sibling button and dialog without a guard against
+// double-initialization when the partial appears twice on the same page.
+(function() {
+  const dialog = document.currentScript.previousElementSibling;
+  const button = dialog.previousElementSibling;
 
   const kata = cd.kata;
   const review = cd.review;
@@ -24,22 +33,19 @@ $(() => {
   //   history of the forked-from session.
   // At present, there is no support for either of these.
 
-  const $button = $('#fork-button');
-  const $fork = $('#fork-dialog');
-
   const refreshToolTip = () => {
-    cd.createTip($button, () => {
+    cd.createTip($(button), () => {
       return `Create a <u>new</u> practice from<br/>${review.nameRagColour()}`;
     });
   };
 
   review.forkButton = {
-    enable: () => $button.prop('disabled', false),
-    disable: () => $button.prop('disabled', true),
+    enable: () => $(button).prop('disabled', false),
+    disable: () => $(button).prop('disabled', true),
     refresh: () => {
       refreshToolTip();
       if (cd.env['FORK_BUTTON'] == 'off') {
-        $button.hide();
+        $(button).hide();
       }
       if (review.isOnFileEvent()) {
         review.forkButton.disable();
@@ -50,22 +56,20 @@ $(() => {
     }
   };
 
+  $('.dialog-close', dialog).click(() => dialog.close());
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+
   const openForkDialog = () => {
-    const xPos = $button.offset().left;
-    const yPos = $button.offset().top + 30;
-    $fork.dialog({
-              title: cd.dialogTitle('fork'),
-              width: 270,
-             height: 350,
-              modal: true,
-           autoOpen: true,
-           position: [ xPos, yPos ],
-      closeOnEscape: true,
-    });
+    const rect = button.getBoundingClientRect();
+    dialog.style.left = rect.left + 'px';
+    dialog.style.top = (rect.top + 30) + 'px';
+    dialog.style.margin = '0';
+    dialog.showModal();
   };
 
   const fork = (url, responseKey) => {
-    $fork.dialog('close');
+    dialog.close();
     $.ajax({
             type: 'POST',
              url: `${url}?id=${review.id}&index=${review.index}`,
@@ -95,9 +99,9 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  $button.click(() => openForkDialog());
-  $('.kata' , $fork).click(() => fork('/kata/fork',  'kata_fork'));
-  $('.group', $fork).click(() => fork('/group/fork', 'group_fork'));
+  $(button).click(() => openForkDialog());
+  $('.kata',  dialog).click(() => fork('/kata/fork',  'kata_fork'));
+  $('.group', dialog).click(() => fork('/group/fork', 'group_fork'));
 
-});
+})();
 </script>
