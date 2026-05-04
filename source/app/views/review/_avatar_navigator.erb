@@ -55,11 +55,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setupActiveAvatar = ($img, index, avatar, $selector) => {
+  const setupActiveAvatar = ($img, index, avatar, selector) => {
     cd.createTip($img, cd.lib.avatarName(index));
     $img.click(() => {
       cd.removeTip();
-      $selector.dialog('close');
+      selector.close();
       moveToAvatar(avatar);
     });
   };
