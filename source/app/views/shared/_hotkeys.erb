@@ -2,15 +2,16 @@
 
 <script>
 'use strict';
-$(() => {
-
-  const $button = $('#hotkeys-button');
-  cd.createTip($button, 'show keyboard shortcuts');
-  $button.click(() => openHotkeysInfoDialog());
+// Inline (not $()) so document.currentScript is available, letting each partial
+// instance wire its own sibling button and dialog without a guard against
+// double-initialization when the partial appears twice on the same page.
+(function() {
+  const button = document.currentScript.previousElementSibling;
+  cd.createTip($(button), 'show keyboard shortcuts');
+  $(button).click(() => openHotkeysInfoDialog());
 
   const openHotkeysInfoDialog = () => {
     let html = '';
-    html += '<div id="hotkeys-dialog">';
     html += '<div class="info">Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.</div>';
     html += '<table class="info" style="width:400px;">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
@@ -30,18 +31,24 @@ $(() => {
     html += tr2('&nbsp;Alt-A', `predict ${spanColour('amber', '<u>A</u>mber')}`);
     html += tr2('&nbsp;Alt-G', `predict ${spanColour('green', '<u>G</u>reen')}`);
     html += '</table>';
-    html += '</div>';
 
-    const $div = $(html);
-    $div.dialog({
-              width: 435,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('hotkeys'),
-        beforeClose: () => cd.kata.editor.refocus(),
-              close: () => $div.remove()
+    const dialog = document.createElement('dialog');
+    dialog.id = 'hotkeys-dialog';
+    dialog.style.width = '435px';
+    $(dialog).html(`
+      <header>
+        <span class="dialog-title">hotkeys</span>
+        <button type="button" class="dialog-close">close</button>
+      </header>
+      ${html}
+    `);
+    $('body').append(dialog);
+    $(dialog).on('close', () => {
+      cd.kata.editor.refocus();
+      dialog.remove();
     });
+    $('.dialog-close', dialog).click(() => dialog.close());
+    dialog.showModal();
   };
 
   const spanColour = (colour, text) => {
@@ -74,5 +81,5 @@ $(() => {
     '</tr>';
   };
 
-});
+})();
 </script>
