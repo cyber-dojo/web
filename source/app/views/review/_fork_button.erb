@@ -70,32 +70,26 @@
 
   const fork = (url, responseKey) => {
     dialog.close();
-    $.ajax({
-            type: 'POST',
-             url: `${url}?id=${review.id}&index=${review.index}`,
-        dataType: 'json',
-           async: true,
-           error: error,
-         success: (response) => {
-           const id = response[responseKey];
-           if (id) {
-             window.open(`/creator/enter?id=${id}`);
-           }
-           else {
-             cd.dialogError(response);
-           }
-        }
-    });
-  };
-
-  const error = (request, status, thrown) => {
-    const message = [
-      request.responseText,
-      '----------------------------',
-      `Status=${status}`,
-      thrown
-    ].join("\n");
-    cd.dialogError(message);
+    const params = new URLSearchParams({ id: review.id, index: review.index });
+    fetch(`${url}?${params}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
+      }
+    })
+    .then(r => r.json())
+    .then(response => {
+      const id = response[responseKey];
+      if (id) {
+        window.open(`/creator/enter?id=${id}`);
+      } else {
+        cd.dialogError(response);
+      }
+    })
+    .catch(err => cd.dialogError(err.toString()));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
