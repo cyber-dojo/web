@@ -5,33 +5,21 @@ The dialog migration (docs/ui-update.txt) is done. These are the remaining
 old-library workstreams, roughly in order of scope.
 
 
-1. Pure deletes (no code changes needed)
------------------------------------------
+1. Pure deletes (no code changes needed) -- DONE
+-------------------------------------------------
 
-jquery-tools-min.js -- the tooltip library is loaded but never called; the
-custom cd.createTip() system replaced it. Delete the file and its //= require
-line in app.js.
-
-jquery_ujs.js -- not needed. The app was ported to Sinatra and none of the
-Rails UJS data attributes (data-remote, data-confirm, data-method,
-data-disable-with) appear anywhere in the app templates or custom JS. Delete
-the file and its //= require line in app.js.
-
-codemirror/addon/dialog/dialog.js -- loaded via require_tree ./codemirror/addon
-but no call sites found in the codebase. Delete it from the addon directory.
+jquery-tools-min.js, jquery_ujs.js, codemirror/addon/dialog/dialog.js --
+all deleted.
 
 
-2. Replace the two tiny jQuery plugins (each has one call site)
----------------------------------------------------------------
+2. Replace the two tiny jQuery plugins (each has one call site) -- DONE
+------------------------------------------------------------------------
 
-jquery.click-toggle.js -- used only in shared/_info.erb:17 (.clickToggle(f1,
-f2)). Replace with a vanilla addEventListener('click', ...) toggle using a
-boolean flag.
+jquery.click-toggle.js -- replaced in shared/_info.erb with a boolean flag
+and addEventListener.
 
-jquery.hotkeys.js -- used only in cyber-dojo_codemirror.js:241-247 with the
-deprecated .bind('keyup', 'alt+t', handler) pattern. Replace with
-document.addEventListener('keyup', e => { if (e.altKey && e.key === 't') ... })
-for each binding.
+jquery.hotkeys.js -- replaced in cyber-dojo_codemirror.js with a single
+document.addEventListener dispatching via a key map.
 
 
 3. Replace the AJAX layer with fetch() (medium scope)
