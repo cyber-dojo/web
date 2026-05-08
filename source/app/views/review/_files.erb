@@ -13,7 +13,7 @@ $(() => {
         was_index:previousIndex(review.index),
         now_index:review.index
       };
-      review.getJSON('differ', 'diff_lines', args, (diffs) => {
+      review.getJSON('kata', 'diff_lines', args, (diffs) => {
         augmentDiffs(diffs);
         review.refreshFilenames(diffs);
         filesRefresher(diffs);

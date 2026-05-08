@@ -279,6 +279,19 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
+  # Differ
+
+  get '/kata/diff_summary' do
+    content_type :json
+    { 'diff_summary' => differ.diff_summary(id, params[:was_index].to_i, params[:now_index].to_i) }.to_json
+  end
+
+  get '/kata/diff_lines' do
+    content_type :json
+    { 'diff_lines' => differ.diff_lines(id, params[:was_index].to_i, params[:now_index].to_i) }.to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
   # Review
 
   get '/review/show/:id' do
