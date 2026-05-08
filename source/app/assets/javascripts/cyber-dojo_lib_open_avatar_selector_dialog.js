@@ -28,7 +28,7 @@ var cyberDojo = ((cd, $) => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeAvatarSelectorHtml = (dialog, kataId, setupActiveAvatar) => {
     const $table = $('<table>');
-    cd.review.getJSON('group', 'joined', {id:kataId}, (joined) => {
+    cd.review.getJSON('/group_joined', {id:kataId}, (joined) => {
       const active = cd.review.avatarsActive(joined);
       times(8, (x) => {
         const $tr = $('<tr>');
