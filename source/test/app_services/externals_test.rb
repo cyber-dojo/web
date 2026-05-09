@@ -8,7 +8,6 @@ class ExternalsTest < AppServicesTestBase
   'default http-proxy adapter classes' do
     assert runner.is_a?(RunnerStub)
     assert saver.is_a?(SaverService)
-    assert differ.is_a?(DifferService)
   end
 
 end

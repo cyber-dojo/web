@@ -8,7 +8,6 @@ services:
 
   web:
     depends_on:
-      - differ
       - runner
       - saver
 
