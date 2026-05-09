@@ -1,6 +1,6 @@
 <script>
 'use strict';
-$(() => {
+document.addEventListener('DOMContentLoaded', () => {
 
   const kata = cd.kata;
 
@@ -12,51 +12,33 @@ $(() => {
 
   cd.fileCreateITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = {
-      id: kata.id,
-      index: kata.index,
-      filename: newFilename,
-      data: $('form').serialize()
-    };
+    const args = { id: kata.id, index: kata.index, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_create', args, callback);
   };
 
   cd.fileDeleteITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = {
-      id: kata.id,
-      index: kata.index,
-      filename: newFilename,
-      data: $('form').serialize()
-    };
+    const args = { id: kata.id, index: kata.index, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_delete', args, callback);
   };
 
   cd.fileRenameITE = (oldFilename, newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = {
-      id: kata.id,
-      index: kata.index,
-      old_filename: oldFilename,
-      new_filename: newFilename,
-      data: $('form').serialize()
-    };
+    const args = { id: kata.id, index: kata.index, old_filename: oldFilename, new_filename: newFilename };
     syncPostWithCallbackITE('/kata/file_rename', args, callback);
   };
 
   cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = {
-      id: kata.id,
-      index: kata.index,
-      data: $('form').serialize()
-    };
+    const args = { id: kata.id, index: kata.index };
     syncPostWithCallbackITE('/kata/file_edit', args, callback);
   };
 
-  const syncPostWithCallbackITE = (url, data, callback) => {
+  const syncPostWithCallbackITE = (url, args, callback) => {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 2000);
+    const body = new URLSearchParams(args);
+    body.set('data', new URLSearchParams(new FormData(document.querySelector('form'))).toString());
     fetch(url, {
       method: 'POST',
       headers: {
@@ -64,23 +46,12 @@ $(() => {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         'X-Requested-With': 'XMLHttpRequest'
       },
-      body: new URLSearchParams(data),
+      body,
       signal: controller.signal
     })
     .then(r => r.json())
     .then(newIndex => kata.setIndex(newIndex))
     .finally(() => { clearTimeout(timer); callback(); });
-  };
-
-  const snycGetWithCallback = (url, callback) => {
-    $.ajax({
-      timeout: 2*1000,
-      type: 'GET',
-      url: url
-    })
-    .done(function(data) {
-      callback(data);
-    })
   };
 
 });
