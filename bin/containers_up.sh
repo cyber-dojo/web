@@ -13,5 +13,5 @@ containers_up()
     --no-build \
     --wait \
     --wait-timeout=10 \
-    web runner saver
+    web runner saver differ
 }

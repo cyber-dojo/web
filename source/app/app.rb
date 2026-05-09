@@ -229,9 +229,9 @@ class App < Sinatra::Base
     saver.kata_file_edit(id, index, params_files).to_json
   end
 
-  get '/kata/event' do
+  get '/kata_event' do
     content_type :json
-    { 'event' => saver.kata_event(id, index) }.to_json
+    saver.kata_event(id, index).to_json
   end
 
   post '/kata/fork' do
@@ -268,14 +268,27 @@ class App < Sinatra::Base
   # - - - - - - - - - - - - - - - -
   # Group
 
-  get '/group/joined' do
+  get '/group_joined' do
     content_type :json
-    { 'joined' => saver.group_joined(id) }.to_json
+    saver.group_joined(id).to_json
   end
 
   post '/group/fork' do
     content_type :json
     { 'group_fork' => saver.group_fork(id, index) }.to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
+  # Differ
+
+  get '/diff_summary' do
+    content_type :json
+    differ.diff_summary(id, params[:was_index].to_i, params[:now_index].to_i).to_json
+  end
+
+  get '/diff_lines' do
+    content_type :json
+    differ.diff_lines(id, params[:was_index].to_i, params[:now_index].to_i).to_json
   end
 
   # - - - - - - - - - - - - - - - -
