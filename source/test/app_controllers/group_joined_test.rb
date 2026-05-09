@@ -8,10 +8,11 @@ class GroupJoinedTest < AppControllerTestBase
     manifest = starter_manifest
     gid = saver.group_create(manifest)
     kid = saver.group_join(gid)
-    get '/group_joined', { id: gid }
+    get '/group/joined', { id: gid }
     assert last_response.ok?
-    assert_equal 1, json.size
-    assert_equal kid, json.values.first['id']
+    joined = json['joined']
+    assert_equal 1, joined.size
+    assert_equal kid, joined.values.first['id']
   end
 
 end

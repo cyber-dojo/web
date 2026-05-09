@@ -6,9 +6,9 @@ class KataEventTest < AppControllerTestBase
   | event returns the kata event at the given index
   ) do
     in_kata do
-      get '/kata_event', { id: @id, index: 0 }
+      get '/kata/event', { id: @id, index: 0 }
       assert last_response.ok?
-      assert_equal @manifest['visible_files'], json['files']
+      assert_equal @manifest['visible_files'], json['event']['files']
     end
   end
 

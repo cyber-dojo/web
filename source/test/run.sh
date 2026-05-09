@@ -35,7 +35,6 @@ do
 
     # set defaults for externals
     export RACK_ENV=test
-    export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_SAVER_CLASS=SaverService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
 

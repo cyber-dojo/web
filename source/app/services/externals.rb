@@ -1,6 +1,5 @@
 require_relative '../../test/app_services/runner_stub'
 require_relative '../../lib/time_adapter'
-require_relative 'differ_service'
 require_relative 'runner_service'
 require_relative 'saver_service'
 
@@ -15,10 +14,6 @@ module Externals
   end
 
   # - - - - - - - - - - - - - - -
-
-  def differ
-    @differ ||= external('differ')
-  end
 
   def runner
     @runner ||= external('runner')
