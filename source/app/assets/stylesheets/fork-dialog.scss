@@ -5,13 +5,36 @@
   button.kata, button.group
   {
     display: block;
-    margin-top: 6px;
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
-    padding: 8px;
-    font-size: 25px;
+    padding: 10px 12px;
     @include non-code-font();
-    width: 230px;
+    width: 288px;
     text-align: left;
+
+    .fork-option-name
+    {
+      display: block;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    ul
+    {
+      margin: 0;
+      padding-left: 1.2em;
+      font-size: 13px;
+      list-style: disc;
+    }
+
+    .fork-option-note
+    {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #666;
+    }
   }
 }
