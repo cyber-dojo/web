@@ -1,6 +1,6 @@
 <button id="fork-button" type="button">fork</button>
 
-<dialog id="fork-dialog" style="width:270px">
+<dialog id="fork-dialog" style="width:320px">
   <header>
     <span class="dialog-title">fork</span>
     <button type="button" class="dialog-close">close</button>
@@ -9,9 +9,23 @@
     create a new practice<br/>
     from this traffic-light's files
   </div>
-  <button class="kata"  type="button">ensemble style</button>
-  <button class="group" type="button">classroom style</button>
-  <button class="kata"  type="button">solo style</button>
+  <button class="group" type="button">
+    <span class="fork-option-name">classroom</span>
+    <ul>
+      <li>multiple avatars (eg, lion, salmon, tuna)</li>
+      <li>dashboard showing all avatars</li>
+      <li>each avatar has own source files</li>
+    </ul>
+  </button>
+  <button class="kata" type="button">
+    <span class="fork-option-name">single</span>
+    <ul>
+      <li>no avatar</li>
+      <li>no dashboard</li>
+      <li>one set of source files</li>
+    </ul>
+    <span class="fork-option-note">(can take turns, ensemble-style)</span>
+  </button>
 </dialog>
 
 <script>
