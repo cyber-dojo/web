@@ -229,34 +229,9 @@ class App < Sinatra::Base
     saver.kata_file_edit(id, index, params_files).to_json
   end
 
-  get '/kata/event' do
-    content_type :json
-    { 'event' => saver.kata_event(id, index) }.to_json
-  end
-
   post '/kata/fork' do
     content_type :json
     { 'kata_fork' => saver.kata_fork(id, index) }.to_json
-  end
-
-  get '/kata/events' do
-    content_type :json
-    { 'kata_events' => saver.kata_events(id) }.to_json
-  end
-
-  get '/kata/manifest' do
-    content_type :json
-    { 'kata_manifest' => saver.kata_manifest(id) }.to_json
-  end
-
-  get '/kata/download' do
-    content_type :json
-    { 'kata_download' => saver.kata_download(id) }.to_json
-  end
-
-  get '/kata/option_get' do
-    content_type :json
-    { 'kata_option_get' => saver.kata_option_get(id, params[:name]) }.to_json
   end
 
   post '/kata/option_set' do
@@ -267,11 +242,6 @@ class App < Sinatra::Base
 
   # - - - - - - - - - - - - - - - -
   # Group
-
-  get '/group/joined' do
-    content_type :json
-    { 'joined' => saver.group_joined(id) }.to_json
-  end
 
   post '/group/fork' do
     content_type :json
