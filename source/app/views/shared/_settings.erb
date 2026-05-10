@@ -77,24 +77,9 @@
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const cache = {};
+  const cache = <%= @manifest.slice('colour', 'theme', 'predict', 'revert_red', 'revert_amber', 'revert_green').to_json %>;
 
-  const getOption = (name) => {
-    if (cache[name] === undefined) {
-      $.ajax({
-            type: 'GET',
-        dataType: 'json',
-             url: '/saver/kata_option_get',
-            data: {
-                id: cd.kata.id,
-              name: name
-            },
-           async: false,
-         success: (data) => cache[name] = data['kata_option_get']
-      });
-    }
-    return cache[name];
-  };
+  const getOption = (name) => cache[name];
 
   const setOption = (name, value) => {
     cache[name] = value;
