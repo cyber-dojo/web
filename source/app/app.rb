@@ -96,9 +96,15 @@ class App < Sinatra::Base
     { 'ready?' => true }.to_json
   end
 
-  get '/web/sha/?' do
-    content_type :json
-    { 'sha' => ENV['SHA'] }.to_json
+  # - - - - - - - - - - - - - - - -
+  # Review
+
+  get '/review/show/:id' do
+    @runtime_env = ENV
+    @id = params[:id]
+    @manifest = saver.kata_manifest(@id)
+    @title = "review:#{@id}"
+    erb :'review/show'
   end
 
   # - - - - - - - - - - - - - - - -
@@ -116,6 +122,32 @@ class App < Sinatra::Base
     @status = last['status'] || ''
     erb :'kata/edit'
   end
+
+  # - - - - - - - - - - - - - - - -
+  # Inter-test file events
+
+  post '/kata/file_create' do
+    content_type :json
+    saver.kata_file_create(id, index, params_files, params[:filename]).to_json
+  end
+
+  post '/kata/file_delete' do
+    content_type :json
+    saver.kata_file_delete(id, index, params_files, params[:filename]).to_json
+  end
+
+  post '/kata/file_rename' do
+    content_type :json
+    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename]).to_json
+  end
+
+  post '/kata/file_edit' do
+    content_type :json
+    saver.kata_file_edit(id, index, params_files).to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
+  # The core run-tests
 
   post '/kata/run_tests/:id' do
     @id = params[:id]
@@ -171,24 +203,8 @@ class App < Sinatra::Base
     erb :'kata/run_tests.js', layout: false
   end
 
-  post '/kata/checkout' do
-    content_type :json
-    from = {
-      id:           params[:src_id],
-      index:        params[:src_index].to_i,
-      major_index:  params[:src_major_index].to_i,
-      minor_index:  params[:src_minor_index].to_i,
-      avatarIndex:  (params[:src_avatar_index] != '') ? params[:src_avatar_index].to_i : '',
-    }
-    json = source_event(from[:id], from[:index], :checkout, from)
-    summary = { colour: @colour, checkout: from }
-    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
-    light = json[:light]
-    light[:index]       = result['next_index'] - 1
-    light[:major_index] = result['major_index']
-    light[:minor_index] = result['minor_index']
-    json.to_json
-  end
+  # - - - - - - - - - - - - - - - -
+  # Revert back to own previous traffic-light
 
   post '/kata/revert' do
     content_type :json
@@ -210,30 +226,30 @@ class App < Sinatra::Base
     json.to_json
   end
 
-  post '/kata/file_create' do
+  # - - - - - - - - - - - - - - - -
+  # Checkout traffic-light from other avatar in group
+
+  post '/kata/checkout' do
     content_type :json
-    saver.kata_file_create(id, index, params_files, params[:filename]).to_json
+    from = {
+      id:           params[:src_id],
+      index:        params[:src_index].to_i,
+      major_index:  params[:src_major_index].to_i,
+      minor_index:  params[:src_minor_index].to_i,
+      avatarIndex:  (params[:src_avatar_index] != '') ? params[:src_avatar_index].to_i : '',
+    }
+    json = source_event(from[:id], from[:index], :checkout, from)
+    summary = { colour: @colour, checkout: from }
+    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
+    light = json[:light]
+    light[:index]       = result['next_index'] - 1
+    light[:major_index] = result['major_index']
+    light[:minor_index] = result['minor_index']
+    json.to_json
   end
 
-  post '/kata/file_delete' do
-    content_type :json
-    saver.kata_file_delete(id, index, params_files, params[:filename]).to_json
-  end
-
-  post '/kata/file_rename' do
-    content_type :json
-    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename]).to_json
-  end
-
-  post '/kata/file_edit' do
-    content_type :json
-    saver.kata_file_edit(id, index, params_files).to_json
-  end
-
-  post '/kata/fork' do
-    content_type :json
-    { 'kata_fork' => saver.kata_fork(id, index) }.to_json
-  end
+  # - - - - - - - - - - - - - - - -
+  # Set light/dark or colour-syntax option
 
   post '/kata/option_set' do
     content_type :json
@@ -242,22 +258,16 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
-  # Group
+  # Fork
+
+  post '/kata/fork' do
+    content_type :json
+    { 'kata_fork' => saver.kata_fork(id, index) }.to_json
+  end
 
   post '/group/fork' do
     content_type :json
     { 'group_fork' => saver.group_fork(id, index) }.to_json
-  end
-
-  # - - - - - - - - - - - - - - - -
-  # Review
-
-  get '/review/show/:id' do
-    @runtime_env = ENV
-    @id = params[:id]
-    @manifest = saver.kata_manifest(@id)
-    @title = "review:#{@id}"
-    erb :'review/show'
   end
 
   # - - - - - - - - - - - - - - - -

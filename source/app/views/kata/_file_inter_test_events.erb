@@ -49,8 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
       body,
       signal: controller.signal
     })
-    .then(r => r.json())
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(newIndex => kata.setIndex(newIndex))
+    .catch(() => console.warn('inter-test file-edit was rate-limited'))
     .finally(() => { clearTimeout(timer); callback(); });
   };
 
