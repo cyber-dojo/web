@@ -30,13 +30,6 @@
   const button = dialog.previousElementSibling;
   $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
   $('.dialog-close', dialog).click(() => dialog.close());
-  $(button).click(() => {
-    // saveAnyFileChangesITE is only defined on the kata edit page, not the standalone review page
-    if (cd.saveAnyFileChangesITE) {
-      cd.saveAnyFileChangesITE(() => dialog.showModal());
-    } else {
-      dialog.showModal();
-    }
-  });
+  $(button).click(() => dialog.showModal());
 })();
 </script>
