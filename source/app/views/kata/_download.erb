@@ -21,21 +21,18 @@ $(() => {
   else {
     $button.click(() => {
       cd.saveAnyFileChangesITE(() => {
-        $.ajax({
-              type: 'GET',
-          dataType: 'json',
-                url: '/saver/kata_download',
-              data: { id: cd.kata.id },
-              async: false,
-              error: (xhr, text, thrown) => downloadError(xhr, text, thrown),
-            success: (data) => downloadKata(data['kata_download'])
-        });
+        fetch(`/saver/kata_download?${new URLSearchParams({ id: cd.kata.id })}`, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(r => r.json())
+        .then(data => downloadKata(data['kata_download']))
+        .catch(err => downloadError(err));
       });
     });
   }
 
-  const downloadError = (xhr, textStatus, errorThrown) => {
-    alert(`Download Error\nxhr:${xhr}\ntextStatus:${textStatus}\nerrorThrown:${errorThrown}`);
+  const downloadError = (err) => {
+    alert(`Download Error\n${err}`);
   };
 
   const downloadKata = ([fileName, fileContentsBase64]) => {
