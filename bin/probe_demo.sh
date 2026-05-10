@@ -14,7 +14,6 @@ main()
   echo 'API: probing'
   curl_200 GET /alive?
   curl_200 GET /ready?
-  curl_200 GET /web/sha
   echo
 }
 
