@@ -2,6 +2,8 @@
 {
   padding-bottom: 1em;
 
+  .dialog-title { letter-spacing: 0.02em; }
+
   button.kata, button.group
   {
     display: block;
@@ -26,7 +28,9 @@
       margin: 0;
       padding-left: 1.2em;
       font-size: 13px;
+      font-weight: normal;
       list-style: disc;
+      @include plaintext-font();
     }
 
     .fork-option-note
@@ -34,7 +38,9 @@
       display: block;
       margin-top: 4px;
       font-size: 12px;
+      font-weight: normal;
       color: #666;
+      @include plaintext-font();
     }
   }
 }
