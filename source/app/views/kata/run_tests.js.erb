@@ -142,7 +142,17 @@
       id: cd.kata.id,      // eg 'Xd4f2P'
       index: cd.kata.index // eg 18 (reverting to, eg 16)
     };
-    $.post('/kata/revert', args, (data) => {
+    fetch('/kata/revert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams(args)
+    })
+    .then(r => r.json())
+    .then(data => {
       cd.kata.incrementIndex();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
@@ -153,7 +163,7 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-    }, 'json');
+    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
