@@ -52,7 +52,17 @@ $(() => {
       src_avatar_index: review.avatarIndex
     };
     cd.settings.showButton();
-    $.post('/kata/checkout', args, (data) => {
+    fetch('/kata/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams(args)
+    })
+    .then(r => r.json())
+    .then(data => {
       kata.incrementIndex();
       kata.editor.deleteFiles();
       for (const filename in data.files) {
@@ -61,9 +71,9 @@ $(() => {
       }
       kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       kata.tabs.output().click();
-      kata.filenames.refresh();      
+      kata.filenames.refresh();
       kata.appendTrafficLight(data.light, {scrollIntoView: true});
-    }, 'json');
+    });
   };
 
 });
