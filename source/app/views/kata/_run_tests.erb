@@ -149,7 +149,7 @@ $(() => {
   };
 
   const showTimedOut = () => {
-    const maxSeconds = $('input[name="max_seconds"]').val();
+    const maxSeconds = cd.kata.maxSeconds();
     showInfoDialog(`Unable to complete the tests in ${maxSeconds} seconds.`, 'timed-out', 'timed out');
   };
 
