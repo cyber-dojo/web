@@ -12,18 +12,18 @@ class KataEdit200Test  < AppControllerTestBase
   end
 
   test 'BE79BA', %w(
-  | j() escapes special characters for safe embedding in JavaScript string literals
+  | JSON encodes special characters in stdout/stderr
   ) do
     in_kata do |kata|
       runner.stub_run(stdout: "BACK\\SLASH CRLF\r\nNEW\nLINE CR\rRETURN SINGLE'QUOTE DOUBLE\"QUOTE")
       post_run_tests
       body = last_response.body
-      assert_includes body, 'BACK\\\\SLASH'  # \    -> \\
-      assert_includes body, 'CRLF\\nNEW'    # \r\n -> \n
-      assert_includes body, 'NEW\\nLINE'    # \n   -> \n
-      assert_includes body, 'CR\\nRETURN'   # \r   -> \n
-      assert_includes body, "SINGLE\\'"     # '    -> \'
-      assert_includes body, 'DOUBLE\\"'     # "    -> \"
+      assert_includes body, 'BACK\\\\SLASH'  # \    -> \\ in JSON
+      assert_includes body, 'CRLF\\r\\nNEW'  # \r\n -> \r\n in JSON
+      assert_includes body, 'NEW\\nLINE'     # \n   -> \n in JSON
+      assert_includes body, 'CR\\rRETURN'    # \r   -> \r in JSON
+      assert_includes body, "SINGLE'QUOTE"   # '    -> ' in JSON (no escaping)
+      assert_includes body, 'DOUBLE\\"QUOTE' # "    -> \" in JSON
     end
   end
 
