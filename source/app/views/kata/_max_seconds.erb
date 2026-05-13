@@ -8,5 +8,7 @@ $(() => {
   const manifest = cd.kata.manifest();
   $maxSeconds.val(manifest.max_seconds);
 
+  cd.kata.maxSeconds = () => $maxSeconds.val();
+
 });
 </script>

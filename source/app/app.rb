@@ -199,8 +199,18 @@ class App < Sinatra::Base
       'revert_if_wrong' => params['revert_if_wrong']
     }
 
-    content_type 'application/javascript'
-    erb :'kata/run_tests.js', layout: false
+    content_type :json
+    {
+      light:       @light,
+      outcome:     @outcome,
+      stdout:      @stdout['content'],
+      stderr:      @stderr['content'],
+      status:      @status.to_s,
+      log:         @log.to_s,
+      out_of_sync: @out_of_sync == true,
+      created:     @created,
+      changed:     @changed
+    }.to_json
   end
 
   # - - - - - - - - - - - - - - - -

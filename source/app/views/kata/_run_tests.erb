@@ -1,3 +1,11 @@
+<dialog id="run-tests-info" style="width:500px">
+  <header>
+    <span class="dialog-title"></span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info" style="white-space:pre-wrap"></div>
+</dialog>
+
 <script>
 'use strict';
 $(() => {
@@ -6,33 +14,164 @@ $(() => {
     // Called from 2 places
     // 1. when you click the [test] button.
     // 2. when you click a [predict] button.
+    // [X] This 30s timeout is different to runners max_seconds
+    // from the start-points manifest.json file.
+
     const form = $('form');
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
-      $.ajax({
-           timeout: 30000, // [X]
-              type: 'POST',
-               url: form.attr('action'),
-              data: form.serialize(),
-             error: error,
-          complete: (_xhr, _status) => {
-            cd.waitSpinner.fadeOut('slow', onComplete);
-          }
-      });
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 30000); // [X]
+      fetch(form.attr('action'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: form.serialize(),
+        signal: controller.signal
+      })
+      .then(r => {
+        if (!r.ok) {
+          r.text().then(console.warn);
+          throw new Error(`Status=${r.status}`);
+        }
+        else {
+          return r;
+        }
+      })
+      .then(r => r.json())
+      .then(handleResponse)
+      .catch(err => cd.dialogError(err.message))
+      .finally(() => { clearTimeout(timer); cd.waitSpinner.fadeOut('slow', onComplete); });
     });
-    // [X] This 30s timeout is different to runner's max_seconds
-    // from the start-point's manifest.json file.
+  };
+
+  const handleResponse = (data) => {
+    const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, created, changed } = data;
+
+    if (outOfSync) {
+      showAvatarsOutOfSync(light);
+    }
+    else {
+      refreshFromTest(light, stdout, stderr, status, created, changed);
+      if (runNeedsReverting(outcome)) {
+        revert();
+      }
+    }
+    showInfoDialogs(outcome, log);
+  };
+
+  const refreshFromTest = (light, stdout, stderr, status, created, changed) => {
+    cd.kata.setIndex(light.index + 1);
+    insertCreatedFiles(created);
+    updateChangedFiles(changed);
+    cd.kata.filenames.refresh();
+    cd.kata.editor.output(stdout, stderr, status);
+    cd.kata.tabs.output().click();
+    cd.kata.appendTrafficLight(light, {scrollIntoView:true});
+    cd.kata.setupPrediction();
+  };
+
+  const insertCreatedFiles = (created) => {
+    for (const [filename, file] of Object.entries(created)) {
+      cd.kata.editor.createFile(filename, { content: file.content });
+    }
+  };
+
+  const updateChangedFiles = (changed) => {
+    for (const [filename, file] of Object.entries(changed)) {
+      cd.kata.editor.changeFile(filename, { content: file.content });
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-  const error = (request, status, thrown) => {
+
+  const runNeedsReverting = (outcome) => {
+    const predictIsOn = () => (cd.settings.predict() === 'on');
+    const predicted = cd.kata.predictedColour();
+    const isRagOutcome = ['red','amber','green'].includes(outcome);
+    const predictedWrong = (predicted != outcome);
+    const revertIsOn = () => (cd.settings.revert(predicted) === 'on');
+    return predictIsOn() && isRagOutcome && predictedWrong && revertIsOn();
+  };
+
+  const revert = () => {
+    const args = { id: cd.kata.id, index: cd.kata.index };
+    fetch('/kata/revert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams(args)
+    })
+    .then(r => r.json())
+    .then(data => {
+      cd.kata.incrementIndex();
+      cd.kata.editor.deleteFiles();
+      for (const filename in data.files) {
+        cd.kata.editor.createFile(filename, { content: data.files[filename] });
+        cd.kata.editor.showFile(filename);
+      }
+      cd.kata.filenames.refresh();
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      cd.kata.tabs.output().click();
+      cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
+  const showInfoDialogs = (outcome, log) => {
+    if (outcome === 'timed_out') {
+      console.warn(log);
+      showTimedOut();
+    }
+    if (outcome === 'faulty') {
+      showFaulty(log);
+    }
+    if (outcome === 'pulling') {
+      showImagePulling();
+    }
+  };
+
+  const showAvatarsOutOfSync = (light) => {
     const message = [
-      request.responseText,
-      '----------------------------',
-      `Status=${status}`,
-      thrown
+      `You made a change to your exercise - ${cd.kata.id}.`,
+      `It was ${light.colour} but could not be saved.`,
+      'You are out of sync with the latest version.',
+      'Please refresh your browser.',
     ].join("\n");
-    cd.dialogError(message);
+    showInfoDialog(message, 'out-of-sync', 'mobbing?');
+  };
+
+  const showTimedOut = () => {
+    const maxSeconds = cd.kata.maxSeconds();
+    showInfoDialog(`Unable to complete the tests in ${maxSeconds} seconds.`, 'timed-out', 'timed out');
+  };
+
+  const showFaulty = (log) => {
+    showInfoDialog(log, 'faulty', 'faulty traffic-light');
+  };
+
+  const showImagePulling = () => {
+    const message = [
+      `The Docker image is not quite ready yet.`,
+      `Please wait 30 seconds and try again.`,
+    ].join("\n");
+    showInfoDialog(message, 'pulling', 'still preparing');
+  };
+
+  const infoDialog = document.getElementById('run-tests-info');
+  infoDialog.querySelector('.dialog-close').addEventListener('click', () => infoDialog.close());
+
+  const showInfoDialog = (message, id, title) => {
+    infoDialog.querySelector('.dialog-title').textContent = title;
+    infoDialog.querySelector('.info').textContent = message;
+    infoDialog.showModal();
   };
 
 });

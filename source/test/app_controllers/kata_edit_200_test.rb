@@ -11,12 +11,14 @@ class KataEdit200Test  < AppControllerTestBase
     end
   end
 
-  test 'BE79BA', %w(
-  | j() escapes special characters for safe embedding in JavaScript string literals
+
+  test 'BE79BB', %w(
+  | j() encodes special characters in the edit page initial load
   ) do
     in_kata do |kata|
       runner.stub_run(stdout: "BACK\\SLASH CRLF\r\nNEW\nLINE CR\rRETURN SINGLE'QUOTE DOUBLE\"QUOTE")
       post_run_tests
+      get "/kata/edit/#{kata.id}"
       body = last_response.body
       assert_includes body, 'BACK\\\\SLASH'  # \    -> \\
       assert_includes body, 'CRLF\\nNEW'    # \r\n -> \n
