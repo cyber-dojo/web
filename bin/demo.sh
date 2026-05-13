@@ -10,6 +10,8 @@ source "${BIN_DIR}/echo_env_vars.sh"
 source "${BIN_DIR}/copy_in_saver_test_data.sh"
 source "${BIN_DIR}/create_v2_kata.sh"
 source "${BIN_DIR}/lib.sh"
+# Suppress "requested image's platform does not match host platform" warnings on Apple Silicon
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 export $(echo_env_vars)
 
 web_build()
