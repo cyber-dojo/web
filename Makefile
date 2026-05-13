@@ -7,7 +7,7 @@ IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 assets:
 	${PWD}/bin/build_assets.sh
 
-image: assets
+image:
 	${PWD}/bin/build.sh
 
 test:

@@ -1,85 +1,8 @@
 Loosen dependencies on old JS libraries
 ========================================
 
-The dialog migration (docs/ui-update.txt) is done. These are the remaining
-old-library workstreams, roughly in order of scope.
-
-
-1. Pure deletes (no code changes needed) -- DONE
--------------------------------------------------
-
-jquery-tools-min.js, jquery_ujs.js, codemirror/addon/dialog/dialog.js --
-all deleted.
-
-
-2. Replace the two tiny jQuery plugins (each has one call site) -- DONE
-------------------------------------------------------------------------
-
-jquery.click-toggle.js -- replaced in shared/_info.erb with a boolean flag
-and addEventListener.
-
-jquery.hotkeys.js -- replaced in cyber-dojo_codemirror.js with a single
-document.addEventListener dispatching via a key map.
-
-
-3. Replace the AJAX layer with fetch() (medium scope) -- DONE
--------------------------------------------------------------
-
-All network calls go through two helpers:
-  - cd.getJSON(name, params, ok, fail) in cyber-dojo_lib.js:11 -- wraps $.getJSON
-  - review.getJSON(service, method, params, ok) in review/lib/_get_json.erb:9
-    -- also wraps $.getJSON
-
-Both helpers rewritten using fetch(). All $.ajax POST calls in
-_settings.erb, _fork_button.erb, and _file_inter_test_events.erb also
-migrated to fetch() with CSRF token injected directly in headers.
-
-cyber-dojo_csrf.js (which hooked ajaxSend to inject CSRF tokens) deleted.
-
-
-4. Replace jQuery DOM manipulation and events -- remove jQuery itself (large)
------------------------------------------------------------------------------
-
-The main files to rewrite:
-
-  cyber-dojo_hover_tips.js
-    $(), .on(), .off(), .mouseenter(), .css(), .outerHeight()
-
-  cyber-dojo_lib_append_traffic_light.js
-    $('<div>') element construction
-
-  cyber-dojo_editor.js
-    $(), .on(), .val(), .hide(), .show()
-
-  cyber-dojo_lib_open_avatar_selector_dialog.js
-    $(), .on(), .offset()
-
-  ~49 ERB view partials
-    $(() => {}) ready, .on(), .click(), .addClass()
-
-Most jQuery here is straightforward to replace with vanilla equivalents
-(document.getElementById, addEventListener, classList, style,
-getBoundingClientRect). The $() ready handler is the most widespread -- replace
-with document.addEventListener('DOMContentLoaded', ...) or inline at the bottom
-of <body>.
-
-Note: jquery.scroll-into-view.js is still needed at this stage. Three call
-sites use its plugin options ({ direction: 'horizontal', duration: 'slow' })
-which are not part of the native Element.scrollIntoView() API:
-  kata/_traffic_lights.erb:37
-  kata/_traffic_lights_scroller.erb:7
-  review/_traffic_lights.erb:63
-Replacing it means rewriting those call sites to use native
-{ behavior, block, inline } options or reimplementing the horizontal/duration
-behaviour manually. Do this as part of the jQuery removal sweep.
-
-Also: cyber-dojo_codemirror.js:73,175 uses $.each($('.CodeMirror'), ...) to
-iterate over editor instances. Replace with
-document.querySelectorAll('.CodeMirror').forEach(...).
-
-
-5. Upgrade CodeMirror from 5.21.0 to 5.65.x
----------------------------------------------
+Upgrade CodeMirror from 5.21.0 to 5.65.x
+----------------------------------------
 
 The codebase vendors CodeMirror 5.21.0 (circa 2016). The 5.x line has reached
 5.65.x; the API is stable and backward-compatible across the whole 5.x series,
@@ -91,13 +14,3 @@ Migrating to CodeMirror 6 is a separate, much larger workstream -- the API was
 completely rewritten and there is no drop-in upgrade path. That would be a
 deliberate project in its own right, not a quick dependency loose-coupling step.
 
-
-Suggested order
----------------
-
-Step 1 is pure housekeeping with no risk -- do it first.
-Step 2 is small and self-contained -- good next step.
-Step 3 (fetch migration) is the highest-value architectural change and unblocks
-the CSRF cleanup.
-Step 4 completes the jQuery removal, including the scroll-into-view replacement.
-Step 5 (CodeMirror 5.65.x upgrade) is independent and can be done at any time.
