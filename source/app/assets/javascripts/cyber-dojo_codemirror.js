@@ -110,7 +110,7 @@ var cyberDojo = ((cd, $) => {
   const codeMirrorMode = (filename) => {
     filename = filename.toLowerCase();
     if (filename === 'makefile') {
-      return 'text/x-makefile';
+      return 'text/x-cmake';
     }
     if (filename === 'output') {
       return 'text/x-output';
