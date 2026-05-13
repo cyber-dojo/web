@@ -20,7 +20,6 @@
 // be loaded after the those modes. To ensure this happens the modes which are order
 // dependent are stored in the codemirror/mode-ordered directory and required individually.
 //
-//= require ./jquery.min
 //= require ./codemirror/lib/codemirror
 //= require_tree ./codemirror/mode
 //= require_tree ./codemirror/addon
