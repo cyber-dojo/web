@@ -11,19 +11,21 @@ class KataEdit200Test  < AppControllerTestBase
     end
   end
 
-  test 'BE79BA', %w(
-  | JSON encodes special characters in stdout/stderr
+
+  test 'BE79BB', %w(
+  | j() encodes special characters in the edit page initial load
   ) do
     in_kata do |kata|
       runner.stub_run(stdout: "BACK\\SLASH CRLF\r\nNEW\nLINE CR\rRETURN SINGLE'QUOTE DOUBLE\"QUOTE")
       post_run_tests
+      get "/kata/edit/#{kata.id}"
       body = last_response.body
-      assert_includes body, 'BACK\\\\SLASH'  # \    -> \\ in JSON
-      assert_includes body, 'CRLF\\r\\nNEW'  # \r\n -> \r\n in JSON
-      assert_includes body, 'NEW\\nLINE'     # \n   -> \n in JSON
-      assert_includes body, 'CR\\rRETURN'    # \r   -> \r in JSON
-      assert_includes body, "SINGLE'QUOTE"   # '    -> ' in JSON (no escaping)
-      assert_includes body, 'DOUBLE\\"QUOTE' # "    -> \" in JSON
+      assert_includes body, 'BACK\\\\SLASH'  # \    -> \\
+      assert_includes body, 'CRLF\\nNEW'    # \r\n -> \n
+      assert_includes body, 'NEW\\nLINE'    # \n   -> \n
+      assert_includes body, 'CR\\nRETURN'   # \r   -> \n
+      assert_includes body, "SINGLE\\'"     # '    -> \'
+      assert_includes body, 'DOUBLE\\"'     # "    -> \"
     end
   end
 
