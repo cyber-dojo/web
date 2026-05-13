@@ -4,10 +4,8 @@ $(() => {
 
   cd.kata.scrollLastTrafficLightIntoView = () => {
     // called edit.html.erb on page load/refresh
-    $('#kata-page .diff-traffic-light:last-of-type').scrollIntoView({
-      direction: 'horizontal',
-       duration: 'slow'
-    });
+    const last = document.querySelector('#kata-page .diff-traffic-light:last-of-type');
+    last?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   };
 
 });

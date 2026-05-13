@@ -43,7 +43,8 @@ exit_non_zero_unless_installed docker
 docker ps -aq | xargs docker rm -f
 web_build
 up_nginx
+readonly COUNT="${1:-1}"
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
-id="$(create_v2_kata)"
+id="$(create_v2_kata "${COUNT}")"
 echo "v2 Kata ID=${id}"
 open "http://localhost:80/kata/edit/${id}"

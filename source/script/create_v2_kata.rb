@@ -8,39 +8,43 @@ include Externals
 
 $http = saver.instance_variable_get(:@http)
 
-def create_v2_kata()
+def create_v2_kata(count)
   v0_id = '5U2J18'
   manifest = $http.get('kata_manifest', {id: v0_id})
   manifest['version'] = 2
   manifest.delete('group_id')
   manifest.delete('group_index')
   gid = $http.post('group_create', {manifest: manifest})
-  create_avatar(gid, inter_test_events=false)
-  id = create_avatar(gid, inter_test_events=true)
+  create_avatar(gid, inter_test_events=false, count)
+  id = create_avatar(gid, inter_test_events=true, count)
   print(id)
 end
 
-def create_avatar(gid, inter_test_events)
-  id = $http.post('group_join', {id: gid})  
+def create_avatar(gid, inter_test_events, count)
+  id = $http.post('group_join', {id: gid})
   files = $http.get('kata_event', {id:id, index:0 })['files']
   # [ bats_help.txt cyber-dojo.sh hiker.sh readme.txt test_hiker.sh ]
+  original_hiker_sh = files['hiker.sh']['content']
 
   index = 1
-  if inter_test_events
-    index = file_create(id, index, files, 'wibble.txt')
-  end
-  index = red_traffic_light(id, index, files)
-  if inter_test_events
-    index = file_edit(id, index, files)
-    index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
-  end
-  index = amber_traffic_light(id, index, files)
-  if inter_test_events
-    index = file_delete(id, index, files, 'readme2.txt')
-  end
-  index = green_traffic_light(id, index, files)
-  if inter_test_events
-    index = file_edit(id, index, files)
+  count.times do
+    files['hiker.sh']['content'] = original_hiker_sh
+    if inter_test_events
+      index = file_create(id, index, files, 'wibble.txt')
+    end
+    index = red_traffic_light(id, index, files)
+    if inter_test_events
+      index = file_edit(id, index, files)
+      index = file_rename(id, index, files, 'wibble.txt', 'wibble2.txt')
+    end
+    index = amber_traffic_light(id, index, files)
+    if inter_test_events
+      index = file_delete(id, index, files, 'wibble2.txt')
+    end
+    index = green_traffic_light(id, index, files)
+    if inter_test_events
+      index = file_edit(id, index, files)
+    end
   end
   id
 end
@@ -147,4 +151,4 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-create_v2_kata
+create_v2_kata(ARGV.fetch(0, '1').to_i)
