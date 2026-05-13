@@ -42,3 +42,9 @@ dialog > .info {
   margin-left: 1em;
   margin-right: 1em;
 }
+
+dialog > pre {
+  background: transparent;
+  color: inherit;
+  margin: 0 1em 0.5em;
+}

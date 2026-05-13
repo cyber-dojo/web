@@ -1,3 +1,11 @@
+<dialog id="run-tests-info" style="width:500px">
+  <header>
+    <span class="dialog-title"></span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info" style="white-space:pre-wrap"></div>
+</dialog>
+
 <script>
 'use strict';
 $(() => {
@@ -133,9 +141,9 @@ $(() => {
   const showAvatarsOutOfSync = (light) => {
     const message = [
       `You made a change to your exercise - ${cd.kata.id}.`,
-      `It was ${light.colour} but it could not be saved.`,
-      'Your copy is out of sync with the latest version of exercise.',
-      'Please refresh your browser to get the latest version.',
+      `It was ${light.colour} but could not be saved.`,
+      'You are out of sync with the latest version.',
+      'Please refresh your browser.',
     ].join("\n");
     showInfoDialog(message, 'out-of-sync', 'mobbing?');
   };
@@ -157,13 +165,13 @@ $(() => {
     showInfoDialog(message, 'pulling', 'still preparing');
   };
 
+  const infoDialog = document.getElementById('run-tests-info');
+  infoDialog.querySelector('.dialog-close').addEventListener('click', () => infoDialog.close());
+
   const showInfoDialog = (message, id, title) => {
-    const html = $('<textarea>', {
-      'data-width': 500,
-              'id': id,
-        'readonly': 'readonly'
-    }).val(message);
-    cd.dialog(html, title, 'close').showModal();
+    infoDialog.querySelector('.dialog-title').textContent = title;
+    infoDialog.querySelector('.info').textContent = message;
+    infoDialog.showModal();
   };
 
 });
