@@ -13,8 +13,10 @@ image: assets
 test:
 	${PWD}/bin/run_tests.sh
 
+count ?= 1
+
 demo:
-	${PWD}/bin/demo.sh
+	${PWD}/bin/demo.sh ${count}
 
 probe_demo:
 	${PWD}/bin/probe_demo.sh
