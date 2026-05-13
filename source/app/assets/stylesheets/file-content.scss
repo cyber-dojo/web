@@ -1,6 +1,6 @@
 .file_content
 {
-  // height and width are set in codemirror.scss
+  // height and width are set in codemirror-overrides.scss
   @include code-font;
   background: lighten($darker-color, 4%);
   border: 0px;
