@@ -74,7 +74,12 @@ $(() => {
   $predict.prop('checked', settings.predict() === 'on')
           .click(() => predictCheckBoxChanged());
 
+  if (!cd.kata.isLatest()) {
+    $predict.prop('disabled', true);
+  }
+
   const predictCheckBoxChanged = () => {
+    if (!cd.kata.isLatest()) { return; }
     cd.saveAnyFileChangesITE(() => {
       if ($predict.prop('checked')) {
         predictOn();

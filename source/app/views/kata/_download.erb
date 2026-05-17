@@ -15,7 +15,7 @@ $(() => {
 
   cd.createTip($button, tip);
 
-  if (cd.kata.manifest().version < 2) {
+  if (!cd.kata.isLatest()) {
     $button.hide();
   } 
   else {

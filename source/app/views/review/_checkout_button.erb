@@ -24,12 +24,15 @@ $(() => {
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       refreshToolTip();
-      if (review.isFromDashboardPage()) {
+      if (!cd.kata.isLatest()) {
+        review.checkoutButton.disable();
+      }
+      else if (review.isFromDashboardPage()) {
         review.checkoutButton.disable();
       }
       else if (review.isOnFileEvent()) {
         review.checkoutButton.disable();
-      } 
+      }
       else if (kata.id == review.id) {
         review.checkoutButton.disable();
       }

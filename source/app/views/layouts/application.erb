@@ -19,6 +19,7 @@
         kata: {
           id: "<%= @id %>",
           manifest: () => (<%= @manifest.to_json %>),
+          isLatest: () => cyberDojo.kata.manifest().version === 2,
           filenames:{},
           tabs:{}
         },

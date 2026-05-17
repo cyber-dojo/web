@@ -46,7 +46,16 @@ docker ps -aq | xargs docker rm -f
 web_build
 up_nginx
 readonly COUNT="${1:-1}"
+readonly KATA_VERSION="${2:-2}"
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
-id="$(create_v2_kata "${COUNT}")"
-echo "v2 Kata ID=${id}"
-open "http://localhost:80/kata/edit/${id}"
+if [ "${KATA_VERSION}" = "0" ]; then
+  echo "v0 Kata ID=5rTJv5"
+  open "http://localhost:80/kata/edit/5rTJv5"
+elif [ "${KATA_VERSION}" = "1" ]; then
+  echo "v1 Kata ID=RNCzUr"
+  open "http://localhost:80/kata/edit/RNCzUr"
+else
+  id="$(create_v2_kata "${COUNT}")"
+  echo "v2 Kata ID=${id}"
+  open "http://localhost:80/kata/edit/${id}"
+fi

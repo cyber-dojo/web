@@ -25,8 +25,16 @@ $(() => {
     }
   };
 
-  const  enableTestButton = () => $button.attr('disabled', false);
-  const disableTestButton = () => $button.attr('disabled', true );
+  const  enableTestButton = () => {
+    if (cd.kata.isLatest()) {
+      $button.attr('disabled', false);
+    }
+  };
+  const disableTestButton = () => $button.attr('disabled', true);
+
+  if (!cd.kata.isLatest()) {
+    disableTestButton();
+  }
 
 });
 </script>
