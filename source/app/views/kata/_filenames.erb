@@ -72,7 +72,7 @@ $(() => {
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
     
-    const disabled = (filename === 'cyber-dojo.sh');
+    const disabled = (filename === 'cyber-dojo.sh') || !cd.kata.isLatest();
     cd.deleteFileButton().attr('disabled', disabled);
     cd.renameFileButton().attr('disabled', disabled);
   };

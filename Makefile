@@ -14,9 +14,10 @@ test:
 	${PWD}/bin/run_tests.sh
 
 count ?= 1
+v ?= 2
 
 demo:
-	${PWD}/bin/demo.sh ${count}
+	${PWD}/bin/demo.sh ${count} ${v}
 
 probe_demo:
 	${PWD}/bin/probe_demo.sh

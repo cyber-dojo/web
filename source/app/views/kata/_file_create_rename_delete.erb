@@ -28,6 +28,12 @@ $(() => {
   cd.deleteFileButton().click(() => openDeleteFileDialog());
   cd.renameFileButton().click(() => openRenameFileDialog());
 
+  if (!cd.kata.isLatest()) {
+    cd.createFileButton().prop('disabled', true);
+    cd.deleteFileButton().prop('disabled', true);
+    cd.renameFileButton().prop('disabled', true);
+  }
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openCreateFileDialog = () => {
