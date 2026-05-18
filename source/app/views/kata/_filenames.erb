@@ -72,9 +72,11 @@ $(() => {
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
     
-    const disabled = (filename === 'cyber-dojo.sh') || !cd.kata.isLatest();
-    cd.deleteFileButton().attr('disabled', disabled);
-    cd.renameFileButton().attr('disabled', disabled);
+    if (cd.kata.isLatest()) {
+      const isCyberDojoSh = filename === 'cyber-dojo.sh';
+      cd.deleteFileButton().attr('disabled', isCyberDojoSh);
+      cd.renameFileButton().attr('disabled', isCyberDojoSh);
+    }
   };
 
   filenames.unselectAll = () => {

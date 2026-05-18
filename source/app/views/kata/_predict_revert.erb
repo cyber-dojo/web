@@ -58,13 +58,15 @@ $(() => {
     ].join('');
   };
 
-  cd.createTip($predictCell, [
-    '<table>',
-      colourTr(  'red', 'some tests will fail'),
-      colourTr('amber', 'tests will not run'  ),
-      colourTr('green', 'all tests will pass' ),
-    '</table>'
-    ].join(''));
+  if (cd.kata.isLatest()) {
+    cd.createTip($predictCell, [
+      '<table>',
+        colourTr(  'red', 'some tests will fail'),
+        colourTr('amber', 'tests will not run'  ),
+        colourTr('green', 'all tests will pass' ),
+      '</table>'
+      ].join(''));
+  }
 
   $('#predict-checkbox-title').click(() => {
     $predict.prop('checked', !$predict.is(':checked'));

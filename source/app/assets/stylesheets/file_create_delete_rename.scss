@@ -16,8 +16,8 @@
     font-size: 14px;
     background: lighten($darker-color,50%);
     border: 2px solid lighten($darker-color,50%);
-    &:hover { border: 2px dotted lighten(Black,10%); }
-    &[disabled] { display: none; }
+    &:not([disabled]):hover { border: 2px dotted lighten(Black,10%); }
+    &[disabled] { opacity: 0.35; cursor: not-allowed; }
   }
 
   .rename-file img
