@@ -15,5 +15,6 @@
   text-align: center;
   font-weight: bold;
   letter-spacing: 0.03em;
-  &:hover { border: 2px dotted Black; }
+  &:not([disabled]):hover { border: 2px dotted Black; }
+  &[disabled] { opacity: 0.35; cursor: not-allowed; }
 }

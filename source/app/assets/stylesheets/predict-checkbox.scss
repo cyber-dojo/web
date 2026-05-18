@@ -31,3 +31,10 @@
   position: relative;
   top: -1px;
 }
+
+#predict-checkbox-cell:has(#predict-checkbox:disabled)
+{
+  opacity: 0.35;
+  #predict-checkbox-title { cursor: not-allowed; }
+  #predict-checkbox { cursor: not-allowed; }
+}
