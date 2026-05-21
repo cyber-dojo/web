@@ -42,7 +42,7 @@ $(() => {
     button
       .attr('disabled', index == disableIndex)
       .off('click')
-      .on('click', () => review.refresh(review.id, index));
+      .on('click', () => review.refreshWithTransition(review.id, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

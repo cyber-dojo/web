@@ -5,17 +5,25 @@ $(() => {
   const review = cd.review;
 
   review.fadeIn = (onComplete) => {
-    cd.kata.page.fadeOut('fast', () => {
-      review.page.fadeIn('fast', () => {
+    cd.kata.page.fadeOut(100, () => {
+      review.page.fadeIn(100, () => {
         onComplete();
       });
     });
   };
 
   review.fadeOut = (onComplete) => {
-    review.page.fadeOut('fast', () => {
-      cd.kata.page.fadeIn('fast', () => {
+    review.page.fadeOut(100, () => {
+      cd.kata.page.fadeIn(100, () => {
         onComplete();
+      });
+    });
+  };
+
+  review.refreshWithTransition = (id, index) => {
+    review.page.fadeTo(30, 0.9, () => {
+      review.refresh(id, index).then(() => {
+        review.page.fadeTo(30, 1);
       });
     });
   };
