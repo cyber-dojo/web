@@ -78,7 +78,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'))
     assert_equal 2, saver.kata_events(kid).size
   end
 
@@ -86,7 +86,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_right() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_right(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_predicted_right(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'red'
@@ -98,7 +98,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_wrong() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_wrong(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_predicted_wrong(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'green'
@@ -112,13 +112,13 @@ class SaverServiceTest < AppServicesTestBase
   'kata_reverted() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('green'))
-    saver.kata_ran_tests(kid, 2, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('green'))
+    saver.kata_ran_tests(kid, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'amber',
       predicted: 'red'
     })
-    saver.kata_reverted(kid, 3, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_reverted(kid, 3, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'green',
       revert: [kid, 1]
     })
@@ -132,10 +132,10 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     gid = saver.group_create(manifest)
     kid1 = saver.group_join(gid)
-    saver.kata_ran_tests(kid1, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('red'))
-    saver.kata_ran_tests(kid1, 2, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    saver.kata_ran_tests(kid1, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('red'))
+    saver.kata_ran_tests(kid1, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'))
     kid2 = saver.group_join(gid)
-    saver.kata_checked_out(kid2, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_checked_out(kid2, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'red',
       checkout: {
         id: kid1,
