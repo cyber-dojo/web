@@ -244,4 +244,51 @@ class SaverServiceTest < AppServicesTestBase
     assert saver.group_exists?(forked_id)
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJF',
+  'diff_lines() smoke test' do
+    manifest = starter_manifest
+    kid = saver.kata_create(manifest)
+    files = manifest['visible_files']
+    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'))
+
+    files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
+    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'))
+
+    diffs = saver.diff_lines(kid, 1, result['next_index'] - 1)
+
+    changed = diffs.select { |d| d['type'] == 'changed' }
+    assert_equal 1, changed.size
+    assert_equal 'hiker.sh', changed[0]['new_filename']
+    assert_equal({ 'added' => 1, 'deleted' => 1, 'same' => 5 }, changed[0]['line_counts'])
+
+    unchanged = diffs.select { |d| d['type'] == 'unchanged' }
+    assert_equal 4, unchanged.size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJG',
+  'diff_summary() smoke test' do
+    manifest = starter_manifest
+    kid = saver.kata_create(manifest)
+    files = manifest['visible_files']
+    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'))
+
+    files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
+    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'))
+
+    diffs = saver.diff_summary(kid, 1, result['next_index'] - 1)
+
+    changed = diffs.select { |d| d['type'] == 'changed' }
+    assert_equal 1, changed.size
+    assert_equal 'hiker.sh', changed[0]['new_filename']
+    assert_equal({ 'added' => 1, 'deleted' => 1, 'same' => 5 }, changed[0]['line_counts'])
+    assert_nil changed[0]['lines']
+
+    unchanged = diffs.select { |d| d['type'] == 'unchanged' }
+    assert_equal 4, unchanged.size
+  end
+
 end
