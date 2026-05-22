@@ -11,12 +11,10 @@ readonly DEST_PATH=/cyber-dojo
 
 pull_runner_test_image()
 {
-  # The runner service test calls run_cyber_dojo_sh, which requires the kata
-  # image to be present. The runner's pull_image endpoint is async, so without
-  # this pre-pull the image may still be downloading when the test runs and
-  # cause a timeout. Pulling here works because the runner container shares the
-  # host Docker socket, so an image pulled on the host is immediately available
-  # to the runner.
+  # The runner's config.ru calls [docker image ls] at startup and pre-loads
+  # every locally-present image into its in-memory @pulled set before forking
+  # Puma workers. This pull must therefore happen before containers_up so that
+  # the image is present when the runner starts and all workers inherit it.
   local -r manifest="$(repo_root)/source/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
   local -r image=$(jq --raw-output '.image_name' "${manifest}")
   docker pull --quiet "${image}"
@@ -24,8 +22,6 @@ pull_runner_test_image()
 
 run_tests_in_container()
 {
-  pull_runner_test_image
-
   # You cannot docker cp to a tmpfs, so tar-piping instead...
   cd ${SRC_PATH} \
     && tar -c . \
