@@ -8,6 +8,7 @@ services:
 
   asset_builder:
     image: ${CYBER_DOJO_ASSET_BUILDER_IMAGE}:${CYBER_DOJO_ASSET_BUILDER_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: ${CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME}
     ports: [ "${CYBER_DOJO_ASSET_BUILDER_PORT}:${CYBER_DOJO_ASSET_BUILDER_PORT}" ]
@@ -25,6 +26,7 @@ services:
 
   web:
     image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
+    platform: linux/amd64
     ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     build:
       context: .
@@ -43,6 +45,7 @@ services:
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_creator
     env_file: [ .env ]
@@ -52,6 +55,7 @@ services:
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_custom_start_points
     env_file: [ .env ]
@@ -61,6 +65,7 @@ services:
 
   exercises-start-points:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_exercises_start_points
     env_file: [ .env ]
@@ -70,6 +75,7 @@ services:
 
   languages-start-points:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_languages_start_points
     env_file: [ .env ]
@@ -79,6 +85,7 @@ services:
 
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+    platform: linux/amd64
     user: root
     container_name: test_web_runner
     env_file: [ .env ]
@@ -89,6 +96,7 @@ services:
 
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
+    platform: linux/amd64
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     user: root
     container_name: test_web_saver
@@ -99,6 +107,7 @@ services:
 
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_differ
     env_file: [ .env ]
@@ -108,6 +117,7 @@ services:
 
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: test_web_dashboard
     env_file: [ .env ]

@@ -19,7 +19,7 @@ pull_runner_test_image()
   # to the runner.
   local -r manifest="$(repo_root)/source/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
   local -r image=$(jq --raw-output '.image_name' "${manifest}")
-  docker pull "${image}"
+  docker pull --quiet "${image}"
 }
 
 run_tests_in_container()
