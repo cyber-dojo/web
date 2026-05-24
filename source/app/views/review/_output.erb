@@ -10,13 +10,14 @@ $(() => {
     refresh: () => {
       const isLight = cd.lib.isLight(review.currentEvent());
       if (isLight && review.index != 0) {
-        review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
+        return review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
           outputRefresher(event);
         });
-      } 
+      }
       else {
         const $diffOutputFilenames = $('#diff-output-filenames');
         $diffOutputFilenames.html('');
+        return Promise.resolve();
       }
     }
   };
@@ -32,6 +33,9 @@ $(() => {
 
     const $diffContentOutput = $('#diff-content-output');
     $diffContentOutput.empty().append($output);
+    if (review.filename && review.filename !== output.filename) {
+      $output.hide();
+    }
 
     const $diffOutputFilenames = $('#diff-output-filenames');
     $diffOutputFilenames.html($makeOutputFilename(output));

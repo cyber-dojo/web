@@ -12,9 +12,8 @@ $(() => {
     $('.avatar-image-box').append($img);
     cd.createTip($img, 'switch to review mode');
     $img.click(() => {
-      cd.saveAnyFileChangesITE(() =>
-        cd.review.fromTestPage(cd.kata.id, -1)
-      );
+      cd.saveAnyFileChangesITE(() => {});
+      cd.review.fromTestPage(cd.kata.id, -1);
     });
   }
 

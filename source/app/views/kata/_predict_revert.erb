@@ -92,8 +92,7 @@ $(() => {
     });
   };
 
-  const predictOn = () => {
-    settings.predict('on');
+  const applyPredictOn = () => {
     kata.testButton.hide(() => {
       $buttonsCell.slideDown('slow');
       setupAutoRevert();
@@ -104,8 +103,7 @@ $(() => {
     });
   };
 
-  const predictOff = () => {
-    settings.predict('off');
+  const applyPredictOff = () => {
     $revertTitle.hide('slow');
     $buttonsCell.slideUp('slow', () => {
       kata.testButton.show();
@@ -114,6 +112,16 @@ $(() => {
       setFilenameListMaxHeight(530);
       kata.editor.refocus();
     });
+  };
+
+  const predictOn = () => {
+    settings.predict('on');
+    applyPredictOn();
+  };
+
+  const predictOff = () => {
+    settings.predict('off');
+    applyPredictOff();
   };
 
   const setFilenameListMaxHeight = (value) => {
@@ -184,10 +192,10 @@ $(() => {
     // 2) run_tests.js.erb when test has run
 
     if (settings.predict() == 'on') {
-      predictOn(); // enables auto-revert after first test
-    } 
+      applyPredictOn(); // enables auto-revert after first test
+    }
     else {
-      predictOff();
+      applyPredictOff();
     }
   };
 

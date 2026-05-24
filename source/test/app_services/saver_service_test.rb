@@ -78,7 +78,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'))
     assert_equal 2, saver.kata_events(kid).size
   end
 
@@ -86,7 +86,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_right() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_right(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_predicted_right(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'red'
@@ -98,7 +98,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_wrong() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_wrong(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_predicted_wrong(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'green'
@@ -112,13 +112,13 @@ class SaverServiceTest < AppServicesTestBase
   'kata_reverted() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('green'))
-    saver.kata_ran_tests(kid, 2, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('green'))
+    saver.kata_ran_tests(kid, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'amber',
       predicted: 'red'
     })
-    saver.kata_reverted(kid, 3, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_reverted(kid, 3, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'green',
       revert: [kid, 1]
     })
@@ -132,10 +132,10 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     gid = saver.group_create(manifest)
     kid1 = saver.group_join(gid)
-    saver.kata_ran_tests(kid1, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('red'))
-    saver.kata_ran_tests(kid1, 2, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    saver.kata_ran_tests(kid1, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('red'))
+    saver.kata_ran_tests(kid1, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'))
     kid2 = saver.group_join(gid)
-    saver.kata_checked_out(kid2, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+    saver.kata_checked_out(kid2, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'red',
       checkout: {
         id: kid1,
@@ -242,6 +242,53 @@ class SaverServiceTest < AppServicesTestBase
     kid = saver.kata_create(starter_manifest)
     forked_id = saver.group_fork(kid, 0)
     assert saver.group_exists?(forked_id)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJF',
+  'diff_lines() smoke test' do
+    manifest = starter_manifest
+    kid = saver.kata_create(manifest)
+    files = manifest['visible_files']
+    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'))
+
+    files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
+    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'))
+
+    diffs = saver.diff_lines(kid, 1, result['next_index'] - 1)
+
+    changed = diffs.select { |d| d['type'] == 'changed' }
+    assert_equal 1, changed.size
+    assert_equal 'hiker.sh', changed[0]['new_filename']
+    assert_equal({ 'added' => 1, 'deleted' => 1, 'same' => 5 }, changed[0]['line_counts'])
+
+    unchanged = diffs.select { |d| d['type'] == 'unchanged' }
+    assert_equal 4, unchanged.size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJG',
+  'diff_summary() smoke test' do
+    manifest = starter_manifest
+    kid = saver.kata_create(manifest)
+    files = manifest['visible_files']
+    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'))
+
+    files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
+    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'))
+
+    diffs = saver.diff_summary(kid, 1, result['next_index'] - 1)
+
+    changed = diffs.select { |d| d['type'] == 'changed' }
+    assert_equal 1, changed.size
+    assert_equal 'hiker.sh', changed[0]['new_filename']
+    assert_equal({ 'added' => 1, 'deleted' => 1, 'same' => 5 }, changed[0]['line_counts'])
+    assert_nil changed[0]['lines']
+
+    unchanged = diffs.select { |d| d['type'] == 'unchanged' }
+    assert_equal 4, unchanged.size
   end
 
 end

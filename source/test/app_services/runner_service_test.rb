@@ -31,7 +31,6 @@ class RunnerServiceTest < AppServicesTestBase
   test '2BD812',
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
-      pull_image(kata)  # To prevent timeout response
       json = runner.run_cyber_dojo_sh(run_args(kata))
       stdout = json['stdout']['content']
       assert stdout.include?('not ok 1 life the universe and everything'), json
@@ -54,17 +53,4 @@ class RunnerServiceTest < AppServicesTestBase
     }
   end
 
-  def pull_image(kata)
-    args = { id: kata.id, image_name: kata.manifest['image_name'] }
-    http = runner.instance_variable_get('@http')
-
-    outcome = 'pulling'
-    n = 0
-    while outcome != 'pulled' && n < 60
-      outcome = http.get(:pull_image, args)
-      n += 1
-      sleep(1)
-    end
-    assert_equal 'pulled', outcome
-  end
 end

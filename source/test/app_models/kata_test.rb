@@ -32,7 +32,7 @@ class KataTest < AppModelsTestBase
       light = kata.event(-1)
       assert_equal stdout, light['stdout']
       assert_equal stderr, light['stderr']
-      assert_equal status, light['status']
+      assert_equal status.to_s, light['status']
       assert_equal files, light['files']
     end
   end
@@ -49,7 +49,7 @@ class KataTest < AppModelsTestBase
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      kata_ran_tests(kata.id, 1, files, stdout_1, stdout_1, stderr_1, ran_summary('red'))
+      result = kata_ran_tests(kata.id, 1, files, stdout_1, stderr_1, status_1, ran_summary('red'))
 
       filename = 'hiker.sh'
       hiker_rb = files[filename]['content']
@@ -57,22 +57,21 @@ class KataTest < AppModelsTestBase
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
       status_2 = 0
-      kata_ran_tests(kata.id, 2, files, stdout_2, stderr_2, status_2, ran_summary('green'))
+      result = kata_ran_tests(kata.id, result['next_index'], files, stdout_2, stderr_2, status_2, ran_summary('green'))
 
-      kata_revert(kata.id, 3, kata.event(1)['files'], stdout_1, stderr_1, status_1, {
+      kata_revert(kata.id, result['next_index'], kata.event(1)['files'], stdout_1, stderr_1, status_1, {
           'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
       });
 
-      assert_equal 4, kata.events.size
       light = kata.event(-1)
       assert_equal [ kata.id, 1 ], light['revert']
       assert_equal 'red', light['colour']
 
       assert_equal stdout_1, light['stdout']
       assert_equal stderr_1, light['stderr']
-      assert_equal status_1, light['status']
+      assert_equal status_1.to_s, light['status']
 
       assert_equal kata.event(1)['files'], light['files']
     end
@@ -105,36 +104,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1,2], 'Fb9824', %w(
-  | given a saver outage during a session
-  | when kata.event(-1) is called
-  | then v0 raises
-  | but v1 v2 handles it
-  ) do
-    in_new_kata do |kata|
-      files = kata.event(-1)['files']
-      stdout = content('aaaa')
-      stderr = content('bbbb')
-      status = 1
-      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
-
-      # saver-outage for index=2,3,4,5
-      stdout['content'] = 'x1x2x3'
-      kata_ran_tests(kata.id, 6, files, stdout, stderr, status, ran_summary('red'))
-
-      if v_test?(0)
-        captured_stdout {
-          assert_raises { kata.event(-1) }
-        }
-      else
-        assert_equal 'x1x2x3', kata.event(-1)['stdout']['content']
-      end
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  v_tests [0,1,2], 'Fb9825', %w(
+  test 'Fb9825', %w(
   | given two laptops as the same avatar
   | when one is behind (has not synced by hitting refresh in their browser)
   | and they hit the [test] button

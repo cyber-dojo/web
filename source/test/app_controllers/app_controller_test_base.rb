@@ -74,8 +74,4 @@ class AppControllerTestBase < TestBase
     JSON.parse(last_response.body)
   end
 
-  def html
-    last_response.body
-  end
-
 end

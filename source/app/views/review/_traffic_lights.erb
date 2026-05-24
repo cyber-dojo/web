@@ -30,7 +30,7 @@ $(() => {
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => {
           cd.removeTip();
-          review.refresh(review.id, light.index);
+          review.refreshWithTransition(review.id, light.index);
         });
         cd.setupTrafficLightTip($light, light, review.id, review.previousIndex(light.index), light.index);
 

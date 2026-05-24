@@ -69,13 +69,14 @@ $(() => {
 
     review.diffRadio      .refresh();
     review.avatarNavigator.refresh();
-    review.files          .refresh();
-    review.output         .refresh();
+    // Sequenced so file and output are never both visible at the same time.
+    const donePromise = review.files.refresh().then(() => review.output.refresh());
     review.trafficLights  .refresh();
     review.resumeButton   .refresh();
     review.revertButton   .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
+    return donePromise;
   };
 
   const startup = (id, index) => {

@@ -4,8 +4,8 @@ require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
 require_relative '../lib/files_from'
-
-Dir.glob("#{__dir__}/models/*.rb").each { |f| require f }
+require_relative 'models/kata'
+require_relative 'models/runner'
 
 class App < Sinatra::Base
 
@@ -84,7 +84,7 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
-  # Rack probes
+  # Probes
 
   get '/alive/?' do
     content_type :json
@@ -278,6 +278,19 @@ class App < Sinatra::Base
   post '/group/fork' do
     content_type :json
     { 'group_fork' => saver.group_fork(id, index) }.to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
+  # Diff
+
+  get '/kata/diff_summary' do
+    content_type :json
+    { diff_summary: saver.diff_summary(params[:id], params[:was_index].to_i, params[:now_index].to_i) }.to_json
+  end
+
+  get '/kata/diff_lines' do
+    content_type :json
+    { diff_lines: saver.diff_lines(params[:id], params[:was_index].to_i, params[:now_index].to_i) }.to_json
   end
 
   # - - - - - - - - - - - - - - - -

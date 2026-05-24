@@ -7,11 +7,9 @@ class ReviewTest < AppControllerTestBase
   test '1CB440', %w(
   | was_index != now_index
   ) do
-    [2].each do |version|
-      in_kata(version:version) do |kata|
-        post_run_tests # 1
-        assert_review_show(kata.id, 0, 1)
-      end
+    in_kata do |kata|
+      post_run_tests # 1
+      assert_review_show(kata.id, 0, 1)
     end
   end
 
@@ -20,11 +18,9 @@ class ReviewTest < AppControllerTestBase
   test '1CB441', %w(
   | (was_index,now_index) == (-1,-1)
   ) do
-    [2].each do |version|
-      in_kata(version:version) do |kata|
-        post_run_tests # 1
-        assert_review_show(kata.id, -1, -1)
-      end
+    in_kata do |kata|
+      post_run_tests # 1
+      assert_review_show(kata.id, -1, -1)
     end
   end
 
@@ -45,7 +41,7 @@ class ReviewTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '1CB444', %w(
-  | was_index != now_index, review new version=1 kata
+  | was_index != now_index, review kata
   ) do
     in_kata { |kata|
       post_run_tests # 1
@@ -54,7 +50,7 @@ class ReviewTest < AppControllerTestBase
   end
 
   test '1CB445', %w(
-  | (was_index,now_index) == (-1,-1), review new version=1 kata
+  | (was_index,now_index) == (-1,-1), review kata
   ) do
     in_kata { |kata|
       post_run_tests # 1
