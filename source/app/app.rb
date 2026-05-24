@@ -4,8 +4,8 @@ require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
 require_relative '../lib/files_from'
-
-Dir.glob("#{__dir__}/models/*.rb").each { |f| require f }
+require_relative 'models/kata'
+require_relative 'models/runner'
 
 class App < Sinatra::Base
 
@@ -84,7 +84,7 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
-  # Rack probes
+  # Probes
 
   get '/alive/?' do
     content_type :json
