@@ -24,9 +24,9 @@ $(() => {
 
   const currentFilename = () => kata.tabs.filename().text();
 
-  cd.createFileButton().click(() => openCreateFileDialog());
-  cd.deleteFileButton().click(() => openDeleteFileDialog());
-  cd.renameFileButton().click(() => openRenameFileDialog());
+  cd.createFileButton().click(() => cd.waitForITE(openCreateFileDialog));
+  cd.deleteFileButton().click(() => cd.waitForITE(openDeleteFileDialog));
+  cd.renameFileButton().click(() => cd.waitForITE(openRenameFileDialog));
 
   if (!cd.kata.isLatest()) {
     cd.createFileButton().prop('disabled', true);
@@ -117,10 +117,14 @@ $(() => {
     $(dialog).on('close', () => { dialog.remove(); cd.kata.editor.refocus(); });
     $('.dialog-close', dialog).click(() => dialog.close());
 
-    input.keyup((event) => {
+    input.keyup(() => {
       const newFilename = $.trim(input.val());
       $okButton.prop('disabled', !isValidFilename(newFilename));
-      if (!$okButton.prop('disabled') && event.key === 'Enter') {
+    });
+
+    $(dialog).keydown((event) => {
+      if (event.key === 'Enter' && !$okButton.prop('disabled')) {
+        event.preventDefault();
         $okButton.click();
       }
     });
@@ -132,6 +136,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const filenameRange = (f) => {
+    // Returns [lo,hi] for setSelectionRange, pre-selecting the meaningful part
+    // of the filename in the create/rename dialog. Narrows the selection by:
+    // 1. Stripping the extension (.py, .js etc) from the right.
+    // 2. Stripping any leading directory path (src/ test/ etc) from the left.
+    // 3. Stripping any test word (test/tests/spec/steps) plus an adjacent
+    //    separator (. _ - or nothing) from either end of what remains.
+    // eg src/hiker_test.py -> selects only "hiker".
+
     let lo = 0;
     // remove trailing .extension
     const ext = f.lastIndexOf('.');

@@ -62,10 +62,12 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $fileEventImage = (event) => {
+    const filename = event.colour === 'file_rename' ? event.new_filename : event.filename;
+    const icon = cd.isTestFile(filename) ? 'file_test' : 'file_code';
     return $('<img>', {
       class: 'diff-traffic-light',
-        src: `/images/traffic-light/${event.colour}.png`,
-        alt: `${event.colour} traffic-light`,
+        src: `/images/traffic-light/${icon}.png`,
+        alt: icon,
       'data-colour': event.colour,
       'data-index': event.index
     });

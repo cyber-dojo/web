@@ -25,7 +25,6 @@ var cyberDojo = (function(cd, $) {
   const $trafficLightSummary = (light, kataId) => {
     const $tr = $('<tr>');
     $tr.append($trafficLightIndexTd(light));
-    $tr.append($trafficLightImageTd(light));
     $tr.append($('<td class="mini-text">').html(miniTextInfo(kataId, light)));
     return $('<table>').append($tr);
   };
@@ -35,14 +34,6 @@ var cyberDojo = (function(cd, $) {
       class:`traffic-light-count ${light.colour}`
     }).text(cd.lib.dottedIndex(light));
     return $('<td>').append($count);
-  };
-
-  const $trafficLightImageTd = (light) => {
-    const $img = $('<img>', {
-        src:`/images/traffic-light/${light.colour}.png`,
-      class:'diff-hover-tip'
-    });
-    return $('<td>').append($img);
   };
 
   const miniTextInfo = (kataId, light) => {
@@ -122,7 +113,6 @@ var cyberDojo = (function(cd, $) {
         const $tr = $('<tr>');
         $tr.append($lineCountTd('deleted', fileDiff));
         $tr.append($lineCountTd('added', fileDiff));
-        $tr.append($diffTypeTd(fileDiff));
         $tr.append($diffFilenameTd(fileDiff));
         $table.append($tr);
       }
@@ -145,17 +135,12 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($count);
   };
 
-  const $diffTypeTd = (diff) => {
-    const $type = $('<div>', {
-      class:`hover diff-type-marker ${diff.type}`
-    });
-    return $('<td>').append($type);
-  };
-
   const $diffFilenameTd = (diff) => {
-    const $filename = $('<div>', { class:`hover diff-filename ${diff.type}` });
-    $filename.text(diffFilename(diff));
-    return $('<td>').append($filename);
+    const filename = diffFilename(diff);
+    const fileType = cd.isTestFile(filename) ? 'test-file' : 'non-test-file';
+    const $filename = $('<div>', { class:`hover diff-filename ${diff.type} ${fileType}` });
+    $filename.text(filename);
+    return $('<td>', { style:'padding-left:4px' }).append($filename);
   };
 
   const diffFilename = (diff) => {
