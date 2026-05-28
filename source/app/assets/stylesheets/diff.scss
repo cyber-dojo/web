@@ -25,24 +25,25 @@
   padding: 2px;
   margin: { left: 2px; right: 2px; }
   text-align: center;
-  $n_dash: '\2013';
+  $m_dash: '\2014';
   $curved_right_arrow: '\21B7';
+  $bullet: '\25CF';
   &.created   { &:before { content: '+'; } }
-  &.deleted   { &:before { content: $n_dash; } }
+  &.deleted   { &:before { content: $m_dash; } }
   &.renamed   { &:before { content: $curved_right_arrow; } }
-  &.changed   { &:before { content: '!'; } }
+  &.changed   { &:before { content: $bullet; } }
   &.unchanged { &:before { content: ' '; } }
 }
 
 .diff-type-marker, .diff-filename
 {
   @include plaintext-font();
-  &.created   { color: lighten($green,15%); }
-  &.deleted   { color: lighten($red,  15%); }
-  &.renamed   { color: lighten($blue, 25%); }
-  &.changed   { color: white; }
-  &.unchanged { color: darken(DarkGray,15%); }
+  &.changed:not(.hover):not(.test-file)   { color: white; }
+  &.unchanged:not(.hover):not(.test-file) { color: darken(DarkGray,15%); }
 }
+
+.diff-filename.test-file          { color: steelblue; }
+.diff-filename.test-file.selected { color: deepskyblue; }
 
 .diff-filename
 {
