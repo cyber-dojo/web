@@ -5,6 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const kata = cd.kata;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  let _interTestEventInProgress = false;
+
+  cd.interTestEventInProgress = () => _interTestEventInProgress;
+
+  cd.waitForITE = (callback) => {
+    if (!_interTestEventInProgress) {
+      callback();
+      return;
+    }
+    const pollInterval = 50;
+    const maxWait = 2000;
+    let elapsed = 0;
+    const poll = setInterval(() => {
+      elapsed += pollInterval;
+      if (!_interTestEventInProgress || elapsed >= maxWait) {
+        clearInterval(poll);
+        callback();
+      }
+    }, pollInterval);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Inter-Test-Events
   // Called in many places, eg when a file is created, deleted, renamed, 
   // or selected (from the filename-list). Saved inter-test events are 
@@ -30,8 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
+    _interTestEventInProgress = true;
     const args = { id: kata.id, index: kata.index };
-    syncPostWithCallbackITE('/kata/file_edit', args, callback);
+    syncPostWithCallbackITE('/kata/file_edit', args, () => {
+      _interTestEventInProgress = false;
+      callback();
+    });
   };
 
   const syncPostWithCallbackITE = (url, args, callback) => {

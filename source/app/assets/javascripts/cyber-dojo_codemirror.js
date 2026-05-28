@@ -77,6 +77,14 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.setFilesEditable = (editable) => {
+    $.each($('.CodeMirror'), (i, editorDiv) => {
+      editorDiv.CodeMirror.setOption('readOnly', !editable);
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.saveCodeFromIndividualSyntaxHighlightEditor = (filename) => {
     const editorDiv = document.getElementById(syntaxHighlightFileContentForId(filename));
     editorDiv.CodeMirror.cyberDojoTextArea.value = editorDiv.CodeMirror.getValue();
