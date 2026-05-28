@@ -30,6 +30,7 @@ jobs:
       service_name:             ${{ steps.vars.outputs.service_name }}
       image_tag:                ${{ steps.vars.outputs.image_tag }}
       image_name:               ${{ steps.vars.outputs.image_name }}
+      kosli_flow:               ${{ steps.vars.outputs.kosli_flow }}
       kosli_trail:              ${{ steps.vars.outputs.kosli_trail }}
     steps:
       - uses: cyber-dojo/harden-runner@main
