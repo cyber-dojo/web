@@ -58,7 +58,7 @@ $(() => {
 
   const oldFilenameTip = (diff) => {
     const filename = cd.htmlEscape(diff.old_filename);
-    return `was<span class="diff-filename renamed">${filename}</span>`;
+    return `was <span class="hover diff-filename renamed">${filename}</span>`;
   };
 
   const diffChunkPlural = (count) => {
@@ -71,11 +71,18 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFilename = (diff) => {
-    return $('<div>', {
+    const attrs = {
       class: `diff-filename ${diff.type}`,
          id: `diff-filename-${diff.id}`,
       'data-diff-id': diff.id
-    }).html(diff.filename)
+    };
+    if (cd.isTestFile(diff.filename)) {
+      attrs.class += ' test-file';
+    } else if (diff.type !== 'unchanged') {
+      attrs.style = 'color:white';
+    }
+    return $('<div>', attrs)
+      .html(diff.filename)
       .click(() => review.selectFilename(diff));
   };
 

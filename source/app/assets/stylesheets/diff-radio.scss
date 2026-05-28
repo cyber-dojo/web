@@ -7,8 +7,9 @@
   color: $lighter-color;
   background: lighten($darker-color,10%);
   padding: 3px;
-  margin: { top:10px; left:13px; } 
-  label 
+  margin: { top:10px; left:13px; }
+  input[type=radio] { accent-color: darkgray; }
+  label
   {
     position: relative;
     top: -3px;

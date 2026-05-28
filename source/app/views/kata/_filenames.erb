@@ -115,6 +115,9 @@ $(() => {
            id: `radio_${filename}`,
          text: filename
     });
+    if (cd.isTestFile(filename)) {
+      $div.css('color', 'steelblue');
+    }
     if (cd.isHighlightFile(filename)) {
       $div.addClass('highlight');
     }

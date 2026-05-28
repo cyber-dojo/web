@@ -39,6 +39,9 @@ $(() => {
 
     const $diffOutputFilenames = $('#diff-output-filenames');
     $diffOutputFilenames.html($makeOutputFilename(output));
+    if (review.diffRadio.isDetailed()) {
+      review.selectFilename(output);
+    }
   };
 
   const rstrip = (s) => {
