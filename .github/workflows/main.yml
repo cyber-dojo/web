@@ -59,6 +59,8 @@ jobs:
         uses: cyber-dojo/kosli-begin-trail@main
         with:
           flow_description: "UX for practicing TDD"
+          flow_tags: |
+            env=${{ env.KOSLI_AWS_BETA }}
 
 
   pull-request:
