@@ -22,7 +22,7 @@ var cyberDojo = ((cd, $) => {
     const $light = $trafficLightImage(light);
     if (option.isCurrentIndex) {
       const $box = $('<div>', { class:'current-light-box' });
-      $box.append($light, $lightMarker(light.colour));
+      $box.append($light, $lightMarker(light));
       $lights.append($box);
     } 
     else {
@@ -32,9 +32,14 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $lightMarker = (colour) => {
+  // The underbar beneath the current index. Its name must track the
+  // image chosen by $trafficLightImage: the colour for a rag-light
+  // (marker_red/amber/green.png), or the file-event icon name for an
+  // inter-file icon (marker_file_test/file_code.png).
+  const $lightMarker = (light) => {
+    const name = cd.lib.isLight(light) ? light.colour : fileEventIcon(light);
     return $('<img>', {
-      src: `/images/traffic-light/marker_${colour}.png`,
+      src: `/images/traffic-light/marker_${name}.png`,
       alt: 'current light marker',
        id: 'traffic-light-marker'
     });
@@ -61,9 +66,16 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $fileEventImage = (event) => {
+  // The icon name for an inter-file event: test files and source files
+  // get distinct icons. Shared by $fileEventImage and $lightMarker so the
+  // icon and its underbar always match.
+  const fileEventIcon = (event) => {
     const filename = event.colour === 'file_rename' ? event.new_filename : event.filename;
-    const icon = cd.isTestFile(filename) ? 'file_test' : 'file_code';
+    return cd.isTestFile(filename) ? 'file_test' : 'file_code';
+  };
+
+  const $fileEventImage = (event) => {
+    const icon = fileEventIcon(event);
     return $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${icon}.png`,
