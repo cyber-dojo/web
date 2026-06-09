@@ -2,7 +2,6 @@
 networks:
   cyber-dojo:
     driver: bridge
-    name: cyber-dojo
 
 services:
 
@@ -27,14 +26,12 @@ services:
   web:
     image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
     platform: linux/amd64
-    ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     build:
       context: .
       args:
         - COMMIT_SHA
         - BASE_IMAGE
     user: nobody
-    container_name: test_web
     env_file: [ web.env ]
     restart: no
     volumes:
@@ -47,7 +44,6 @@ services:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_creator
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -57,7 +53,6 @@ services:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_custom_start_points
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -67,7 +62,6 @@ services:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_exercises_start_points
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -77,7 +71,6 @@ services:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_languages_start_points
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -87,7 +80,6 @@ services:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     platform: linux/amd64
     user: root
-    container_name: test_web_runner
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -97,9 +89,7 @@ services:
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     platform: linux/amd64
-    ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     user: root
-    container_name: test_web_saver
     env_file: [ .env ]
     read_only: true
     restart: no
@@ -109,7 +99,6 @@ services:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_differ
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
@@ -119,7 +108,6 @@ services:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
     platform: linux/amd64
     user: nobody
-    container_name: test_web_dashboard
     env_file: [ .env ]
     read_only: true
     restart: no

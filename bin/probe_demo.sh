@@ -45,7 +45,7 @@ curl_200()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-port() { printf 80; }
+port() { printf "${CYBER_DOJO_NGINX_HOST_PORT:-80}"; }
 tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
