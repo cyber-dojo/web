@@ -31,6 +31,19 @@ installed()
   fi
 }
 
+service_container()
+{
+  # Echo the container id of the given docker-compose service within
+  # this demo's project. The project is COMPOSE_PROJECT_NAME (set by
+  # bin/demo.sh), defaulting to web so the saver/test helpers work
+  # against a plain demo when the var is not exported in the shell.
+  local -r service="${1}"
+  docker ps \
+    --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME:-web}" \
+    --filter "label=com.docker.compose.service=${service}" \
+    --format '{{.ID}}'
+}
+
 stderr()
 {
   >&2 echo "${1}"

@@ -1,7 +1,7 @@
 
 copy_in_saver_test_data()
 {
-  local -r SAVER_CID="$(saver_cid)"
+  local -r SAVER_CID="$(service_container saver)"
   local -r SRC_PATH=$(repo_root)/source/test/data/cyber-dojo
   local -r DEST_PATH=/cyber-dojo
   # Empty the /cyber-dojo dir ready for tar-pipe
@@ -11,9 +11,4 @@ copy_in_saver_test_data()
   cd ${SRC_PATH} \
     && tar -c . \
     | docker exec -i ${SAVER_CID} tar x -C ${DEST_PATH}
-}
-
-saver_cid()
-{
-  docker ps --filter status=running --format '{{.Names}}' | grep "web_saver"
 }
