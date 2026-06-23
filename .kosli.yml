@@ -9,7 +9,7 @@ trail:
     - name: web
       attestations:
         - name: snyk-container-scan
-          type: generic
+          type: decision
         - name: provenance-attestation
           type: generic
         - name: sbom
