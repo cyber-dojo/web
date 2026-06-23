@@ -148,13 +148,14 @@ jobs:
       - name: Display current compliance
         run:
           kosli get trail "${KOSLI_TRAIL}"
+            --output markdown >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Kosli SDLC gate to short-circuit the workflow
         env:
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
         run:
-          kosli get trail "${KOSLI_TRAIL}"
-            --output markdown >> "${GITHUB_STEP_SUMMARY}"
+          kosli assert artifact
+            --environment=${KOSLI_AWS_BETA}
 
 
   deploy-to-beta:
