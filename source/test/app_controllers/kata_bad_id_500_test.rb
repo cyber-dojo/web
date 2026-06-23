@@ -12,9 +12,9 @@ class KataControllerTest  < AppControllerTestBase
       stdout,stderr = capture_stdout_stderr do
         post_run_tests(id: 'bad')
       end
-      assert_equal '', stderr        
-      assert stdout.include?('no implicit conversion of String into Integer')
-      assert_equal 200, last_response.status
+      assert_equal '', stderr, :stderr
+      assert stdout.include?('kata bad does not exist'), stdout
+      assert_equal 200, last_response.status, :status
     end
   end
 
