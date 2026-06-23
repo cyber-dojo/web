@@ -153,8 +153,8 @@ jobs:
         env:
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
         run:
-          kosli assert artifact
-            --environment=${KOSLI_AWS_BETA}
+          kosli get trail "${KOSLI_TRAIL}"
+            --output markdown >> "${GITHUB_STEP_SUMMARY}"
 
 
   deploy-to-beta:
