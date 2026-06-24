@@ -8,9 +8,11 @@ trail:
   artifacts:
     - name: web
       attestations:
+        - name: provenance
+          type: decision
+
+        - name: sbom
+          type: decision
+
         - name: snyk-container-scan
           type: decision
-        - name: provenance-attestation
-          type: generic
-        - name: sbom
-          type: generic
