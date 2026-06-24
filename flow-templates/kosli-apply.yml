@@ -1,0 +1,10 @@
+version: 1
+trail:
+  attestations:
+    - name: terraform-plan
+      type: generic
+    - name: terraform-apply
+      type: generic
+  artifacts:
+    - name: terraform-state
+    - name: drift-plan
