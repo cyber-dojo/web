@@ -1,0 +1,5 @@
+version: 1
+trail:
+  attestations:
+    - name: terraform-plan
+      type: generic

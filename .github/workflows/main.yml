@@ -163,16 +163,22 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.23
+      pull-requests: read
+    uses: kosli-dev/tf/.github/workflows/apply.yml@main
     with:
-      aws_region:             ${{ needs.setup.outputs.aws_region }}
-      aws_role_arn:           arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-      aws_default_region:     ${{ needs.setup.outputs.aws_region }}
-      aws_role_duration:      900
-      working_directory:      deployment/terraform/
-      tf_apply:               true
-      tf_version:             v1.9.1
-      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}"}'
+      aws_region: eu-central-1
+      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      environment: beta
+      working_directory: deployment/terraform/
+      tf_version: v1.14.9
+      tf_vars: |
+        TF_VAR_TAGGED_IMAGE=${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}
+      kosli_host: ${{ vars.KOSLI_HOST }}
+      kosli_org: cyber-dojo
+      kosli_template_file: flow-templates/kosli-apply.yml
+    secrets:
+      kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
+      kosli_github_token: ${{ secrets.GITHUB_TOKEN }}
 
 
 # Deployment to aws-prod Environment is done with a Promotion workflow.
