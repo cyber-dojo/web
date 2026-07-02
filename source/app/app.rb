@@ -32,10 +32,13 @@ class App < Sinatra::Base
     end
   end
 
-  PUBLIC_DIR = File.expand_path('../public', __dir__)
+  # Compiled assets live in ${APP_DIR}/assets, a sibling of source/, populated
+  # by the Dockerfile from the asset_builder stage. This mirrors ../creator and
+  # ../dashboard and keeps the precompiled app.css/app.js out of the repo tree.
+  ASSETS_DIR = "#{ENV.fetch('APP_DIR')}/assets"
 
   def self.asset_path(filename)
-    src = "#{PUBLIC_DIR}/assets/#{filename}"
+    src = "#{ASSETS_DIR}/#{filename}"
     hash = Digest::SHA256.file(src).hexdigest[0, 8]
     base = File.basename(filename, '.*')
     ext  = File.extname(filename)
@@ -74,13 +77,13 @@ class App < Sinatra::Base
   get CSS_PATH do
     cache_control :public, max_age: 31536000
     content_type 'text/css'
-    send_file "#{PUBLIC_DIR}/assets/app.css"
+    send_file "#{ASSETS_DIR}/app.css"
   end
 
   get JS_PATH do
     cache_control :public, max_age: 31536000
     content_type 'text/javascript'
-    send_file "#{PUBLIC_DIR}/assets/app.js"
+    send_file "#{ASSETS_DIR}/app.js"
   end
 
   # - - - - - - - - - - - - - - - -

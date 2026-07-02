@@ -10,8 +10,6 @@
 !/bin
 !/flow-templates
 !/source
-/source/public/assets/app.js
-/source/public/assets/app.css
 
 # and these files...
 
