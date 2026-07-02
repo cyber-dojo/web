@@ -75,13 +75,13 @@ class App < Sinatra::Base
   # Assets
 
   get CSS_PATH do
-    cache_control :public, max_age: 31536000
+    cache_control :public, max_age: 31536000, immutable: true
     content_type 'text/css'
     send_file "#{ASSETS_DIR}/app.css"
   end
 
   get JS_PATH do
-    cache_control :public, max_age: 31536000
+    cache_control :public, max_age: 31536000, immutable: true
     content_type 'text/javascript'
     send_file "#{ASSETS_DIR}/app.js"
   end
