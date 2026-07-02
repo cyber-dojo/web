@@ -1,4 +1,4 @@
-FROM ghcr.io/cyber-dojo/sinatra-base:ac5f6a7@sha256:e74f2c4f8d2f8fa6504c7d044fd2ed6692c40a735c144d07e06cea38edfefccd AS base
+FROM ghcr.io/cyber-dojo/sinatra-base:1200d3b@sha256:7c4eb39e9b9de9b49f8fc650e47fac58bff984fe50198ab51d8fbdf623d4cc3f AS base
 # The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 
 FROM cyberdojo/asset_builder:f2bcab7 AS assets
