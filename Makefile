@@ -2,10 +2,7 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
-.PHONY: assets image test probe demo snyk-container snyk-code
-
-assets:
-	${PWD}/bin/build_assets.sh
+.PHONY: image test demo probe_demo snyk-container-scan snyk-code-scan
 
 image:
 	${PWD}/bin/build.sh

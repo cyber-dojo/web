@@ -16,9 +16,9 @@ ARG APP_DIR=/web
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY source/ .
-COPY --from=assets /tmp/out/app.js  public/assets/app.js
-COPY --from=assets /tmp/out/app.css public/assets/app.css
+COPY --chown=nobody:nogroup source/ .
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh

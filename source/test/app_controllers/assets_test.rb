@@ -20,21 +20,4 @@ class AssetsTest < AppControllerTestBase
     assert_includes last_response.headers['Cache-Control'], 'max-age=31536000'
   end
 
-  # These two tests cover the old bare paths that are still served via Sinatra's
-  # static middleware. They are due to be retired once the bare paths are removed.
-
-  test 'EB5003', %w(
-  | /assets/app.css (unhashed) still returns 200
-  ) do
-    get '/assets/app.css'
-    assert_equal 200, last_response.status
-  end
-
-  test 'EB5004', %w(
-  | /assets/app.js (unhashed) still returns 200
-  ) do
-    get '/assets/app.js'
-    assert_equal 200, last_response.status
-  end
-
 end
