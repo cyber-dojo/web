@@ -8,7 +8,7 @@ remove_old_images()
   for image_name in $(echo "${docker_image_ls}" | grep "web:")
   do
     if [ "${image_name}" != "${name}" ]; then
-      docker image rm --force "${image_name}"
+      docker image rm --force "${image_name}" || echo "  skipped ${image_name} (in use)"
     fi
   done
 }
