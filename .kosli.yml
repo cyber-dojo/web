@@ -8,10 +8,14 @@ trail:
   artifacts:
     - name: web
       attestations:
-        - name: provenance
+        - name: provenance-facts
+          type: custom:provenance-facts
+        - name: provenance-decision
           type: decision
 
-        - name: sbom
+        - name: sbom-facts
+          type: custom:sbom-facts
+        - name: sbom-decision
           type: decision
 
         - name: snyk-container-scan
