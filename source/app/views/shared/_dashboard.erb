@@ -7,13 +7,17 @@ $(() => {
   const $dashboardButton = $('#dashboard-button');
   const manifest = cd.kata.manifest();
   const groupId = manifest.group_id;
+  const clusterId = manifest.cluster_id;
 
   if (groupId === undefined || cd.env['DASHBOARD_BUTTON'] === 'off') {
 	  $dashboardButton.remove();
-  } 
+  }
   else {
 	  $dashboardButton.click(() => {
-	      const url = `/dashboard/show/${manifest.group_id}`;
+	      // A kata whose group belongs to a cluster carries the cluster_id;
+	      // open the dashboard on the cluster so it shows one tab per group.
+	      const id = clusterId === undefined ? groupId : clusterId;
+	      const url = `/dashboard/show/${id}`;
 	      window.open(url);
       });
       cd.createTip($dashboardButton, 'open dashboard page');
