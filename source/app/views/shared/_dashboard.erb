@@ -15,9 +15,11 @@ $(() => {
   else {
 	  $dashboardButton.click(() => {
 	      // A kata whose group belongs to a cluster carries the cluster_id;
-	      // open the dashboard on the cluster so it shows one tab per group.
-	      const id = clusterId === undefined ? groupId : clusterId;
-	      const url = `/dashboard/show/${id}`;
+	      // open the dashboard on the cluster so it shows one tab per group,
+	      // passing group_id so it opens focused on this kata's group.
+	      const url = clusterId === undefined
+	          ? `/dashboard/show/${groupId}`
+	          : `/dashboard/show/${clusterId}?group_id=${groupId}`;
 	      window.open(url);
       });
       cd.createTip($dashboardButton, 'open dashboard page');
