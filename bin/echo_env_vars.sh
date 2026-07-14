@@ -10,7 +10,7 @@ echo_env_vars()
   fi
 
   {
-    echo "# This file is generated in sh/lib.sh echo_env_vars()"
+    echo "# This file is generated in bin/lib.sh echo_env_vars()"
     run_versioner | grep PORT
     echo CYBER_DOJO_PROMETHEUS=true
   } > "$(repo_root)/.env"

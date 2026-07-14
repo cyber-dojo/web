@@ -297,6 +297,19 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
+  # The next event index the browser should hold. Lets a browser that lost
+  # the response to an inter-test file event (eg its fetch aborted while the
+  # saver still committed the event) resync its index to the committed head,
+  # instead of sending a stale index the saver would reject as an out-of-order
+  # event and the browser would show as a false mobbing dialog.
+
+  get '/kata/next_index/:id' do
+    content_type :json
+    events = saver.kata_events(params[:id])
+    { next_index: events.last['index'] + 1 }.to_json
+  end
+
+  # - - - - - - - - - - - - - - - -
   # Errors
 
   get '*' do

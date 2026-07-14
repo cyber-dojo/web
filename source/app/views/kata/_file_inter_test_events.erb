@@ -53,17 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    _interTestEventInProgress = true;
     const args = { id: kata.id, index: kata.index };
-    syncPostWithCallbackITE('/kata/file_edit', args, () => {
-      _interTestEventInProgress = false;
-      callback();
-    });
+    syncPostWithCallbackITE('/kata/file_edit', args, callback);
   };
 
   const syncPostWithCallbackITE = (url, args, callback) => {
+    // Hold the in-progress flag for the whole request so cd.waitForITE()
+    // (guarding [test] and the file create/delete/rename buttons) waits for
+    // this event to resolve before firing the next save at kata.index.
+    _interTestEventInProgress = true;
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 2000);
+    const timer = setTimeout(() => controller.abort(), 30000);
     const body = new URLSearchParams(args);
     body.set('data', new URLSearchParams(new FormData(document.querySelector('form'))).toString());
     fetch(url, {
@@ -78,9 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(newIndex => kata.setIndex(newIndex))
-    .catch(() => console.warn('inter-test file-edit was rate-limited'))
-    .finally(() => { clearTimeout(timer); callback(); });
+    // If the response is lost (aborted, network drop) the saver may still
+    // have committed the event, leaving kata.index stale. Sending that stale
+    // index on the next [test] is what the saver reports as an out-of-order
+    // event and the browser shows as a false 'mobbing?' dialog. Resync
+    // kata.index to the committed head so the next save is in step.
+    .catch(() => resyncIndex())
+    .finally(() => { clearTimeout(timer); _interTestEventInProgress = false; callback(); });
   };
+
+  const resyncIndex = () =>
+    fetch(`/kata/next_index/${kata.id}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+    // r.ok guards a web instance without this route (eg an older instance
+    // still up mid-deploy), which 404s: reject rather than parse its HTML.
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => kata.setIndex(data.next_index))
+    .catch(() => {}); // leave kata.index as-is; a browser refresh also resyncs
 
 });
 </script>
