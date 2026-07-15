@@ -26,6 +26,11 @@ class App < Sinatra::Base
       @csrf_token = SecureRandom.hex(32)
       response.set_cookie('csrf_token', value: @csrf_token, path: '/')
     end
+    @laptop_id = request.cookies['laptop_id']
+    unless @laptop_id
+      @laptop_id = SecureRandom.hex(32)
+      response.set_cookie('laptop_id', value: @laptop_id, path: '/')
+    end
     unless %w[GET HEAD OPTIONS TRACE].include?(request.request_method)
       token = request.env['HTTP_X_CSRF_TOKEN'] || params['authenticity_token']
       halt 403, 'Forbidden' unless token == @csrf_token
@@ -131,22 +136,22 @@ class App < Sinatra::Base
 
   post '/kata/file_create' do
     content_type :json
-    saver.kata_file_create(id, index, params_files, params[:filename]).to_json
+    saver.kata_file_create(id, index, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_delete' do
     content_type :json
-    saver.kata_file_delete(id, index, params_files, params[:filename]).to_json
+    saver.kata_file_delete(id, index, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_rename' do
     content_type :json
-    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename]).to_json
+    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
   end
 
   post '/kata/file_edit' do
     content_type :json
-    saver.kata_file_edit(id, index, params_files).to_json
+    saver.kata_file_edit(id, index, params_files, laptop_id).to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -182,6 +187,7 @@ class App < Sinatra::Base
       next_index  = result['next_index']
       major_index = result['major_index']
       minor_index = result['minor_index']
+      @saved = true
     rescue SaverService::Error => error
       next_index  = index + 1
       major_index = index + 1
@@ -211,6 +217,7 @@ class App < Sinatra::Base
       status:      @status.to_s,
       log:         @log.to_s,
       out_of_sync: @out_of_sync == true,
+      saved:       @saved == true,
       created:     @created,
       changed:     @changed
     }.to_json
@@ -231,7 +238,7 @@ class App < Sinatra::Base
     result = saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
-    })
+    }, laptop_id)
     light = json[:light]
     light[:index]       = result['next_index'] - 1
     light[:major_index] = result['major_index']
@@ -253,7 +260,7 @@ class App < Sinatra::Base
     }
     json = source_event(from[:id], from[:index], :checkout, from)
     summary = { colour: @colour, checkout: from }
-    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary)
+    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary, laptop_id)
     light = json[:light]
     light[:index]       = result['next_index'] - 1
     light[:major_index] = result['major_index']
@@ -334,6 +341,12 @@ class App < Sinatra::Base
     params[:index].to_i
   end
 
+  # The per-browser id minted in the before-hook cookie block, forwarded to the
+  # saver on each event-write so it can stamp the writing laptop (mobbing detection).
+  def laptop_id
+    @laptop_id
+  end
+
   def params_files
     data = Rack::Utils.parse_nested_query(params[:data])
     files_from(data['file_content'])
@@ -341,11 +354,11 @@ class App < Sinatra::Base
 
   def ran_tests(id, index, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
+      saver.kata_ran_tests(id, index, files, stdout, stderr, status, summary, laptop_id)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, index, files, stdout, stderr, status, summary)
+      saver.kata_predicted_right(id, index, files, stdout, stderr, status, summary, laptop_id)
     else
-      saver.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
+      saver.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary, laptop_id)
     end
   end
 

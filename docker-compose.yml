@@ -22,6 +22,16 @@ services:
       - ./source/test:/web/source/test:ro
       - ./source/lib:/web/source/lib:ro
 
+  # The browser (Capybara) tests in source/test/app_browser drive Firefox here
+  # and load the web app at http://web:3000 over the compose network, so they
+  # exercise the rendered page and its JavaScript end to end (the in-process Rack
+  # tests never run browser JS). amd64 image (emulated on arm hosts), matching
+  # ../creator's selenium service.
+  selenium:
+    image: selenium/standalone-firefox
+    platform: linux/amd64
+    restart: no
+
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64

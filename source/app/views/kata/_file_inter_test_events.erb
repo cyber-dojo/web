@@ -78,22 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(newIndex => kata.setIndex(newIndex))
-    // If the response is lost (aborted, network drop) the saver may still
-    // have committed the event, leaving kata.index stale. Sending that stale
-    // index on the next [test] is what the saver reports as an out-of-order
-    // event and the browser shows as a false 'mobbing?' dialog. Resync
-    // kata.index to the committed head so the next save is in step.
-    .catch(() => resyncIndex())
+    // If the response is lost (aborted, network drop) the saver may still have
+    // committed the event, leaving kata.index stale. That is harmless: the saver
+    // places each write at head + 1 and treats this browser's own not-yet-seen
+    // writes as self-lag, so the next [test] still saves. kata.index resyncs on
+    // the next successful write, or on a browser refresh (edit.erb's setIndex).
+    .catch(() => {})
     .finally(() => { clearTimeout(timer); _interTestEventInProgress = false; callback(); });
   };
-
-  const resyncIndex = () =>
-    fetch(`/kata/next_index/${kata.id}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-    // r.ok guards a web instance without this route (eg an older instance
-    // still up mid-deploy), which 404s: reject rather than parse its HTML.
-    .then(r => r.ok ? r.json() : Promise.reject())
-    .then(data => kata.setIndex(data.next_index))
-    .catch(() => {}); // leave kata.index as-is; a browser refresh also resyncs
 
 });
 </script>

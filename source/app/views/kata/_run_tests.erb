@@ -10,12 +10,27 @@
 'use strict';
 $(() => {
 
+  // True while a test run is in flight (fetch sent, response not yet handled).
+  // Guards against a second concurrent run: the [test] button, the predict
+  // buttons, and the Alt-T/R/A/G keybindings all funnel through runTests, and a
+  // re-entrant run would race the saver's compare-and-swap and store two test
+  // events out of chronological order. See docs/mobbing-concurrent-write-fix.md.
+  let runTestsInProgress = false;
+
   cd.kata.runTests = (onComplete) => {
     // Called from 2 places
     // 1. when you click the [test] button.
     // 2. when you click a [predict] button.
     // [X] This 30s timeout is different to runners max_seconds
     // from the start-points manifest.json file.
+
+    if (runTestsInProgress) {
+      // A run is already in flight. Ignore this re-entrant trigger, but run the
+      // caller's onComplete so the button-disable it just applied is undone.
+      if (onComplete) { onComplete(); }
+      return;
+    }
+    runTestsInProgress = true;
 
     const form = $('form');
     cd.saveCodeFromSyntaxHighlightEditors();
@@ -44,18 +59,18 @@ $(() => {
       .then(r => r.json())
       .then(handleResponse)
       .catch(err => cd.dialogError(err.message))
-      .finally(() => { clearTimeout(timer); cd.waitSpinner.fadeOut('slow', onComplete); });
+      .finally(() => { clearTimeout(timer); runTestsInProgress = false; cd.waitSpinner.fadeOut('slow', onComplete); });
     });
   };
 
   const handleResponse = (data) => {
-    const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, created, changed } = data;
+    const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, saved, created, changed } = data;
 
     if (outOfSync) {
       showAvatarsOutOfSync(light);
     }
     else {
-      refreshFromTest(light, stdout, stderr, status, created, changed);
+      refreshFromTest(light, stdout, stderr, status, created, changed, saved);
       if (runNeedsReverting(outcome)) {
         revert();
       }
@@ -63,8 +78,14 @@ $(() => {
     showInfoDialogs(outcome, log);
   };
 
-  const refreshFromTest = (light, stdout, stderr, status, created, changed) => {
-    cd.kata.setIndex(light.index + 1);
+  const refreshFromTest = (light, stdout, stderr, status, created, changed, saved) => {
+    // Only adopt the saver's index when the write actually committed. A failed
+    // save (a transient saver error, not mobbing) still returns the runner's
+    // light but commits nothing, so advancing here would push the index ahead of
+    // the head and the next [test] would show a false mobbing dialog.
+    if (saved) {
+      cd.kata.setIndex(light.index + 1);
+    }
     insertCreatedFiles(created);
     updateChangedFiles(changed);
     cd.kata.filenames.refresh();
@@ -110,7 +131,7 @@ $(() => {
     })
     .then(r => r.json())
     .then(data => {
-      cd.kata.incrementIndex();
+      cd.kata.setIndex(data.light.index + 1);
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content: data.files[filename] });

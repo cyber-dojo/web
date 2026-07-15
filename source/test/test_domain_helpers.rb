@@ -39,6 +39,10 @@ module TestDomainHelpers
     1.6543
   end
 
+  def laptop_id
+    'a1' * 32 # a well-formed (64-char lowercase hex) laptop_id for tests to pass
+  end
+
   def ran_summary(colour)
     {
       'duration' => duration,

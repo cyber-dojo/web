@@ -1,13 +1,15 @@
 require_relative 'app_controller_test_base'
 
-class MobbingResyncAfterLostEventTest < AppControllerTestBase
+class MobbingSelfLagAfterLostEventTest < AppControllerTestBase
 
-  test 'kT9mB2', %w(
+  test 'sLg7A1', %w(
   | A solo user on an unshared kata can lose the response to an inter-test
   | file event: the saver commits it and advances the head, but the browser's
-  | 2s abort fires so it never applies the returned index. The browser must be
-  | able to resync its index from GET /kata/next_index/:id and then run its
-  | tests cleanly - it must NOT get a false out-of-sync (mobbing) dialog.
+  | fetch aborts so it never applies the returned index and its own index stays
+  | stale. The next [test] is sent at that stale index, with NO resync. Because
+  | every event the browser missed was written by this same laptop, the saver
+  | accepts the write as self-lag (placing it at head + 1) instead of rejecting
+  | it - so the solo user gets NO false out-of-sync (mobbing) dialog.
   ) do
     in_kata do |kata|
       # Browser is synced: the only event is the index-0 created event,
@@ -16,7 +18,7 @@ class MobbingResyncAfterLostEventTest < AppControllerTestBase
       assert_equal 1, stale_index
 
       # The browser fires an inter-test file_create. The saver commits it
-      # (advancing the head) but the browser loses the response (2s abort),
+      # (advancing the head) but the browser loses the response (fetch abort),
       # so its own index counter stays at stale_index.
       post_json '/kata/file_create', {
         id:       @id,
@@ -29,14 +31,10 @@ class MobbingResyncAfterLostEventTest < AppControllerTestBase
       assert_operator committed_next, :>, stale_index,
         'the lost inter-test event should have advanced the head'
 
-      # Option A resync: rather than staying stale, the browser re-reads its
-      # authoritative next index from the server.
-      get '/kata/next_index/' + @id
-      assert last_response.ok?, last_response.body
-      assert_equal committed_next, json['next_index']
-
-      # With the resynced index the next run-tests saves cleanly: no mobbing.
-      post_run_tests(index: json['next_index'])
+      # No resync. The next [test] is sent at the STALE index. The saver sees the
+      # events the browser missed are all this same laptop's own writes, so it
+      # accepts the write as self-lag - no different laptop got in, no mobbing.
+      post_run_tests(index: stale_index)
       refute json['out_of_sync'], json
     end
   end

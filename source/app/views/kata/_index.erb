@@ -1,5 +1,6 @@
-<%# An incrementing index is held in the browser. %>
-<%# This allows out-of-sync mobbing detection.     %>
+<%# The browser holds the committed head-index it has observed, adopted from   %>
+<%# each saver write response (setIndex). It is sent on every write as the     %>
+<%# out-of-sync (mobbing) detection signal; the saver decides placement.       %>
 <input name="index" type="hidden" value="0">
 
 <script>
@@ -9,11 +10,6 @@ $(() => {
   const $index = $("input[name='index']");
 
   cd.kata.index = 0;
-
-  cd.kata.incrementIndex = () => {
-    cd.kata.index += 1;
-    $index.val(cd.kata.index);
-  };
 
   cd.kata.setIndex = (index) => {
     cd.kata.index = index;
