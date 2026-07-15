@@ -40,7 +40,16 @@ run_tests_in_container()
   # Drop set -e because we want to get coverage stats out
   set +e
   docker exec --user nobody "${WEB_CID}" sh -c "cd /web/source/test && ./run.sh ${*:-}"
-  readonly STATUS=$?
+  local -r UNIT_STATUS=$?
+
+  # Browser (Capybara + Selenium) tests run as a separate script: they exercise
+  # the served app end-to-end, so they are kept out of run.sh's per-module
+  # coverage loop. Only on a full run (no single module requested).
+  local BROWSER_STATUS=0
+  if [ $# -eq 0 ]; then
+    docker exec --user nobody "${WEB_CID}" sh -c "cd /web/source/test && ./run_browser.sh"
+    BROWSER_STATUS=$?
+  fi
   set -e
 
   mkdir -p "${DST}"
@@ -51,5 +60,8 @@ run_tests_in_container()
   echo "${DST}/app_services/index.html"
   echo "${DST}/app_controllers/index.html"
 
-  return ${STATUS}
+  if [ ${UNIT_STATUS} -ne 0 ]; then
+    return ${UNIT_STATUS}
+  fi
+  return ${BROWSER_STATUS}
 }

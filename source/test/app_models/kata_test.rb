@@ -26,7 +26,7 @@ class KataTest < AppModelsTestBase
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
-      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'), laptop_id)
 
       assert_equal 2, kata.events.size
       light = kata.event(-1)
@@ -49,7 +49,7 @@ class KataTest < AppModelsTestBase
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      result = kata_ran_tests(kata.id, 1, files, stdout_1, stderr_1, status_1, ran_summary('red'))
+      result = kata_ran_tests(kata.id, 1, files, stdout_1, stderr_1, status_1, ran_summary('red'), laptop_id)
 
       filename = 'hiker.sh'
       hiker_rb = files[filename]['content']
@@ -57,13 +57,13 @@ class KataTest < AppModelsTestBase
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
       status_2 = 0
-      result = kata_ran_tests(kata.id, result['next_index'], files, stdout_2, stderr_2, status_2, ran_summary('green'))
+      result = kata_ran_tests(kata.id, result['next_index'], files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id)
 
       kata_revert(kata.id, result['next_index'], kata.event(1)['files'], stdout_1, stderr_1, status_1, {
           'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
-      });
+      }, laptop_id);
 
       light = kata.event(-1)
       assert_equal [ kata.id, 1 ], light['revert']
@@ -88,14 +88,14 @@ class KataTest < AppModelsTestBase
       stdout = content('xxxx')
       stderr = content('')
       status = 0
-      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'), laptop_id)
 
       assert_equal 'xxxx', kata.event(-1)['stdout']['content']
       assert_equal kata.event(1), kata.event(-1)
       stdout = content('')
       stderr = content('syntax-error')
       status = 1
-      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('green'))
+      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('green'), laptop_id)
 
       assert_equal 'syntax-error', kata.event(-1)['stderr']['content']
       assert_equal kata.event(2), kata.event(-1)
@@ -105,21 +105,23 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'Fb9825', %w(
-  | given two laptops as the same avatar
+  | given two laptops as the same avatar (two different laptop_ids)
   | when one is behind (has not synced by hitting refresh in their browser)
   | and they hit the [test] button
   | a SaverService::Error is raised
   | and a new event is not created in the saver
   ) do
+    laptop_a = 'a1' * 32
+    laptop_b = 'b2' * 32
     in_new_kata do |kata|
       files = kata.event(-1)['files']
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
-      # 1st avatar
-      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
-      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('amber'))
-      kata_ran_tests(kata.id, 3, files, stdout, stderr, status, ran_summary('green'))
+      # 1st laptop drives the kata to head 3
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'),   laptop_a)
+      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('amber'), laptop_a)
+      kata_ran_tests(kata.id, 3, files, stdout, stderr, status, ran_summary('green'), laptop_a)
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
@@ -129,10 +131,12 @@ class KataTest < AppModelsTestBase
         }
       }
 
-      # 2nd avatar - no refresh, so index not advanced to 2
+      # 2nd laptop has NOT refreshed, so it still holds the stale index 1. Its
+      # missed events (1..3) were written by a DIFFERENT laptop, so the saver
+      # rejects the write as mobbing and appends nothing.
       captured_stdout {
         assert_raises(SaverService::Error) {
-          kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
+          kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'), laptop_b)
         }
       }
 

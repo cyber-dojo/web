@@ -175,18 +175,18 @@ def coverage(stats, name)
     min = 100
   end  
   percent = stats[name][:coverage]
-  [ "#{name} coverage >= #{min}", percent.to_f >= min ]
+  [ "#{name} coverage >= #{min}", percent.to_f >= min, percent ]
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
   done = [
-     [ 'total failures == 0', totals[:failure_count] == 0 ],
-     [ 'total errors == 0',   totals[:error_count] == 0 ],
-     [ 'total skips == 0',    totals[:skip_count] == 0],
-     [ 'total secs < 50',    totals[:time].to_f < 50 ]
-     #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
+     [ 'total failures == 0', totals[:failure_count] == 0, totals[:failure_count] ],
+     [ 'total errors == 0',   totals[:error_count]   == 0, totals[:error_count]   ],
+     [ 'total skips == 0',    totals[:skip_count]    == 0, totals[:skip_count]    ],
+     [ 'total secs < 50',     totals[:time].to_f < 50,     totals[:time]          ]
+     #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20, totals[:assertions_per_sec] ]
   ]
   module_names = %w(
     app_models
@@ -210,7 +210,7 @@ def print_done(done)
     puts 'DONE'
   else
     puts '!DONE'
-    no.each { |criteria| puts criteria[0] }
+    no.each { |criteria| puts "FAILED: #{criteria[0]} (actual #{criteria[2]})" }
   end
 end
 
