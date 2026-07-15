@@ -31,6 +31,16 @@ services:
     image: selenium/standalone-firefox
     platform: linux/amd64
     restart: no
+    # So containers_up's --wait blocks until the grid is actually accepting
+    # sessions on 4444, not merely until the container is running - otherwise
+    # the first browser test can hit connection-refused. check-grid.sh ships in
+    # the selenium image.
+    healthcheck:
+      test: [ "CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}

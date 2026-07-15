@@ -12,6 +12,6 @@ containers_up()
     --detach \
     --no-build \
     --wait \
-    --wait-timeout=10 \
-    web runner saver
+    --wait-timeout=60 \
+    web runner saver selenium
 }
