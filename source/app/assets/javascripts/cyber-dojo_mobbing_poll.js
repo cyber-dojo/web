@@ -14,6 +14,22 @@ var cyberDojo = ((cd) => {
   // 32-char laptop_id half (see the doc's laptop_id + tab_id split).
   const tabIdOf = (event) => event.laptop_id.slice(32);
 
+  // The laptop_id half of a committed event's stored id: the first 32 chars.
+  const laptopIdOf = (event) => event.laptop_id.slice(0, 32);
+
+  // This tab's laptop half, rendered by web in a <meta name="laptop-id"> tag.
+  const myLaptopId = () => document.querySelector('meta[name=laptop-id]').getAttribute('content');
+
+  // Word the refresh banner from the events above knownHead that are not mine:
+  // "another laptop" if any has a different laptop half, else "another tab".
+  const bannerMessage = (events, knownHead, myTabId) => {
+    const notMine = events.filter((event) => event.index > knownHead && tabIdOf(event) !== myTabId);
+    if (notMine.some((event) => laptopIdOf(event) !== myLaptopId())) {
+      return 'This kata was changed on another laptop. Refresh to continue.';
+    }
+    return 'This kata was changed in another tab. Refresh to continue.';
+  };
+
   // A fresh random 32-hex id for this tab (this browsing context), generated
   // once when the page loads and held for the tab's life.
   const generateTabId = () => {
@@ -22,10 +38,10 @@ var cyberDojo = ((cd) => {
   };
 
   // Show a banner telling the user this tab is out of date and must be refreshed.
-  const showBanner = () => {
+  const showBanner = (message) => {
     const banner = document.createElement('div');
     banner.id = 'mobbing-banner';
-    banner.textContent = 'This kata changed elsewhere. Refresh to continue.';
+    banner.textContent = message;
     document.body.appendChild(banner);
   };
 
@@ -34,7 +50,7 @@ var cyberDojo = ((cd) => {
   // mark the page stale, disable the [test], file, checkout, revert and fork
   // buttons, make the editors read-only, and show the refresh banner, so it
   // cannot commit or edit from a stale state. Refresh is the only exit.
-  const lock = () => {
+  const lock = (message) => {
     cd.mobbingPoll.locked = true;
     document.body.classList.add('mobbing-stale');
     document.getElementById('test-button').disabled = true;
@@ -43,7 +59,7 @@ var cyberDojo = ((cd) => {
     document.getElementById('fork-button').disabled = true;
     cd.setFilesEditable(false);
     cd.disableFileButtons();
-    showBanner();
+    showBanner(message);
   };
 
   // The stale-tab poll (docs/mobbing-stale-tab-lock.md). tabId identifies this
@@ -55,13 +71,15 @@ var cyberDojo = ((cd) => {
     knownHead: undefined,
     intervalMs: 5000,
     locked: false,
+    polling: false,
 
     enable: function(id) {
+      this.polling = true;
       const poll = setInterval(() => {
         cd.lib.getEvents(id, (events) => {
           if (cd.isStale(events, this.knownHead, this.tabId)) {
             clearInterval(poll);
-            lock();
+            lock(bannerMessage(events, this.knownHead, this.tabId));
           }
         });
       }, this.intervalMs);

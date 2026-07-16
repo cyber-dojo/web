@@ -61,7 +61,8 @@ $(() => {
       src_index: event.index,
       src_major_index: event.major_index,
       src_minor_index: event.minor_index,
-      src_avatar_index: review.avatarIndex
+      src_avatar_index: review.avatarIndex,
+      tab_id: cd.mobbingPoll.tabId
     };
     cd.settings.showButton();
     fetch('/kata/checkout', {

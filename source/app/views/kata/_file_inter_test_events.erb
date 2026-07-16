@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timer = setTimeout(() => controller.abort(), 30000);
     const body = new URLSearchParams(args);
     body.set('data', new URLSearchParams(new FormData(document.querySelector('form'))).toString());
+    body.set('tab_id', cd.mobbingPoll.tabId);
     fetch(url, {
       method: 'POST',
       headers: {

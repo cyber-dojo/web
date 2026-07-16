@@ -350,10 +350,14 @@ class App < Sinatra::Base
     params[:index].to_i
   end
 
-  # The per-browser id minted in the before-hook cookie block, forwarded to the
-  # saver on each event-write so it can stamp the writing laptop (mobbing detection).
+  # The id forwarded to saver on each event-write so it can stamp the writer
+  # (mobbing detection). The browser sends its per-tab tab_id with the write; the
+  # stored id is the laptop half (first 32 of the cookie) plus that tab_id, so the
+  # read-side poll can tell one tab from another. A write without a tab_id (an old
+  # or non-JS client) falls back to the plain cookie.
   def laptop_id
-    @laptop_id
+    tab_id = params['tab_id']
+    tab_id ? @laptop_id[0, 32] + tab_id : @laptop_id
   end
 
   def params_files

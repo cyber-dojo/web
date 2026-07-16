@@ -1,6 +1,7 @@
 # Mobbing stale-tab lock (spooler ADR step A1)
 
-Status: Proposed.
+Status: Partially implemented (web), not deployed. See "Implementation status
+(handoff)" at the end for what is done and what remains.
 
 Precondition A0 is deployed: each committed event carries the writing browser's
 `laptop_id`. This is a web-only step of the spooler rollout
@@ -61,8 +62,8 @@ tab classifies the events above `knownHead` by `laptop_id`:
 
 - any has a `laptop_id` different from mine -> "This kata was changed on another
   laptop. Refresh to continue."
-- all carry my own `laptop_id` -> "This kata is open in another tab. Refresh to
-  continue."
+- all carry my own `laptop_id` -> "This kata was changed in another tab. Refresh
+  to continue."
 - otherwise (an event with no `laptop_id`; a legacy or malformed write) -> a
   generic "This kata changed. Refresh to continue."
 
@@ -200,7 +201,7 @@ E3; `knownHead = 2` for tab B.
 | tab B sees | event above knownHead | mine (tab B's tab_id)? | stale? |
 |---|---|---|---|
 | before E3 | none | - | no |
-| after E3 | E3 (tab A's tab_id) | no | yes -> lock, "open in another tab" |
+| after E3 | E3 (tab A's tab_id) | no | yes -> lock, "changed in another tab" |
 
 The shared `laptop_id` does not make E3 mine - `tab_id` does, and tab A's differs.
 A tab open only to read the instructions is not editing or testing, so the lock
@@ -252,3 +253,80 @@ already returns `laptop_id` per event. This is a web-only change.
   lock on its own committed writes; the `[test]` button and editor are disabled
   while locked and a refresh clears the lock; a failed or empty read locks
   nothing and the poll keeps polling; the poll stops on unload.
+
+## Implementation status (handoff)
+
+The web side is largely built and the poll is wired up (`edit.erb` auto-starts it
+on page load), but nothing here is deployed. Styling and two clean-up phases
+remain.
+
+### Done
+- Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
+  `assets/javascripts/cyber-dojo_mobbing_poll.js` (`cd.mobbingPoll`: `tabId`,
+  `knownHead`, `intervalMs`, `locked`, `polling`, `enable(id)`; plus `lock`,
+  `showBanner`, `bannerMessage`, `tabIdOf`, `laptopIdOf`, `myLaptopId`,
+  `generateTabId`).
+- Poll auto-started: `views/kata/edit.erb` seeds `knownHead` and calls
+  `cd.mobbingPoll.enable("<%= @id %>")`.
+- On lock: disable `[test]`, editors read-only, disable the
+  file-create/rename/delete and checkout/revert/fork buttons, guard the commit
+  paths (`cd.kata.runTests` and `cd.revertOrCheckout` bail when locked), keep the
+  review buttons disabled via their `refresh` guards, show the banner.
+- Writes stamp `tab_id`: every event-committing POST sends it (`_run_tests.erb`
+  `[test]` + auto-`revert`, `_file_inter_test_events.erb`
+  `syncPostWithCallbackITE`, `_checkout_button.erb` `revertOrCheckout`);
+  `app.rb`'s `laptop_id` returns `cookie[0,32] + tab_id` (fallback: full cookie).
+- `<meta name="laptop-id">` in `views/layouts/application.erb`; banner wording
+  "another laptop" vs "another tab" derived from it.
+- `runTests` fires its POST immediately (no longer gated on the wait-spinner
+  fade-in, which paused in a backgrounded tab).
+- Tests: `source/test/app_browser/mobbing_test.rb`, `m0b001`-`m0b019` (predicate
+  use cases 1-5; poll state; lock/disable/banner; write `tab_id`-stamping;
+  auto-start; meta tag; banner wording). Run with `make test_browser`.
+- Test infra: browser tests run through nginx (`bin/containers_up.sh`,
+  `browser_test_base.rb` -> `http://nginx`); `make test_browser` +
+  `bin/run_browser_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
+- CSS: disabled buttons use `cursor: not-allowed` consistently (`button.scss`).
+
+### Settled decisions (do not relitigate)
+- `laptop_id` stays a per-browser shared cookie; two tabs share it. `tab_id`
+  distinguishes tabs and is freshly random per tab (never a cookie).
+- Stored id = `laptopHalf(32) + tabId(32)`, `laptopHalf = cookie[0,32]`. Old
+  plain 64-hex ids are safe (their synthetic second half never matches a live
+  random `tab_id`).
+- `knownHead` is the fixed load head; own writes are filtered by `tab_id`, so it
+  never advances (this also dissolves the in-flight-write window).
+- All write paths must carry `tab_id` before the poll is enabled (they do).
+
+### Remaining (priority order)
+1. BANNER STYLING - where this session stopped. `#mobbing-banner` is an unstyled
+   `<div>` appended to `<body>`; its location and appearance are bad. Needs a
+   real SCSS design, likely a Refresh button that `location.reload()`s, and
+   possibly an overlay element. PAUSED decision on the form: modal overlay
+   (recommended - dims page, centered box, matches the full lock), fixed top bar,
+   or corner toast. Match the dark theme. The "too dark" disabled-button colours
+   belong in this same styling pass.
+2. PHASE 5 - poll robustness:
+   - fail-safe: a failed/empty/erroring read must never lock (`getEvents` has no
+     `.catch`; also `tabIdOf` throws on an event with no `laptop_id` above
+     `knownHead` - guard it);
+   - `document.hidden` back-off: skip/pause polling while the tab is hidden,
+     evaluate on foreground;
+   - stop the poll on page unload (store the interval handle - currently local in
+     `enable`), and fold in the deferred `enable` "clear any previous interval"
+     so re-enabling restarts a single timer.
+3. PHASE 6 - remove the old write-time catch (`_run_tests.erb`
+   `showAvatarsOutOfSync` / the `if (outOfSync)` path). IT STILL FIRES: a stale
+   `[test]` currently triggers BOTH the old dialog and the poll lock. Removing it
+   makes the poll the sole detector.
+4. Generic / no-id banner + `isStale` no-id hardening: an event with no
+   `laptop_id` above `knownHead` (legacy / un-upgraded writer) throws in
+   `tabIdOf`. Guard it, treat as "not mine" (safe), add the generic "This kata
+   changed. Refresh to continue." wording (old use case 7).
+
+### Manually verified this session
+- Two-tab lock (a write in one tab locks the other): yes.
+- Locked tab: Alt-T / predict hotkeys do nothing; review revert/checkout/fork
+  disabled: yes.
+- `[test]`, file-event and auto-revert writes carry `laptopHalf + tabId` (checked
+  committed `events.json` for kata `XM2NHU`): yes.

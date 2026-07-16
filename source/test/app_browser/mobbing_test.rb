@@ -310,7 +310,121 @@ class MobbingTest < BrowserTestBase
     assert_selector '#mobbing-banner', text: 'Refresh', wait: 5
   end
 
+  test 'm0b014', %w(
+  | a [test] write carries this tab's id: the committed event's laptop_id is the
+  | laptop_id cookie's first 32 chars (the laptop half) concatenated with this
+  | tab's tab_id, so the poll can recognise the tab's own writes.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    cookie_half = evaluate_script(
+      "document.cookie.split('; ').find((c) => c.startsWith('laptop_id=')).split('=')[1].slice(0, 32)"
+    )
+    tab_id = evaluate_script('cd.mobbingPoll.tabId')
+
+    # Drive the production run-tests path directly (the [test] button can't be
+    # scrolled into view to click in headless Firefox; other browser tests do the
+    # same via execute_script).
+    execute_script('cd.kata.runTests(function(){})')
+
+    event = wait_for_new_event(id, 1)   # the fresh kata starts with 1 event
+    assert_equal cookie_half + tab_id, event['laptop_id'],
+      'committed event laptop_id is laptopHalf + tabId'
+  end
+
+  test 'm0b015', %w(
+  | a file-event write carries this tab's id: the committed file event's laptop_id
+  | is the laptop half plus this tab's tab_id. All file create/rename/delete/edit
+  | events go through one POST, so covering file_create covers them all.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    cookie_half = evaluate_script(
+      "document.cookie.split('; ').find((c) => c.startsWith('laptop_id=')).split('=')[1].slice(0, 32)"
+    )
+    tab_id = evaluate_script('cd.mobbingPoll.tabId')
+
+    execute_script('cd.fileCreateITE("scratch.txt", function(){})')
+
+    event = wait_for_new_event(id, 1)
+    assert_equal cookie_half + tab_id, event['laptop_id'],
+      'committed file event laptop_id is laptopHalf + tabId'
+  end
+
+  test 'm0b016', %w(
+  | edit.erb starts the poll on load: cd.mobbingPoll.polling is true after the
+  | edit page loads, with no manual enable - so the stale-tab detection is live.
+  ) do
+    open_a_kata_edit_page
+
+    assert evaluate_script('cd.mobbingPoll.polling'), 'poll is started on edit-page load'
+  end
+
+  test 'm0b017', %w(
+  | the laptop-id meta tag: the page carries a <meta name="laptop-id"> holding the
+  | 32-hex laptop half, so the poll can word its banner (another laptop vs tab).
+  ) do
+    open_a_kata_edit_page
+
+    laptop_half = evaluate_script(
+      "document.querySelector('meta[name=laptop-id]').getAttribute('content')"
+    )
+    assert_match(/\A[0-9a-f]{32}\z/, laptop_half, 'laptop-id meta holds 32 hex chars')
+  end
+
+  test 'm0b018', %w(
+  | banner wording, another laptop: when the locking event's laptop half differs
+  | from mine, the banner names another laptop.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    files = saver.kata_event(id, 0)['files']
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    other = stored_id('c3' * 16, 'd4' * 16)   # a different laptop half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector '#mobbing-banner', text: 'another laptop', wait: 5
+  end
+
+  test 'm0b019', %w(
+  | banner wording, another tab: when the locking event shares my laptop half but
+  | has a different tab, the banner names another tab.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    files = saver.kata_event(id, 0)['files']
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    my_laptop = evaluate_script(
+      "document.querySelector('meta[name=laptop-id]').getAttribute('content')"
+    )
+    other = my_laptop + ('e5' * 16)   # my laptop half, a different tab half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector '#mobbing-banner', text: 'changed in another tab', wait: 5
+  end
+
   private
+
+  # Poll saver until the committed event count exceeds prior_count; return the
+  # last committed event.
+  def wait_for_new_event(id, prior_count)
+    30.times do
+      events = saver.kata_events(id)
+      return events.last if events.size > prior_count
+      sleep 0.3
+    end
+    flunk "no new event committed beyond #{prior_count}"
+  end
 
   # Load a kata edit page so app.js defines cd.isStale in the browser.
   def open_a_kata_edit_page
