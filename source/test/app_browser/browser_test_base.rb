@@ -3,9 +3,11 @@ require 'capybara/minitest'
 
 # Base for browser (Capybara + Selenium) tests. These run inside the web
 # container and drive Firefox in the selenium container, which loads the real
-# web app at http://web:3000 over the compose network - so they exercise the
-# rendered page and its JavaScript end to end, unlike the in-process Rack tests
-# in app_controllers which never run browser JS.
+# web app through nginx (http://nginx) over the compose network - so they
+# exercise the rendered page and its JavaScript end to end, including
+# browser-side reads of /saver/... which nginx proxies to saver (web has no
+# /saver route). Unlike the in-process Rack tests in app_controllers, these run
+# browser JS.
 class BrowserTestBase < TestBase
 
   include Capybara::DSL
@@ -20,7 +22,7 @@ class BrowserTestBase < TestBase
 
   def setup
     super
-    Capybara.app_host       = 'http://web:3000'
+    Capybara.app_host       = 'http://nginx'
     Capybara.current_driver = :selenium
     Capybara.run_server     = false
   end

@@ -24,6 +24,10 @@ $(() => {
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       refreshToolTip();
+      if (cd.mobbingPoll.locked) {
+        review.checkoutButton.disable();
+        return;
+      }
       if (!cd.kata.isLatest()) {
         review.checkoutButton.disable();
       }
@@ -43,6 +47,11 @@ $(() => {
   };
 
   cd.revertOrCheckout = () => {
+    // A stale (mobbing-locked) tab must not commit a checkout/revert. The
+    // buttons are also disabled on lock, but this guards the commit path itself.
+    if (cd.mobbingPoll.locked) {
+      return;
+    }
     const event = review.currentEvent();
 
     const args = {       // where we are writing to

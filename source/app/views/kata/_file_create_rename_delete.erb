@@ -28,10 +28,16 @@ $(() => {
   cd.deleteFileButton().click(() => cd.waitForITE(openDeleteFileDialog));
   cd.renameFileButton().click(() => cd.waitForITE(openRenameFileDialog));
 
-  if (!cd.kata.isLatest()) {
+  // Disable the file create/rename/delete buttons (used when not on the latest
+  // traffic-light, and by the mobbing stale-tab lock).
+  cd.disableFileButtons = () => {
     cd.createFileButton().prop('disabled', true);
     cd.deleteFileButton().prop('disabled', true);
     cd.renameFileButton().prop('disabled', true);
+  };
+
+  if (!cd.kata.isLatest()) {
+    cd.disableFileButtons();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

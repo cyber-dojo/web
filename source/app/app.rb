@@ -26,6 +26,15 @@ class App < Sinatra::Base
       @csrf_token = SecureRandom.hex(32)
       response.set_cookie('csrf_token', value: @csrf_token, path: '/')
     end
+    # laptop_id identifies a browser profile, not a tab: it is a cookie, so all
+    # tabs in one browser share it. This is deliberate. Mobbing detection treats a
+    # different laptop_id as a different laptop, so opening a second tab on the
+    # same kata just to read the instructions (a common case) must not look like a
+    # second laptop. Sharing one laptop_id means the active tab's committed events
+    # carry the reader tab's own id, so the read-side poll's otherLaptopPresent
+    # predicate ignores them and shows no "mobbing?" dialog. A separate browser
+    # profile or private window gets its own laptop_id and is correctly treated as
+    # another laptop.
     @laptop_id = request.cookies['laptop_id']
     unless @laptop_id
       @laptop_id = SecureRandom.hex(32)

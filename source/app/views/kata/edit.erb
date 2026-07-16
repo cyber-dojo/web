@@ -33,6 +33,7 @@ $(() => {
     }
   });
   cd.kata.setIndex(events.length);
+  cd.mobbingPoll.knownHead = events[events.length - 1].index;
   cd.kata.scrollLastTrafficLightIntoView();
   cd.kata.setupPrediction();
   cd.kata.filenames.refresh();

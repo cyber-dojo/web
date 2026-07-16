@@ -58,6 +58,10 @@
       if (cd.env['FORK_BUTTON'] == 'off') {
         $(button).hide();
       }
+      if (cd.mobbingPoll.locked) {
+        review.forkButton.disable();
+        return;
+      }
       if (review.isOnFileEvent()) {
         review.forkButton.disable();
       }

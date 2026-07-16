@@ -40,6 +40,10 @@ $(() => {
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       refreshToolTip();
+      if (cd.mobbingPoll.locked) {
+        review.revertButton.disable();
+        return;
+      }
       if (!cd.kata.isLatest()) {
         review.revertButton.disable();
       }

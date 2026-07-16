@@ -18,6 +18,12 @@ $(() => {
   let runTestsInProgress = false;
 
   cd.kata.runTests = (onComplete) => {
+    // A mobbing-locked (stale) tab must not run tests. The [test] button is
+    // disabled on lock, but the Alt-T and predict hotkeys call this directly, so
+    // guard the run itself.
+    if (cd.mobbingPoll.locked) {
+      return;
+    }
     // Called from 2 places
     // 1. when you click the [test] button.
     // 2. when you click a [predict] button.
@@ -34,33 +40,36 @@ $(() => {
 
     const form = $('form');
     cd.saveCodeFromSyntaxHighlightEditors();
-    cd.waitSpinner.fadeIn('slow', () => {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 30000); // [X]
-      fetch(form.attr('action'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: form.serialize(),
-        signal: controller.signal
-      })
-      .then(r => {
-        if (!r.ok) {
-          r.text().then(console.warn);
-          throw new Error(`Status=${r.status}`);
-        }
-        else {
-          return r;
-        }
-      })
-      .then(r => r.json())
-      .then(handleResponse)
-      .catch(err => cd.dialogError(err.message))
-      .finally(() => { clearTimeout(timer); runTestsInProgress = false; cd.waitSpinner.fadeOut('slow', onComplete); });
-    });
+    // Fire the request immediately and animate the spinner alongside it. The
+    // fetch must NOT run from the fade-in's completion callback: a backgrounded
+    // tab pauses the animation, which would defer the whole test run (and its
+    // commit) until the tab is refocused.
+    cd.waitSpinner.fadeIn('slow');
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 30000); // [X]
+    fetch(form.attr('action'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: form.serialize(),
+      signal: controller.signal
+    })
+    .then(r => {
+      if (!r.ok) {
+        r.text().then(console.warn);
+        throw new Error(`Status=${r.status}`);
+      }
+      else {
+        return r;
+      }
+    })
+    .then(r => r.json())
+    .then(handleResponse)
+    .catch(err => cd.dialogError(err.message))
+    .finally(() => { clearTimeout(timer); runTestsInProgress = false; cd.waitSpinner.fadeOut('slow', onComplete); });
   };
 
   const handleResponse = (data) => {
