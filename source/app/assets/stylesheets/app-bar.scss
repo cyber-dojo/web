@@ -66,10 +66,11 @@
   // Initally not displayed to avoid 'browser flash'.
   .info-button { display:none; }
 
-  // The unintrusive stale-tab notice (another tab of this browser committed);
-  // appended by cd.mobbingPoll when this tab locks. Uses the same $lighter-color
-  // as the display-name/exercise/id pills, bold to stand out, inline in the bar.
-  #mobbing-tab-message
+  // The unintrusive stale-tab reminder in the app-bar; appended by cd.mobbingPoll
+  // when this tab locks (directly for another tab, or when the another-laptop
+  // overlay is dismissed). Uses the same $lighter-color as the
+  // display-name/exercise/id pills, bold to stand out, inline in the bar.
+  #mobbing-app-bar-message
   {
     color: $lighter-color;
     font-size: 11px;

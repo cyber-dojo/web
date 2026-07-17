@@ -240,7 +240,7 @@ already returns `laptop_id` per event. This is a web-only change.
 - `assets/javascripts/` - the poll loop, the stale predicate (`isStale(events,
   knownHead, myTabId)`), the stored-id split, `tab_id` generation, the
   laptop-vs-tab classifier (`fromAnotherLaptop`), and the two message presenters
-  (`showMobbingDialog`, `showMobbingMessage`).
+  (`showMobbingOverlay`, `showAppBarReminder`).
 - `views/kata/edit.erb` - starts the poll, seeds `knownHead` from the loaded
   events, and generates this tab's `tab_id`.
 - `views/kata/_run_tests.erb` and the inter-test / review actions - gate every
@@ -271,7 +271,7 @@ remain.
   `assets/javascripts/cyber-dojo_mobbing_poll.js` (`cd.mobbingPoll`: `tabId`,
   `knownHead`, `intervalMs`, `interval`, `locked`, `polling`, `enable()`,
   `check()`, `stop()`; plus `lock`,
-  `showMobbingDialog`, `showMobbingMessage`, `fromAnotherLaptop`, `tabIdOf`,
+  `showMobbingOverlay`, `showAppBarReminder`, `fromAnotherLaptop`, `tabIdOf`,
   `laptopIdOf`, `myLaptopId`, `generateTabId`).
 - Poll auto-started: `views/kata/edit.erb` seeds `knownHead` and calls
   `cd.mobbingPoll.enable()` (the kata id comes from `cd.kata.id`, set in the
@@ -282,9 +282,14 @@ remain.
   review buttons disabled via their `refresh` guards. Both cases lock fully; only
   the message differs (see next bullet).
 - Message presentation splits on `fromAnotherLaptop`: another laptop (a real
-  mobbing collision) shows the shared `#run-tests-info` modal titled "mobbing?";
-  another tab of this same browser (common when reading the instructions in a
-  second tab) shows an unintrusive `#mobbing-tab-message` in the app-bar.
+  mobbing collision) shows a dimmed full-page `#mobbing-overlay` - a page-level
+  overlay (not a modal) so it does not read as a result of a just-pressed
+  `[test]`. It carries a single Dismiss button that removes the overlay so the
+  user can copy still-visible read-only edits, leaving a `#mobbing-app-bar-message`
+  reminder, with the page still locked. Clearing the lock is a browser refresh
+  (the user's own action, not a button). Another tab of this same browser (common
+  when reading the instructions in a second tab) shows that same unintrusive
+  `#mobbing-app-bar-message` in the app-bar directly.
 - Writes stamp `tab_id`: every event-committing POST sends it (`_run_tests.erb`
   `[test]` + auto-`revert`, `_file_inter_test_events.erb`
   `syncPostWithCallbackITE`, `_checkout_button.erb` `revertOrCheckout`);
@@ -300,8 +305,9 @@ remain.
   `browser_test_base.rb` -> `http://nginx`); `make test_browser` +
   `bin/run_browser_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
 - CSS: disabled buttons use `cursor: not-allowed` consistently (`button.scss`).
-  `#mobbing-tab-message` is styled in `app-bar.scss` (amber, inline in the bar);
-  the laptop case reuses the already-styled `#run-tests-info` dialog.
+  `#mobbing-app-bar-message` is styled in `app-bar.scss` (inline in the bar, same
+  colour as the id pills); the laptop overlay is styled in `mobbing-overlay.scss`
+  (dimmed backdrop, centered box).
 
 ### Settled decisions (do not relitigate)
 - `laptop_id` stays a per-browser shared cookie; two tabs share it. `tab_id`

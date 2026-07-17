@@ -36,28 +36,62 @@ var cyberDojo = ((cd) => {
     return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
   };
 
-  // Another laptop committed above knownHead - a real mobbing collision. Show it
-  // in the shared #run-tests-info modal (the same dialog used for run-tests
-  // notices), titled 'mobbing?'.
-  const showMobbingDialog = () => {
-    const dialog = document.getElementById('run-tests-info');
-    dialog.querySelector('.dialog-title').textContent = 'mobbing?';
-    dialog.querySelector('.info').textContent = [
-      'This kata was changed on another laptop.',
-      'You are out of sync with the latest version.',
-      'Please refresh your browser.',
-    ].join("\n");
-    dialog.showModal();
+  // Show a short stale-tab reminder in the app-bar. Used directly for the
+  // unintrusive another-tab case, and again when the another-laptop overlay is
+  // dismissed, so a persistent note remains after the overlay is gone.
+  const showAppBarReminder = (text) => {
+    const message = document.createElement('span');
+    message.id = 'mobbing-app-bar-message';
+    message.textContent = text;
+    document.getElementById('app-bar').appendChild(message);
   };
 
-  // Another tab of this same browser committed above knownHead. A second tab open
-  // just to read the instructions is common, so this is unintrusive: a short
-  // message in the app-bar rather than a modal.
-  const showMobbingMessage = () => {
-    const message = document.createElement('span');
-    message.id = 'mobbing-tab-message';
-    message.textContent = 'This kata was changed in another tab. Refresh to continue.';
-    document.getElementById('app-bar').appendChild(message);
+  // Another laptop committed above knownHead - a real mobbing collision. Cover the
+  // page with a dimmed lock overlay. A full-page overlay (not a modal) makes clear
+  // this is the page going stale, not a result of a [test] the user may have just
+  // pressed. First close any open #run-tests-info dialog: it renders in the browser
+  // top layer, above the overlay, so it must go. The single Dismiss button removes
+  // the overlay so the user can reach and copy their still-visible read-only edits,
+  // leaving the app-bar reminder behind; the page stays locked. Clearing the lock
+  // is a browser refresh (deliberately the user's own action, not a button here).
+  const showMobbingOverlay = () => {
+    const dialog = document.getElementById('run-tests-info');
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
+    const overlay = document.createElement('div');
+    overlay.id = 'mobbing-overlay';
+
+    const box = document.createElement('div');
+    box.id = 'mobbing-overlay-box';
+
+    const message = document.createElement('div');
+    message.id = 'mobbing-overlay-message';
+    message.textContent = [
+      'This kata was changed on another laptop.',
+      'You are out of sync with the latest version.',
+    ].join("\n");
+
+    const warning = document.createElement('div');
+    warning.id = 'mobbing-overlay-warning';
+    warning.textContent =
+      'Once dismissed you will be locked in read-only mode. Refresh will clear the ' +
+      'lock and resync, which may lose recent edits to the current file.';
+
+    const dismiss = document.createElement('button');
+    dismiss.id = 'mobbing-overlay-dismiss';
+    dismiss.type = 'button';
+    dismiss.textContent = 'Dismiss';
+    dismiss.addEventListener('click', () => {
+      overlay.remove();
+      showAppBarReminder('This kata was changed on another laptop. Refresh to continue.');
+    });
+
+    box.appendChild(message);
+    box.appendChild(warning);
+    box.appendChild(dismiss);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
   };
 
   // Lock this tab: another tab or laptop has committed above knownHead, so this
@@ -66,8 +100,9 @@ var cyberDojo = ((cd) => {
   // predict, checkout, revert and fork buttons, plus the predict and auto-revert
   // checkboxes), make the editors read-only, and stop the predict/auto-revert
   // hover-tips (clearing any tip showing at this instant), so it cannot commit or
-  // edit from a stale state. Refresh is the only exit. The caller then shows the
-  // message (modal for another laptop, app-bar for another tab).
+  // edit from a stale state. Refresh clears it. The caller then shows the message
+  // (overlay for another laptop, app-bar reminder for another tab); the overlay's
+  // Dismiss lets the user copy edits first while the page stays locked.
   const lock = () => {
     cd.mobbingPoll.locked = true;
     document.body.classList.add('mobbing-stale');
@@ -93,9 +128,9 @@ var cyberDojo = ((cd) => {
     polling: false,
 
     // Read the committed stream once and, if this tab is now stale, lock it and
-    // show the message (modal for another laptop, app-bar for another tab). A
-    // no-op once already locked, so repeated calls (interval + [test] catch) are
-    // safe.
+    // show the message (full-page overlay for another laptop, app-bar reminder for
+    // another tab). A no-op once already locked, so repeated calls (interval +
+    // [test] catch) are safe.
     check: function() {
       if (this.locked) {
         return;
@@ -105,9 +140,9 @@ var cyberDojo = ((cd) => {
           this.stop();
           lock();
           if (fromAnotherLaptop(events, this.knownHead, this.tabId)) {
-            showMobbingDialog();
+            showMobbingOverlay();
           } else {
-            showMobbingMessage();
+            showAppBarReminder('This kata was changed in another tab. Refresh to continue.');
           }
         }
       });

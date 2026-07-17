@@ -414,9 +414,8 @@ class MobbingTest < BrowserTestBase
 
   test 'm0b027', %w(
   | a stale [test] locks via the poll (write-time catch): when a [test] write is
-  | rejected as out of sync, the tab locks through the poll's check/lock, not the
-  | old out-of-sync dialog. Here another laptop moved the head, so the mobbing
-  | modal shows.
+  | rejected as out of sync, the tab locks through the poll's check/lock. Here
+  | another laptop moved the head, so the full-page overlay shows.
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
@@ -431,7 +430,57 @@ class MobbingTest < BrowserTestBase
     execute_script('cd.kata.runTests(function(){})')
 
     assert_selector 'body.mobbing-stale', wait: 15
-    assert_selector '#run-tests-info[open]', text: 'another laptop'
+    assert_selector '#mobbing-overlay', text: 'another laptop'
+  end
+
+  test 'm0b028', %w(
+  | the lock overlay supersedes an open run-tests dialog: with a #run-tests-info
+  | dialog already open (eg a "still preparing" message), when the poll locks on
+  | another laptop's event it closes that dialog and shows the overlay instead of
+  | colliding on showModal.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    execute_script("document.getElementById('run-tests-info').showModal()")
+    assert_selector '#run-tests-info[open]'
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
+
+    assert_selector '#mobbing-overlay', wait: 5
+    refute_selector '#run-tests-info[open]'
+  end
+
+  test 'm0b029', %w(
+  | dismissing the lock overlay leaves the tab locked: clicking Dismiss removes the
+  | overlay so the user can reach and copy their edits, but the page stays locked
+  | (body.mobbing-stale, [test] disabled) and the app-bar reminder names another
+  | laptop.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
+    assert_selector '#mobbing-overlay', wait: 5
+
+    # Click via execute_script: headless Firefox cannot scroll the fixed-overlay
+    # button into view to click it (other tests drive clicks the same way).
+    execute_script("document.getElementById('mobbing-overlay-dismiss').click()")
+
+    refute_selector '#mobbing-overlay'
+    assert_selector 'body.mobbing-stale'
+    assert_selector '#test-button[disabled]'
+    assert_selector '#mobbing-app-bar-message', text: 'another laptop'
   end
 
   test 'm0b012', %w(
@@ -466,14 +515,14 @@ class MobbingTest < BrowserTestBase
   end
 
   test 'm0b013', %w(
-  | locking on another laptop's event opens the mobbing modal: after the poll
-  | locks, the same #run-tests-info dialog a stale [test] shows is opened.
+  | locking on another laptop's event shows the full-page lock overlay: after the
+  | poll locks, a dimmed overlay with a single Dismiss button covers the page.
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
     wait_for_index_field('1')
 
-    refute_selector '#run-tests-info[open]'   # modal closed on a fresh, in-sync kata
+    refute_selector '#mobbing-overlay'   # no overlay on a fresh, in-sync kata
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
@@ -481,7 +530,9 @@ class MobbingTest < BrowserTestBase
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
-    assert_selector '#run-tests-info[open]', wait: 5
+    assert_selector '#mobbing-overlay', wait: 5
+    assert_selector '#mobbing-overlay-dismiss', text: 'Dismiss'
+    refute_selector '#mobbing-overlay-refresh'   # single Dismiss button now
   end
 
   test 'm0b014', %w(
@@ -551,9 +602,9 @@ class MobbingTest < BrowserTestBase
   end
 
   test 'm0b018', %w(
-  | another-laptop presentation is the modal: when the locking event's laptop half
-  | differs from mine, the mobbing modal names another laptop and no app-bar
-  | message is shown.
+  | another-laptop presentation is the overlay: when the locking event's laptop
+  | half differs from mine, the full-page overlay names another laptop and no
+  | app-bar message is shown.
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
@@ -565,14 +616,14 @@ class MobbingTest < BrowserTestBase
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
-    assert_selector '#run-tests-info[open]', text: 'another laptop', wait: 5
-    refute_selector '#mobbing-tab-message'
+    assert_selector '#mobbing-overlay', text: 'another laptop', wait: 5
+    refute_selector '#mobbing-app-bar-message'   # no app-bar reminder while the overlay is up
   end
 
   test 'm0b019', %w(
   | another-tab presentation is the app-bar message: when the locking event shares
   | my laptop half but has a different tab, an app-bar message names another tab
-  | and no modal is opened.
+  | and no overlay is shown.
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
@@ -587,8 +638,8 @@ class MobbingTest < BrowserTestBase
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
-    assert_selector '#mobbing-tab-message', text: 'another tab', wait: 5
-    refute_selector '#run-tests-info[open]'
+    assert_selector '#mobbing-app-bar-message', text: 'another tab', wait: 5
+    refute_selector '#mobbing-overlay'
   end
 
   private
