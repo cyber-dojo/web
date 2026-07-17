@@ -1,7 +1,8 @@
 # Mobbing stale-tab lock (spooler ADR step A1)
 
-Status: Partially implemented (web), not deployed. See "Implementation status
-(handoff)" at the end for what is done and what remains.
+Status: Web-complete; deploying. The only outstanding item is the Phase 6 tail
+(deleting the write-time `out_of_sync` branch), which is blocked on saver ADR
+step A3. See "Implementation status (handoff)" at the end for details.
 
 Precondition A0 is deployed: each committed event carries the writing browser's
 `laptop_id`. This is a web-only step of the spooler rollout
@@ -262,9 +263,10 @@ already returns `laptop_id` per event. This is a web-only change.
 
 ## Implementation status (handoff)
 
-The web side is largely built and the poll is wired up (`edit.erb` auto-starts it
-on page load), but nothing here is deployed. Styling and two clean-up phases
-remain.
+The web side is complete: the poll is wired up (`edit.erb` auto-starts it on page
+load), styled, robust (fail-safe reads, hidden back-off, single timer, unload
+stop), and the write-time catch routes through it. The only remaining item is the
+Phase 6 tail (deleting the `out_of_sync` branch), blocked on saver ADR step A3.
 
 ### Done
 - Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
