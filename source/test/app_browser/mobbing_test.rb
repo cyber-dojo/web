@@ -260,6 +260,158 @@ class MobbingTest < BrowserTestBase
     assert_selector '.rename-file[disabled]'
   end
 
+  test 'm0b020', %w(
+  | locking disables the predict checkbox: after the poll locks on another tab's
+  | event, the predict checkbox is disabled so the stale tab cannot start a
+  | prediction.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    refute_selector '#predict-checkbox[disabled]', visible: :all   # enabled on a fresh kata
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+    assert_selector '#predict-checkbox[disabled]', visible: :all
+  end
+
+  test 'm0b021', %w(
+  | locking disables the predict colour buttons: after the poll locks on another
+  | tab's event, the red/amber/green predict buttons are disabled so the stale tab
+  | cannot commit a prediction run.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    refute_selector 'button.predict[disabled]', visible: :all   # enabled on a fresh kata
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+    assert_selector 'button.predict[disabled]', visible: :all, count: 3
+  end
+
+  test 'm0b022', %w(
+  | locking disables the auto-revert checkboxes: after the poll locks on another
+  | tab's event, the three revert-if-wrong checkboxes are disabled so the stale
+  | tab cannot arm an auto-revert.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    refute_selector '.revert-checkbox[disabled]', visible: :all   # enabled on a fresh kata
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+    assert_selector '.revert-checkbox[disabled]', visible: :all, count: 3
+  end
+
+  test 'm0b023', %w(
+  | locking suppresses the predict-checkbox tooltip: after the poll locks, entering
+  | the predict-checkbox cell shows no hover-tip (its handlers are unbound).
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    execute_script("jQuery('#predict-checkbox-cell').mouseenter()")   # tip shows before lock
+    assert_selector '.hover-tip', visible: :all
+    execute_script("jQuery('#predict-checkbox-cell').mouseleave()")
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+    assert_selector 'body.mobbing-stale', wait: 5
+
+    execute_script("jQuery('#predict-checkbox-cell').mouseenter()")
+    refute_selector '.hover-tip', visible: :all
+  end
+
+  test 'm0b024', %w(
+  | locking suppresses the auto-revert title tooltip: after the poll locks,
+  | entering the revert-title cell shows no hover-tip (its handlers are unbound).
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    execute_script("jQuery('#revert-title-cell').mouseenter()")   # tip shows before lock
+    assert_selector '.hover-tip', visible: :all
+    execute_script("jQuery('#revert-title-cell').mouseleave()")
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+    assert_selector 'body.mobbing-stale', wait: 5
+
+    execute_script("jQuery('#revert-title-cell').mouseenter()")
+    refute_selector '.hover-tip', visible: :all
+  end
+
+  test 'm0b025', %w(
+  | locking clears a tip that is already showing: if a predict/auto-revert
+  | hover-tip is visible at the instant the poll locks, the lock removes it.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    # hover to show the tip and leave it showing (no mouseleave)
+    execute_script("jQuery('#predict-checkbox-cell').mouseenter()")
+    assert_selector '.hover-tip', visible: :all
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+    assert_selector 'body.mobbing-stale', wait: 5
+
+    refute_selector '.hover-tip', visible: :all
+  end
+
+  test 'm0b026', %w(
+  | locking disables the download button: after the poll locks on another tab's
+  | event, the download button is disabled so a stale tab cannot export a stale
+  | session.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    refute_selector '.download[disabled]', visible: :all   # enabled on a fresh kata
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+    assert_selector '.download[disabled]', visible: :all
+  end
+
   test 'm0b012', %w(
   | locking disables the review-page action buttons: after the poll locks,
   | cd.mobbingPoll.locked is set, the checkout, revert and fork buttons are
@@ -292,22 +444,22 @@ class MobbingTest < BrowserTestBase
   end
 
   test 'm0b013', %w(
-  | locking shows a refresh banner: after the poll locks on another tab's event, a
-  | banner telling the user to refresh is visible.
+  | locking on another laptop's event opens the mobbing modal: after the poll
+  | locks, the same #run-tests-info dialog a stale [test] shows is opened.
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
     wait_for_index_field('1')
 
-    refute_selector '#mobbing-banner'   # no banner on a fresh, in-sync kata
+    refute_selector '#run-tests-info[open]'   # modal closed on a fresh, in-sync kata
 
     files = saver.kata_event(id, 0)['files']
-    other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
+    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
     saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
 
-    assert_selector '#mobbing-banner', text: 'Refresh', wait: 5
+    assert_selector '#run-tests-info[open]', wait: 5
   end
 
   test 'm0b014', %w(
@@ -366,7 +518,7 @@ class MobbingTest < BrowserTestBase
 
   test 'm0b017', %w(
   | the laptop-id meta tag: the page carries a <meta name="laptop-id"> holding the
-  | 32-hex laptop half, so the poll can word its banner (another laptop vs tab).
+  | 32-hex laptop half, so the poll can choose its message (another laptop vs tab).
   ) do
     open_a_kata_edit_page
 
@@ -377,8 +529,9 @@ class MobbingTest < BrowserTestBase
   end
 
   test 'm0b018', %w(
-  | banner wording, another laptop: when the locking event's laptop half differs
-  | from mine, the banner names another laptop.
+  | another-laptop presentation is the modal: when the locking event's laptop half
+  | differs from mine, the mobbing modal names another laptop and no app-bar
+  | message is shown.
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
@@ -390,12 +543,14 @@ class MobbingTest < BrowserTestBase
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
 
-    assert_selector '#mobbing-banner', text: 'another laptop', wait: 5
+    assert_selector '#run-tests-info[open]', text: 'another laptop', wait: 5
+    refute_selector '#mobbing-tab-message'
   end
 
   test 'm0b019', %w(
-  | banner wording, another tab: when the locking event shares my laptop half but
-  | has a different tab, the banner names another tab.
+  | another-tab presentation is the app-bar message: when the locking event shares
+  | my laptop half but has a different tab, an app-bar message names another tab
+  | and no modal is opened.
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
@@ -410,7 +565,8 @@ class MobbingTest < BrowserTestBase
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable('#{id}')")
 
-    assert_selector '#mobbing-banner', text: 'changed in another tab', wait: 5
+    assert_selector '#mobbing-tab-message', text: 'another tab', wait: 5
+    refute_selector '#run-tests-info[open]'
   end
 
   private

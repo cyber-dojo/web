@@ -12,8 +12,10 @@ Precondition A0 is deployed: each committed event carries the writing browser's
 A browser tab editing a kata polls the committed event stream and locks itself
 when it has fallen behind the committed head. A stale tab disables everything
 that would commit an event (the `[test]` button, the code editor, the file
-create/rename/delete actions, and checkout/revert), and shows a banner asking the
-user to refresh. Refreshing is the only exit: a reload adopts the current head,
+create/rename/delete actions, and checkout/revert), and shows a message asking the
+user to refresh (a modal when another laptop moved the head, an unintrusive
+app-bar notice when it was another tab of the same browser). Refreshing is the
+only exit: a reload adopts the current head,
 so the tab is no longer behind and unlocks.
 
 ## Why
@@ -55,15 +57,16 @@ locks me). What is left - an event above `knownHead` from another tab or laptop 
 is the only thing that locks. This is why `knownHead` stays fixed: my own writes
 are filtered by `tab_id`, not by moving `knownHead`.
 
-### Wording the banner
+### Choosing the message
 
-The lock is the same however the head moved; only the banner text differs. The
-tab classifies the events above `knownHead` by `laptop_id`:
+The lock is the same however the head moved; only the message and how it is shown
+differ. The tab classifies the events above `knownHead` by `laptop_id`:
 
-- any has a `laptop_id` different from mine -> "This kata was changed on another
-  laptop. Refresh to continue."
-- all carry my own `laptop_id` -> "This kata was changed in another tab. Refresh
-  to continue."
+- any has a `laptop_id` different from mine -> a modal (the shared
+  `#run-tests-info` dialog, titled "mobbing?"): "This kata was changed on another
+  laptop. ... Please refresh your browser."
+- all carry my own `laptop_id` -> an app-bar message: "This kata was changed in
+  another tab. Refresh to continue."
 - otherwise (an event with no `laptop_id`; a legacy or malformed write) -> a
   generic "This kata changed. Refresh to continue."
 
@@ -103,7 +106,7 @@ half (below).
 and a 32-hex `tab_id` into one 64-hex string and sends it as the write's id;
 saver stores the string verbatim on the event, exactly as it already stores
 `laptop_id`. On read the tab splits every id at 32 characters: the first half is
-the `laptop_id` (banner wording), the second half is the `tab_id` (own-write
+the `laptop_id` (message choice), the second half is the `tab_id` (own-write
 recognition). Saver needs no schema or API change.
 
 (`laptop_id` is already in the saver code but not yet in the saver API docs; this
@@ -153,7 +156,7 @@ idempotency and is a separate follow-on, not built here.
 
 - Cadence: every 5 seconds (the ADR eventual-consistency budget).
 - Ids: the `laptop_id` comes from a `<meta name="laptop-id">` tag rendered by web
-  (drives banner wording and the laptop half of the stored id); the `tab_id` is
+  (drives the message choice and the laptop half of the stored id); the `tab_id` is
   generated fresh in JS once per tab (it must be per-tab, so it cannot be a cookie
   or meta tag) and is this tab's `myTabId`.
 - Fail safe: if a poll read errors or returns nothing (saver blip, network drop,
@@ -235,14 +238,16 @@ already returns `laptop_id` per event. This is a web-only change.
 ## Code map (web)
 
 - `assets/javascripts/` - the poll loop, the stale predicate (`isStale(events,
-  knownHead, myTabId)`), the stored-id split, `tab_id` generation, and the
-  banner-wording classifier.
+  knownHead, myTabId)`), the stored-id split, `tab_id` generation, the
+  laptop-vs-tab classifier (`fromAnotherLaptop`), and the two message presenters
+  (`showMobbingDialog`, `showMobbingMessage`).
 - `views/kata/edit.erb` - starts the poll, seeds `knownHead` from the loaded
   events, and generates this tab's `tab_id`.
 - `views/kata/_run_tests.erb` and the inter-test / review actions - gate every
   event-committing action behind the lock; send `laptop_id + tab_id` as the write
   id; remove the write-time out-of-sync dialog path, since detection is entirely
-  this poll. Add the refresh banner.
+  this poll. `_run_tests.erb` holds the shared `#run-tests-info` dialog the laptop
+  case reuses; the tab case appends its message into `#app-bar`.
 - `app.rb` - the `laptop-id` meta tag.
 
 ## Tests
@@ -264,29 +269,36 @@ remain.
 - Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
   `assets/javascripts/cyber-dojo_mobbing_poll.js` (`cd.mobbingPoll`: `tabId`,
   `knownHead`, `intervalMs`, `locked`, `polling`, `enable(id)`; plus `lock`,
-  `showBanner`, `bannerMessage`, `tabIdOf`, `laptopIdOf`, `myLaptopId`,
-  `generateTabId`).
+  `showMobbingDialog`, `showMobbingMessage`, `fromAnotherLaptop`, `tabIdOf`,
+  `laptopIdOf`, `myLaptopId`, `generateTabId`).
 - Poll auto-started: `views/kata/edit.erb` seeds `knownHead` and calls
   `cd.mobbingPoll.enable("<%= @id %>")`.
 - On lock: disable `[test]`, editors read-only, disable the
   file-create/rename/delete and checkout/revert/fork buttons, guard the commit
   paths (`cd.kata.runTests` and `cd.revertOrCheckout` bail when locked), keep the
-  review buttons disabled via their `refresh` guards, show the banner.
+  review buttons disabled via their `refresh` guards. Both cases lock fully; only
+  the message differs (see next bullet).
+- Message presentation splits on `fromAnotherLaptop`: another laptop (a real
+  mobbing collision) shows the shared `#run-tests-info` modal titled "mobbing?";
+  another tab of this same browser (common when reading the instructions in a
+  second tab) shows an unintrusive `#mobbing-tab-message` in the app-bar.
 - Writes stamp `tab_id`: every event-committing POST sends it (`_run_tests.erb`
   `[test]` + auto-`revert`, `_file_inter_test_events.erb`
   `syncPostWithCallbackITE`, `_checkout_button.erb` `revertOrCheckout`);
   `app.rb`'s `laptop_id` returns `cookie[0,32] + tab_id` (fallback: full cookie).
-- `<meta name="laptop-id">` in `views/layouts/application.erb`; banner wording
-  "another laptop" vs "another tab" derived from it.
+- `<meta name="laptop-id">` in `views/layouts/application.erb`; the "another
+  laptop" vs "another tab" presentation split is derived from it.
 - `runTests` fires its POST immediately (no longer gated on the wait-spinner
   fade-in, which paused in a backgrounded tab).
 - Tests: `source/test/app_browser/mobbing_test.rb`, `m0b001`-`m0b019` (predicate
-  use cases 1-5; poll state; lock/disable/banner; write `tab_id`-stamping;
-  auto-start; meta tag; banner wording). Run with `make test_browser`.
+  use cases 1-5; poll state; lock/disable; write `tab_id`-stamping; auto-start;
+  meta tag; the modal-vs-app-bar presentation split). Run with `make test_browser`.
 - Test infra: browser tests run through nginx (`bin/containers_up.sh`,
   `browser_test_base.rb` -> `http://nginx`); `make test_browser` +
   `bin/run_browser_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
 - CSS: disabled buttons use `cursor: not-allowed` consistently (`button.scss`).
+  `#mobbing-tab-message` is styled in `app-bar.scss` (amber, inline in the bar);
+  the laptop case reuses the already-styled `#run-tests-info` dialog.
 
 ### Settled decisions (do not relitigate)
 - `laptop_id` stays a per-browser shared cookie; two tabs share it. `tab_id`
@@ -299,14 +311,7 @@ remain.
 - All write paths must carry `tab_id` before the poll is enabled (they do).
 
 ### Remaining (priority order)
-1. BANNER STYLING - where this session stopped. `#mobbing-banner` is an unstyled
-   `<div>` appended to `<body>`; its location and appearance are bad. Needs a
-   real SCSS design, likely a Refresh button that `location.reload()`s, and
-   possibly an overlay element. PAUSED decision on the form: modal overlay
-   (recommended - dims page, centered box, matches the full lock), fixed top bar,
-   or corner toast. Match the dark theme. The "too dark" disabled-button colours
-   belong in this same styling pass.
-2. PHASE 5 - poll robustness:
+1. PHASE 5 - poll robustness:
    - fail-safe: a failed/empty/erroring read must never lock (`getEvents` has no
      `.catch`; also `tabIdOf` throws on an event with no `laptop_id` above
      `knownHead` - guard it);
@@ -315,14 +320,16 @@ remain.
    - stop the poll on page unload (store the interval handle - currently local in
      `enable`), and fold in the deferred `enable` "clear any previous interval"
      so re-enabling restarts a single timer.
-3. PHASE 6 - remove the old write-time catch (`_run_tests.erb`
+2. PHASE 6 - remove the old write-time catch (`_run_tests.erb`
    `showAvatarsOutOfSync` / the `if (outOfSync)` path). IT STILL FIRES: a stale
    `[test]` currently triggers BOTH the old dialog and the poll lock. Removing it
-   makes the poll the sole detector.
-4. Generic / no-id banner + `isStale` no-id hardening: an event with no
+   makes the poll the sole detector. Note: `showMobbingDialog` reuses the shared
+   `#run-tests-info` dialog element, which survives; only the `[test]` out-of-sync
+   caller goes away.
+3. Generic / no-id message + `isStale` no-id hardening: an event with no
    `laptop_id` above `knownHead` (legacy / un-upgraded writer) throws in
-   `tabIdOf`. Guard it, treat as "not mine" (safe), add the generic "This kata
-   changed. Refresh to continue." wording (old use case 7).
+   `tabIdOf`. Guard it, treat as "not mine" (safe), add a generic "This kata
+   changed. Refresh to continue." message (old use case 7).
 
 ### Manually verified this session
 - Two-tab lock (a write in one tab locks the other): yes.
@@ -330,3 +337,34 @@ remain.
   disabled: yes.
 - `[test]`, file-event and auto-revert writes carry `laptopHalf + tabId` (checked
   committed `events.json` for kata `XM2NHU`): yes.
+
+### Follow-on: index/async cleanup needs no spooler (ADR Part A)
+
+The spooler ADR splits the work: Part A reaches asynchronous web->saver writes
+using only web and saver (no new service); Part B adds the spooler purely for
+durability + ordering. So the index/async cleanup below needs NO spooler. This
+session's read-side lock is Part A step A1 - the precondition that lets saver
+drop its write-time index reject (A3), which unblocks the rest, in order:
+
+- A2 (web) - resolve revert/checkout targets from read data (severs revert's last
+  use of the flat client index).
+- A3 (saver) - make the client `index` optional and unused (detection is
+  read-side now). This also neutralises `waitForITE`: a behind-index write is no
+  longer rejected (self-lag / ignored), so the `[test]`-vs-in-flight-ITE race
+  becomes benign.
+- A4 (web) - own `major` locally; stop updating the index from saver's response
+  (`setIndex(light.index + 1)`).  [= "web not updating its index from the response"]
+- A5 (web) - stop sending `index` in the write POSTs.
+- A6 (saver) - drop the now-unused `index` param, and (once web no longer uses
+  them) stop returning `index`/`major_index`/`minor_index`.
+  [= "remove saver's triple-index responses"]
+- A7 (web, optional) - make the saver calls fire-and-forget (async). Doable
+  without the spooler but BEST-EFFORT only: a write lost in flight is healed only
+  by browser re-fire while the tab is open, and fire-and-forget ITEs can arrive
+  at saver out of order (saver appends at head, so a reordered commit regresses
+  file state). Durability + ordering are exactly what the spooler (Part B) adds.
+
+Summary without the spooler: A2-A6 (index cleanup + neutralising `waitForITE`)
+are clean; A7 (async) is achievable but carries the durability/reordering risk
+the spooler removes. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
+(Part A) and `mobbing-server-owned-index-design.md` ("Option C").

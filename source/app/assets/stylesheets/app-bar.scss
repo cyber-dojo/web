@@ -65,6 +65,19 @@
   #settings-button, #hotkeys-button  { display:none; }
   // Initally not displayed to avoid 'browser flash'.
   .info-button { display:none; }
+
+  // The unintrusive stale-tab notice (another tab of this browser committed);
+  // appended by cd.mobbingPoll when this tab locks. Uses the same $lighter-color
+  // as the display-name/exercise/id pills, bold to stand out, inline in the bar.
+  #mobbing-tab-message
+  {
+    color: $lighter-color;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 8px;
+    align-self: center;
+    white-space: nowrap;
+  }
 }
 
 #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog

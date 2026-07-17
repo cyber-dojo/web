@@ -161,6 +161,13 @@ var cyberDojo = (function(cd, $) {
     $('dialog .hover-tip').remove();
   };
 
+  // Permanently stop the matching nodes ever showing a hover-tip again by
+  // unbinding the handlers createTip set. Used when a stale tab locks: the
+  // disabled controls must not keep offering tips.
+  cd.disableTips = (selector) => {
+    $(selector).off('mouseenter mouseleave');
+  };
+
   cd.createTip = ($node, tip, where) => {
     $node.off('mouseenter mouseleave');
     setTip($node, () => showHoverTip($node, tip, where));

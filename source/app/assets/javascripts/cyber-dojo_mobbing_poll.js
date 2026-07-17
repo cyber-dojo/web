@@ -20,14 +20,13 @@ var cyberDojo = ((cd) => {
   // This tab's laptop half, rendered by web in a <meta name="laptop-id"> tag.
   const myLaptopId = () => document.querySelector('meta[name=laptop-id]').getAttribute('content');
 
-  // Word the refresh banner from the events above knownHead that are not mine:
-  // "another laptop" if any has a different laptop half, else "another tab".
-  const bannerMessage = (events, knownHead, myTabId) => {
+  // True iff some not-mine event above knownHead came from a different laptop half
+  // (a real mobbing collision), rather than merely another tab of this browser.
+  // This chooses the presentation: the modal for another laptop, the unintrusive
+  // app-bar message for another tab.
+  const fromAnotherLaptop = (events, knownHead, myTabId) => {
     const notMine = events.filter((event) => event.index > knownHead && tabIdOf(event) !== myTabId);
-    if (notMine.some((event) => laptopIdOf(event) !== myLaptopId())) {
-      return 'This kata was changed on another laptop. Refresh to continue.';
-    }
-    return 'This kata was changed in another tab. Refresh to continue.';
+    return notMine.some((event) => laptopIdOf(event) !== myLaptopId());
   };
 
   // A fresh random 32-hex id for this tab (this browsing context), generated
@@ -37,29 +36,46 @@ var cyberDojo = ((cd) => {
     return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
   };
 
-  // Show a banner telling the user this tab is out of date and must be refreshed.
-  const showBanner = (message) => {
-    const banner = document.createElement('div');
-    banner.id = 'mobbing-banner';
-    banner.textContent = message;
-    document.body.appendChild(banner);
+  // Another laptop committed above knownHead - a real mobbing collision. Show it
+  // in the shared #run-tests-info modal (the same dialog used for run-tests
+  // notices), titled 'mobbing?'.
+  const showMobbingDialog = () => {
+    const dialog = document.getElementById('run-tests-info');
+    dialog.querySelector('.dialog-title').textContent = 'mobbing?';
+    dialog.querySelector('.info').textContent = [
+      'This kata was changed on another laptop.',
+      'You are out of sync with the latest version.',
+      'Please refresh your browser.',
+    ].join("\n");
+    dialog.showModal();
+  };
+
+  // Another tab of this same browser committed above knownHead. A second tab open
+  // just to read the instructions is common, so this is unintrusive: a short
+  // message in the app-bar rather than a modal.
+  const showMobbingMessage = () => {
+    const message = document.createElement('span');
+    message.id = 'mobbing-tab-message';
+    message.textContent = 'This kata was changed in another tab. Refresh to continue.';
+    document.getElementById('app-bar').appendChild(message);
   };
 
   // Lock this tab: another tab or laptop has committed above knownHead, so this
   // tab is out of date. Set the locked flag (checked by cd.revertOrCheckout),
-  // mark the page stale, disable the [test], file, checkout, revert and fork
-  // buttons, make the editors read-only, and show the refresh banner, so it
-  // cannot commit or edit from a stale state. Refresh is the only exit.
-  const lock = (message) => {
+  // mark the page stale, disable every control marked `.lockable` (the [test],
+  // predict, checkout, revert and fork buttons, plus the predict and auto-revert
+  // checkboxes), make the editors read-only, and stop the predict/auto-revert
+  // hover-tips (clearing any tip showing at this instant), so it cannot commit or
+  // edit from a stale state. Refresh is the only exit. The caller then shows the
+  // message (modal for another laptop, app-bar for another tab).
+  const lock = () => {
     cd.mobbingPoll.locked = true;
     document.body.classList.add('mobbing-stale');
-    document.getElementById('test-button').disabled = true;
-    document.getElementById('checkout-button').disabled = true;
-    document.getElementById('revert-button').disabled = true;
-    document.getElementById('fork-button').disabled = true;
+    document.querySelectorAll('.lockable').forEach((control) => control.disabled = true);
     cd.setFilesEditable(false);
     cd.disableFileButtons();
-    showBanner(message);
+    cd.disableTips('#predict-checkbox-cell, #revert-title-cell');
+    cd.removeTip();
   };
 
   // The stale-tab poll (docs/mobbing-stale-tab-lock.md). tabId identifies this
@@ -79,7 +95,12 @@ var cyberDojo = ((cd) => {
         cd.lib.getEvents(id, (events) => {
           if (cd.isStale(events, this.knownHead, this.tabId)) {
             clearInterval(poll);
-            lock(bannerMessage(events, this.knownHead, this.tabId));
+            lock();
+            if (fromAnotherLaptop(events, this.knownHead, this.tabId)) {
+              showMobbingDialog();
+            } else {
+              showMobbingMessage();
+            }
           }
         });
       }, this.intervalMs);
