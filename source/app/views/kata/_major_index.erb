@@ -1,0 +1,20 @@
+<script>
+'use strict';
+$(() => {
+
+  // The browser owns the current light number (majorIndex) locally: seeded on page
+  // load from the last committed light (setMajorIndex), then incremented on each
+  // live light action (nextMajorIndex). A light's minor is always 0.
+  cd.kata.majorIndex = 0;
+
+  cd.kata.setMajorIndex = (majorIndex) => {
+    cd.kata.majorIndex = majorIndex;
+  };
+
+  cd.kata.nextMajorIndex = () => {
+    cd.kata.majorIndex += 1;
+    return cd.kata.majorIndex;
+  };
+
+});
+</script>

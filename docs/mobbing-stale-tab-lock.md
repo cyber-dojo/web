@@ -336,8 +336,10 @@ detection is entirely read-side; this pairs with saver ADR step A3 being deploye
 Nothing for the lock itself - PHASE 6 is done: the write-time `out_of_sync` catch
 is removed (`app.rb` no longer maps a saver error to `out_of_sync`; `_run_tests.erb`
 no longer branches on it). A stale `[test]` is accepted by saver (ADR A3) and the
-poll is the sole detector. The broader index/async cleanup (A2/A4/A5) is tracked in
-the Follow-on section below.
+poll is the sole detector. The broader index/async cleanup is now largely done too:
+A2, A4 and A5 (web) are complete - web owns `major`, sends no `index` on writes, and
+resolves the flat index lazily from read data. See the Follow-on section below. The
+only Part A steps left are saver-side (A6's return-value trim) and the optional A7.
 
 ### Manually verified this session
 - Two-tab lock (a write in one tab locks the other): yes.
@@ -355,28 +357,50 @@ session's read-side lock is Part A step A1 - the precondition that lets saver
 drop its write-time index reject (A3), which unblocks the rest, in order:
 
 - A2 (web) - resolve revert/checkout targets from read data (severs revert's last
-  use of the flat client index).
+  use of the flat client index). DONE: the edit-page auto-revert scans the committed
+  read events for the previous light (route renamed `/kata/revert` -> `/kata/auto_revert`
+  to distinguish it from the review-page checkout), and web's light predicate is
+  unified with saver's exclusion list so they cannot drift.
 - A3 (saver) - make the client `index` optional and unused (detection is
-  read-side now). This also neutralises `waitForITE`: a behind-index write is no
-  longer rejected (self-lag / ignored), so the `[test]`-vs-in-flight-ITE race
-  becomes benign. DONE: saver places every write at head + 1 with no index reject,
+  read-side now). This removes the INDEX reason `waitForITE` existed for (a behind-index
+  write is no longer rejected). It does NOT make `waitForITE` removable, though: the
+  saver still DROPS a file-event that loses the concurrent-write CAS (kata_v2.rb, "Out
+  of order", no retry), so a structural create/rename/delete racing a `[test]` can be
+  lost if the `[test]` wins - `waitForITE` serialises them to prevent that. Removing
+  the drop (so file events reorder instead) is the spooler's job (Part B), so
+  `waitForITE` stays load-bearing until then. DONE: saver places every write at head + 1 with no index reject,
   and `index` is gone from saver's write path entirely - a client-sent `index` is
   stripped at the HTTP boundary (post_json) before dispatch, the write methods take
   no `index`, and the commit message is built from the placed position. saver's own
   client library no longer sends `index` either.
 - A4 (web) - own `major` locally; stop updating the index from saver's response
   (`setIndex(light.index + 1)`).  [= "web not updating its index from the response"]
-- A5 (web) - stop sending `index` in the write POSTs.
+  DONE: the browser owns `major_index` (`nextMajorIndex`, seeded on load); `[test]`,
+  auto-revert and checkout take the next major locally. It went further - a kata-page
+  light carries no trusted flat `index`; the flat index is resolved lazily on
+  hover/click by matching `major_index` over the read events (`cd.lib.getEvents`),
+  and a "ghost" (uncommitted light) gets no tooltip and a dead click.
+- A5 (web) - stop sending `index` in the write POSTs. DONE: no write POST sends
+  `index`; the whole flat-index browser machinery (`cd.kata.index`/`setIndex`/hidden
+  field/page-load seed/file-ITE adoption) is removed, and the `app.rb` `index` helper
+  now serves only the fork endpoints.
 - A6 (saver) - drop the now-unused `index` param, and (once web no longer uses
   them) stop returning `index`/`major_index`/`minor_index`.
   [= "remove saver's triple-index responses"]
+  DONE (saver `index` param). Web no longer uses saver's returned
+  `index`/`major_index`/`minor_index` (it owns `major` and resolves the flat index
+  from read data), so saver dropping them from its write returns is now unblocked -
+  a future saver-side step.
 - A7 (web, optional) - make the saver calls fire-and-forget (async). Doable
   without the spooler but BEST-EFFORT only: a write lost in flight is healed only
   by browser re-fire while the tab is open, and fire-and-forget ITEs can arrive
   at saver out of order (saver appends at head, so a reordered commit regresses
   file state). Durability + ordering are exactly what the spooler (Part B) adds.
 
-Summary without the spooler: A2-A6 (index cleanup + neutralising `waitForITE`)
-are clean; A7 (async) is achievable but carries the durability/reordering risk
-the spooler removes. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
+Summary without the spooler: the index cleanup (A2-A6) is clean and mostly done.
+`waitForITE` is NOT removed by it - it stays load-bearing (structural file ops would
+otherwise be dropped in a CAS race), and only the dead `cd.interTestEventInProgress`
+getter was trimmed. A7 (async) is achievable but carries the durability/reordering
+risk the spooler removes - and the same file-event-drop makes fully async ITEs
+unsafe until then. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
 (Part A) and `mobbing-server-owned-index-design.md` ("Option C").

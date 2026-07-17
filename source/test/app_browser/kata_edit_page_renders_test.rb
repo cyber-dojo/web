@@ -11,7 +11,7 @@ class KataEditPageRendersTest < BrowserTestBase
     visit "/kata/edit/#{id}"
     # edit.erb's setIndex(events.length) runs in JS on load; a fresh kata has
     # only the index-0 event, so the hidden index field becomes "1".
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
   end
 
 end

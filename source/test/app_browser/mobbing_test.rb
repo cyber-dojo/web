@@ -168,7 +168,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
@@ -185,7 +185,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     my_tab = evaluate_script('cd.mobbingPoll.tabId')
     files = saver.kata_event(id, 0)['files']
@@ -204,7 +204,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '#test-button[disabled]'   # enabled on a fresh, in-sync kata
 
@@ -223,7 +223,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute all_editors_read_only?, 'at least one file is editable on a fresh, in-sync kata'
 
@@ -244,7 +244,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '.create-file[disabled]'   # enabled on a fresh, in-sync kata
 
@@ -267,7 +267,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '#predict-checkbox[disabled]', visible: :all   # enabled on a fresh kata
 
@@ -288,7 +288,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector 'button.predict[disabled]', visible: :all   # enabled on a fresh kata
 
@@ -309,7 +309,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '.revert-checkbox[disabled]', visible: :all   # enabled on a fresh kata
 
@@ -329,7 +329,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     execute_script("jQuery('#predict-checkbox-cell').mouseenter()")   # tip shows before lock
     assert_selector '.hover-tip', visible: :all
@@ -352,7 +352,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     execute_script("jQuery('#revert-title-cell').mouseenter()")   # tip shows before lock
     assert_selector '.hover-tip', visible: :all
@@ -375,7 +375,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     # hover to show the tip and leave it showing (no mouseleave)
     execute_script("jQuery('#predict-checkbox-cell').mouseenter()")
@@ -398,7 +398,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '.download[disabled]', visible: :all   # enabled on a fresh kata
 
@@ -420,7 +420,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     execute_script("document.getElementById('run-tests-info').showModal()")
     assert_selector '#run-tests-info[open]'
@@ -443,7 +443,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
@@ -488,7 +488,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     # Stub the read so the poll deterministically sees an event above knownHead
     # (seeded to 0 at load) that has no laptop_id - a legacy / malformed writer.
@@ -510,7 +510,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     # Huge interval so only the visibilitychange can trigger a check.
     execute_script("cd.mobbingPoll.stop(); cd.mobbingPoll.intervalMs = 999999; cd.mobbingPoll.enable()")
@@ -531,7 +531,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     execute_script("cd.mobbingPoll.stop(); cd.mobbingPoll.intervalMs = 999999; cd.mobbingPoll.enable()")
 
@@ -570,7 +570,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
@@ -599,7 +599,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     refute_selector '#mobbing-overlay'   # no overlay on a fresh, in-sync kata
 
@@ -621,7 +621,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     cookie_half = evaluate_script(
       "document.cookie.split('; ').find((c) => c.startsWith('laptop_id=')).split('=')[1].slice(0, 32)"
@@ -645,7 +645,7 @@ class MobbingTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     cookie_half = evaluate_script(
       "document.cookie.split('; ').find((c) => c.startsWith('laptop_id=')).split('=')[1].slice(0, 32)"
@@ -688,7 +688,7 @@ class MobbingTest < BrowserTestBase
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     other = stored_id('c3' * 16, 'd4' * 16)   # a different laptop half
     saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
@@ -707,7 +707,7 @@ class MobbingTest < BrowserTestBase
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
 
     my_laptop = evaluate_script(
       "document.querySelector('meta[name=laptop-id]').getAttribute('content')"
@@ -738,7 +738,7 @@ class MobbingTest < BrowserTestBase
   def open_a_kata_edit_page
     id = saver.kata_create(starter_manifest)
     visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
+    wait_for_edit_page_ready
   end
 
   # Evaluate the production predicate cd.isStale in the browser.

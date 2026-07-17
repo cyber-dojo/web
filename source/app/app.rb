@@ -187,29 +187,24 @@ class App < Sinatra::Base
     end
 
     begin
-      result = ran_tests(@id, @files, @stdout, @stderr, @status, {
+      ran_tests(@id, @files, @stdout, @stderr, @status, {
         duration: @duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
-      next_index  = result['next_index']
-      major_index = result['major_index']
-      minor_index = result['minor_index']
       @saved = true
     rescue SaverService::Error => error
-      next_index  = index + 1
-      major_index = index + 1
-      minor_index = ''
+      # The saver write failed (it is down or unreachable), but the runner
+      # already produced this traffic-light so we still show it. The browser
+      # owns the displayed number and resolves a light's committed index lazily
+      # from its major_index, so this uncommitted "ghost" carries no index.
       @saved = false
       $stdout.puts(error.message)
       $stdout.flush
     end
 
     @light = {
-      'index'       => next_index - 1,
-      'major_index' => major_index,
-      'minor_index' => minor_index,
       'colour'      => @outcome,
       'duration'    => @duration,
       'predicted'   => params['predicted'],
@@ -247,14 +242,13 @@ class App < Sinatra::Base
     end
     args = [id, previous_index]
     json = source_event(id, previous_index, :revert, args)
-    result = saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
+    # The browser owns the displayed number and resolves the reverted light's
+    # committed index lazily from its major_index, so the response carries no
+    # position - just the source_event's files/outcome and revert metadata.
+    saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     }, laptop_id)
-    light = json[:light]
-    light[:index]       = result['next_index'] - 1
-    light[:major_index] = result['major_index']
-    light[:minor_index] = result['minor_index']
     json.to_json
   end
 
@@ -272,11 +266,10 @@ class App < Sinatra::Base
     }
     json = source_event(from[:id], from[:index], :checkout, from)
     summary = { colour: @colour, checkout: from }
-    result = saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id)
-    light = json[:light]
-    light[:index]       = result['next_index'] - 1
-    light[:major_index] = result['major_index']
-    light[:minor_index] = result['minor_index']
+    # The browser owns the displayed number and resolves the checkout light's
+    # committed index lazily from its major_index, so the response carries no
+    # position - just the source_event's files/outcome and checkout metadata.
+    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id)
     json.to_json
   end
 
@@ -390,7 +383,7 @@ class App < Sinatra::Base
       stdout: @stdout,
       stderr: @stderr,
       status: @status,
-       light: { colour: @colour, index: index, name => value }
+       light: { colour: @colour, name => value }
     }
   end
 

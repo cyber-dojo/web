@@ -35,19 +35,16 @@ class BrowserTestBase < TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def index_field_value
-    evaluate_script(%q{document.querySelector("input[name='index']").value})
-  end
-
-  # The hidden index field is set by JavaScript (on load, and after each write),
-  # so a read taken immediately after visit()/an action can race the handler.
-  # Poll until it holds the expected value.
-  def wait_for_index_field(expected)
+  # The edit page's load-time JavaScript seeds cd.mobbingPoll.knownHead (from the
+  # committed events) as one of its last init steps; it is undefined until then.
+  # A read/action taken immediately after visit() can race that init, so poll
+  # until knownHead is a number, ie the page is fully initialised.
+  def wait_for_edit_page_ready
     20.times do
-      return if index_field_value == expected
+      return if evaluate_script(%q{typeof cd.mobbingPoll.knownHead === 'number'})
       sleep 0.3
     end
-    flunk "index field never became #{expected.inspect} (was #{index_field_value.inspect})"
+    flunk 'edit page never finished initialising (cd.mobbingPoll.knownHead stayed undefined)'
   end
 
 end

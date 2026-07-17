@@ -56,7 +56,6 @@ $(() => {
 
     const args = {       // where we are writing to
       id: kata.id,       // eg 'Xd4f2P'
-      index: kata.index, // eg 17
       src_id: review.id, // where we are reading from
       src_index: event.index,
       src_major_index: event.major_index,
@@ -76,7 +75,9 @@ $(() => {
     })
     .then(r => r.json())
     .then(data => {
-      kata.setIndex(data.light.index + 1);
+      // The checkout commits a new light, so take the next major locally.
+      data.light.major_index = kata.nextMajorIndex();
+      data.light.minor_index = 0;
       kata.editor.deleteFiles();
       for (const filename in data.files) {
         kata.editor.createFile(filename, { content: data.files[filename] });

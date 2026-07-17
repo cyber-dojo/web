@@ -32,7 +32,7 @@ $(() => {
       cd.kata.appendTrafficLight(event);
     }
   });
-  cd.kata.setIndex(events.length);
+  cd.kata.setMajorIndex(events[events.length - 1].major_index);
   cd.mobbingPoll.knownHead = events[events.length - 1].index;
   cd.mobbingPoll.enable();
   cd.kata.scrollLastTrafficLightIntoView();
@@ -41,7 +41,7 @@ $(() => {
 
   cd.showSettingsButton();
   cd.setupHotkeys();
-  cd.showStartingInfoDialog();
+  cd.showStartingInfoDialog(events.length);
 
 });
 </script>

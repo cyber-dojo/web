@@ -3,16 +3,37 @@
 var cyberDojo = (function(cd, $) {
 
   cd.setupTrafficLightTip = ($light, light, kataId, wasIndex, nowIndex) => {
+    setTip($light, () => fetchDiffSummaryAndShow($light, light, kataId, wasIndex, nowIndex));
+  };
+
+  // Like setupTrafficLightTip, but the was/now flat indices are not known at
+  // setup time. They are resolved on hover from the light's major_index by
+  // reading the committed events. A ghost (a light whose major_index is not
+  // among the committed lights, eg after a saver write that did not commit)
+  // shows no tip.
+  cd.setupTrafficLightTipByMajor = ($light, light, kataId) => {
     setTip($light, () => {
-      const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
-      const params = new URLSearchParams(args);
-      fetch(`/kata/diff_summary?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
-        .then(r => r.json())
-        .then(json => {
-          const $tip = $trafficLightTip(light, kataId, json.diff_summary);
-          showHoverTip($light, $tip);
-        });
+      cd.lib.getEvents(kataId, (events) => {
+        const now = events.find(e => cd.lib.isLight(e) && e.major_index === light.major_index);
+        if (!now) {
+          return;
+        }
+        const prev = events.find(e => cd.lib.isLight(e) && e.major_index === light.major_index - 1);
+        const wasIndex = prev ? prev.index : 0;
+        fetchDiffSummaryAndShow($light, light, kataId, wasIndex, now.index);
+      });
     });
+  };
+
+  const fetchDiffSummaryAndShow = ($light, light, kataId, wasIndex, nowIndex) => {
+    const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
+    const params = new URLSearchParams(args);
+    fetch(`/kata/diff_summary?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(r => r.json())
+      .then(json => {
+        const $tip = $trafficLightTip(light, kataId, json.diff_summary);
+        showHoverTip($light, $tip);
+      });
   };
 
   const $trafficLightTip = (light, kataId, diff) => {
