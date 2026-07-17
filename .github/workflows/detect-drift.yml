@@ -1,0 +1,33 @@
+name: 'Detect Drift'
+
+on:
+  schedule:
+    - cron: '20 6,8,18 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  detect-drift:
+    permissions:
+      id-token: write
+      contents: write
+    uses: kosli-dev/tf/.github/workflows/detect-drift.yml@main
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - aws_account_id: 244531986313
+            environment: beta
+            name: beta
+          - aws_account_id: 274425519734
+            environment: prod
+            name: prod
+    name: ${{ matrix.name }}
+    with:
+      aws_region: eu-central-1
+      aws_role_arn: "arn:aws:iam::${{ matrix.aws_account_id }}:role/gh_actions_services"
+      environment: ${{ matrix.environment }}
+      working_directory: deployment/terraform/
+      tf_version: v1.14.9
