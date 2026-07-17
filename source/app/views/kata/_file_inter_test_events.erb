@@ -35,25 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cd.fileCreateITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, filename: newFilename };
+    const args = { id: kata.id, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_create', args, callback);
   };
 
   cd.fileDeleteITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, filename: newFilename };
+    const args = { id: kata.id, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_delete', args, callback);
   };
 
   cd.fileRenameITE = (oldFilename, newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, old_filename: oldFilename, new_filename: newFilename };
+    const args = { id: kata.id, old_filename: oldFilename, new_filename: newFilename };
     syncPostWithCallbackITE('/kata/file_rename', args, callback);
   };
 
   cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index };
+    const args = { id: kata.id };
     syncPostWithCallbackITE('/kata/file_edit', args, callback);
   };
 
