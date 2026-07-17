@@ -1,0 +1,60 @@
+name: 'Detect Drift (environment)'
+
+# Drift detection for a single environment.
+#
+# The terraform for this repository lives in deployment/terraform and deploys
+# the ECS service with a per-build container image (TF_VAR_TAGGED_IMAGE). The
+# variable has no default and the task definition tracks it directly, so a
+# drift plan must be given the image that is currently deployed - otherwise
+# the plan either fails (no value) or reports false drift (wrong value).
+#
+# This workflow reads the live image from the deployed ECS task definition and
+# passes it to the shared kosli-dev/tf drift workflow. The lookup is kept here,
+# in this repository, rather than in the shared workflow, so Kosli's own drift
+# detection is unaffected.
+
+on:
+  workflow_call:
+    inputs:
+      aws_account_id:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    outputs:
+      image: ${{ steps.read.outputs.image }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
+        with:
+          role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/gh_actions_services
+          aws-region: eu-central-1
+          role-session-name: ${{ github.event.repository.name }}
+      - name: Read deployed image
+        id: read
+        run: |
+          IMAGE=$(aws ecs describe-task-definition --task-definition web \
+            --query 'taskDefinition.containerDefinitions[0].image' --output text)
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+
+  detect-drift:
+    needs: image
+    permissions:
+      id-token: write
+      contents: write
+    uses: kosli-dev/tf/.github/workflows/detect-drift.yml@main
+    with:
+      aws_region: eu-central-1
+      aws_role_arn: "arn:aws:iam::${{ inputs.aws_account_id }}:role/gh_actions_services"
+      environment: ${{ inputs.environment }}
+      working_directory: deployment/terraform/
+      tf_version: v1.14.9
+      tf_vars: TF_VAR_TAGGED_IMAGE=${{ needs.image.outputs.image }}

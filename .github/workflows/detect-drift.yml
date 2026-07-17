@@ -1,0 +1,28 @@
+name: 'Detect Drift'
+
+on:
+  schedule:
+    - cron: '20 6,8,18 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  detect-drift:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - aws_account_id: 244531986313
+            environment: beta
+          - aws_account_id: 274425519734
+            environment: prod
+    name: ${{ matrix.environment }}
+    permissions:
+      id-token: write
+      contents: write
+    uses: ./.github/workflows/detect-drift-env.yml
+    with:
+      aws_account_id: ${{ matrix.aws_account_id }}
+      environment: ${{ matrix.environment }}
