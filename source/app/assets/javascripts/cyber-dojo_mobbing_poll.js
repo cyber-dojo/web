@@ -80,30 +80,47 @@ var cyberDojo = ((cd) => {
 
   // The stale-tab poll (docs/mobbing-stale-tab-lock.md). tabId identifies this
   // tab's own writes; knownHead is the committed head index at load (seeded by
-  // edit.erb) and stays fixed for the tab's life. enable(id) polls the committed
-  // stream every intervalMs and locks the tab the first time isStale is true.
+  // edit.erb) and stays fixed for the tab's life. enable() checks the committed
+  // stream every intervalMs; check() runs one such check and locks the tab the
+  // first time isStale is true. A rejected [test] write also calls check() so it
+  // locks at once rather than waiting for the next interval.
   cd.mobbingPoll = {
     tabId: generateTabId(),
     knownHead: undefined,
     intervalMs: 5000,
+    interval: undefined,
     locked: false,
     polling: false,
 
-    enable: function(id) {
-      this.polling = true;
-      const poll = setInterval(() => {
-        cd.lib.getEvents(id, (events) => {
-          if (cd.isStale(events, this.knownHead, this.tabId)) {
-            clearInterval(poll);
-            lock();
-            if (fromAnotherLaptop(events, this.knownHead, this.tabId)) {
-              showMobbingDialog();
-            } else {
-              showMobbingMessage();
-            }
+    // Read the committed stream once and, if this tab is now stale, lock it and
+    // show the message (modal for another laptop, app-bar for another tab). A
+    // no-op once already locked, so repeated calls (interval + [test] catch) are
+    // safe.
+    check: function() {
+      if (this.locked) {
+        return;
+      }
+      cd.lib.getEvents(cd.kata.id, (events) => {
+        if (cd.isStale(events, this.knownHead, this.tabId)) {
+          this.stop();
+          lock();
+          if (fromAnotherLaptop(events, this.knownHead, this.tabId)) {
+            showMobbingDialog();
+          } else {
+            showMobbingMessage();
           }
-        });
-      }, this.intervalMs);
+        }
+      });
+    },
+
+    enable: function() {
+      this.polling = true;
+      this.interval = setInterval(() => this.check(), this.intervalMs);
+    },
+
+    stop: function() {
+      clearInterval(this.interval);
+      this.polling = false;
     }
   };
 

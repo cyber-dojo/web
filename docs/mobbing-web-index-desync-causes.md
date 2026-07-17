@@ -79,7 +79,9 @@ Mechanism:
    `[test]` POST arrives carrying the stale index. On the deployed (Option A)
    saver a stale index is rejected as an out-of-order event, the
    `/kata/run_tests` handler maps that to `out_of_sync: true`, and
-   `_run_tests.erb` renders it as the "mobbing?" dialog (`showAvatarsOutOfSync`).
+   `_run_tests.erb`'s `out_of_sync` branch calls `cd.mobbingPoll.check()`, which
+   locks the tab (the "mobbing?" modal for another laptop, the app-bar message
+   for another tab).
 
 So raising the fetch abort from 2s to 30s actually WIDENED the window:
 inter-test events are now allowed to run up to 30s, but `waitForITE` still
@@ -207,7 +209,7 @@ as an explicit web fix, since Option C does not cover it.
   to `out_of_sync:`; `get '/kata/next_index/:id'` is the Option A route.
 - `source/app/views/kata/_run_tests.erb` - `runTests` `.catch` with no resync
   (cause 3); `refreshFromTest` does `setIndex(light.index + 1)` (cause 2); reads
-  `out_of_sync` and shows the dialog (`showAvatarsOutOfSync`).
+  `out_of_sync` and calls `cd.mobbingPoll.check()` to lock the tab.
 - `source/app/views/kata/_file_inter_test_events.erb` - `cd.waitForITE`
   (`maxWait = 2000`, cause 1) and `syncPostWithCallbackITE` (30s fetch abort,
   sets and clears `_interTestEventInProgress`).

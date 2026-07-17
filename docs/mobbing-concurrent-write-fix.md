@@ -24,7 +24,8 @@ Related memories:
 
 The "mobbing?" dialog fires ONLY when a `POST /kata/run_tests` makes the saver raise
 `"Out of order event"` (that is the sole source of `out_of_sync: true`, mapped in
-`app.rb` and rendered by `_run_tests.erb`'s `showAvatarsOutOfSync`). So every false
+`app.rb` and handled by `_run_tests.erb`'s `out_of_sync` branch, which now calls
+`cd.mobbingPoll.check()` to lock the tab). So every false
 dialog is a solo `[test]` reaching the saver with a rejectable index. Under Option C
 there are exactly two ways to be rejected: index AHEAD of `head + 1`, or index BEHIND
 with a foreign/absent `laptop_id` in the `index .. head` range.

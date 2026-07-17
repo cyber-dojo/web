@@ -76,7 +76,10 @@ $(() => {
     const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, saved, created, changed } = data;
 
     if (outOfSync) {
-      showAvatarsOutOfSync(light);
+      // The write was rejected: another tab or laptop moved the head. Run one
+      // poll check now so this tab locks at once (with the modal-vs-app-bar
+      // message) instead of waiting for the next poll interval.
+      cd.mobbingPoll.check();
     }
     else {
       refreshFromTest(light, stdout, stderr, status, created, changed, saved);
@@ -168,23 +171,13 @@ $(() => {
     }
   };
 
-  const showAvatarsOutOfSync = (light) => {
-    const message = [
-      `You made a change to your exercise - ${cd.kata.id}.`,
-      `It was ${light.colour} but could not be saved.`,
-      'You are out of sync with the latest version.',
-      'Please refresh your browser.',
-    ].join("\n");
-    showInfoDialog(message, 'out-of-sync', 'mobbing?');
-  };
-
   const showTimedOut = () => {
     const maxSeconds = cd.kata.maxSeconds();
-    showInfoDialog(`Unable to complete the tests in ${maxSeconds} seconds.`, 'timed-out', 'timed out');
+    showInfoDialog(`Unable to complete the tests in ${maxSeconds} seconds.`, 'timed out');
   };
 
   const showFaulty = (log) => {
-    showInfoDialog(log, 'faulty', 'faulty traffic-light');
+    showInfoDialog(log, 'faulty traffic-light');
   };
 
   const showImagePulling = () => {
@@ -192,13 +185,13 @@ $(() => {
       `The Docker image is not quite ready yet.`,
       `Please wait 30 seconds and try again.`,
     ].join("\n");
-    showInfoDialog(message, 'pulling', 'still preparing');
+    showInfoDialog(message, 'still preparing');
   };
 
   const infoDialog = document.getElementById('run-tests-info');
   infoDialog.querySelector('.dialog-close').addEventListener('click', () => infoDialog.close());
 
-  const showInfoDialog = (message, id, title) => {
+  const showInfoDialog = (message, title) => {
     infoDialog.querySelector('.dialog-title').textContent = title;
     infoDialog.querySelector('.info').textContent = message;
     infoDialog.showModal();

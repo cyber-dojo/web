@@ -245,9 +245,10 @@ already returns `laptop_id` per event. This is a web-only change.
   events, and generates this tab's `tab_id`.
 - `views/kata/_run_tests.erb` and the inter-test / review actions - gate every
   event-committing action behind the lock; send `laptop_id + tab_id` as the write
-  id; remove the write-time out-of-sync dialog path, since detection is entirely
-  this poll. `_run_tests.erb` holds the shared `#run-tests-info` dialog the laptop
-  case reuses; the tab case appends its message into `#app-bar`.
+  id; the write-time `out_of_sync` branch calls `cd.mobbingPoll.check()`, so a
+  rejected `[test]` locks through the poll (no separate out-of-sync dialog).
+  `_run_tests.erb` holds the shared `#run-tests-info` dialog the laptop case
+  reuses; the tab case appends its message into `#app-bar`.
 - `app.rb` - the `laptop-id` meta tag.
 
 ## Tests
@@ -268,11 +269,13 @@ remain.
 ### Done
 - Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
   `assets/javascripts/cyber-dojo_mobbing_poll.js` (`cd.mobbingPoll`: `tabId`,
-  `knownHead`, `intervalMs`, `locked`, `polling`, `enable(id)`; plus `lock`,
+  `knownHead`, `intervalMs`, `interval`, `locked`, `polling`, `enable()`,
+  `check()`, `stop()`; plus `lock`,
   `showMobbingDialog`, `showMobbingMessage`, `fromAnotherLaptop`, `tabIdOf`,
   `laptopIdOf`, `myLaptopId`, `generateTabId`).
 - Poll auto-started: `views/kata/edit.erb` seeds `knownHead` and calls
-  `cd.mobbingPoll.enable("<%= @id %>")`.
+  `cd.mobbingPoll.enable()` (the kata id comes from `cd.kata.id`, set in the
+  `application.erb` layout).
 - On lock: disable `[test]`, editors read-only, disable the
   file-create/rename/delete and checkout/revert/fork buttons, guard the commit
   paths (`cd.kata.runTests` and `cd.revertOrCheckout` bail when locked), keep the
@@ -320,12 +323,13 @@ remain.
    - stop the poll on page unload (store the interval handle - currently local in
      `enable`), and fold in the deferred `enable` "clear any previous interval"
      so re-enabling restarts a single timer.
-2. PHASE 6 - remove the old write-time catch (`_run_tests.erb`
-   `showAvatarsOutOfSync` / the `if (outOfSync)` path). IT STILL FIRES: a stale
-   `[test]` currently triggers BOTH the old dialog and the poll lock. Removing it
-   makes the poll the sole detector. Note: `showMobbingDialog` reuses the shared
-   `#run-tests-info` dialog element, which survives; only the `[test]` out-of-sync
-   caller goes away.
+2. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
+   branch in `_run_tests.erb` calls `cd.mobbingPoll.check()`, so a rejected
+   `[test]` locks through the poll path (with the modal-vs-app-bar message)
+   without waiting for the next interval. Remaining: the `out_of_sync` branch
+   cannot be deleted outright until ADR step A3 (saver stops rejecting
+   behind-index writes); until then it is needed to lock in the pre-lock window
+   (saver still returns `out_of_sync`).
 3. Generic / no-id message + `isStale` no-id hardening: an event with no
    `laptop_id` above `knownHead` (legacy / un-upgraded writer) throws in
    `tabIdOf`. Guard it, treat as "not mine" (safe), add a generic "This kata
