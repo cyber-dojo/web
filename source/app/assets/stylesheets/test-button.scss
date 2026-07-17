@@ -16,5 +16,5 @@
   font-weight: bold;
   letter-spacing: 0.03em;
   &:not([disabled]):hover { border: 2px dotted Black; }
-  &[disabled] { opacity: 0.35; cursor: not-allowed; }
+  &[disabled] { opacity: 0.35; }
 }

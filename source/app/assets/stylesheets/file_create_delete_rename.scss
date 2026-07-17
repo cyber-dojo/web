@@ -17,7 +17,11 @@
     background: lighten($darker-color,50%);
     border: 2px solid lighten($darker-color,50%);
     &:not([disabled]):hover { border: 2px dotted lighten(Black,10%); }
-    &[disabled] { opacity: 0.35; cursor: not-allowed; }
+    &[disabled] { opacity: 0.35; }
+    // Keep the border unchanged on hover when disabled (overrides the generic
+    // button[disabled]:hover in button.scss), so a disabled file button shows no
+    // hover effect - matching #test-button.
+    &[disabled]:hover { border: 2px solid lighten($darker-color,50%); }
   }
 
   .rename-file img

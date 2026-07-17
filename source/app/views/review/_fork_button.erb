@@ -1,4 +1,4 @@
-<button id="fork-button" type="button">fork</button>
+<button id="fork-button" type="button" class="lockable">fork</button>
 
 <dialog id="fork-dialog" style="width:320px">
   <header>
@@ -57,6 +57,10 @@
       refreshToolTip();
       if (cd.env['FORK_BUTTON'] == 'off') {
         $(button).hide();
+      }
+      if (cd.mobbingPoll.locked) {
+        review.forkButton.disable();
+        return;
       }
       if (review.isOnFileEvent()) {
         review.forkButton.disable();

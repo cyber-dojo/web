@@ -48,6 +48,7 @@
  *= depend_on avatar-navigator.scss
  *= depend_on review-grid.scss
  *= depend_on app-bar.scss
+ *= depend_on mobbing-overlay.scss
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
@@ -101,6 +102,7 @@
 @import "avatar-navigator.scss";
 @import "review-grid.scss";
 @import "app-bar.scss";
+@import "mobbing-overlay.scss";
 @import "wait-spinner.scss";
 @import "yin-yang-logo.scss";
 @import "hotkeys.scss";

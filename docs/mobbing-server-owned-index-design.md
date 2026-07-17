@@ -487,7 +487,7 @@ web (`web/source/app/`):
   sites (`revert()` and `cd.revertOrCheckout`) switch to `setIndex`.
 - `views/kata/_run_tests.erb` - `setIndex(light.index + 1)` on a successful test
   (re-sets to the saver-returned index, retained under C); reads the `out_of_sync`
-  flag and shows the dialog (`showAvatarsOutOfSync`). Phase 3 consistency change:
+  flag and calls `cd.mobbingPoll.check()` to lock the tab. Phase 3 consistency change:
   `revert()` (`:113`, the auto-revert-on-wrong-prediction path, POST `/kata/revert`)
   advances via a local `incrementIndex()`. `reverted` commits exactly one event (it
   does NOT call `file_edit` first), so the local `+1` is already correct - no bug.

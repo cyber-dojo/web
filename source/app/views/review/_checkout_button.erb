@@ -1,4 +1,4 @@
-<button id="checkout-button" type="button">checkout</button>
+<button id="checkout-button" type="button" class="lockable">checkout</button>
 
 <script>
 'use strict';
@@ -24,6 +24,10 @@ $(() => {
     disable: () => $button.prop('disabled', true),
     refresh: () => {
       refreshToolTip();
+      if (cd.mobbingPoll.locked) {
+        review.checkoutButton.disable();
+        return;
+      }
       if (!cd.kata.isLatest()) {
         review.checkoutButton.disable();
       }
@@ -43,6 +47,11 @@ $(() => {
   };
 
   cd.revertOrCheckout = () => {
+    // A stale (mobbing-locked) tab must not commit a checkout/revert. The
+    // buttons are also disabled on lock, but this guards the commit path itself.
+    if (cd.mobbingPoll.locked) {
+      return;
+    }
     const event = review.currentEvent();
 
     const args = {       // where we are writing to
@@ -52,7 +61,8 @@ $(() => {
       src_index: event.index,
       src_major_index: event.major_index,
       src_minor_index: event.minor_index,
-      src_avatar_index: review.avatarIndex
+      src_avatar_index: review.avatarIndex,
+      tab_id: cd.mobbingPoll.tabId
     };
     cd.settings.showButton();
     fetch('/kata/checkout', {

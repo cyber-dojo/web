@@ -65,6 +65,20 @@
   #settings-button, #hotkeys-button  { display:none; }
   // Initally not displayed to avoid 'browser flash'.
   .info-button { display:none; }
+
+  // The unintrusive stale-tab reminder in the app-bar; appended by cd.mobbingPoll
+  // when this tab locks (directly for another tab, or when the another-laptop
+  // overlay is dismissed). Uses the same $lighter-color as the
+  // display-name/exercise/id pills, bold to stand out, inline in the bar.
+  #mobbing-app-bar-message
+  {
+    color: $lighter-color;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 8px;
+    align-self: center;
+    white-space: nowrap;
+  }
 }
 
 #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
