@@ -78,7 +78,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id)
+    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id)
     assert_equal 2, saver.kata_events(kid).size
   end
 
@@ -86,7 +86,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_right() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_right(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
+    saver.kata_predicted_right(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'red'
@@ -98,7 +98,7 @@ class SaverServiceTest < AppServicesTestBase
   'kata_predicted_wrong() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_predicted_wrong(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
+    saver.kata_predicted_wrong(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'red',
       predicted: 'green'
@@ -112,13 +112,13 @@ class SaverServiceTest < AppServicesTestBase
   'kata_reverted() smoke test' do
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
-    saver.kata_ran_tests(kid, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
+    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
+    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       duration: duration,
       colour: 'amber',
       predicted: 'red'
     }, laptop_id)
-    saver.kata_reverted(kid, 3, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
+    saver.kata_reverted(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'green',
       revert: [kid, 1]
     }, laptop_id)
@@ -132,10 +132,10 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     gid = saver.group_create(manifest)
     kid1 = saver.group_join(gid)
-    saver.kata_ran_tests(kid1, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
-    saver.kata_ran_tests(kid1, 2, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id)
+    saver.kata_ran_tests(kid1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
+    saver.kata_ran_tests(kid1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id)
     kid2 = saver.group_join(gid)
-    saver.kata_checked_out(kid2, 1, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
+    saver.kata_checked_out(kid2, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
       colour: 'red',
       checkout: {
         id: kid1,
@@ -155,7 +155,7 @@ class SaverServiceTest < AppServicesTestBase
     kid = saver.kata_create(manifest)
     files = manifest['visible_files']
     files[files.keys.first]['content'] += "\n# comment"
-    next_index = saver.kata_file_edit(kid, 1, files, laptop_id)
+    next_index = saver.kata_file_edit(kid, files, laptop_id)
     assert_equal 2, next_index
   end
 
@@ -164,7 +164,7 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     manifest['version'] = 2
     kid = saver.kata_create(manifest)
-    next_index = saver.kata_file_create(kid, 1, manifest['visible_files'], 'new_file.txt', laptop_id)
+    next_index = saver.kata_file_create(kid, manifest['visible_files'], 'new_file.txt', laptop_id)
     assert_equal 2, next_index
   end
 
@@ -174,7 +174,7 @@ class SaverServiceTest < AppServicesTestBase
     manifest['version'] = 2
     kid = saver.kata_create(manifest)
     existing_filename = manifest['visible_files'].keys.first
-    next_index = saver.kata_file_delete(kid, 1, manifest['visible_files'], existing_filename, laptop_id)
+    next_index = saver.kata_file_delete(kid, manifest['visible_files'], existing_filename, laptop_id)
     assert_equal 2, next_index
   end
 
@@ -184,7 +184,7 @@ class SaverServiceTest < AppServicesTestBase
     manifest['version'] = 2
     kid = saver.kata_create(manifest)
     old_name = manifest['visible_files'].keys.first
-    next_index = saver.kata_file_rename(kid, 1, manifest['visible_files'], old_name, 'renamed_file.txt', laptop_id)
+    next_index = saver.kata_file_rename(kid, manifest['visible_files'], old_name, 'renamed_file.txt', laptop_id)
     assert_equal 2, next_index
   end
 
@@ -251,10 +251,10 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
     files = manifest['visible_files']
-    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
+    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
 
     files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
-    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
+    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
 
     diffs = saver.diff_lines(kid, 1, result['next_index'] - 1)
 
@@ -274,10 +274,10 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
     files = manifest['visible_files']
-    result = saver.kata_ran_tests(kid, 1, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
+    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id)
 
     files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
-    result = saver.kata_ran_tests(kid, result['next_index'], files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
+    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id)
 
     diffs = saver.diff_summary(kid, 1, result['next_index'] - 1)
 

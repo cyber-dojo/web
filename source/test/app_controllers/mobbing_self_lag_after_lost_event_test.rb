@@ -9,7 +9,7 @@ class MobbingSelfLagAfterLostEventTest < AppControllerTestBase
   | stale. The next [test] is sent at that stale index, with NO resync. Because
   | every event the browser missed was written by this same laptop, the saver
   | accepts the write as self-lag (placing it at head + 1) instead of rejecting
-  | it - so the solo user gets NO false out-of-sync (mobbing) dialog.
+  | it - so the solo user's [test] is saved, with no false mobbing lock.
   ) do
     in_kata do |kata|
       # Browser is synced: the only event is the index-0 created event,
@@ -35,7 +35,7 @@ class MobbingSelfLagAfterLostEventTest < AppControllerTestBase
       # events the browser missed are all this same laptop's own writes, so it
       # accepts the write as self-lag - no different laptop got in, no mobbing.
       post_run_tests(index: stale_index)
-      refute json['out_of_sync'], json
+      assert json['saved'], json
     end
   end
 

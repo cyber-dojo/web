@@ -172,7 +172,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -190,7 +190,7 @@ class MobbingTest < BrowserTestBase
     my_tab = evaluate_script('cd.mobbingPoll.tabId')
     files = saver.kata_event(id, 0)['files']
     mine = stored_id('a1' * 16, my_tab)
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), mine)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), mine)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -210,7 +210,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -229,7 +229,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -250,7 +250,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -273,7 +273,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -294,7 +294,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -315,7 +315,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -337,7 +337,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
     assert_selector 'body.mobbing-stale', wait: 5
@@ -360,7 +360,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
     assert_selector 'body.mobbing-stale', wait: 5
@@ -383,7 +383,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
     assert_selector 'body.mobbing-stale', wait: 5
@@ -404,33 +404,12 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
     assert_selector 'body.mobbing-stale', wait: 5
     assert_selector '.download[disabled]', visible: :all
-  end
-
-  test 'm0b027', %w(
-  | a stale [test] locks via the poll (write-time catch): when a [test] write is
-  | rejected as out of sync, the tab locks through the poll's check/lock. Here
-  | another laptop moved the head, so the full-page overlay shows.
-  ) do
-    id = saver.kata_create(starter_manifest)
-    visit "/kata/edit/#{id}"
-    wait_for_index_field('1')
-
-    execute_script('cd.mobbingPoll.stop()')   # isolate: only the [test] catch can lock
-
-    files = saver.kata_event(id, 0)['files']
-    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half moves the head
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
-
-    execute_script('cd.kata.runTests(function(){})')
-
-    assert_selector 'body.mobbing-stale', wait: 15
-    assert_selector '#mobbing-overlay', text: 'another laptop'
   end
 
   test 'm0b028', %w(
@@ -448,7 +427,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -468,7 +447,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
     assert_selector '#mobbing-overlay', wait: 5
@@ -538,7 +517,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     refute_selector 'body.mobbing-stale'   # huge interval: not locked yet
     execute_script("document.dispatchEvent(new Event('visibilitychange'))")
@@ -558,7 +537,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     # Pretend the tab is hidden: a direct check must not lock.
     execute_script("Object.defineProperty(document, 'hidden', {configurable: true, get: () => true})")
@@ -595,7 +574,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
     assert_selector 'body.mobbing-stale', wait: 5
@@ -626,7 +605,7 @@ class MobbingTest < BrowserTestBase
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -712,7 +691,7 @@ class MobbingTest < BrowserTestBase
     wait_for_index_field('1')
 
     other = stored_id('c3' * 16, 'd4' * 16)   # a different laptop half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
@@ -734,7 +713,7 @@ class MobbingTest < BrowserTestBase
       "document.querySelector('meta[name=laptop-id]').getAttribute('content')"
     )
     other = my_laptop + ('e5' * 16)   # my laptop half, a different tab half
-    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other)
 
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 

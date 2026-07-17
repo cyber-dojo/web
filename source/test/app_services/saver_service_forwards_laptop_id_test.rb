@@ -14,15 +14,15 @@ class SaverServiceForwardsLaptopIdTest < AppServicesTestBase
     summary   = { colour: 'red' }
     laptop_id = 'laptop-abc-123'
     [
-      -> { saver.kata_file_create('kata-id', 1, files, 'f.txt', laptop_id) },
-      -> { saver.kata_file_delete('kata-id', 1, files, 'f.txt', laptop_id) },
-      -> { saver.kata_file_rename('kata-id', 1, files, 'a.txt', 'b.txt', laptop_id) },
-      -> { saver.kata_file_edit('kata-id', 1, files, laptop_id) },
-      -> { saver.kata_ran_tests('kata-id', 1, files, content, content, 0, summary, laptop_id) },
-      -> { saver.kata_predicted_right('kata-id', 1, files, content, content, 0, summary, laptop_id) },
-      -> { saver.kata_predicted_wrong('kata-id', 1, files, content, content, 0, summary, laptop_id) },
-      -> { saver.kata_reverted('kata-id', 1, files, content, content, 0, summary, laptop_id) },
-      -> { saver.kata_checked_out('kata-id', 1, files, content, content, 0, summary, laptop_id) },
+      -> { saver.kata_file_create('kata-id', files, 'f.txt', laptop_id) },
+      -> { saver.kata_file_delete('kata-id', files, 'f.txt', laptop_id) },
+      -> { saver.kata_file_rename('kata-id', files, 'a.txt', 'b.txt', laptop_id) },
+      -> { saver.kata_file_edit('kata-id', files, laptop_id) },
+      -> { saver.kata_ran_tests('kata-id', files, content, content, 0, summary, laptop_id) },
+      -> { saver.kata_predicted_right('kata-id', files, content, content, 0, summary, laptop_id) },
+      -> { saver.kata_predicted_wrong('kata-id', files, content, content, 0, summary, laptop_id) },
+      -> { saver.kata_reverted('kata-id', files, content, content, 0, summary, laptop_id) },
+      -> { saver.kata_checked_out('kata-id', files, content, content, 0, summary, laptop_id) },
     ].each do |write|
       write.call
       body = JSON.parse(HttpJsonRequesterCapturingStub.last_request_body)

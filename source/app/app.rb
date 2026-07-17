@@ -145,22 +145,22 @@ class App < Sinatra::Base
 
   post '/kata/file_create' do
     content_type :json
-    saver.kata_file_create(id, index, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_create(id, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_delete' do
     content_type :json
-    saver.kata_file_delete(id, index, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_delete(id, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_rename' do
     content_type :json
-    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
+    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
   end
 
   post '/kata/file_edit' do
     content_type :json
-    saver.kata_file_edit(id, index, params_files, laptop_id).to_json
+    saver.kata_file_edit(id, params_files, laptop_id).to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -187,7 +187,7 @@ class App < Sinatra::Base
     end
 
     begin
-      result = ran_tests(@id, index, @files, @stdout, @stderr, @status, {
+      result = ran_tests(@id, @files, @stdout, @stderr, @status, {
         duration: @duration,
         colour: @outcome,
         predicted: params['predicted'],
@@ -204,7 +204,6 @@ class App < Sinatra::Base
       @saved = false
       $stdout.puts(error.message)
       $stdout.flush
-      @out_of_sync = error.message.include?('Out of order event')
     end
 
     @light = {
@@ -225,7 +224,6 @@ class App < Sinatra::Base
       stderr:      @stderr['content'],
       status:      @status.to_s,
       log:         @log.to_s,
-      out_of_sync: @out_of_sync == true,
       saved:       @saved == true,
       created:     @created,
       changed:     @changed
@@ -244,7 +242,7 @@ class App < Sinatra::Base
     end
     args = [id, previous_index]
     json = source_event(id, previous_index, :revert, args)
-    result = saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
+    result = saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     }, laptop_id)
@@ -269,7 +267,7 @@ class App < Sinatra::Base
     }
     json = source_event(from[:id], from[:index], :checkout, from)
     summary = { colour: @colour, checkout: from }
-    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary, laptop_id)
+    result = saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id)
     light = json[:light]
     light[:index]       = result['next_index'] - 1
     light[:major_index] = result['major_index']
@@ -365,13 +363,13 @@ class App < Sinatra::Base
     files_from(data['file_content'])
   end
 
-  def ran_tests(id, index, files, stdout, stderr, status, summary)
+  def ran_tests(id, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id)
     else
-      saver.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id)
     end
   end
 

@@ -73,19 +73,11 @@ $(() => {
   };
 
   const handleResponse = (data) => {
-    const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, saved, created, changed } = data;
+    const { light, outcome, stdout, stderr, status, log, saved, created, changed } = data;
 
-    if (outOfSync) {
-      // The write was rejected: another tab or laptop moved the head. Run one
-      // poll check now so this tab locks at once (with the modal-vs-app-bar
-      // message) instead of waiting for the next poll interval.
-      cd.mobbingPoll.check();
-    }
-    else {
-      refreshFromTest(light, stdout, stderr, status, created, changed, saved);
-      if (runNeedsReverting(outcome)) {
-        revert();
-      }
+    refreshFromTest(light, stdout, stderr, status, created, changed, saved);
+    if (runNeedsReverting(outcome)) {
+      revert();
     }
     showInfoDialogs(outcome, log);
   };

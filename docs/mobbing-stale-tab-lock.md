@@ -1,8 +1,10 @@
 # Mobbing stale-tab lock (spooler ADR step A1)
 
-Status: Web-complete; deploying. The only outstanding item is the Phase 6 tail
-(deleting the write-time `out_of_sync` branch), which is blocked on saver ADR
-step A3. See "Implementation status (handoff)" at the end for details.
+Status: Complete - the write-time `out_of_sync` catch is removed (Phase 6 done),
+so detection is entirely read-side (the poll). This pairs with saver ADR step A3
+(saver stops rejecting behind-index writes): with A3 deployed a stale `[test]` is
+accepted, never rejected, and the poll is the sole detector. See "Implementation
+status (handoff)" at the end.
 
 Precondition A0 is deployed: each committed event carries the writing browser's
 `laptop_id`. This is a web-only step of the spooler rollout
@@ -246,10 +248,10 @@ already returns `laptop_id` per event. This is a web-only change.
   events, and generates this tab's `tab_id`.
 - `views/kata/_run_tests.erb` and the inter-test / review actions - gate every
   event-committing action behind the lock; send `laptop_id + tab_id` as the write
-  id; the write-time `out_of_sync` branch calls `cd.mobbingPoll.check()`, so a
-  rejected `[test]` locks through the poll (no separate out-of-sync dialog).
-  `_run_tests.erb` holds the shared `#run-tests-info` dialog the laptop case
-  reuses; the tab case appends its message into `#app-bar`.
+  id. There is no write-time out-of-sync catch: a stale `[test]` is accepted by
+  saver, and the poll locks the tab. `_run_tests.erb` holds the shared
+  `#run-tests-info` dialog the laptop case reuses; the tab case appends its message
+  into `#app-bar`.
 - `app.rb` - the `laptop-id` meta tag.
 
 ## Tests
@@ -265,8 +267,8 @@ already returns `laptop_id` per event. This is a web-only change.
 
 The web side is complete: the poll is wired up (`edit.erb` auto-starts it on page
 load), styled, robust (fail-safe reads, hidden back-off, single timer, unload
-stop), and the write-time catch routes through it. The only remaining item is the
-Phase 6 tail (deleting the `out_of_sync` branch), blocked on saver ADR step A3.
+stop). The write-time `out_of_sync` catch has been removed (Phase 6 done), so
+detection is entirely read-side; this pairs with saver ADR step A3 being deployed.
 
 ### Done
 - Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
@@ -331,13 +333,11 @@ Phase 6 tail (deleting the `out_of_sync` branch), blocked on saver ADR step A3.
 - All write paths must carry `tab_id` before the poll is enabled (they do).
 
 ### Remaining (priority order)
-1. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
-   branch in `_run_tests.erb` calls `cd.mobbingPoll.check()`, so a rejected
-   `[test]` locks through the poll path (with the overlay-vs-app-bar message)
-   without waiting for the next interval. Remaining: the `out_of_sync` branch
-   cannot be deleted outright until ADR step A3 (saver stops rejecting
-   behind-index writes); until then it is needed to lock in the pre-lock window
-   (saver still returns `out_of_sync`).
+Nothing for the lock itself - PHASE 6 is done: the write-time `out_of_sync` catch
+is removed (`app.rb` no longer maps a saver error to `out_of_sync`; `_run_tests.erb`
+no longer branches on it). A stale `[test]` is accepted by saver (ADR A3) and the
+poll is the sole detector. The broader index/async cleanup (A2/A4/A5) is tracked in
+the Follow-on section below.
 
 ### Manually verified this session
 - Two-tab lock (a write in one tab locks the other): yes.
@@ -359,7 +359,11 @@ drop its write-time index reject (A3), which unblocks the rest, in order:
 - A3 (saver) - make the client `index` optional and unused (detection is
   read-side now). This also neutralises `waitForITE`: a behind-index write is no
   longer rejected (self-lag / ignored), so the `[test]`-vs-in-flight-ITE race
-  becomes benign.
+  becomes benign. DONE: saver places every write at head + 1 with no index reject,
+  and `index` is gone from saver's write path entirely - a client-sent `index` is
+  stripped at the HTTP boundary (post_json) before dispatch, the write methods take
+  no `index`, and the commit message is built from the placed position. saver's own
+  client library no longer sends `index` either.
 - A4 (web) - own `major` locally; stop updating the index from saver's response
   (`setIndex(light.index + 1)`).  [= "web not updating its index from the response"]
 - A5 (web) - stop sending `index` in the write POSTs.
