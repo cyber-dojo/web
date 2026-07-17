@@ -301,9 +301,15 @@ remain.
   laptop" vs "another tab" presentation split is derived from it.
 - `runTests` fires its POST immediately (no longer gated on the wait-spinner
   fade-in, which paused in a backgrounded tab).
-- Tests: `source/test/app_browser/mobbing_test.rb`, `m0b001`-`m0b019` (predicate
-  use cases 1-5; poll state; lock/disable; write `tab_id`-stamping; auto-start;
-  meta tag; the modal-vs-app-bar presentation split). Run with `make test_browser`.
+- Poll robustness (PHASE 5): fail-safe reads (no lock on a failed/empty read;
+  no-`laptop_id` events do not throw); `check()` backs off while `document.hidden`
+  and a `visibilitychange` re-checks on foreground; `enable()` clears any prior
+  interval (single timer) and a `pagehide` listener stops the poll on unload.
+- Tests: `source/test/app_browser/mobbing_test.rb`, `m0b001`-`m0b036` (predicate
+  use cases incl. no-id; poll state; lock/disable; write `tab_id`-stamping;
+  auto-start; meta tag; overlay-vs-app-bar-vs-generic presentation; overlay
+  supersede + Dismiss; fail-safe reads; hidden back-off; pagehide stop). Run with
+  `make test_browser`.
 - Test infra: browser tests run through nginx (`bin/containers_up.sh`,
   `browser_test_base.rb` -> `http://nginx`); `make test_browser` +
   `bin/run_browser_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
@@ -323,16 +329,7 @@ remain.
 - All write paths must carry `tab_id` before the poll is enabled (they do).
 
 ### Remaining (priority order)
-1. PHASE 5 - poll robustness (fail-safe reads done: a failed/empty read no longer
-   locks (`getEvents` returns its promise, `check` guards `Array.isArray` and
-   `.catch`es); a no-`laptop_id` event no longer throws and locks with the generic
-   message). Still remaining:
-   - `document.hidden` back-off: skip/pause polling while the tab is hidden,
-     evaluate on foreground;
-   - stop the poll on page unload (store the interval handle - currently local in
-     `enable`), and fold in the deferred `enable` "clear any previous interval"
-     so re-enabling restarts a single timer.
-2. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
+1. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
    branch in `_run_tests.erb` calls `cd.mobbingPoll.check()`, so a rejected
    `[test]` locks through the poll path (with the overlay-vs-app-bar message)
    without waiting for the next interval. Remaining: the `out_of_sync` branch

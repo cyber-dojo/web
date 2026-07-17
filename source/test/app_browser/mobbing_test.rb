@@ -524,6 +524,65 @@ class MobbingTest < BrowserTestBase
     refute_selector '#mobbing-overlay'
   end
 
+  test 'm0b034', %w(
+  | becoming visible evaluates immediately: a tab that went stale locks as soon as
+  | it is brought to the foreground (visibilitychange), without waiting for the
+  | next poll interval.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    # Huge interval so only the visibilitychange can trigger a check.
+    execute_script("cd.mobbingPoll.stop(); cd.mobbingPoll.intervalMs = 999999; cd.mobbingPoll.enable()")
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    refute_selector 'body.mobbing-stale'   # huge interval: not locked yet
+    execute_script("document.dispatchEvent(new Event('visibilitychange'))")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+  end
+
+  test 'm0b035', %w(
+  | polling backs off while the tab is hidden: with document.hidden a check does not
+  | lock even when the tab is stale; once visible again the same check locks.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    execute_script("cd.mobbingPoll.stop(); cd.mobbingPoll.intervalMs = 999999; cd.mobbingPoll.enable()")
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)   # a different laptop half
+    saver.kata_ran_tests(id, 1, files, content('out'), content('err'), 0, ran_summary('red'), other)
+
+    # Pretend the tab is hidden: a direct check must not lock.
+    execute_script("Object.defineProperty(document, 'hidden', {configurable: true, get: () => true})")
+    execute_script("cd.mobbingPoll.check()")
+    sleep 0.5
+    refute_selector 'body.mobbing-stale'
+
+    # Foreground again: the same check now locks.
+    execute_script("Object.defineProperty(document, 'hidden', {configurable: true, get: () => false})")
+    execute_script("cd.mobbingPoll.check()")
+    assert_selector 'body.mobbing-stale', wait: 5
+  end
+
+  test 'm0b036', %w(
+  | the poll stops on page hide: dispatching pagehide clears the interval so no
+  | stray poll runs as the page goes away (cd.mobbingPoll.polling becomes false).
+  ) do
+    open_a_kata_edit_page
+
+    assert evaluate_script('cd.mobbingPoll.polling'), 'poll running after load'
+    execute_script("window.dispatchEvent(new Event('pagehide'))")
+    refute evaluate_script('cd.mobbingPoll.polling'), 'poll stopped after pagehide'
+  end
+
   test 'm0b012', %w(
   | locking disables the review-page action buttons: after the poll locks,
   | cd.mobbingPoll.locked is set, the checkout, revert and fork buttons are

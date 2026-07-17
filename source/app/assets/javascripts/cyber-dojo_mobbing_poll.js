@@ -135,7 +135,9 @@ var cyberDojo = ((cd) => {
   // edit.erb) and stays fixed for the tab's life. enable() checks the committed
   // stream every intervalMs; check() runs one such check and locks the tab the
   // first time isStale is true. A rejected [test] write also calls check() so it
-  // locks at once rather than waiting for the next interval.
+  // locks at once rather than waiting for the next interval. check() backs off
+  // while the tab is hidden; a visibilitychange re-checks on foreground, and the
+  // poll stops on page unload (see the listeners below).
   cd.mobbingPoll = {
     tabId: generateTabId(),
     knownHead: undefined,
@@ -149,8 +151,8 @@ var cyberDojo = ((cd) => {
     // another tab). A no-op once already locked, so repeated calls (interval +
     // [test] catch) are safe.
     check: function() {
-      if (this.locked) {
-        return;
+      if (this.locked || document.hidden) {
+        return;   // a hidden tab backs off; visibilitychange re-checks on foreground
       }
       cd.lib.getEvents(cd.kata.id, (events) => {
         if (!Array.isArray(events)) {
@@ -174,6 +176,7 @@ var cyberDojo = ((cd) => {
     },
 
     enable: function() {
+      this.stop();   // clear any previous interval so re-enabling runs one timer
       this.polling = true;
       this.interval = setInterval(() => this.check(), this.intervalMs);
     },
@@ -183,6 +186,19 @@ var cyberDojo = ((cd) => {
       this.polling = false;
     }
   };
+
+  // Evaluate immediately when the tab is brought to the foreground: a tab that
+  // went stale while hidden (its interval ticks were no-ops) locks at once rather
+  // than waiting for the next tick. Guarded by `polling` so it never fires a read
+  // on a page where the poll was not enabled.
+  document.addEventListener('visibilitychange', () => {
+    if (cd.mobbingPoll.polling && !document.hidden) {
+      cd.mobbingPoll.check();
+    }
+  });
+
+  // Stop the poll as the page goes away, so no stray read runs during unload.
+  window.addEventListener('pagehide', () => cd.mobbingPoll.stop());
 
   return cd;
 
