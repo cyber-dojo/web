@@ -483,6 +483,47 @@ class MobbingTest < BrowserTestBase
     assert_selector '#mobbing-app-bar-message', text: 'another laptop'
   end
 
+  test 'm0b030', %w(
+  | a foreign event with no laptop_id is stale and does not throw: an event above
+  | knownHead lacking a laptop_id (a legacy or malformed writer) counts as not-mine
+  | so it locks, and cd.isStale handles it without throwing.
+  ) do
+    open_a_kata_edit_page
+
+    my_tab = 'b2' * 16
+    known_head = 1
+    stream = [
+      { 'index' => 0 },                                                            # create
+      { 'index' => 1, 'laptop_id' => stored_id('a1' * 16, my_tab), 'colour' => 'red' },
+      { 'index' => 2, 'colour' => 'green' },   # no laptop_id (legacy / malformed writer)
+    ]
+
+    assert is_stale(stream, known_head, my_tab),
+      'stale: a no-laptop_id event above knownHead is not mine'
+  end
+
+  test 'm0b033', %w(
+  | a foreign event with no laptop_id locks with the generic message: when the poll
+  | reads an event above knownHead that has no laptop_id (unclassifiable), it locks
+  | the tab and shows the generic app-bar reminder, not the overlay.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_index_field('1')
+
+    # Stub the read so the poll deterministically sees an event above knownHead
+    # (seeded to 0 at load) that has no laptop_id - a legacy / malformed writer.
+    execute_script(
+      "cd.mobbingPoll.stop();" \
+      "cd.lib.getEvents = (id, cb) => { cb([{index: 0}, {index: 1, colour: 'red'}]); return Promise.resolve(); };"
+    )
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
+
+    assert_selector 'body.mobbing-stale', wait: 5
+    assert_selector '#mobbing-app-bar-message', text: 'This kata changed. Refresh to continue.'
+    refute_selector '#mobbing-overlay'
+  end
+
   test 'm0b012', %w(
   | locking disables the review-page action buttons: after the poll locks,
   | cd.mobbingPoll.locked is set, the checkout, revert and fork buttons are

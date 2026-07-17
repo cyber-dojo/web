@@ -11,22 +11,39 @@ var cyberDojo = ((cd) => {
   };
 
   // The tab_id half of a committed event's stored id: the characters after the
-  // 32-char laptop_id half (see the doc's laptop_id + tab_id split).
-  const tabIdOf = (event) => event.laptop_id.slice(32);
+  // 32-char laptop_id half (see the doc's laptop_id + tab_id split). Null-safe: a
+  // legacy/malformed event with no laptop_id yields '', which never matches a live
+  // tab_id, so it reads as not-mine (stale) rather than throwing.
+  const tabIdOf = (event) => (event.laptop_id || '').slice(32);
 
   // The laptop_id half of a committed event's stored id: the first 32 chars.
-  const laptopIdOf = (event) => event.laptop_id.slice(0, 32);
+  // Null-safe for the same reason as tabIdOf.
+  const laptopIdOf = (event) => (event.laptop_id || '').slice(0, 32);
+
+  // Whether an event carries a stored id long enough to classify by (laptopHalf +
+  // tabId). A missing/short id (legacy or malformed writer) cannot be classified.
+  const hasStoredId = (event) => typeof event.laptop_id === 'string' && event.laptop_id.length >= 64;
 
   // This tab's laptop half, rendered by web in a <meta name="laptop-id"> tag.
   const myLaptopId = () => document.querySelector('meta[name=laptop-id]').getAttribute('content');
 
-  // True iff some not-mine event above knownHead came from a different laptop half
-  // (a real mobbing collision), rather than merely another tab of this browser.
-  // This chooses the presentation: the modal for another laptop, the unintrusive
-  // app-bar message for another tab.
-  const fromAnotherLaptop = (events, knownHead, myTabId) => {
+  // Classify why this tab is stale, from the not-mine events above knownHead, to
+  // choose the presentation: 'laptop' (a different laptop half - a real mobbing
+  // collision - overlay), 'generic' (a not-mine event we cannot classify because
+  // it has no stored id - app-bar generic message), else 'tab' (another tab of
+  // this browser - app-bar message). 'laptop' wins over 'generic' as the definite,
+  // stronger signal.
+  const staleKind = (events, knownHead, myTabId) => {
     const notMine = events.filter((event) => event.index > knownHead && tabIdOf(event) !== myTabId);
-    return notMine.some((event) => laptopIdOf(event) !== myLaptopId());
+    if (notMine.some((event) => hasStoredId(event) && laptopIdOf(event) !== myLaptopId())) {
+      return 'laptop';
+    }
+    else if (notMine.some((event) => !hasStoredId(event))) {
+      return 'generic';
+    }
+    else {
+      return 'tab';
+    }
   };
 
   // A fresh random 32-hex id for this tab (this browsing context), generated
@@ -136,16 +153,24 @@ var cyberDojo = ((cd) => {
         return;
       }
       cd.lib.getEvents(cd.kata.id, (events) => {
+        if (!Array.isArray(events)) {
+          return;   // an empty/malformed read must never lock; retry next tick
+        }
         if (cd.isStale(events, this.knownHead, this.tabId)) {
           this.stop();
           lock();
-          if (fromAnotherLaptop(events, this.knownHead, this.tabId)) {
+          const kind = staleKind(events, this.knownHead, this.tabId);
+          if (kind === 'laptop') {
             showMobbingOverlay();
-          } else {
+          }
+          else if (kind === 'generic') {
+            showAppBarReminder('This kata changed. Refresh to continue.');
+          }
+          else {
             showAppBarReminder('This kata was changed in another tab. Refresh to continue.');
           }
         }
-      });
+      }).catch(() => {});   // a failed read (offline / 5xx / bad body) never locks
     },
 
     enable: function() {

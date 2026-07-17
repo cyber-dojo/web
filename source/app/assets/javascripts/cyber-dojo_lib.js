@@ -9,7 +9,7 @@ var cyberDojo = ((cd, $) => {
 
   cd.lib.getEvents = (id, callback) => {
     const params = new URLSearchParams({id: id});
-    fetch(`/saver/kata_events?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+    return fetch(`/saver/kata_events?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
       .then(r => r.json())
       .then(json => callback(json['kata_events']));
   };

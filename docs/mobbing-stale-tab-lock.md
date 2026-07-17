@@ -239,7 +239,7 @@ already returns `laptop_id` per event. This is a web-only change.
 
 - `assets/javascripts/` - the poll loop, the stale predicate (`isStale(events,
   knownHead, myTabId)`), the stored-id split, `tab_id` generation, the
-  laptop-vs-tab classifier (`fromAnotherLaptop`), and the two message presenters
+  stale-kind classifier (`staleKind` -> `laptop`/`generic`/`tab`), and the two message presenters
   (`showMobbingOverlay`, `showAppBarReminder`).
 - `views/kata/edit.erb` - starts the poll, seeds `knownHead` from the loaded
   events, and generates this tab's `tab_id`.
@@ -271,7 +271,7 @@ remain.
   `assets/javascripts/cyber-dojo_mobbing_poll.js` (`cd.mobbingPoll`: `tabId`,
   `knownHead`, `intervalMs`, `interval`, `locked`, `polling`, `enable()`,
   `check()`, `stop()`; plus `lock`,
-  `showMobbingOverlay`, `showAppBarReminder`, `fromAnotherLaptop`, `tabIdOf`,
+  `showMobbingOverlay`, `showAppBarReminder`, `staleKind`, `hasStoredId`, `tabIdOf`,
   `laptopIdOf`, `myLaptopId`, `generateTabId`).
 - Poll auto-started: `views/kata/edit.erb` seeds `knownHead` and calls
   `cd.mobbingPoll.enable()` (the kata id comes from `cd.kata.id`, set in the
@@ -281,15 +281,18 @@ remain.
   paths (`cd.kata.runTests` and `cd.revertOrCheckout` bail when locked), keep the
   review buttons disabled via their `refresh` guards. Both cases lock fully; only
   the message differs (see next bullet).
-- Message presentation splits on `fromAnotherLaptop`: another laptop (a real
-  mobbing collision) shows a dimmed full-page `#mobbing-overlay` - a page-level
-  overlay (not a modal) so it does not read as a result of a just-pressed
-  `[test]`. It carries a single Dismiss button that removes the overlay so the
-  user can copy still-visible read-only edits, leaving a `#mobbing-app-bar-message`
-  reminder, with the page still locked. Clearing the lock is a browser refresh
-  (the user's own action, not a button). Another tab of this same browser (common
-  when reading the instructions in a second tab) shows that same unintrusive
-  `#mobbing-app-bar-message` in the app-bar directly.
+- Message presentation splits on `staleKind` (`laptop`/`generic`/`tab`): another
+  laptop (a real mobbing collision) shows a dimmed full-page `#mobbing-overlay` - a
+  page-level overlay (not a modal) so it does not read as a result of a
+  just-pressed `[test]`. It carries a single Dismiss button that removes the
+  overlay so the user can copy still-visible read-only edits, leaving a
+  `#mobbing-app-bar-message` reminder, with the page still locked. Clearing the
+  lock is a browser refresh (the user's own action, not a button). Another tab of
+  this same browser (common when reading the instructions in a second tab) shows
+  that same unintrusive `#mobbing-app-bar-message` in the app-bar directly. A
+  not-mine event with no stored id (`generic`, a legacy/malformed writer) also
+  shows the app-bar reminder, worded generically ("This kata changed. Refresh to
+  continue.") since laptop-vs-tab is unknown.
 - Writes stamp `tab_id`: every event-committing POST sends it (`_run_tests.erb`
   `[test]` + auto-`revert`, `_file_inter_test_events.erb`
   `syncPostWithCallbackITE`, `_checkout_button.erb` `revertOrCheckout`);
@@ -320,10 +323,10 @@ remain.
 - All write paths must carry `tab_id` before the poll is enabled (they do).
 
 ### Remaining (priority order)
-1. PHASE 5 - poll robustness:
-   - fail-safe: a failed/empty/erroring read must never lock (`getEvents` has no
-     `.catch`; also `tabIdOf` throws on an event with no `laptop_id` above
-     `knownHead` - guard it);
+1. PHASE 5 - poll robustness (fail-safe reads done: a failed/empty read no longer
+   locks (`getEvents` returns its promise, `check` guards `Array.isArray` and
+   `.catch`es); a no-`laptop_id` event no longer throws and locks with the generic
+   message). Still remaining:
    - `document.hidden` back-off: skip/pause polling while the tab is hidden,
      evaluate on foreground;
    - stop the poll on page unload (store the interval handle - currently local in
@@ -331,15 +334,11 @@ remain.
      so re-enabling restarts a single timer.
 2. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
    branch in `_run_tests.erb` calls `cd.mobbingPoll.check()`, so a rejected
-   `[test]` locks through the poll path (with the modal-vs-app-bar message)
+   `[test]` locks through the poll path (with the overlay-vs-app-bar message)
    without waiting for the next interval. Remaining: the `out_of_sync` branch
    cannot be deleted outright until ADR step A3 (saver stops rejecting
    behind-index writes); until then it is needed to lock in the pre-lock window
    (saver still returns `out_of_sync`).
-3. Generic / no-id message + `isStale` no-id hardening: an event with no
-   `laptop_id` above `knownHead` (legacy / un-upgraded writer) throws in
-   `tabIdOf`. Guard it, treat as "not mine" (safe), add a generic "This kata
-   changed. Refresh to continue." message (old use case 7).
 
 ### Manually verified this session
 - Two-tab lock (a write in one tab locks the other): yes.
