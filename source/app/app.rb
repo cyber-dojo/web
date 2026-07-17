@@ -231,12 +231,17 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
-  # Revert back to own previous traffic-light
+  # Auto-revert (edit page) back to the previous traffic-light after a
+  # predicted-wrong [test]. Reverting to a past light chosen on the review page
+  # goes through /kata/checkout instead.
 
-  post '/kata/revert' do
+  post '/kata/auto_revert' do
     content_type :json
     events = saver.kata_events(id)
-    previous_index = index - 2
+    # The auto-revert always reverts from the head (the just-tested light), so seed
+    # the scan at the event before the head - read from the committed events, not
+    # the client index - then walk back to the previous light.
+    previous_index = events.size - 2
     while !light?(events[previous_index])
       previous_index -= 1
     end
@@ -389,14 +394,14 @@ class App < Sinatra::Base
     }
   end
 
+  # A light is any event that is NOT a file event - the same exclusion-list
+  # predicate saver uses (poly_filler.rb is_light?), so the two cannot silently
+  # drift if a new light colour is added. The create event (colour nil) and every
+  # traffic-light colour are lights; only the four file events are not.
+  FILE_EVENTS = %w( file_create file_delete file_rename file_edit )
+
   def light?(event)
-    return true if event['index'] == 0
-    case event['colour']
-    when 'red', 'amber', 'green', 'red_special', 'amber_special', 'green_special'
-      true
-    else
-      false
-    end
+    !FILE_EVENTS.include?(event['colour'])
   end
 
 end

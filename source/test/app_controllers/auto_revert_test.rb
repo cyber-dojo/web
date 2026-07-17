@@ -1,6 +1,6 @@
 require_relative 'app_controller_test_base'
 
-class RevertTest  < AppControllerTestBase
+class AutoRevertTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -12,7 +12,7 @@ class RevertTest  < AppControllerTestBase
       post_run_tests # 1==ran-tests
       assert_equal 2, kata.events.size
 
-      post_json '/kata/revert', {
+      post_json '/kata/auto_revert', {
         id: @id,
         index: 2 # revert back to creation @[0]
       }
@@ -46,7 +46,7 @@ class RevertTest  < AppControllerTestBase
       assert_equal 4, kata.events.size
       assert_equal new_content, kata.event(3)['files'][filename]['content']
 
-      post_json '/kata/revert', {
+      post_json '/kata/auto_revert', {
         id: @id,
         index: 4 # revert back to 1st traffic-light @[2]
       }
@@ -80,7 +80,7 @@ class RevertTest  < AppControllerTestBase
       assert_equal 4, kata.events.size
       assert_equal new_content, kata.event(3)['files'][filename]['content']
 
-      post_json '/kata/revert', {
+      post_json '/kata/auto_revert', {
         id: @id,
         index: 4 # revert back to 1st traffic-light @[1]
       }
@@ -118,7 +118,7 @@ class RevertTest  < AppControllerTestBase
       assert_equal 3, kata.events.size
       assert_equal 'green', events[2]['colour']
 
-      post_json '/kata/revert', {
+      post_json '/kata/auto_revert', {
         id: @id,
         index: 3 # revert back to 1st traffic-light @[1]
       }
@@ -170,7 +170,7 @@ class RevertTest  < AppControllerTestBase
 
       # REVERT
       assert_equal 4, @index
-      post_json '/kata/revert', {
+      post_json '/kata/auto_revert', {
         id: @id,
         index: 4 # revert back to 1st traffic-light @[1]
       }

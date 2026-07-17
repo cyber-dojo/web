@@ -124,7 +124,7 @@ $(() => {
 
   const revert = () => {
     const args = { id: cd.kata.id, index: cd.kata.index, tab_id: cd.mobbingPoll.tabId };
-    fetch('/kata/revert', {
+    fetch('/kata/auto_revert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
