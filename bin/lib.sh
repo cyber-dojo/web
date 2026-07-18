@@ -20,6 +20,27 @@ exit_non_zero_unless_installed()
     fi
   fi
   echo It is
+  if [ "${1}" == docker ]; then
+    echo_ci_resolved_versions
+  fi
+}
+
+echo_ci_resolved_versions()
+{
+  # On a CI run, print the versioner image's own repo digest and the service
+  # image tags/digests it resolved into /tmp/cyber-dojo.env-vars. This makes
+  # the exact versions under test visible in the CI log, so a versioner or
+  # service version mismatch is diagnosable directly from the log rather than
+  # by reconstructing registry push timelines. Does nothing off CI.
+  if [ -z "${GITHUB_ACTIONS:-}" ]; then
+    return
+  fi
+  local -r versioner_digest="$(docker inspect \
+    --format '{{index .RepoDigests 0}}' \
+    cyberdojo/versioner:latest 2>/dev/null || echo unknown)"
+  echo "CI resolved versions (from cyberdojo/versioner:latest):"
+  echo "  versioner = ${versioner_digest}"
+  grep --extended-regexp '_(IMAGE|TAG|DIGEST)=' /tmp/cyber-dojo.env-vars || true
 }
 
 installed()
