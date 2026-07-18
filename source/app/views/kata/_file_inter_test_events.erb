@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let _interTestEventInProgress = false;
 
-  cd.interTestEventInProgress = () => _interTestEventInProgress;
-
   cd.waitForITE = (callback) => {
     if (!_interTestEventInProgress) {
       callback();
@@ -35,32 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cd.fileCreateITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, filename: newFilename };
+    const args = { id: kata.id, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_create', args, callback);
   };
 
   cd.fileDeleteITE = (newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, filename: newFilename };
+    const args = { id: kata.id, filename: newFilename };
     syncPostWithCallbackITE('/kata/file_delete', args, callback);
   };
 
   cd.fileRenameITE = (oldFilename, newFilename, callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index, old_filename: oldFilename, new_filename: newFilename };
+    const args = { id: kata.id, old_filename: oldFilename, new_filename: newFilename };
     syncPostWithCallbackITE('/kata/file_rename', args, callback);
   };
 
   cd.saveAnyFileChangesITE = (callback) => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    const args = { id: kata.id, index: kata.index };
+    const args = { id: kata.id };
     syncPostWithCallbackITE('/kata/file_edit', args, callback);
   };
 
   const syncPostWithCallbackITE = (url, args, callback) => {
     // Hold the in-progress flag for the whole request so cd.waitForITE()
     // (guarding [test] and the file create/delete/rename buttons) waits for
-    // this event to resolve before firing the next save at kata.index.
+    // this event to resolve before firing the next save.
     _interTestEventInProgress = true;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 30000);
@@ -77,13 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
       body,
       signal: controller.signal
     })
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(newIndex => kata.setIndex(newIndex))
-    // If the response is lost (aborted, network drop) the saver may still have
-    // committed the event, leaving kata.index stale. That is harmless: the saver
-    // places each write at head + 1 and treats this browser's own not-yet-seen
-    // writes as self-lag, so the next [test] still saves. kata.index resyncs on
-    // the next successful write, or on a browser refresh (edit.erb's setIndex).
+    .then(r => { if (!r.ok) throw new Error(r.status); })
+    // A lost response (aborted, network drop) is harmless: the saver places each
+    // write at head + 1 and treats this browser's own not-yet-seen writes as
+    // self-lag, so the next [test] still saves. The browser reads committed
+    // indices from the saver on demand (hover/click), so nothing local to resync.
     .catch(() => {})
     .finally(() => { clearTimeout(timer); _interTestEventInProgress = false; callback(); });
   };

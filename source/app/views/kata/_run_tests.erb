@@ -73,31 +73,21 @@ $(() => {
   };
 
   const handleResponse = (data) => {
-    const { light, outcome, stdout, stderr, status, log, out_of_sync: outOfSync, saved, created, changed } = data;
+    const { light, outcome, stdout, stderr, status, log, created, changed } = data;
 
-    if (outOfSync) {
-      // The write was rejected: another tab or laptop moved the head. Run one
-      // poll check now so this tab locks at once (with the modal-vs-app-bar
-      // message) instead of waiting for the next poll interval.
-      cd.mobbingPoll.check();
-    }
-    else {
-      refreshFromTest(light, stdout, stderr, status, created, changed, saved);
-      if (runNeedsReverting(outcome)) {
-        revert();
-      }
+    refreshFromTest(light, stdout, stderr, status, created, changed);
+    if (runNeedsReverting(outcome)) {
+      revert();
     }
     showInfoDialogs(outcome, log);
   };
 
-  const refreshFromTest = (light, stdout, stderr, status, created, changed, saved) => {
-    // Only adopt the saver's index when the write actually committed. A failed
-    // save (a transient saver error, not mobbing) still returns the runner's
-    // light but commits nothing, so advancing here would push the index ahead of
-    // the head and the next [test] would show a false mobbing dialog.
-    if (saved) {
-      cd.kata.setIndex(light.index + 1);
-    }
+  const refreshFromTest = (light, stdout, stderr, status, created, changed) => {
+    // The browser owns the light number: a [test] is a light action, so take the
+    // next major locally (a light's minor is 0) rather than reading it from the
+    // saver write response.
+    light.major_index = cd.kata.nextMajorIndex();
+    light.minor_index = 0;
     insertCreatedFiles(created);
     updateChangedFiles(changed);
     cd.kata.filenames.refresh();
@@ -131,8 +121,8 @@ $(() => {
   };
 
   const revert = () => {
-    const args = { id: cd.kata.id, index: cd.kata.index, tab_id: cd.mobbingPoll.tabId };
-    fetch('/kata/revert', {
+    const args = { id: cd.kata.id, tab_id: cd.mobbingPoll.tabId };
+    fetch('/kata/auto_revert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -143,7 +133,9 @@ $(() => {
     })
     .then(r => r.json())
     .then(data => {
-      cd.kata.setIndex(data.light.index + 1);
+      // The reverted event is a new light, so take the next major locally.
+      data.light.major_index = cd.kata.nextMajorIndex();
+      data.light.minor_index = 0;
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content: data.files[filename] });

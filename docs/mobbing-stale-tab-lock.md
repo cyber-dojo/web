@@ -1,8 +1,10 @@
 # Mobbing stale-tab lock (spooler ADR step A1)
 
-Status: Web-complete; deploying. The only outstanding item is the Phase 6 tail
-(deleting the write-time `out_of_sync` branch), which is blocked on saver ADR
-step A3. See "Implementation status (handoff)" at the end for details.
+Status: Complete - the write-time `out_of_sync` catch is removed (Phase 6 done),
+so detection is entirely read-side (the poll). This pairs with saver ADR step A3
+(saver stops rejecting behind-index writes): with A3 deployed a stale `[test]` is
+accepted, never rejected, and the poll is the sole detector. See "Implementation
+status (handoff)" at the end.
 
 Precondition A0 is deployed: each committed event carries the writing browser's
 `laptop_id`. This is a web-only step of the spooler rollout
@@ -155,7 +157,7 @@ idempotency and is a separate follow-on, not built here.
 
 ## Poll behaviour
 
-- Cadence: every 5 seconds (the ADR eventual-consistency budget).
+- Cadence: every 15 seconds (the ADR eventual-consistency budget).
 - Ids: the `laptop_id` comes from a `<meta name="laptop-id">` tag rendered by web
   (drives the message choice and the laptop half of the stored id); the `tab_id` is
   generated fresh in JS once per tab (it must be per-tab, so it cannot be a cookie
@@ -246,10 +248,10 @@ already returns `laptop_id` per event. This is a web-only change.
   events, and generates this tab's `tab_id`.
 - `views/kata/_run_tests.erb` and the inter-test / review actions - gate every
   event-committing action behind the lock; send `laptop_id + tab_id` as the write
-  id; the write-time `out_of_sync` branch calls `cd.mobbingPoll.check()`, so a
-  rejected `[test]` locks through the poll (no separate out-of-sync dialog).
-  `_run_tests.erb` holds the shared `#run-tests-info` dialog the laptop case
-  reuses; the tab case appends its message into `#app-bar`.
+  id. There is no write-time out-of-sync catch: a stale `[test]` is accepted by
+  saver, and the poll locks the tab. `_run_tests.erb` holds the shared
+  `#run-tests-info` dialog the laptop case reuses; the tab case appends its message
+  into `#app-bar`.
 - `app.rb` - the `laptop-id` meta tag.
 
 ## Tests
@@ -265,8 +267,8 @@ already returns `laptop_id` per event. This is a web-only change.
 
 The web side is complete: the poll is wired up (`edit.erb` auto-starts it on page
 load), styled, robust (fail-safe reads, hidden back-off, single timer, unload
-stop), and the write-time catch routes through it. The only remaining item is the
-Phase 6 tail (deleting the `out_of_sync` branch), blocked on saver ADR step A3.
+stop). The write-time `out_of_sync` catch has been removed (Phase 6 done), so
+detection is entirely read-side; this pairs with saver ADR step A3 being deployed.
 
 ### Done
 - Predicate `cd.isStale(events, knownHead, myTabId)` and the poll/lock in
@@ -331,13 +333,13 @@ Phase 6 tail (deleting the `out_of_sync` branch), blocked on saver ADR step A3.
 - All write paths must carry `tab_id` before the poll is enabled (they do).
 
 ### Remaining (priority order)
-1. PHASE 6 - write-time catch routes through the poll: the `if (outOfSync)`
-   branch in `_run_tests.erb` calls `cd.mobbingPoll.check()`, so a rejected
-   `[test]` locks through the poll path (with the overlay-vs-app-bar message)
-   without waiting for the next interval. Remaining: the `out_of_sync` branch
-   cannot be deleted outright until ADR step A3 (saver stops rejecting
-   behind-index writes); until then it is needed to lock in the pre-lock window
-   (saver still returns `out_of_sync`).
+Nothing for the lock itself - PHASE 6 is done: the write-time `out_of_sync` catch
+is removed (`app.rb` no longer maps a saver error to `out_of_sync`; `_run_tests.erb`
+no longer branches on it). A stale `[test]` is accepted by saver (ADR A3) and the
+poll is the sole detector. The broader index/async cleanup is now largely done too:
+A2, A4 and A5 (web) are complete - web owns `major`, sends no `index` on writes, and
+resolves the flat index lazily from read data. See the Follow-on section below. The
+only Part A steps left are saver-side (A6's return-value trim) and the optional A7.
 
 ### Manually verified this session
 - Two-tab lock (a write in one tab locks the other): yes.
@@ -355,24 +357,71 @@ session's read-side lock is Part A step A1 - the precondition that lets saver
 drop its write-time index reject (A3), which unblocks the rest, in order:
 
 - A2 (web) - resolve revert/checkout targets from read data (severs revert's last
-  use of the flat client index).
+  use of the flat client index). DONE: the edit-page auto-revert scans the committed
+  read events for the previous light (route renamed `/kata/revert` -> `/kata/auto_revert`
+  to distinguish it from the review-page checkout), and web's light predicate is
+  unified with saver's exclusion list so they cannot drift.
 - A3 (saver) - make the client `index` optional and unused (detection is
-  read-side now). This also neutralises `waitForITE`: a behind-index write is no
-  longer rejected (self-lag / ignored), so the `[test]`-vs-in-flight-ITE race
-  becomes benign.
+  read-side now). This removes the INDEX reason `waitForITE` existed for (a behind-index
+  write is no longer rejected). It does NOT make `waitForITE` removable, though: the
+  saver still DROPS a file-event that loses the concurrent-write CAS (kata_v2.rb, "Out
+  of order", no retry), so a structural create/rename/delete racing a `[test]` can be
+  lost if the `[test]` wins - `waitForITE` serialises them to prevent that. Removing
+  the drop (so file events reorder instead) is the spooler's job (Part B), so
+  `waitForITE` stays load-bearing until then. DONE: saver places every write at head + 1 with no index reject,
+  and `index` is gone from saver's write path entirely - a client-sent `index` is
+  stripped at the HTTP boundary (post_json) before dispatch, the write methods take
+  no `index`, and the commit message is built from the placed position. saver's own
+  client library no longer sends `index` either.
 - A4 (web) - own `major` locally; stop updating the index from saver's response
   (`setIndex(light.index + 1)`).  [= "web not updating its index from the response"]
-- A5 (web) - stop sending `index` in the write POSTs.
+  DONE: the browser owns `major_index` (`nextMajorIndex`, seeded on load); `[test]`,
+  auto-revert and checkout take the next major locally. It went further - a kata-page
+  light carries no trusted flat `index`; the flat index is resolved lazily on
+  hover/click by matching `major_index` over the read events (`cd.lib.getEvents`),
+  and a "ghost" (uncommitted light) gets no tooltip and a dead click.
+- A5 (web) - stop sending `index` in the write POSTs. DONE: no write POST sends
+  `index`; the whole flat-index browser machinery (`cd.kata.index`/`setIndex`/hidden
+  field/page-load seed/file-ITE adoption) is removed, and the `app.rb` `index` helper
+  now serves only the fork endpoints.
 - A6 (saver) - drop the now-unused `index` param, and (once web no longer uses
   them) stop returning `index`/`major_index`/`minor_index`.
   [= "remove saver's triple-index responses"]
+  DONE (saver `index` param). Web no longer uses saver's returned
+  `index`/`major_index`/`minor_index` (it owns `major` and resolves the flat index
+  from read data), so saver dropping them from its write returns is now unblocked -
+  a future saver-side step.
 - A7 (web, optional) - make the saver calls fire-and-forget (async). Doable
   without the spooler but BEST-EFFORT only: a write lost in flight is healed only
   by browser re-fire while the tab is open, and fire-and-forget ITEs can arrive
   at saver out of order (saver appends at head, so a reordered commit regresses
   file state). Durability + ordering are exactly what the spooler (Part B) adds.
 
-Summary without the spooler: A2-A6 (index cleanup + neutralising `waitForITE`)
-are clean; A7 (async) is achievable but carries the durability/reordering risk
-the spooler removes. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
+Summary without the spooler: the index cleanup (A2-A6) is clean and mostly done.
+`waitForITE` is NOT removed by it - it stays load-bearing (structural file ops would
+otherwise be dropped in a CAS race), and only the dead `cd.interTestEventInProgress`
+getter was trimmed. A7 (async) is achievable but carries the durability/reordering
+risk the spooler removes - and the same file-event-drop makes fully async ITEs
+unsafe until then. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
 (Part A) and `mobbing-server-owned-index-design.md` ("Option C").
+
+### Follow-on (needs the spooler): keyboard file-nav should fire an ITE
+
+Keyboard file-nav (Alt-J/K, `cyber-dojo_codemirror.js` `selectNext`/`selectPrevious`)
+and in-place editing fire no ITE today, so their edits stay only in the browser
+until a `[test]` or a mouse-driven ITE (a filename click, predict, revert, etc.)
+commits them. Skipping the ITE on keyboard nav is deliberate: synchronous writes on
+every keystroke-driven nav would be too costly (rate-limiting).
+
+The cost of that choice is the mobbing-lock loss window. Two users editing
+different files in place (neither testing nor mouse-switching files) commit
+nothing; when one finally commits, the other locks ~15s later and a refresh
+discards its uncommitted edits, which can be large and can span several files (see
+`mobbing-overlay-diff-summary.md`).
+
+Once writes are fire-and-forget async (A7) and the spooler (Part B) makes them
+durable and ordered, the rate-limiting objection is gone: keyboard file-nav should
+then also fire an ITE, so keyboard and in-place editing is committed promptly and
+the loss window shrinks to a single nav step. This depends on the spooler -
+async-without-spooler (A7 alone) is best-effort and can reorder, so it is not a
+safe basis for committing on every nav.

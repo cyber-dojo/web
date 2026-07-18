@@ -145,22 +145,22 @@ class App < Sinatra::Base
 
   post '/kata/file_create' do
     content_type :json
-    saver.kata_file_create(id, index, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_create(id, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_delete' do
     content_type :json
-    saver.kata_file_delete(id, index, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_delete(id, params_files, params[:filename], laptop_id).to_json
   end
 
   post '/kata/file_rename' do
     content_type :json
-    saver.kata_file_rename(id, index, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
+    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
   end
 
   post '/kata/file_edit' do
     content_type :json
-    saver.kata_file_edit(id, index, params_files, laptop_id).to_json
+    saver.kata_file_edit(id, params_files, laptop_id).to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -187,30 +187,24 @@ class App < Sinatra::Base
     end
 
     begin
-      result = ran_tests(@id, index, @files, @stdout, @stderr, @status, {
+      ran_tests(@id, @files, @stdout, @stderr, @status, {
         duration: @duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
-      next_index  = result['next_index']
-      major_index = result['major_index']
-      minor_index = result['minor_index']
       @saved = true
     rescue SaverService::Error => error
-      next_index  = index + 1
-      major_index = index + 1
-      minor_index = ''
+      # The saver write failed (it is down or unreachable), but the runner
+      # already produced this traffic-light so we still show it. The browser
+      # owns the displayed number and resolves a light's committed index lazily
+      # from its major_index, so this uncommitted "ghost" carries no index.
       @saved = false
       $stdout.puts(error.message)
       $stdout.flush
-      @out_of_sync = error.message.include?('Out of order event')
     end
 
     @light = {
-      'index'       => next_index - 1,
-      'major_index' => major_index,
-      'minor_index' => minor_index,
       'colour'      => @outcome,
       'duration'    => @duration,
       'predicted'   => params['predicted'],
@@ -225,7 +219,6 @@ class App < Sinatra::Base
       stderr:      @stderr['content'],
       status:      @status.to_s,
       log:         @log.to_s,
-      out_of_sync: @out_of_sync == true,
       saved:       @saved == true,
       created:     @created,
       changed:     @changed
@@ -233,25 +226,29 @@ class App < Sinatra::Base
   end
 
   # - - - - - - - - - - - - - - - -
-  # Revert back to own previous traffic-light
+  # Auto-revert (edit page) back to the previous traffic-light after a
+  # predicted-wrong [test]. Reverting to a past light chosen on the review page
+  # goes through /kata/checkout instead.
 
-  post '/kata/revert' do
+  post '/kata/auto_revert' do
     content_type :json
     events = saver.kata_events(id)
-    previous_index = index - 2
+    # The auto-revert always reverts from the head (the just-tested light), so seed
+    # the scan at the event before the head - read from the committed events, not
+    # the client index - then walk back to the previous light.
+    previous_index = events.size - 2
     while !light?(events[previous_index])
       previous_index -= 1
     end
     args = [id, previous_index]
     json = source_event(id, previous_index, :revert, args)
-    result = saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
+    # The browser owns the displayed number and resolves the reverted light's
+    # committed index lazily from its major_index, so the response carries no
+    # position - just the source_event's files/outcome and revert metadata.
+    saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     }, laptop_id)
-    light = json[:light]
-    light[:index]       = result['next_index'] - 1
-    light[:major_index] = result['major_index']
-    light[:minor_index] = result['minor_index']
     json.to_json
   end
 
@@ -269,11 +266,10 @@ class App < Sinatra::Base
     }
     json = source_event(from[:id], from[:index], :checkout, from)
     summary = { colour: @colour, checkout: from }
-    result = saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, summary, laptop_id)
-    light = json[:light]
-    light[:index]       = result['next_index'] - 1
-    light[:major_index] = result['major_index']
-    light[:minor_index] = result['minor_index']
+    # The browser owns the displayed number and resolves the checkout light's
+    # committed index lazily from its major_index, so the response carries no
+    # position - just the source_event's files/outcome and checkout metadata.
+    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id)
     json.to_json
   end
 
@@ -365,13 +361,13 @@ class App < Sinatra::Base
     files_from(data['file_content'])
   end
 
-  def ran_tests(id, index, files, stdout, stderr, status, summary)
+  def ran_tests(id, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id)
     else
-      saver.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id)
     end
   end
 
@@ -387,18 +383,18 @@ class App < Sinatra::Base
       stdout: @stdout,
       stderr: @stderr,
       status: @status,
-       light: { colour: @colour, index: index, name => value }
+       light: { colour: @colour, name => value }
     }
   end
 
+  # A light is any event that is NOT a file event - the same exclusion-list
+  # predicate saver uses (poly_filler.rb is_light?), so the two cannot silently
+  # drift if a new light colour is added. The create event (colour nil) and every
+  # traffic-light colour are lights; only the four file events are not.
+  FILE_EVENTS = %w( file_create file_delete file_rename file_edit )
+
   def light?(event)
-    return true if event['index'] == 0
-    case event['colour']
-    when 'red', 'amber', 'green', 'red_special', 'amber_special', 'green_special'
-      true
-    else
-      false
-    end
+    !FILE_EVENTS.include?(event['colour'])
   end
 
 end

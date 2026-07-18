@@ -2,9 +2,11 @@
 'use strict';
 $(() => {
 
-  cd.showStartingInfoDialog = () => {
+  // Show the starting-info when a freshly-created kata is opened, ie when the
+  // only committed event is the create event (eventCount 1).
+  cd.showStartingInfoDialog = (eventCount) => {
     const theDefault = 'on';
-    if (cd.kata.index === 1 && cd.lib.setting('starting_info_dialog',theDefault) === 'on') {
+    if (eventCount === 1 && cd.lib.setting('starting_info_dialog',theDefault) === 'on') {
       cd.trafficLightsButton().click();
     }
   };

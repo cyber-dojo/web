@@ -7,12 +7,10 @@ class RunTestsSaveErrorTest < AppControllerTestBase
   include CaptureStdoutStderr
 
   test 'c2vE41', %w(
-  | when [test] runs but the saver save fails with a NON-out-of-order error
-  | (a transient saver outage, not mobbing), the response returns the runner's
-  | traffic-light and is a 200, is NOT flagged out-of-sync, commits no event,
-  | and signals saved:false so the browser does NOT advance its index. Advancing
-  | on a non-committing save is what later sends an ahead index and shows a
-  | false mobbing dialog.
+  | when [test] runs but the saver save fails with a transient error (a saver
+  | outage), the response still returns the runner's traffic-light and is a 200,
+  | commits no event, and signals saved:false so the browser does NOT advance its
+  | index over an event that was never committed.
   ) do
     in_kata do |kata|
       set_class('saver', 'SaverRanTestsRaisesStub')
@@ -20,7 +18,6 @@ class RunTestsSaveErrorTest < AppControllerTestBase
         post_run_tests(index: 1)
       }
       assert last_response.ok?, last_response.body
-      refute json['out_of_sync'], json
       assert_equal 1, saver.kata_events(kata.id).size,
         'a failed save must not commit an event'
       assert_equal false, json['saved'], json

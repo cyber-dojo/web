@@ -29,8 +29,6 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var previousIndex = 0;
-
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     const $light = cd.lib.appendTrafficLight($lights, light);
     if (option.scrollIntoView) {
@@ -38,12 +36,21 @@ $(() => {
     }
     kata.trafficLightsCounts.update(light);
     kata.predictCounts.update(light);
+    // The flat index (for review navigation) is not carried on the light: a
+    // live-appended light has no committed index. Resolve it on click from the
+    // light's major_index by reading the committed events. A ghost (a light
+    // whose major_index is not among the committed lights) does nothing.
     $light.click(() => {
-      cd.saveAnyFileChangesITE(() => {});
-      cd.review.fromTestPage(kata.id, light.index);
+      cd.lib.getEvents(kata.id, (events) => {
+        const now = events.find(e => cd.lib.isLight(e) && e.major_index === light.major_index);
+        if (!now) {
+          return;
+        }
+        cd.saveAnyFileChangesITE(() => {});
+        cd.review.fromTestPage(kata.id, now.index);
+      });
     });
-    cd.setupTrafficLightTip($light, light, kata.id, previousIndex, light.index);
-    previousIndex = light.index;
+    cd.setupTrafficLightTipByMajor($light, light, kata.id);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -141,7 +141,7 @@ var cyberDojo = ((cd) => {
   cd.mobbingPoll = {
     tabId: generateTabId(),
     knownHead: undefined,
-    intervalMs: 5000,
+    intervalMs: 15000,
     interval: undefined,
     locked: false,
     polling: false,
