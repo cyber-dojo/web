@@ -404,3 +404,24 @@ getter was trimmed. A7 (async) is achievable but carries the durability/reorderi
 risk the spooler removes - and the same file-event-drop makes fully async ITEs
 unsafe until then. Authoritative docs: `spooler/docs/adr-async-writes-via-spooler.md`
 (Part A) and `mobbing-server-owned-index-design.md` ("Option C").
+
+### Follow-on (needs the spooler): keyboard file-nav should fire an ITE
+
+Keyboard file-nav (Alt-J/K, `cyber-dojo_codemirror.js` `selectNext`/`selectPrevious`)
+and in-place editing fire no ITE today, so their edits stay only in the browser
+until a `[test]` or a mouse-driven ITE (a filename click, predict, revert, etc.)
+commits them. Skipping the ITE on keyboard nav is deliberate: synchronous writes on
+every keystroke-driven nav would be too costly (rate-limiting).
+
+The cost of that choice is the mobbing-lock loss window. Two users editing
+different files in place (neither testing nor mouse-switching files) commit
+nothing; when one finally commits, the other locks ~5s later and a refresh
+discards its uncommitted edits, which can be large and can span several files (see
+`mobbing-overlay-diff-summary.md`).
+
+Once writes are fire-and-forget async (A7) and the spooler (Part B) makes them
+durable and ordered, the rate-limiting objection is gone: keyboard file-nav should
+then also fire an ITE, so keyboard and in-place editing is committed promptly and
+the loss window shrinks to a single nav step. This depends on the spooler -
+async-without-spooler (A7 alone) is best-effort and can reorder, so it is not a
+safe basis for committing on every nav.
