@@ -63,6 +63,28 @@ carrying exactly what the overlay needs and nothing heavier:
 payload stays small. The overlay lists only the changed/created/deleted/renamed
 entries.
 
+## Empty diff
+
+The overlay can fire with no file differences at all. The lock is triggered by the
+committed head moving, not by the buffer diverging from it: any commit from another
+laptop advances the head and locks a behind tab, even when that commit changed no
+files. For example the other user presses [test] with no new edits; the head
+advances but its files match this tab's buffer exactly. `diff_summary` then returns
+only `:unchanged` entries and the overlay has nothing to list. The rendering must
+handle this case, showing that a refresh will lose nothing (rather than an empty or
+broken file list).
+
+## The summary is a snapshot, not live
+
+The summary is computed once, at the moment the tab locks and the overlay is shown,
+and it is never recomputed. The poll loop calls `stop()` as it locks (see
+`cyber-dojo_mobbing_poll.js`), so no later tick refreshes the diff. Any wording in
+the overlay must make clear it describes the difference *at that instant only*. This
+matters most in the empty-diff case above: "no difference" is true when the overlay
+opens, but other laptops can keep committing afterwards and the head can move
+further, and the overlay will not reflect any of it. A refresh always resyncs to
+whatever the head is at refresh time, which may differ from what the summary showed.
+
 ## How web serves it (server-side, contained in the web repo)
 
 The diff call stays server-side in web. The browser cannot call differ directly:

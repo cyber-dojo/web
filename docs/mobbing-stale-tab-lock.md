@@ -157,7 +157,7 @@ idempotency and is a separate follow-on, not built here.
 
 ## Poll behaviour
 
-- Cadence: every 5 seconds (the ADR eventual-consistency budget).
+- Cadence: every 15 seconds (the ADR eventual-consistency budget).
 - Ids: the `laptop_id` comes from a `<meta name="laptop-id">` tag rendered by web
   (drives the message choice and the laptop half of the stored id); the `tab_id` is
   generated fresh in JS once per tab (it must be per-tab, so it cannot be a cookie
@@ -415,7 +415,7 @@ every keystroke-driven nav would be too costly (rate-limiting).
 
 The cost of that choice is the mobbing-lock loss window. Two users editing
 different files in place (neither testing nor mouse-switching files) commit
-nothing; when one finally commits, the other locks ~5s later and a refresh
+nothing; when one finally commits, the other locks ~15s later and a refresh
 discards its uncommitted edits, which can be large and can span several files (see
 `mobbing-overlay-diff-summary.md`).
 
