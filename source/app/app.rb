@@ -145,22 +145,22 @@ class App < Sinatra::Base
 
   post '/kata/file_create' do
     content_type :json
-    saver.kata_file_create(id, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_delete' do
     content_type :json
-    saver.kata_file_delete(id, params_files, params[:filename], laptop_id).to_json
+    saver.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_rename' do
     content_type :json
-    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id).to_json
+    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_edit' do
     content_type :json
-    saver.kata_file_edit(id, params_files, laptop_id).to_json
+    saver.kata_file_edit(id, params_files, laptop_id, tab_seq).to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -248,7 +248,7 @@ class App < Sinatra::Base
     saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
-    }, laptop_id)
+    }, laptop_id, tab_seq)
     json.to_json
   end
 
@@ -269,7 +269,7 @@ class App < Sinatra::Base
     # The browser owns the displayed number and resolves the checkout light's
     # committed index lazily from its major_index, so the response carries no
     # position - just the source_event's files/outcome and checkout metadata.
-    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id)
+    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id, tab_seq)
     json.to_json
   end
 
@@ -356,6 +356,14 @@ class App < Sinatra::Base
     tab_id ? @laptop_id[0, 32] + tab_id : @laptop_id
   end
 
+  # This tab's monotonic write counter, forwarded to saver as the tab_seq half of
+  # the spooler idempotency key (laptop_id, tab_id, tab_seq). The browser stamps it
+  # on each event-write POST; a write without one (an old or non-JS client) yields
+  # nil, which saver accepts.
+  def tab_seq
+    params['tab_seq']
+  end
+
   def params_files
     data = Rack::Utils.parse_nested_query(params[:data])
     files_from(data['file_content'])
@@ -363,11 +371,11 @@ class App < Sinatra::Base
 
   def ran_tests(id, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     else
-      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id)
+      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     end
   end
 

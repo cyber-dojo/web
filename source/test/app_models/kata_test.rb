@@ -26,7 +26,7 @@ class KataTest < AppModelsTestBase
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('red'), laptop_id)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('red'), laptop_id, next_tab_seq)
 
       assert_equal 2, kata.events.size
       light = kata.event(-1)
@@ -49,7 +49,7 @@ class KataTest < AppModelsTestBase
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      result = kata_ran_tests(kata.id, files, stdout_1, stderr_1, status_1, ran_summary('red'), laptop_id)
+      result = kata_ran_tests(kata.id, files, stdout_1, stderr_1, status_1, ran_summary('red'), laptop_id, next_tab_seq)
 
       filename = 'hiker.sh'
       hiker_rb = files[filename]['content']
@@ -57,13 +57,13 @@ class KataTest < AppModelsTestBase
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
       status_2 = 0
-      result = kata_ran_tests(kata.id, files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id)
+      result = kata_ran_tests(kata.id, files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id, next_tab_seq)
 
       kata_revert(kata.id, kata.event(1)['files'], stdout_1, stderr_1, status_1, {
           'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
-      }, laptop_id);
+      }, laptop_id, next_tab_seq);
 
       light = kata.event(-1)
       assert_equal [ kata.id, 1 ], light['revert']
@@ -88,14 +88,14 @@ class KataTest < AppModelsTestBase
       stdout = content('xxxx')
       stderr = content('')
       status = 0
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_id)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_id, next_tab_seq)
 
       assert_equal 'xxxx', kata.event(-1)['stdout']['content']
       assert_equal kata.event(1), kata.event(-1)
       stdout = content('')
       stderr = content('syntax-error')
       status = 1
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_id)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_id, next_tab_seq)
 
       assert_equal 'syntax-error', kata.event(-1)['stderr']['content']
       assert_equal kata.event(2), kata.event(-1)
@@ -111,26 +111,26 @@ class KataTest < AppModelsTestBase
   | the saver accepts the write, placing it at head+1 (a behind write is no longer
   | rejected - detection is read-side now), so a new event IS created.
   ) do
-    laptop_a = 'a1' * 32
-    laptop_b = 'b2' * 32
+    laptop_ahead  = 'a1' * 32   # drives the kata to head
+    laptop_behind = 'b2' * 32   # has not refreshed, writes from a stale view
     in_new_kata do |kata|
       files = kata.event(-1)['files']
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
-      # 1st laptop drives the kata to head 3
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('red'),   laptop_a)
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('amber'), laptop_a)
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_a)
+      # The ahead laptop drives the kata to head 3
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('red'),   laptop_ahead, next_tab_seq)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('amber'), laptop_ahead, next_tab_seq)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_ahead, next_tab_seq)
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
 
-      # 2nd laptop has NOT refreshed, so its write lands behind the head over events
-      # a DIFFERENT laptop wrote. The saver no longer rejects that: it places the
-      # write at head+1 and appends it. The stale tab is caught read-side (the
+      # The behind laptop has NOT refreshed, so its write lands behind the head over
+      # events a DIFFERENT laptop wrote. The saver no longer rejects that: it places
+      # the write at head+1 and appends it. The stale tab is caught read-side (the
       # browser poll), not here.
-      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_b)
+      kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_behind, next_tab_seq)
 
       events = kata.events
       assert_equal 5, events.size, :event_appended_at_head_plus_1

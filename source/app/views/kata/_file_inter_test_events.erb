@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = new URLSearchParams(args);
     body.set('data', new URLSearchParams(new FormData(document.querySelector('form'))).toString());
     body.set('tab_id', cd.mobbingPoll.tabId);
+    body.set('tab_seq', cd.kata.nextTabSeq());
     fetch(url, {
       method: 'POST',
       headers: {

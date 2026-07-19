@@ -70,9 +70,16 @@ committed head moving, not by the buffer diverging from it: any commit from anot
 laptop advances the head and locks a behind tab, even when that commit changed no
 files. For example the other user presses [test] with no new edits; the head
 advances but its files match this tab's buffer exactly. `diff_summary` then returns
-only `:unchanged` entries and the overlay has nothing to list. The rendering must
-handle this case, showing that a refresh will lose nothing (rather than an empty or
-broken file list).
+only `:unchanged` entries and the overlay has nothing to list.
+
+The rendering must handle this case without showing an empty or broken file list.
+It must not, however, promise that a refresh will lose nothing. Firing the lock
+stops the poll loop, so the summary is frozen at the instant it fired (see the next
+section) and the overlay learns nothing more about the head. By the time the user
+refreshes, other laptops may have committed further and moved the head on, so a
+refresh resyncs to whatever the head is then, which may no longer match this tab's
+buffer. The wording should state only what is known at that instant: there were no
+file differences to show.
 
 ## The summary is a snapshot, not live
 
