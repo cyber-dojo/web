@@ -54,7 +54,7 @@ $(() => {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         'X-Requested-With': 'XMLHttpRequest'
       },
-      body: form.serialize() + '&tab_id=' + cd.mobbingPoll.tabId,
+      body: form.serialize() + '&tab_id=' + cd.mobbingPoll.tabId + '&tab_seq=' + cd.kata.nextTabSeq(),
       signal: controller.signal
     })
     .then(r => {
@@ -121,7 +121,7 @@ $(() => {
   };
 
   const revert = () => {
-    const args = { id: cd.kata.id, tab_id: cd.mobbingPoll.tabId };
+    const args = { id: cd.kata.id, tab_id: cd.mobbingPoll.tabId, tab_seq: cd.kata.nextTabSeq() };
     fetch('/kata/auto_revert', {
       method: 'POST',
       headers: {

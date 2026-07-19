@@ -43,6 +43,14 @@ module TestDomainHelpers
     'a1' * 32 # a well-formed (64-char lowercase hex) laptop_id for tests to pass
   end
 
+  # A fresh monotonic tab_seq for each event-write, mirroring the browser's
+  # per-tab counter. Distinct per call so saver's (laptop_id, tab_seq, colour)
+  # dedup never collapses two deliberate writes a test makes on one laptop_id.
+  def next_tab_seq
+    @next_tab_seq ||= 0
+    @next_tab_seq += 1
+  end
+
   def ran_summary(colour)
     {
       'duration' => duration,

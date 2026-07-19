@@ -1,0 +1,22 @@
+<script>
+'use strict';
+$(() => {
+
+  // The browser owns this tab's monotonic write counter (tabSeq): incremented
+  // once per event-write POST (nextTabSeq) and sent as tab_seq. With laptop_id
+  // (cookie) and tab_id (per-tab), it forms the spooler's ordering and
+  // idempotency key (laptop_id, tab_id, tab_seq): the true production order for
+  // this tab, letting the spooler forward in order and dedup redelivery. It is
+  // not read by the stale-tab mobbing poll (that only needs tab_id).
+  cd.kata.tabSeq = 0;
+
+  // The next tab_seq to stamp on an event-write. A [test] that commits two saver
+  // events (a file_edit before the light) is one browser POST, so it carries one
+  // tab_seq; the counter advances per POST, not per committed event.
+  cd.kata.nextTabSeq = () => {
+    cd.kata.tabSeq += 1;
+    return cd.kata.tabSeq;
+  };
+
+});
+</script>
