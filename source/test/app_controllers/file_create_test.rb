@@ -11,11 +11,11 @@ class FileCreateTest  < AppControllerTestBase
     in_kata do
       post_json '/kata/file_create', {
         id: @id,
-        index: @index,
+        tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: created_filename
       }
-      assert last_response.ok?
+      assert last_response.successful?
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file_create', event['colour']

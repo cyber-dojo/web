@@ -17,8 +17,8 @@ class TrafficLightLazyIndexResolutionTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
-    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), laptop_id, next_tab_seq)
-    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('green'), laptop_id, next_tab_seq)
+    kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), laptop_id, next_tab_seq)
+    kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('green'), laptop_id, next_tab_seq)
 
     lights = saver.kata_events(id).reject { |e| FILE_EVENTS.include?(e['colour']) }
     expected_index = lights.last['index']
@@ -58,7 +58,7 @@ class TrafficLightLazyIndexResolutionTest < BrowserTestBase
   ) do
     id = saver.kata_create(starter_manifest)
     files = saver.kata_event(id, 0)['files']
-    saver.kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), laptop_id, next_tab_seq)
+    kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), laptop_id, next_tab_seq)
 
     visit "/kata/edit/#{id}"
     wait_for_edit_page_ready

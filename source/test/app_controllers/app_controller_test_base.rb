@@ -23,7 +23,6 @@ class AppControllerTestBase < TestBase
   def in_kata(options={}, &block)
     create_language_kata(options)
     @files = plain(kata.event(-1)['files'])
-    @index = 1
     block.call(kata)
   end
 
@@ -50,23 +49,32 @@ class AppControllerTestBase < TestBase
       params[:data] = Rack::Utils.build_nested_query(params[:data])
     end
     post path, params
-    events = saver.kata_events(@id)
-    @index = events[-1]['index'] + 1
+    # Writes are async: web POSTs to the spooler, whose drainer forwards to saver.
+    # Wait for the caller's tab_seq to drain, so a test that then reads committed
+    # state sees this write (a write that commits nothing - a bad id, the rescue
+    # path - just times out).
+    wait_until_committed(@id, params[:tab_seq])
   end
 
   def post_run_tests(options = {})
     params = run_test_params(options)
     post_json '/kata/run_tests/' + (options[:id] || kata.id), params
     assert last_response.ok?, last_response.body
+    # A run_tests with a pending edit commits two events sharing one tab_seq (the
+    # underneath file_edit, then the light); post_json's tab_seq wait can return on
+    # the file_edit, so wait for the light itself (its outcome colour, committed
+    # last) so a following read sees the whole write. A bad-id run commits nothing,
+    # so this simply times out.
+    wait_until_committed(@id, params[:tab_seq], colour: json.dig('light', 'colour'))
   end
 
   def run_test_params(options = {})
     {
-      index:        (options[:index]       || @index),
       image_name:   @manifest['image_name'],
       max_seconds:  (options[:max_seconds] || @manifest['max_seconds']),
       file_content: @files,
-      predicted:    (options[:predicted]   || 'none')
+      predicted:    (options[:predicted]   || 'none'),
+      tab_seq:      (options[:tab_seq]     || next_tab_seq)
     }
   end
 

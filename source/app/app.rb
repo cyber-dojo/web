@@ -357,12 +357,15 @@ class App < Sinatra::Base
     tab_id ? @laptop_id[0, 32] + tab_id : @laptop_id
   end
 
-  # This tab's monotonic write counter, forwarded to saver as the tab_seq half of
-  # the spooler idempotency key (laptop_id, tab_id, tab_seq). The browser stamps it
-  # on each event-write POST; a write without one (an old or non-JS client) yields
-  # nil, which saver accepts.
+  # This tab's monotonic write counter, forwarded to the spooler as the tab_seq
+  # half of the idempotency key (laptop_id, tab_id, tab_seq). It arrives as a form
+  # field (a string) but is an integer: the spooler orders its buffer by tab_seq
+  # numerically, so it must be sent as an int, not a string (else '10' < '2').
+  # Absent OR blank (an old or non-JS client) yields nil, which saver accepts -
+  # NOT 0, which ''.to_i would give and which is a real seq value.
   def tab_seq
-    params['tab_seq']
+    raw = params['tab_seq']
+    raw.to_s.empty? ? nil : raw.to_i
   end
 
   def params_files

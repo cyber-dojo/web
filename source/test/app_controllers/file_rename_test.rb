@@ -12,12 +12,12 @@ class FileRenameTest  < AppControllerTestBase
     in_kata do
       post_json '/kata/file_rename', {
         id: @id,
-        index: @index,
+        tab_seq: next_tab_seq,
         data: { file_content: @files },
         old_filename: old_filename,
         new_filename: new_filename
       }
-      assert last_response.ok?
+      assert last_response.successful?
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file_rename', event['colour']

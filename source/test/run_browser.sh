@@ -22,6 +22,7 @@ export COVERAGE_DIR=${coverage_dir}
 # here is visible to the served app the browser loads), stub the runner.
 export RACK_ENV=test
 export CYBER_DOJO_SAVER_CLASS=SaverService
+export CYBER_DOJO_SPOOLER_CLASS=SpoolerService
 export CYBER_DOJO_RUNNER_CLASS=RunnerStub
 
 export RUBYOPT='-W2 --enable-frozen-string-literal'

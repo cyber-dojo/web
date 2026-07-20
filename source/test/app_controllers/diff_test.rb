@@ -13,7 +13,7 @@ class DiffTest < AppControllerTestBase
       was_index = 1
       @files['hiker.sh'] = @files['hiker.sh'].sub('6 * 9', '6 * 7')
       post_run_tests # 2==file-edit, 3==ran-tests
-      now_index = @index - 1
+      now_index = kata.events.last['index']
 
       get '/kata/diff_lines', { id: @id, was_index: was_index, now_index: now_index }
       assert last_response.ok?
@@ -42,7 +42,7 @@ class DiffTest < AppControllerTestBase
       was_index = 1
       @files['hiker.sh'] = @files['hiker.sh'].sub('6 * 9', '6 * 7')
       post_run_tests # 2==file-edit, 3==ran-tests
-      now_index = @index - 1
+      now_index = kata.events.last['index']
 
       get '/kata/diff_summary', { id: @id, was_index: was_index, now_index: now_index }
       assert last_response.ok?
