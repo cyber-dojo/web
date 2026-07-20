@@ -144,23 +144,27 @@ class App < Sinatra::Base
   # Inter-test file events
 
   post '/kata/file_create' do
-    content_type :json
-    spooler.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_delete' do
-    content_type :json
-    spooler.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_rename' do
-    content_type :json
-    spooler.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_edit' do
-    content_type :json
-    spooler.kata_file_edit(id, params_files, laptop_id, tab_seq).to_json
+    spooler.kata_file_edit(id, params_files, laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   # - - - - - - - - - - - - - - - -
@@ -193,13 +197,11 @@ class App < Sinatra::Base
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
-      @saved = true
     rescue SpoolerService::Error => error
       # The spooler write failed (it is down or unreachable), but the runner
       # already produced this traffic-light so we still show it. The browser
       # owns the displayed number and resolves a light's committed index lazily
       # from its major_index, so this uncommitted "ghost" carries no index.
-      @saved = false
       $stdout.puts(error.message)
       $stdout.flush
     end
@@ -219,7 +221,6 @@ class App < Sinatra::Base
       stderr:      @stderr['content'],
       status:      @status.to_s,
       log:         @log.to_s,
-      saved:       @saved == true,
       created:     @created,
       changed:     @changed
     }.to_json

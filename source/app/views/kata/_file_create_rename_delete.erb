@@ -24,9 +24,9 @@ $(() => {
 
   const currentFilename = () => kata.tabs.filename().text();
 
-  cd.createFileButton().click(() => cd.waitForITE(openCreateFileDialog));
-  cd.deleteFileButton().click(() => cd.waitForITE(openDeleteFileDialog));
-  cd.renameFileButton().click(() => cd.waitForITE(openRenameFileDialog));
+  cd.createFileButton().click(() => openCreateFileDialog());
+  cd.deleteFileButton().click(() => openDeleteFileDialog());
+  cd.renameFileButton().click(() => openRenameFileDialog());
 
   // Disable the file create/rename/delete buttons (used when not on the latest
   // traffic-light, and by the mobbing stale-tab lock).
@@ -46,11 +46,10 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
-      cd.fileCreateITE(newFilename, () => {
-        kata.editor.createFile(newFilename, {content:''});
-        kata.filenames.refresh();
-        kata.filenames.select(newFilename);
-      });
+      cd.fileCreateITE(newFilename);
+      kata.editor.createFile(newFilename, {content:''});
+      kata.filenames.refresh();
+      kata.filenames.select(newFilename);
     };
     openDialog('create', initialFilename, okInitiallyDisabled, okClicked);
   };
@@ -61,11 +60,10 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
-      cd.fileDeleteITE(filename, () => {
-        kata.editor.deleteFile(filename);
-        kata.filenames.refresh();
-        kata.filenames.select(kata.filenames.top());
-      });
+      cd.fileDeleteITE(filename);
+      kata.editor.deleteFile(filename);
+      kata.filenames.refresh();
+      kata.filenames.select(kata.filenames.top());
     };
     openDialog('delete', filename, okInitiallyDisabled, okClicked);
   };
@@ -76,11 +74,10 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      cd.fileRenameITE(oldFilename, newFilename, () => {
-        kata.editor.renameFile(oldFilename, newFilename);
-        kata.filenames.refresh();
-        kata.filenames.select(newFilename);
-      });
+      cd.fileRenameITE(oldFilename, newFilename);
+      kata.editor.renameFile(oldFilename, newFilename);
+      kata.filenames.refresh();
+      kata.filenames.select(newFilename);
     };
     openDialog('rename', oldFilename, okInitiallyDisabled, okClicked);
   };
