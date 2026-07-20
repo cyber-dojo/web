@@ -145,22 +145,22 @@ class App < Sinatra::Base
 
   post '/kata/file_create' do
     content_type :json
-    saver.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_delete' do
     content_type :json
-    saver.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_rename' do
     content_type :json
-    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq).to_json
   end
 
   post '/kata/file_edit' do
     content_type :json
-    saver.kata_file_edit(id, params_files, laptop_id, tab_seq).to_json
+    spooler.kata_file_edit(id, params_files, laptop_id, tab_seq).to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -194,8 +194,8 @@ class App < Sinatra::Base
         revert_if_wrong: params['revert_if_wrong']
       })
       @saved = true
-    rescue SaverService::Error => error
-      # The saver write failed (it is down or unreachable), but the runner
+    rescue SpoolerService::Error => error
+      # The spooler write failed (it is down or unreachable), but the runner
       # already produced this traffic-light so we still show it. The browser
       # owns the displayed number and resolves a light's committed index lazily
       # from its major_index, so this uncommitted "ghost" carries no index.
@@ -245,7 +245,7 @@ class App < Sinatra::Base
     # The browser owns the displayed number and resolves the reverted light's
     # committed index lazily from its major_index, so the response carries no
     # position - just the source_event's files/outcome and revert metadata.
-    saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
+    spooler.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     }, laptop_id, tab_seq)
@@ -269,7 +269,7 @@ class App < Sinatra::Base
     # The browser owns the displayed number and resolves the checkout light's
     # committed index lazily from its major_index, so the response carries no
     # position - just the source_event's files/outcome and checkout metadata.
-    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id, tab_seq)
+    spooler.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id, tab_seq)
     json.to_json
   end
 
@@ -371,11 +371,11 @@ class App < Sinatra::Base
 
   def ran_tests(id, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     else
-      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     end
   end
 

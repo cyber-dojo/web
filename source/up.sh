@@ -6,6 +6,7 @@ readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_SAVER_CLASS=SaverService
+export CYBER_DOJO_SPOOLER_CLASS=SpoolerService
 
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 
