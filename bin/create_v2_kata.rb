@@ -3,10 +3,29 @@ def require_source(path)
   require_relative "../app/#{path}"
 end
 
+require 'securerandom'
 require_source 'services/externals'
 include Externals
 
 $http = saver.instance_variable_get(:@http)
+
+# One avatar is one writer: a fixed laptop_id (a browser profile) plus a
+# monotonic tab_seq advanced on every write, so same-colour writes never
+# collide on the saver's (laptop_id, tab_seq, colour) idempotency key.
+class Writer
+  attr_reader :laptop_id
+
+  # Mints a fresh browser-profile laptop_id; the tab counter starts at 0.
+  def initialize
+    @laptop_id = SecureRandom.hex(32)
+    @tab_seq = 0
+  end
+
+  # Advances to and returns this writer's next tab_seq (its first write is 1).
+  def next_tab_seq
+    @tab_seq += 1
+  end
+end
 
 def create_v2_kata(count)
   v0_id = '5U2J18'
@@ -26,24 +45,25 @@ def create_avatar(gid, inter_test_events, count)
   # [ bats_help.txt cyber-dojo.sh hiker.sh readme.txt test_hiker.sh ]
   original_hiker_sh = files['hiker.sh']['content']
 
-  index = 1
+  # One avatar is one writer; its tab_seq counts every write it makes here.
+  writer = Writer.new
   count.times do
     files['hiker.sh']['content'] = original_hiker_sh
     if inter_test_events
-      index = file_create(id, index, files, 'wibble.txt')
+      file_create(id, files, 'wibble.txt', writer)
     end
-    index = red_traffic_light(id, index, files)
+    red_traffic_light(id, files, writer)
     if inter_test_events
-      index = file_edit(id, index, files)
-      index = file_rename(id, index, files, 'wibble.txt', 'wibble2.txt')
+      file_edit(id, files, writer)
+      file_rename(id, files, 'wibble.txt', 'wibble2.txt', writer)
     end
-    index = amber_traffic_light(id, index, files)
+    amber_traffic_light(id, files, writer)
     if inter_test_events
-      index = file_delete(id, index, files, 'wibble2.txt')
+      file_delete(id, files, 'wibble2.txt', writer)
     end
-    index = green_traffic_light(id, index, files)
+    green_traffic_light(id, files, writer)
     if inter_test_events
-      index = file_edit(id, index, files)
+      file_edit(id, files, writer)
     end
   end
   id
@@ -51,94 +71,97 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-def file_create(id, index, files, filename)
-  next_index = $http.post('kata_file_create', {
+def file_create(id, files, filename, writer)
+  $http.post('kata_file_create', {
     id: id,
-    index: index,
     files: files,
-    filename: filename
+    filename: filename,
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
   })
   files[filename] = file('')
-  next_index
 end
 
-def file_delete(id, index, files, filename)
-  next_index = $http.post('kata_file_delete', {
+def file_delete(id, files, filename, writer)
+  $http.post('kata_file_delete', {
     id: id,
-    index: index,
     files: files,
-    filename: filename
+    filename: filename,
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
   })
   files.delete(filename)
-  next_index
 end
 
-def file_rename(id, index, files, old_filename, new_filename)
-  next_index = $http.post('kata_file_rename', {
+def file_rename(id, files, old_filename, new_filename, writer)
+  $http.post('kata_file_rename', {
     id: id,
-    index: index,
     files: files,
     old_filename: old_filename,
-    new_filename: new_filename
+    new_filename: new_filename,
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
   })
   files[new_filename] = file(files[old_filename]['content'])
   files.delete(old_filename)
-  next_index
 end
 
-def file_edit(id, index, files)
+def file_edit(id, files, writer)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh + "\n#comment"
-  next_index = $http.post('kata_file_edit', {
+  $http.post('kata_file_edit', {
     id: id,
-    index: index,
-    files: files
+    files: files,
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
   })
-  next_index
 end
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-def red_traffic_light(id, index, files)
+def red_traffic_light(id, files, writer)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 9', '6 * 99')
   $http.post('kata_ran_tests', {
     id: id,
-    index: index,
     files: files,
     stdout: file('expected [42] but was [54]'),
     stderr: file(''),
     status: 1,
-    summary: colour('red')
-  })['next_index']
+    summary: colour('red'),
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
+  })
 end
 
-def amber_traffic_light(id, index, files)
+def amber_traffic_light(id, files, writer)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 99', '6 * 99s')
   $http.post('kata_ran_tests', {
     id: id,
-    index: index,
     files: files,
     stdout: file('expected [42] but was []'),
     stderr: file('value too great for base (error token is "9s")'),
     status: 1,
-    summary: colour('amber')
-  })['next_index']
+    summary: colour('amber'),
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
+  })
 end
 
-def green_traffic_light(id, index, files)
+def green_traffic_light(id, files, writer)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 99s', '6 * 7')
   $http.post('kata_ran_tests', {
     id: id,
-    index: index,
     files: files,
     stdout: file('Overall result: SUCCESS'),
     stderr: file(''),
     status: 0,
-    summary: colour('green')
-  })['next_index']
+    summary: colour('green'),
+    laptop_id: writer.laptop_id,
+    tab_seq: writer.next_tab_seq
+  })
 end
 
 def colour(hue)
