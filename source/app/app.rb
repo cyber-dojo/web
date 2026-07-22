@@ -117,6 +117,17 @@ class App < Sinatra::Base
     { 'alive?' => true }.to_json
   end
 
+  # Deliberately a static true, NOT runner.ready? && saver.ready? && spooler.ready?.
+  # This is the load balancer's readiness probe: it gates traffic and, with
+  # wait-for-steady-state, deploys. Those three are shared backends every web task
+  # talks to, so coupling readiness to them fails all tasks at once on a single
+  # dependency blip. The load balancer is then left with no healthy target and
+  # returns 503 for every route (including the many that never touch the down
+  # service), and a deploy cannot reach steady state, so a fix cannot even be
+  # shipped. Descheduling web does not heal the dependency, it only widens the
+  # outage. Readiness here means just "this web process can serve and will degrade
+  # gracefully"; a down dependency surfaces as a graceful per-action error and via
+  # /status, never here.
   get '/ready/?' do
     content_type :json
     { 'ready?' => true }.to_json
