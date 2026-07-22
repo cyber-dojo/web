@@ -8,6 +8,14 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
+  def ready?
+    # Stand in for a healthy runner, mirroring RunnerService#ready?, so a test
+    # exercising a readiness probe sees the runner as ready.
+    true
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def stub_run(stub = {})
     stub[:stdout] ||= ''
     stub[:stderr] ||= ''

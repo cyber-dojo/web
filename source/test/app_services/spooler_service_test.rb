@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require_relative 'http_json_requester_not_json_stub'
 require 'json'
 
 # web POSTs the nine event-writes to the spooler, which durably buffers them and
@@ -139,6 +140,22 @@ class SpoolerServiceTest < AppServicesTestBase
     spooler.kata_file_rename(kid, manifest['visible_files'], old_name, 'renamed_file.txt', laptop_id, tab_seq)
     wait_until_drained(kid, tab_seq, 'file_rename')
     assert_equal 2, saver.kata_events(kid).size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D1EQJH',
+  'ready?() smoke test' do
+    assert spooler.ready?
+  end
+
+  test 'D1EQJJ',
+  'response.body failure is mapped to exception' do
+    set_http(HttpJsonRequesterNotJsonStub)
+    _stdout, _stderr = capture_stdout_stderr do
+      error = assert_raises(SpoolerService::Error) { spooler.ready? }
+      assert_equal 'body is not JSON', error.message, :error_message
+    end
   end
 
 end

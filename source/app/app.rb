@@ -83,6 +83,15 @@ class App < Sinatra::Base
         .gsub("'") { "\\'" }
     end
 
+    def service_ready?(service)
+      # Whether a dependency reports ready. The service clients raise (rather than
+      # return false) when the service is unreachable, so a raise is caught and
+      # reported as not-ready - one down dependency must not fail the whole probe.
+      service.ready? == true
+    rescue StandardError
+      false
+    end
+
   end
 
   # - - - - - - - - - - - - - - - -
@@ -111,6 +120,22 @@ class App < Sinatra::Base
   get '/ready/?' do
     content_type :json
     { 'ready?' => true }.to_json
+  end
+
+  # Deep, per-dependency readiness for dashboards, monitors and deploy
+  # smoke-checks. Unlike /ready this one reaches the downstream services, so it
+  # must never be wired to the load balancer's health check: a dependency blip
+  # would deschedule every web task at once. The overall verdict is the HTTP
+  # status (200 all ready, 503 any not); the body names which dependency is down.
+  get '/status/?' do
+    content_type :json
+    services = {
+      'runner'  => service_ready?(runner),
+      'saver'   => service_ready?(saver),
+      'spooler' => service_ready?(spooler)
+    }
+    status(services.values.all? ? 200 : 503)
+    { 'status' => services }.to_json
   end
 
   # - - - - - - - - - - - - - - - -
