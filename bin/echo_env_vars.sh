@@ -37,12 +37,6 @@ echo_env_vars()
   #
   # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
   # echo CYBER_DOJO_SAVER_TAG=fef7a58
-  echo CYBER_DOJO_SAVER_SHA=fc3bab826d69957149aed90e5b8cfa2bf8491e37
-  echo CYBER_DOJO_SAVER_TAG=fc3bab8  
-  
-  echo CYBER_DOJO_SPOOLER_SHA=ebc7b9257a548debd0c317e293527e6ea9691a30
-  echo CYBER_DOJO_SPOOLER_TAG=ebc7b92
-  echo CYBER_DOJO_SPOOLER_IMAGE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/spooler"
 }
 
 run_versioner()
