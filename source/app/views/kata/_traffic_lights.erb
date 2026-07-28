@@ -46,7 +46,7 @@ $(() => {
         if (!now) {
           return;
         }
-        cd.saveAnyFileChangesITE(() => {});
+        cd.saveAnyFileChangesITE();
         cd.review.fromTestPage(kata.id, now.index);
       });
     });

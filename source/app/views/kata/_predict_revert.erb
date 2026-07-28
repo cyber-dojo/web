@@ -82,14 +82,13 @@ $(() => {
 
   const predictCheckBoxChanged = () => {
     if (!cd.kata.isLatest()) { return; }
-    cd.saveAnyFileChangesITE(() => {
-      if ($predict.prop('checked')) {
-        predictOn();
-      }
-      else {
-        predictOff();
-      }
-    });
+    cd.saveAnyFileChangesITE();
+    if ($predict.prop('checked')) {
+      predictOn();
+    }
+    else {
+      predictOff();
+    }
   };
 
   const applyPredictOn = () => {
@@ -169,9 +168,8 @@ $(() => {
     ].join('<br/>'));
 
   $('.revert-checkbox').click((event) => {
-    cd.saveAnyFileChangesITE(() => {
-      saveCheckBoxSetting(event);
-    });
+    cd.saveAnyFileChangesITE();
+    saveCheckBoxSetting(event);
   });
 
   const saveCheckBoxSetting = (event) => {

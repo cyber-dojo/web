@@ -12,6 +12,9 @@ echo_env_vars()
   {
     echo "# This file is generated in bin/lib.sh echo_env_vars()"
     run_versioner | grep PORT
+    # The spooler is new, so versioner does not yet emit its port; add it here so
+    # the spooler container (env_file .env) and web can both reach it on 4539.
+    echo CYBER_DOJO_SPOOLER_PORT=4539
     echo CYBER_DOJO_PROMETHEUS=true
   } > "$(repo_root)/.env"
 

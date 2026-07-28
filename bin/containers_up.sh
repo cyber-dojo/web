@@ -24,5 +24,5 @@ containers_up()
     --no-deps \
     --wait \
     --wait-timeout=60 \
-    web runner saver selenium nginx
+    web runner saver spooler selenium nginx
 }

@@ -25,8 +25,8 @@ class CheckoutTest  < AppControllerTestBase
         src_index: 2,
         src_major_index: 2,
         src_minor_index: 0,
-        id: @id,
-        index: 5
+        tab_seq: next_tab_seq,
+        id: @id
       }
       assert last_response.ok?
 
@@ -64,8 +64,8 @@ class CheckoutTest  < AppControllerTestBase
           src_index: 1,
           src_major_index: 1,
           src_minor_index: 0,
-          id: hippo.id,
-          index: 1
+          tab_seq: next_tab_seq,
+          id: hippo.id
         }
         assert last_response.ok?
 

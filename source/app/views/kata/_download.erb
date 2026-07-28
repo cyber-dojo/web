@@ -20,14 +20,13 @@ $(() => {
   } 
   else {
     $button.click(() => {
-      cd.saveAnyFileChangesITE(() => {
-        fetch(`/saver/kata_download?${new URLSearchParams({ id: cd.kata.id })}`, {
-          headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(r => r.json())
-        .then(data => downloadKata(data['kata_download']))
-        .catch(err => downloadError(err));
-      });
+      cd.saveAnyFileChangesITE();
+      fetch(`/saver/kata_download?${new URLSearchParams({ id: cd.kata.id })}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+      .then(r => r.json())
+      .then(data => downloadKata(data['kata_download']))
+      .catch(err => downloadError(err));
     });
   }
 

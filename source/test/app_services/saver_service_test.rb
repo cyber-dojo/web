@@ -74,122 +74,6 @@ class SaverServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D1EQJ2',
-  'kata_ran_tests() smoke test' do
-    manifest = starter_manifest
-    kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id, next_tab_seq)
-    assert_equal 2, saver.kata_events(kid).size
-  end
-
-  test 'D1EQJ3',
-  'kata_predicted_right() smoke test' do
-    manifest = starter_manifest
-    kid = saver.kata_create(manifest)
-    saver.kata_predicted_right(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
-      duration: duration,
-      colour: 'red',
-      predicted: 'red'
-    }, laptop_id, next_tab_seq)
-    assert_equal 2, saver.kata_events(kid).size
-  end
-
-  test 'D1EQJ4',
-  'kata_predicted_wrong() smoke test' do
-    manifest = starter_manifest
-    kid = saver.kata_create(manifest)
-    saver.kata_predicted_wrong(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
-      duration: duration,
-      colour: 'red',
-      predicted: 'green'
-    }, laptop_id, next_tab_seq)
-    assert_equal 2, saver.kata_events(kid).size
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'D1EQJ5',
-  'kata_reverted() smoke test' do
-    manifest = starter_manifest
-    kid = saver.kata_create(manifest)
-    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id, next_tab_seq)
-    saver.kata_ran_tests(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
-      duration: duration,
-      colour: 'amber',
-      predicted: 'red'
-    }, laptop_id, next_tab_seq)
-    saver.kata_reverted(kid, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
-      colour: 'green',
-      revert: [kid, 1]
-    }, laptop_id, next_tab_seq)
-    assert_equal 4, saver.kata_events(kid).size
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'D1EQJ6',
-  'kata_checked_out() smoke test' do
-    manifest = starter_manifest
-    gid = saver.group_create(manifest)
-    kid1 = saver.group_join(gid)
-    saver.kata_ran_tests(kid1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id, next_tab_seq)
-    saver.kata_ran_tests(kid1, manifest['visible_files'], content('stdout'), content('stderr'), 0, ran_summary('amber'), laptop_id, next_tab_seq)
-    kid2 = saver.group_join(gid)
-    saver.kata_checked_out(kid2, manifest['visible_files'], content('stdout'), content('stderr'), 0, {
-      colour: 'red',
-      checkout: {
-        id: kid1,
-        index: 2,
-        avatarIndex: 46
-      }
-    }, laptop_id, next_tab_seq)
-    assert_equal 2, saver.kata_events(kid2).size
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'D1EQJ7',
-  'kata_file_edit() smoke test' do
-    manifest = starter_manifest
-    manifest['version'] = 2
-    kid = saver.kata_create(manifest)
-    files = manifest['visible_files']
-    files[files.keys.first]['content'] += "\n# comment"
-    next_index = saver.kata_file_edit(kid, files, laptop_id, next_tab_seq)
-    assert_equal 2, next_index
-  end
-
-  test 'D1EQJ8',
-  'kata_file_create() smoke test' do
-    manifest = starter_manifest
-    manifest['version'] = 2
-    kid = saver.kata_create(manifest)
-    next_index = saver.kata_file_create(kid, manifest['visible_files'], 'new_file.txt', laptop_id, next_tab_seq)
-    assert_equal 2, next_index
-  end
-
-  test 'D1EQJ9',
-  'kata_file_delete() smoke test' do
-    manifest = starter_manifest
-    manifest['version'] = 2
-    kid = saver.kata_create(manifest)
-    existing_filename = manifest['visible_files'].keys.first
-    next_index = saver.kata_file_delete(kid, manifest['visible_files'], existing_filename, laptop_id, next_tab_seq)
-    assert_equal 2, next_index
-  end
-
-  test 'D1EQJA',
-  'kata_file_rename() smoke test' do
-    manifest = starter_manifest
-    manifest['version'] = 2
-    kid = saver.kata_create(manifest)
-    old_name = manifest['visible_files'].keys.first
-    next_index = saver.kata_file_rename(kid, manifest['visible_files'], old_name, 'renamed_file.txt', laptop_id, next_tab_seq)
-    assert_equal 2, next_index
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'D1EeJ5',
   'kata_event() smoke test' do
     manifest = starter_manifest
@@ -251,12 +135,15 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
     files = manifest['visible_files']
-    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id, next_tab_seq)
+    # Seed the two lights through the async spooler (drains to saver), then read
+    # the diff back from saver between the first light (index 1) and the second.
+    kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id, next_tab_seq)
 
     files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
-    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id, next_tab_seq)
+    kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id, next_tab_seq)
 
-    diffs = saver.diff_lines(kid, 1, result['next_index'] - 1)
+    now_index = saver.kata_events(kid).size - 1
+    diffs = saver.diff_lines(kid, 1, now_index)
 
     changed = diffs.select { |d| d['type'] == 'changed' }
     assert_equal 1, changed.size
@@ -274,12 +161,13 @@ class SaverServiceTest < AppServicesTestBase
     manifest = starter_manifest
     kid = saver.kata_create(manifest)
     files = manifest['visible_files']
-    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id, next_tab_seq)
+    kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('red'), laptop_id, next_tab_seq)
 
     files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
-    result = saver.kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id, next_tab_seq)
+    kata_ran_tests(kid, files, content('stdout'), content('stderr'), 0, ran_summary('green'), laptop_id, next_tab_seq)
 
-    diffs = saver.diff_summary(kid, 1, result['next_index'] - 1)
+    now_index = saver.kata_events(kid).size - 1
+    diffs = saver.diff_summary(kid, 1, now_index)
 
     changed = diffs.select { |d| d['type'] == 'changed' }
     assert_equal 1, changed.size

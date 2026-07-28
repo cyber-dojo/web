@@ -8,7 +8,7 @@ $(() => {
 
   const $button = $('#test-button');
 
-  $button.click(() => cd.waitForITE(() => kata.testButton.click()));
+  $button.click(() => kata.testButton.click());
 
   kata.testButton = {
     hide: (f) => {

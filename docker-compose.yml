@@ -97,6 +97,24 @@ services:
     restart: no
     tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
+  # The spooler is web's async write path: web POSTs the nine event writes
+  # (kata_file_create ... kata_checked_out) here (SpoolerService), the spooler
+  # durably buffers them and its drainer forwards them to the saver above in
+  # tab_seq order. Reads and non-event writes stay direct web->saver. It owns its
+  # own /sqlite volume (uid 19664 = the spooler user), separate from saver's
+  # /cyber-dojo. web reaches it at hostname 'spooler' on CYBER_DOJO_SPOOLER_PORT.
+  spooler:
+    image: ${CYBER_DOJO_SPOOLER_IMAGE}:${CYBER_DOJO_SPOOLER_TAG}
+    platform: linux/amd64
+    user: spooler
+    env_file: [ .env ]
+    read_only: true
+    restart: no
+    depends_on: [ saver ]
+    tmpfs:
+      - /sqlite:uid=19664,gid=65533
+      - /tmp
+
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     platform: linux/amd64

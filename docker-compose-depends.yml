@@ -9,6 +9,7 @@ services:
     depends_on:
       - runner
       - saver
+      - spooler
 
   creator:
     depends_on:

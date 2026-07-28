@@ -14,9 +14,9 @@ class AutoRevertTest < AppControllerTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
-        index: 2 # revert back to creation @[0]
+        tab_seq: next_tab_seq
       }
-      assert last_response.ok?
+      assert last_response.successful?
 
       assert_equal 3, kata.events.size
       event = kata.event(2)
@@ -48,9 +48,9 @@ class AutoRevertTest < AppControllerTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
-        index: 4 # revert back to 1st traffic-light @[2]
+        tab_seq: next_tab_seq
       }
-      assert last_response.ok?
+      assert last_response.successful?
 
       assert_equal 5, kata.events.size
       event = kata.event(4)
@@ -82,9 +82,9 @@ class AutoRevertTest < AppControllerTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
-        index: 4 # revert back to 1st traffic-light @[1]
+        tab_seq: next_tab_seq
       }
-      assert last_response.ok?
+      assert last_response.successful?
 
       assert_equal 5, kata.events.size
       event = kata.event(4)
@@ -120,9 +120,9 @@ class AutoRevertTest < AppControllerTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
-        index: 3 # revert back to 1st traffic-light @[1]
+        tab_seq: next_tab_seq
       }
-      assert last_response.ok?
+      assert last_response.successful?
 
       events = kata.events
       assert_equal 4, kata.events.size
@@ -141,40 +141,37 @@ class AutoRevertTest < AppControllerTestBase
   | when there are multiple file-events to skip over before you
   | get to the previous traffic-light
   ) do
-    in_kata do            
+    in_kata do
       runner.stub_run({outcome: 'green'})
       post_run_tests # 1==ran-tests
       assert_equal 2, kata.events.size, kata.events
 
-      assert_equal 2, @index
       filename = 'newfile.txt'
       post_json '/kata/file_create', {
         id: @id,
-        index: @index, # 2==file-create
+        tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: filename
       }
-      assert last_response.ok?
+      assert last_response.successful?
       assert_equal 3, kata.events.size, kata.events
       @files[filename] = ''
 
-      assert_equal 3, @index
       post_json '/kata/file_delete', {
         id: @id,
-        index: @index, # 3==file-delete
+        tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: filename
       }
-      assert last_response.ok?
+      assert last_response.successful?
       assert_equal 4, kata.events.size, kata.events
 
       # REVERT
-      assert_equal 4, @index
       post_json '/kata/auto_revert', {
         id: @id,
-        index: 4 # revert back to 1st traffic-light @[1]
+        tab_seq: next_tab_seq
       }
-      assert last_response.ok?
+      assert last_response.successful?
       assert_equal 5, kata.events.size
       event = kata.event(4)
       expected = [@id, 1]

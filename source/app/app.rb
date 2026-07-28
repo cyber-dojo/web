@@ -83,6 +83,15 @@ class App < Sinatra::Base
         .gsub("'") { "\\'" }
     end
 
+    def service_ready?(service)
+      # Whether a dependency reports ready. The service clients raise (rather than
+      # return false) when the service is unreachable, so a raise is caught and
+      # reported as not-ready - one down dependency must not fail the whole probe.
+      service.ready? == true
+    rescue StandardError
+      false
+    end
+
   end
 
   # - - - - - - - - - - - - - - - -
@@ -108,9 +117,36 @@ class App < Sinatra::Base
     { 'alive?' => true }.to_json
   end
 
+  # Deliberately a static true, NOT runner.ready? && saver.ready? && spooler.ready?.
+  # This is the load balancer's readiness probe: it gates traffic and, with
+  # wait-for-steady-state, deploys. Those three are shared backends every web task
+  # talks to, so coupling readiness to them fails all tasks at once on a single
+  # dependency blip. The load balancer is then left with no healthy target and
+  # returns 503 for every route (including the many that never touch the down
+  # service), and a deploy cannot reach steady state, so a fix cannot even be
+  # shipped. Descheduling web does not heal the dependency, it only widens the
+  # outage. Readiness here means just "this web process can serve and will degrade
+  # gracefully"; a down dependency surfaces as a graceful per-action error and via
+  # /status, never here.
   get '/ready/?' do
     content_type :json
     { 'ready?' => true }.to_json
+  end
+
+  # Deep, per-dependency readiness for dashboards, monitors and deploy
+  # smoke-checks. Unlike /ready this one reaches the downstream services, so it
+  # must never be wired to the load balancer's health check: a dependency blip
+  # would deschedule every web task at once. The overall verdict is the HTTP
+  # status (200 all ready, 503 any not); the body names which dependency is down.
+  get '/status/?' do
+    content_type :json
+    services = {
+      'runner'  => service_ready?(runner),
+      'saver'   => service_ready?(saver),
+      'spooler' => service_ready?(spooler)
+    }
+    status(services.values.all? ? 200 : 503)
+    { 'status' => services }.to_json
   end
 
   # - - - - - - - - - - - - - - - -
@@ -144,23 +180,27 @@ class App < Sinatra::Base
   # Inter-test file events
 
   post '/kata/file_create' do
-    content_type :json
-    saver.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_create(id, params_files, params[:filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_delete' do
-    content_type :json
-    saver.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_delete(id, params_files, params[:filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_rename' do
-    content_type :json
-    saver.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq).to_json
+    spooler.kata_file_rename(id, params_files, params[:old_filename], params[:new_filename], laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   post '/kata/file_edit' do
-    content_type :json
-    saver.kata_file_edit(id, params_files, laptop_id, tab_seq).to_json
+    spooler.kata_file_edit(id, params_files, laptop_id, tab_seq)
+    status 204
+    ''
   end
 
   # - - - - - - - - - - - - - - - -
@@ -193,13 +233,11 @@ class App < Sinatra::Base
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
-      @saved = true
-    rescue SaverService::Error => error
-      # The saver write failed (it is down or unreachable), but the runner
+    rescue SpoolerService::Error => error
+      # The spooler write failed (it is down or unreachable), but the runner
       # already produced this traffic-light so we still show it. The browser
       # owns the displayed number and resolves a light's committed index lazily
       # from its major_index, so this uncommitted "ghost" carries no index.
-      @saved = false
       $stdout.puts(error.message)
       $stdout.flush
     end
@@ -219,7 +257,6 @@ class App < Sinatra::Base
       stderr:      @stderr['content'],
       status:      @status.to_s,
       log:         @log.to_s,
-      saved:       @saved == true,
       created:     @created,
       changed:     @changed
     }.to_json
@@ -245,7 +282,7 @@ class App < Sinatra::Base
     # The browser owns the displayed number and resolves the reverted light's
     # committed index lazily from its major_index, so the response carries no
     # position - just the source_event's files/outcome and revert metadata.
-    saver.kata_reverted(id, @files, @stdout, @stderr, @status, {
+    spooler.kata_reverted(id, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     }, laptop_id, tab_seq)
@@ -269,7 +306,7 @@ class App < Sinatra::Base
     # The browser owns the displayed number and resolves the checkout light's
     # committed index lazily from its major_index, so the response carries no
     # position - just the source_event's files/outcome and checkout metadata.
-    saver.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id, tab_seq)
+    spooler.kata_checked_out(id, @files, @stdout, @stderr, @status, summary, laptop_id, tab_seq)
     json.to_json
   end
 
@@ -356,12 +393,15 @@ class App < Sinatra::Base
     tab_id ? @laptop_id[0, 32] + tab_id : @laptop_id
   end
 
-  # This tab's monotonic write counter, forwarded to saver as the tab_seq half of
-  # the spooler idempotency key (laptop_id, tab_id, tab_seq). The browser stamps it
-  # on each event-write POST; a write without one (an old or non-JS client) yields
-  # nil, which saver accepts.
+  # This tab's monotonic write counter, forwarded to the spooler as the tab_seq
+  # half of the idempotency key (laptop_id, tab_id, tab_seq). It arrives as a form
+  # field (a string) but is an integer: the spooler orders its buffer by tab_seq
+  # numerically, so it must be sent as an int, not a string (else '10' < '2').
+  # Absent OR blank (an old or non-JS client) yields nil, which saver accepts -
+  # NOT 0, which ''.to_i would give and which is a real seq value.
   def tab_seq
-    params['tab_seq']
+    raw = params['tab_seq']
+    raw.to_s.empty? ? nil : raw.to_i
   end
 
   def params_files
@@ -371,11 +411,11 @@ class App < Sinatra::Base
 
   def ran_tests(id, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      saver.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     elsif summary[:predicted] === summary[:colour]
-      saver.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     else
-      saver.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+      spooler.kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
     end
   end
 

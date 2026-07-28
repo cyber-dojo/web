@@ -2,6 +2,7 @@ require_relative '../../test/app_services/runner_stub'
 require_relative '../../lib/time_adapter'
 require_relative 'runner_service'
 require_relative 'saver_service'
+require_relative 'spooler_service'
 
 module Externals
 
@@ -21,6 +22,10 @@ module Externals
 
   def saver
     @saver ||= external('saver')
+  end
+
+  def spooler
+    @spooler ||= external('spooler')
   end
 
   private

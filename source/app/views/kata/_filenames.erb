@@ -127,10 +127,9 @@ $(() => {
     $div.click(() => {
       cd.setFilesEditable(false);
       try {
-        cd.saveAnyFileChangesITE(() => { cd.setFilesEditable(true); });
-      } catch(e) {
+        cd.saveAnyFileChangesITE();
+      } finally {
         cd.setFilesEditable(true);
-        throw e;
       }
       filenames.select(filename);
     });

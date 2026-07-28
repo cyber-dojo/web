@@ -1,4 +1,5 @@
 require_relative 'app_controller_test_base'
+require_relative 'saver_ready_raises_stub'
 
 class ProbeTest < AppControllerTestBase
 
@@ -32,6 +33,28 @@ class ProbeTest < AppControllerTestBase
     get '/ready/'
     assert last_response.ok?
     assert_equal({ 'ready?' => true }, JSON.parse(last_response.body))
+  end
+
+  test 'EB4006', %w(
+  | /status returns 200 and each dependency's readiness when all are ready
+  ) do
+    get '/status'
+    assert last_response.ok?, last_response.body
+    assert_equal(
+      { 'status' => { 'runner' => true, 'saver' => true, 'spooler' => true } },
+      JSON.parse(last_response.body))
+  end
+
+  test 'EB4007', %w(
+  | /status returns 503 and marks the unreachable dependency false when one is
+  | down, without failing the whole endpoint
+  ) do
+    set_class('saver', 'SaverReadyRaisesStub')
+    get '/status'
+    assert_equal 503, last_response.status, last_response.body
+    assert_equal(
+      { 'status' => { 'runner' => true, 'saver' => false, 'spooler' => true } },
+      JSON.parse(last_response.body))
   end
 
 end
