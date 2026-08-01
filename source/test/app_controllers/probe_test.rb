@@ -49,7 +49,7 @@ class ProbeTest < AppControllerTestBase
   | /status returns 503 and marks the unreachable dependency false when one is
   | down, without failing the whole endpoint
   ) do
-    set_class('saver', 'SaverReadyRaisesStub')
+    externals.instance_exec { @saver = SaverReadyRaisesStub.new(self) }
     get '/status'
     assert_equal 503, last_response.status, last_response.body
     assert_equal(

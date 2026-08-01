@@ -3,23 +3,32 @@ module TestExternalHelpers # mix-in
 
   module_function
 
-  include Externals
-
-  def setup
-    @config = {
-      'RUNNER'    => ENV['CYBER_DOJO_RUNNER_CLASS'],
-      'SAVER'     => ENV['CYBER_DOJO_SAVER_CLASS'],
-      'SPOOLER'   => ENV['CYBER_DOJO_SPOOLER_CLASS'],
-      'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
-    }
+  # The collaborators this test drives the app with. The runner defaults to
+  # RunnerStub so no unit test starts a real container; saver and spooler are the
+  # real services, talking to the saver and spooler containers. Substitute one by
+  # poking its ivar before the first request, eg
+  #   externals.instance_exec { @runner = RunnerService.new(externals) }
+  def externals
+    @externals ||= Externals.new.tap { |it| it.runner_class = RunnerStub }
   end
 
-  def teardown
-    ENV['CYBER_DOJO_RUNNER_CLASS']  = @config['RUNNER']
-    ENV['CYBER_DOJO_SAVER_CLASS']   = @config['SAVER']
-    ENV['CYBER_DOJO_SPOOLER_CLASS'] = @config['SPOOLER']
-    ENV['CYBER_DOJO_HTTP_CLASS']    = @config['HTTP']
+  # Shorthands, so tests read as saver/runner/spooler rather than
+  # externals.saver and friends.
+  def runner
+    externals.runner
   end
+
+  def saver
+    externals.saver
+  end
+
+  def spooler
+    externals.spooler
+  end
+
+  # Deliberately no 'time' delegator: Minitest::Result.from reads o.time off the
+  # test instance to record its duration, so defining one here breaks the runner.
+  # A test wanting the app's clock asks externals.time for it.
 
   # - - - - - - - - - - - - - - - - - - -
   # Seed a committed saver event through the async write path the app uses:
@@ -68,22 +77,6 @@ module TestExternalHelpers # mix-in
       return if committed
       sleep(sleep_seconds)
     end
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def set_runner_class(name)
-    set_class('runner', name)
-  end
-
-  def get_class(name)
-    key = 'CYBER_DOJO_' + name.upcase + '_CLASS'
-    ENV[key]
-  end
-
-  def set_class(name, value)
-    key = 'CYBER_DOJO_' + name.upcase + '_CLASS'
-    ENV[key] = value
   end
 
 end

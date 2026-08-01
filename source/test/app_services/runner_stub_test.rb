@@ -4,7 +4,6 @@ require_relative 'runner_stub'
 class RunnerStubTest < AppServicesTestBase
 
   def hex_setup
-    set_runner_class('RunnerStub')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

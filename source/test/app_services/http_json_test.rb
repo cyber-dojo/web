@@ -4,7 +4,7 @@ require 'ostruct'
 class HttpJsonTest < AppServicesTestBase
 
   def hex_setup
-    set_runner_class('RunnerService')
+    externals.runner_class = RunnerService
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

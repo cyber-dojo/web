@@ -5,7 +5,7 @@ require 'json'
 class RunnerServiceTest < AppServicesTestBase
 
   def hex_setup
-    set_runner_class('RunnerService')
+    externals.runner_class = RunnerService
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

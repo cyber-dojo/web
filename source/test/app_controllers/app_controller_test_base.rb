@@ -8,11 +8,14 @@ class AppControllerTestBase < TestBase
   include Rack::Test::Methods
 
   def app
+    # Rack::Builder instance_evals its block, so self inside is the builder, not
+    # this test - hold the app in a local the block closes over.
+    app_instance = App.new(externals)
     Rack::Builder.new do
       use Rack::Session::Cookie,
         key: '_cyber_dojo_session',
         secret: 'test_secret_key_that_is_long_enough_to_meet_racks_minimum_requirement!'
-      run App
+      run app_instance
     end
   end
 
@@ -34,7 +37,7 @@ class AppControllerTestBase < TestBase
   end
 
   def kata
-    Kata.new(self, @id)
+    Kata.new(externals, @id)
   end
 
   def post(path, params = {}, env = {})
