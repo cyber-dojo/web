@@ -1,50 +1,45 @@
-require_relative '../../test/app_services/runner_stub'
 require_relative '../../lib/time_adapter'
 require_relative 'runner_service'
 require_relative 'saver_service'
 require_relative 'spooler_service'
 
-module Externals
+# Wires the app to its collaborators. Each is memoized, so a test substitutes one
+# by poking its ivar before the first request, eg
+#   externals.instance_exec { @runner = RunnerStub.new(externals) }
+class Externals
 
+  # The clock, so a test can hold time still.
   def time
     @time ||= TimeAdapter.new
   end
 
+  # The http library the services make their requests with.
   def http
     @http ||= Net::HTTP
   end
 
   # - - - - - - - - - - - - - - -
 
+  # Runs a kata's tests in a container. Substituted by class rather than instance,
+  # so it is still built lazily: RunnerService captures http when constructed, and
+  # a test may substitute the http after choosing the runner.
   def runner
-    @runner ||= external('runner')
+    @runner ||= runner_class.new(self)
   end
 
+  def runner_class
+    @runner_class ||= RunnerService
+  end
+
+  attr_writer :runner_class
+
+  # Reads committed kata state.
   def saver
-    @saver ||= external('saver')
+    @saver ||= SaverService.new(self)
   end
 
+  # Buffers this app's event writes and drains them on to the saver.
   def spooler
-    @spooler ||= external('spooler')
+    @spooler ||= SpoolerService.new(self)
   end
-
-  private
-
-  def external(caller)
-    # See comment below
-    key = 'CYBER_DOJO_' + caller.upcase + '_CLASS'
-    var = ENV[key] || fail("ENV[#{key}] not set")
-    Object.const_get(var).new(self)
-  end
-
 end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# External class-names are set using environment variables.
-# This gives tests a way to do Parameterize-From-Above that
-# can tunnel through a *deep* stack. In particular, you can set
-# an environment variable and then run a controller-test which
-# issue GETs/POSTs, which work their way through the rails stack,
-# -In-A-Different-Thread-, reaching externals.rb, where the
-# specified Substitute class takes effect.
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -5,9 +5,9 @@ end
 
 require 'securerandom'
 require_source 'services/externals'
-include Externals
 
-$http = saver.instance_variable_get(:@http)
+# Externals is constructor-injected now, so build one rather than mixing it in.
+$http = Externals.new.saver.instance_variable_get(:@http)
 
 # One avatar is one writer: a fixed laptop_id (a browser profile) plus a
 # monotonic tab_seq advanced on every write, so same-colour writes never

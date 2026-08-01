@@ -14,6 +14,11 @@ app_root = File.expand_path('..', __dir__)
   }
 end
 
+# RunnerStub is the test suite's default runner (see test_external_helpers).
+# Production code no longer requires it - externals.rb used to, which pulled
+# the test tree into the shipped image.
+require_relative './app_services/runner_stub'
+
 require_relative './test_base'
 
 require 'json'

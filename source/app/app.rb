@@ -15,10 +15,13 @@ class App < Sinatra::Base
   set :protection, except: [:http_origin, :json_csrf]
   enable :static
 
-  def initialize
-    super
+  def initialize(externals)
+    super()
+    @externals = externals
     @default_layout = :'layouts/application'
   end
+
+  attr_reader :externals
 
   before do
     @csrf_token = request.cookies['csrf_token']
@@ -62,8 +65,25 @@ class App < Sinatra::Base
   CSS_PATH = asset_path('app.css')
   JS_PATH  = asset_path('app.js')
 
-  include Externals
   include FilesFrom
+
+  # Collaborator shorthands, so the routes below read as saver/runner/spooler
+  # rather than externals.saver and friends.
+  def runner
+    externals.runner
+  end
+
+  def saver
+    externals.saver
+  end
+
+  def spooler
+    externals.spooler
+  end
+
+  def time
+    externals.time
+  end
 
   helpers do
 
@@ -208,7 +228,7 @@ class App < Sinatra::Base
 
   post '/kata/run_tests/:id' do
     @id = params[:id]
-    kata = Kata.new(self, @id)
+    kata = Kata.new(externals, @id)
     t1 = time.now
     result, @files, @created, @changed = kata.run_tests(params)
     t2 = time.now

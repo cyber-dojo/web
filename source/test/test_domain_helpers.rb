@@ -2,7 +2,7 @@ module TestDomainHelpers
 
   def in_new_kata(&block)
     id = saver.kata_create(starter_manifest)
-    kata = Kata.new(self, id)
+    kata = Kata.new(externals, id)
     block.call(kata)
   end
 
@@ -12,7 +12,7 @@ module TestDomainHelpers
     v1_id = '5U2J18' # "Bash, bats" - used as a manifest template
     manifest = saver.kata_manifest(v1_id)
     %w( id created group_id group_index ).each {|key| manifest.delete(key) }
-    manifest['created'] = time.now
+    manifest['created'] = externals.time.now
     manifest['version'] = 2
     manifest['visible_files'] = manifest['visible_files'].transform_values do |file|
       file.is_a?(Hash) ? file : { 'content' => file, 'truncated' => false }

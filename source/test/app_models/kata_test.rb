@@ -60,7 +60,7 @@ class KataTest < AppModelsTestBase
       result = kata_ran_tests(kata.id, files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id, next_tab_seq)
 
       kata_revert(kata.id, kata.event(1)['files'], stdout_1, stderr_1, status_1, {
-          'time' => time.now,
+          'time' => externals.time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
       }, laptop_id, next_tab_seq);

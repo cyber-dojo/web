@@ -13,7 +13,7 @@ class RunTestsSaveErrorTest < AppControllerTestBase
   | write landing.
   ) do
     in_kata do |kata|
-      set_class('spooler', 'SpoolerRanTestsRaisesStub')
+      externals.instance_exec { @spooler = SpoolerRanTestsRaisesStub.new(self) }
       stdout, stderr = capture_stdout_stderr {
         post_run_tests
       }
