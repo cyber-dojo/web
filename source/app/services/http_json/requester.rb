@@ -2,37 +2,39 @@ require 'json'
 require 'net/http'
 require 'uri'
 
-module HttpJson
+module WebApp
+  module HttpJson
 
-  class Requester
+    class Requester
 
-    def initialize(http, hostname, port)
-      @http = http.new(hostname, port)
-      @base_url = "http://#{hostname}:#{port}"
-    end
-
-    def get(path, args)
-      packed(path, args) do |url|
-        Net::HTTP::Get.new(url)
+      def initialize(http, hostname, port)
+        @http = http.new(hostname, port)
+        @base_url = "http://#{hostname}:#{port}"
       end
-    end
 
-    def post(path, args)
-      packed(path, args) do |url|
-        Net::HTTP::Post.new(url)
+      def get(path, args)
+        packed(path, args) do |url|
+          Net::HTTP::Get.new(url)
+        end
       end
-    end
 
-    private
+      def post(path, args)
+        packed(path, args) do |url|
+          Net::HTTP::Post.new(url)
+        end
+      end
 
-    def packed(path, args)
-      uri = URI.parse("#{@base_url}/#{path}")
-      req = yield uri
-      req.content_type = 'application/json'
-      req.body = JSON.generate(args)
-      @http.request(req)
+      private
+
+      def packed(path, args)
+        uri = URI.parse("#{@base_url}/#{path}")
+        req = yield uri
+        req.content_type = 'application/json'
+        req.body = JSON.generate(args)
+        @http.request(req)
+      end
+
     end
 
   end
-
 end
