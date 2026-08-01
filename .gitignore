@@ -16,6 +16,7 @@
 !/.dockerignore
 !/.gitignore
 !/.kosli.yml
+!/.rubocop.yml
 !/.snyk
 !/CONTRIBUTING.md
 !/docker-compose.yml

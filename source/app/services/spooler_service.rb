@@ -23,9 +23,9 @@ module WebApp
     end
 
     # - - - - - - - - - - - - - - - - - -
-    # The nine event writes. Each POST durably appends to the spooler's buffer and
-    # acks (async); the spooler's drainer forwards to saver in tab_seq order. Reads
-    # and non-event writes stay direct web->saver (SaverService).
+    # The nine event writes. Each POST durably appends to the spooler's buffer
+    # and acks (async); the spooler's drainer forwards to saver in tab_seq
+    # order. Reads and non-event writes stay direct web->saver (SaverService).
 
     def kata_file_create(id, files, filename, laptop_id, tab_seq)
       @http.post(__method__, {
@@ -47,7 +47,8 @@ module WebApp
       })
     end
 
-    def kata_file_rename(id, files, old_filename, new_filename, laptop_id, tab_seq)
+    def kata_file_rename(id, files, old_filename, new_filename,
+                         laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,
@@ -69,7 +70,8 @@ module WebApp
 
     # - - - - - - - - - - - - - - - - - -
 
-    def kata_ran_tests(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+    def kata_ran_tests(id, files, stdout, stderr, status, summary,
+                       laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,
@@ -82,7 +84,8 @@ module WebApp
       })
     end
 
-    def kata_predicted_right(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+    def kata_predicted_right(id, files, stdout, stderr, status, summary,
+                             laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,
@@ -95,7 +98,8 @@ module WebApp
       })
     end
 
-    def kata_predicted_wrong(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+    def kata_predicted_wrong(id, files, stdout, stderr, status, summary,
+                             laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,
@@ -108,7 +112,8 @@ module WebApp
       })
     end
 
-    def kata_reverted(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+    def kata_reverted(id, files, stdout, stderr, status, summary,
+                      laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,
@@ -121,7 +126,8 @@ module WebApp
       })
     end
 
-    def kata_checked_out(id, files, stdout, stderr, status, summary, laptop_id, tab_seq)
+    def kata_checked_out(id, files, stdout, stderr, status, summary,
+                         laptop_id, tab_seq)
       @http.post(__method__, {
         id:id,
         files:files,

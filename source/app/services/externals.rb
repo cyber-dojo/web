@@ -3,8 +3,8 @@ require_relative 'runner_service'
 require_relative 'saver_service'
 require_relative 'spooler_service'
 
-# Wires the app to its collaborators. Each is memoized, so a test substitutes one
-# by poking its ivar before the first request, eg
+# Wires the app to its collaborators. Each is memoized, so a test substitutes
+# one by poking its ivar before the first request, eg
 #   externals.instance_exec { @runner = RunnerStub.new(externals) }
 module WebApp
   class Externals
@@ -21,9 +21,9 @@ module WebApp
 
     # - - - - - - - - - - - - - - -
 
-    # Runs a kata's tests in a container. Substituted by class rather than instance,
-    # so it is still built lazily: RunnerService captures http when constructed, and
-    # a test may substitute the http after choosing the runner.
+    # Runs a kata's tests in a container. Substituted by class rather than
+    # instance, so it is still built lazily: RunnerService captures http when
+    # constructed, and a test may substitute the http after choosing the runner.
     def runner
       @runner ||= runner_class.new(self)
     end

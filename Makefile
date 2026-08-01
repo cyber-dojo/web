@@ -2,10 +2,13 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
-.PHONY: image test test_browser demo probe_demo snyk-container-scan snyk-code-scan
+.PHONY: image test test_browser rubocop-lint demo probe_demo snyk-container-scan snyk-code-scan
 
 image:
 	${PWD}/bin/build.sh
+
+rubocop-lint:
+	@DOCKER_CLI_HINTS=false docker run --rm --volume "${PWD}:/app" cyberdojo/rubocop --raise-cop-error
 
 test:
 	${PWD}/bin/run_tests.sh
