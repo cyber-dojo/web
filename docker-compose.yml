@@ -17,7 +17,7 @@ services:
     env_file: [ web.env ]
     restart: no
     volumes:
-      - ./bin/create_v2_kata.rb:/cyber-dojo/script/create_v2_kata.rb:ro
+      - ./bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
       - ./source/app:/web/source/app:ro
       - ./source/test:/web/source/test:ro
       - ./source/lib:/web/source/lib:ro
