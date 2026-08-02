@@ -309,7 +309,7 @@ detection is entirely read-side; this pairs with saver ADR step A3 being deploye
   no-`laptop_id` events do not throw); `check()` backs off while `document.hidden`
   and a `visibilitychange` re-checks on foreground; `enable()` clears any prior
   interval (single timer) and a `pagehide` listener stops the poll on unload.
-- Tests: `source/test/app_browser/mobbing_test.rb`, `m0b001`-`m0b036` (predicate
+- Tests: `test/app_browser/mobbing_test.rb`, `m0b001`-`m0b036` (predicate
   use cases incl. no-id; poll state; lock/disable; write `tab_id`-stamping;
   auto-start; meta tag; overlay-vs-app-bar-vs-generic presentation; overlay
   supersede + Dismiss; fail-safe reads; hidden back-off; pagehide stop). Run with

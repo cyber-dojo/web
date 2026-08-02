@@ -471,7 +471,7 @@ Both web and saver change, so both crossovers matter.
 
 Line numbers are approximate; grep the symbol if they have drifted.
 
-web (`web/source/app/`):
+web (`web/source/server/web/`):
 - `app.rb:155` `post '/kata/run_tests/:id'` - the only handler that surfaces
   mobbing. It calls the saver, rescues `SaverService::Error`, and at `app.rb:192`
   sets `@out_of_sync = error.message.include?('Out of order event')`, returned as
@@ -577,12 +577,12 @@ docker exec --user nobody \
   -e CYBER_DOJO_RUNNER_CLASS=RunnerStub \
   -e COVERAGE_DIR=/tmp/cyber-dojo/coverage/app_controllers \
   web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage/app_controllers && \
-    cd /web/source/test/app_controllers && \
+    cd /web/test/app_controllers && \
     ruby -e "require \"../test_coverage.rb\"; require \"./<file>_test.rb\"" app_controllers'
 ```
 
 Or the whole module (no stack teardown):
-`docker exec --user nobody web-web-1 sh -c 'cd /web/source/test && ./run.sh app_controllers'`.
+`docker exec --user nobody web-web-1 sh -c 'cd /web/test && ./run.sh app_controllers'`.
 
 Already verified this way in the design session: the false-mobbing reproduction
 (stale index -> HTTP 500 out-of-order) and the handoff baseline (Laptop A drove a

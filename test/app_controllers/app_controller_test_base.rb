@@ -1,5 +1,5 @@
 require_relative '../all'
-require_relative '../../app/app'
+require_source 'app'
 require 'rack/test'
 require 'json'
 

@@ -2,16 +2,16 @@ require 'sinatra/base'
 require 'digest'
 require 'json'
 require 'rack/protection'
-require_relative 'services/externals'
-require_relative '../lib/files_from'
-require_relative 'models/kata'
-require_relative 'models/runner'
+require_relative 'externals'
+require_relative 'files_from'
+require_relative 'kata'
+require_relative 'runner'
 
 module WebApp
   class App < Sinatra::Base
 
     set :views, "#{__dir__}/views"
-    set :public_folder, File.expand_path('../public', __dir__)
+    set :public_folder, "#{__dir__}/public"
     set :host_authorization, {}
     set :protection, except: [:http_origin, :json_csrf]
     enable :static

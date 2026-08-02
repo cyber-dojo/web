@@ -1,4 +1,4 @@
-require_relative '../../lib/time_adapter'
+require_relative 'time_adapter'
 require_relative 'runner_service'
 require_relative 'saver_service'
 require_relative 'spooler_service'

@@ -100,6 +100,10 @@ def gather_stats
     coverage_pattern = "Coverage of ([^\=]*) = #{number}%"
     m = log.match(Regexp.new(coverage_pattern))
     h[:coverage] = f2(m[2])
+
+    files_pattern = 'Files of ([^\=]*) = (\d+)'
+    m = log.match(Regexp.new(files_pattern))
+    h[:file_count] = m[2].to_i
   end
   stats
 end
@@ -180,6 +184,13 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
+def covers_a_file(stats, name)
+  count = stats[name][:file_count]
+  [ "#{name} covers >= 1 file", count >= 1, count ]
+end
+
+#- - - - - - - - - - - - - - - - - - - - -
+
 def gather_done(stats, totals)
   done = [
      [ 'total failures == 0', totals[:failure_count] == 0, totals[:failure_count] ],
@@ -196,6 +207,7 @@ def gather_done(stats, totals)
   )
   module_names.each do |name|
     if modules.include?(name)
+      done << covers_a_file(stats, name)
       done << coverage(stats, name)
     end
   end

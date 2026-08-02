@@ -21,7 +21,7 @@ PREREQUISITES (do once before starting Pattern A)
 ===========================================================================
 
 P1. Add base CSS for native <dialog>
-    File: source/app/assets/stylesheets/dialog.scss
+    File: source/server/web/assets/stylesheets/dialog.scss
     Add: dialog, dialog::backdrop rules.
     The <dialog> element is hidden by default so display:none hacks go away.
     No jQuery UI classes needed yet - they stay until cleanup at the end.
@@ -82,7 +82,7 @@ PATTERN B - JS builds HTML and opens dialog dynamically
 ===========================================================================
 
 B1. Rewrite cd.dialog() helper
-    File: source/app/assets/javascripts/cyber-dojo_dialog.js
+    File: source/server/web/assets/javascripts/cyber-dojo_dialog.js
     Current: creates a jQuery <div>, calls .dialog({autoOpen:false, ...}).
     New: creates a <dialog> element with a <header> (title + X button)
     and a <footer> (close button). Returns the element. Callers that
@@ -130,7 +130,7 @@ CLEANUP (after all A and B steps pass)
 ===========================================================================
 
 C1. Remove jQuery UI dialog CSS
-    File: source/app/assets/stylesheets/jquery-ui-1.8.16.custom.scss
+    File: source/server/web/assets/stylesheets/jquery-ui-1.8.16.custom.scss
     Delete the dialog, button, resizable, and theme sections.
     Leave only whatever tabs CSS is still needed (investigate separately).
     If nothing remains, delete the whole file.

@@ -17,3 +17,12 @@ pattern = /<div class=\"file_list_container\" id=\"#{flat}\">
 r = html.match(pattern)
 
 puts "Coverage of #{filter} = #{r[1]}%"
+
+# A group matching no files reports 100% covered, which reads as a pass.
+# Print its file count too so the summary can tell empty from complete.
+files_pattern = /<div class=\"file_list_container\" id=\"#{flat}\">
+.*?<b>(\d+)<\/b> files in total/m
+
+f = html.match(files_pattern)
+
+puts "Files of #{filter} = #{f[1]}"

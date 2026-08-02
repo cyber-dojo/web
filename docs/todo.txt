@@ -17,7 +17,7 @@ Any app-controller tests use RunnerService when they could use RunnerStub?
 
 Are app-controller tests still using v0/v1 manifests?
   Use v2 in all tests.
-  Create multi-version-tests? See source/test/test_base.rb v_tests
+  Create multi-version-tests? See test/test_base.rb v_tests
 
 Need to find how to put the actual 404/500 error message into the view.
   source/config/environments/production.rb
