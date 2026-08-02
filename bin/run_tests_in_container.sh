@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly SRC_PATH=$(repo_root)/source/test/data/cyber-dojo
+readonly SRC_PATH=$(repo_root)/test/data/cyber-dojo
 readonly DEST_PATH=/cyber-dojo
 
 pull_runner_test_image()
@@ -10,7 +10,7 @@ pull_runner_test_image()
   # every locally-present image into its in-memory @pulled set before forking
   # Puma workers. This pull must therefore happen before containers_up so that
   # the image is present when the runner starts and all workers inherit it.
-  local -r manifest="$(repo_root)/source/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
+  local -r manifest="$(repo_root)/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
   local -r image=$(jq --raw-output '.image_name' "${manifest}")
   docker pull --quiet "${image}"
 }
@@ -33,7 +33,7 @@ run_browser_tests_in_container()
   # run.sh and are kept out of run.sh's per-module coverage loop. Returns the
   # test run's exit status.
   local -r WEB_CID="$(service_container web)"
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/source/test && ./run_browser.sh"
+  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run_browser.sh"
 }
 
 run_tests_in_container()
@@ -51,7 +51,7 @@ run_tests_in_container()
 
   # Drop set -e because we want to get coverage stats out
   set +e
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/source/test && ./run.sh ${*:-}"
+  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run.sh ${*:-}"
   local -r UNIT_STATUS=$?
 
   # The browser tests run only on a full run (no single module requested).

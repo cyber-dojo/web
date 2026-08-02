@@ -2,7 +2,7 @@
 # This line must come first, before any required/loaded files to be covered.
 require_relative './test_coverage'
 
-app_root = File.expand_path('..', __dir__)
+app_root = File.expand_path('../source', __dir__)
 
 %w(
   app

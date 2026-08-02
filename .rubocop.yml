@@ -1,10 +1,9 @@
 AllCops:
   DisabledByDefault: true
   Exclude:
-    # Web's tests live under source/, not at the repo root as creator's and
-    # dashboard's do - which is also why they ship in the image. Decision D1 of
-    # the merge plan moves them to test/, and this pattern moves with them.
-    - source/test/**/*
+    # The tests hold hundreds of lines over 80. Bringing them under the ceiling
+    # is its own piece of work, so they are excluded until then.
+    - test/**/*
 
 # Line length only, deliberately. This repo has never been linted, and a full
 # cop set reports over 1500 offences across 78 files - almost all whitespace and

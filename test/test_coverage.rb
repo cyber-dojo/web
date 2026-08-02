@@ -10,11 +10,12 @@ SimpleCov.start do
   command_name('Unit Tests')
 
   web_home = '/web/source'
+  test_home = '/web/test'
   modyule = ARGV[0]                      # eg 'app_helpers'
   slashed_modyule = modyule.sub('_','/') # eg 'app/helpers'
 
   add_group('test/'+modyule) { |src|
-    src.filename.start_with?("#{web_home}/test/#{modyule}/")
+    src.filename.start_with?("#{test_home}/#{modyule}/")
   }
 
   # Which production files each test module covers. Named individually, by
