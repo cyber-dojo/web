@@ -8,4 +8,4 @@ export RUBYOPT='-W2 --enable-frozen-string-literal'
 
 puma \
   --port=${PORT} \
-  --config=${MY_DIR}/config/puma.rb
+  --config=${MY_DIR}/puma.rb

@@ -22,6 +22,6 @@ COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app
 COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 
 USER nobody
-HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh
+HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./config/healthcheck.sh
 ENTRYPOINT ["/sbin/tini", "-g", "--"]
-CMD [ "./up.sh" ]
+CMD [ "./config/up.sh" ]
