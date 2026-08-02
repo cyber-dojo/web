@@ -1,5 +1,5 @@
 require_relative 'lib_test_base'
-require_relative '../../lib/cleaner'
+require_relative '../../app/cleaner'
 
 class CleanerTest < LibTestBase
 

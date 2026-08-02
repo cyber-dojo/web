@@ -3,7 +3,7 @@ require 'digest'
 require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
-require_relative '../lib/files_from'
+require_relative 'files_from'
 require_relative 'models/kata'
 require_relative 'models/runner'
 

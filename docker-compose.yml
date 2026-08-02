@@ -20,7 +20,6 @@ services:
       - ./bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
       - ./source/app:/web/source/app:ro
       - ./source/test:/web/source/test:ro
-      - ./source/lib:/web/source/lib:ro
 
   # The browser (Capybara) tests in source/test/app_browser drive Firefox here
   # and load the web app at http://web:3000 over the compose network, so they

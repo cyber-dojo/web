@@ -1,4 +1,4 @@
-require_relative '../../lib/files_from'
+require_relative '../files_from'
 
 module WebApp
   class Runner
