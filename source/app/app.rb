@@ -4,8 +4,8 @@ require 'json'
 require 'rack/protection'
 require_relative 'services/externals'
 require_relative 'files_from'
-require_relative 'models/kata'
-require_relative 'models/runner'
+require_relative 'kata'
+require_relative 'runner'
 
 module WebApp
   class App < Sinatra::Base

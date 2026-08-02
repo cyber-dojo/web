@@ -5,11 +5,14 @@ require_relative './test_coverage'
 app_root = File.expand_path('..', __dir__)
 
 %w(
-  lib
-  app/models
+  app
   app/services
 ).each do |dir|
   Dir.glob("#{app_root}/#{dir}/*.rb").each { |filename|
+    # app.rb is required by the suites that exercise it. Requiring it here too
+    # would add its lines to every suite's coverage denominator.
+    next if File.basename(filename) == 'app.rb'
+
     require filename
   }
 end
