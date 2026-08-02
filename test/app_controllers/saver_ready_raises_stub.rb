@@ -1,4 +1,4 @@
-require_relative '../../source/web/saver_service'
+require_source 'saver_service'
 
 # A SaverService whose ready? raises, standing in for saver being unreachable.
 # Injected by poking externals' @saver, to drive /status's degraded (503) path,

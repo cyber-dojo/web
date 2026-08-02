@@ -1,5 +1,5 @@
 require_relative 'lib_test_base'
-require_relative '../../source/web/files_from'
+require_source 'files_from'
 
 class FilesFromTest < LibTestBase
 

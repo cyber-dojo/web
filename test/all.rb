@@ -4,6 +4,12 @@ require_relative './test_coverage'
 
 # The image copies source/server/ to /web/source, so the app sits at
 # /web/source/web in the container even though it is source/server/web here.
+# Naming that container path here keeps it in one place, as dashboard does.
+def require_source(name)
+  # Requires one production file, named without its path, eg 'saver_service'.
+  require_relative "../source/web/#{name}"
+end
+
 app_root = File.expand_path('../source/web', __dir__)
 
 Dir.glob("#{app_root}/*.rb").each { |filename|
