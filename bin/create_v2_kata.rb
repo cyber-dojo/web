@@ -1,6 +1,6 @@
 
 def require_source(path)
-  require_relative "../app/#{path}"
+  require_relative "../web/#{path}"
 end
 
 require 'securerandom'

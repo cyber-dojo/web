@@ -3,8 +3,8 @@ FROM ghcr.io/cyber-dojo/sinatra-base:1a1d65f@sha256:31bfb1e5cbc25d4b37e0dfea2e46
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
 FROM cyberdojo/asset_builder:5e9f6ad AS assets
-COPY source/app/assets/javascripts /app/app/assets/javascripts
-COPY source/app/assets/stylesheets /app/app/assets/stylesheets
+COPY source/server/web/assets/javascripts /app/app/assets/javascripts
+COPY source/server/web/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
 
 FROM base
@@ -17,7 +17,7 @@ ARG APP_DIR=/web
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY --chown=nobody:nogroup source/ .
+COPY --chown=nobody:nogroup source/server/ .
 COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
 COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 

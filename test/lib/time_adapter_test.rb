@@ -1,5 +1,5 @@
 require_relative 'lib_test_base'
-require_relative '../../source/app/time_adapter'
+require_relative '../../source/web/time_adapter'
 
 class TimeAdapterTest < LibTestBase
 

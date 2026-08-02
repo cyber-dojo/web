@@ -204,16 +204,16 @@ as an explicit web fix, since Option C does not cover it.
 
 ## Code map
 
-- `source/app/app.rb` - `post '/kata/run_tests/:id'`: the rescue block that
+- `source/server/web/app.rb` - `post '/kata/run_tests/:id'`: the rescue block that
   fabricates `next_index = index + 1` (cause 2) and maps the out-of-order error
   to `out_of_sync:`; `get '/kata/next_index/:id'` is the Option A route.
-- `source/app/views/kata/_run_tests.erb` - `runTests` `.catch` with no resync
+- `source/server/web/views/kata/_run_tests.erb` - `runTests` `.catch` with no resync
   (cause 3); `refreshFromTest` does `setIndex(light.index + 1)` (cause 2); reads
   `out_of_sync` and calls `cd.mobbingPoll.check()` to lock the tab.
-- `source/app/views/kata/_file_inter_test_events.erb` - `cd.waitForITE`
+- `source/server/web/views/kata/_file_inter_test_events.erb` - `cd.waitForITE`
   (`maxWait = 2000`, cause 1) and `syncPostWithCallbackITE` (30s fetch abort,
   sets and clears `_interTestEventInProgress`).
-- `source/app/views/kata/_test_button.erb:11` - `[test]` gated behind
+- `source/server/web/views/kata/_test_button.erb:11` - `[test]` gated behind
   `cd.waitForITE` (cause 1).
-- `source/app/saver_service.rb` - `kata_ran_tests` (and the other 8
+- `source/server/web/saver_service.rb` - `kata_ran_tests` (and the other 8
   write methods) carry `laptop_id` in the uncommitted Option C work.

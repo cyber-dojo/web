@@ -11,7 +11,7 @@ module WebApp
   class App < Sinatra::Base
 
     set :views, "#{__dir__}/views"
-    set :public_folder, File.expand_path('../public', __dir__)
+    set :public_folder, "#{__dir__}/public"
     set :host_authorization, {}
     set :protection, except: [:http_origin, :json_csrf]
     enable :static

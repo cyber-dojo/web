@@ -471,7 +471,7 @@ Both web and saver change, so both crossovers matter.
 
 Line numbers are approximate; grep the symbol if they have drifted.
 
-web (`web/source/app/`):
+web (`web/source/server/web/`):
 - `app.rb:155` `post '/kata/run_tests/:id'` - the only handler that surfaces
   mobbing. It calls the saver, rescues `SaverService::Error`, and at `app.rb:192`
   sets `@out_of_sync = error.message.include?('Out of order event')`, returned as

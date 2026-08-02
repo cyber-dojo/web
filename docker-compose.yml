@@ -18,7 +18,7 @@ services:
     restart: no
     volumes:
       - ./bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
-      - ./source/app:/web/source/app:ro
+      - ./source/server/web:/web/source/web:ro
       - ./test:/web/test:ro
 
   # The browser (Capybara) tests in test/app_browser drive Firefox here

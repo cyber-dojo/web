@@ -9,7 +9,7 @@ SimpleCov.start do
   # Silence 'failed to recognize the test framework' warning
   command_name('Unit Tests')
 
-  web_home = '/web/source'
+  web_home = '/web/source/web'
   test_home = '/web/test'
   modyule = ARGV[0]                      # eg 'app_helpers'
   slashed_modyule = modyule.sub('_','/') # eg 'app/helpers'
@@ -32,7 +32,7 @@ SimpleCov.start do
   # A group naming no existing file reports 100% covered, so an unassigned
   # file would be silently ungated. Fail loudly instead.
   assigned = group_files.values.flatten
-  Dir.glob("#{web_home}/app/**/*.rb").each do |filename|
+  Dir.glob("#{web_home}/**/*.rb").each do |filename|
     basename = File.basename(filename)
     unless assigned.include?(basename)
       raise "#{basename} belongs to no coverage group in test_coverage.rb"
