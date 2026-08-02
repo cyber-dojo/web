@@ -1,4 +1,4 @@
-require_relative '../../app/services/spooler_service'
+require_relative '../../app/spooler_service'
 
 # A SpoolerService that raises a SpoolerService::Error on the run_tests-family
 # writes. Drives the run_tests rescue path for a transient spooler failure

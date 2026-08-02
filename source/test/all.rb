@@ -6,7 +6,6 @@ app_root = File.expand_path('..', __dir__)
 
 %w(
   app
-  app/services
 ).each do |dir|
   Dir.glob("#{app_root}/#{dir}/*.rb").each { |filename|
     # app.rb is required by the suites that exercise it. Requiring it here too

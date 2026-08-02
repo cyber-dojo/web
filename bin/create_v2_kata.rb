@@ -4,7 +4,7 @@ def require_source(path)
 end
 
 require 'securerandom'
-require_source 'services/externals'
+require_source 'externals'
 
 # Externals is constructor-injected now, so build one rather than mixing it in.
 $http = WebApp::Externals.new.saver.instance_variable_get(:@http)

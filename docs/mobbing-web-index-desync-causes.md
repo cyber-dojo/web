@@ -215,5 +215,5 @@ as an explicit web fix, since Option C does not cover it.
   sets and clears `_interTestEventInProgress`).
 - `source/app/views/kata/_test_button.erb:11` - `[test]` gated behind
   `cd.waitForITE` (cause 1).
-- `source/app/services/saver_service.rb` - `kata_ran_tests` (and the other 8
+- `source/app/saver_service.rb` - `kata_ran_tests` (and the other 8
   write methods) carry `laptop_id` in the uncommitted Option C work.
