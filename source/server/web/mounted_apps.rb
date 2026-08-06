@@ -1,4 +1,5 @@
 require_relative 'app'
+require_relative 'assets_app'
 require_relative 'fork_app'
 require_relative 'review_app'
 
@@ -11,6 +12,7 @@ module WebApp
   # no other mount claims, whatever order they are listed in here.
   def self.mounted(externals)
     Rack::URLMap.new(
+      AssetsApp::MOUNT_PATH => AssetsApp.new(externals),
       ForkApp::MOUNT_PATH => ForkApp.new(externals),
       ReviewApp::MOUNT_PATH => ReviewApp.new(externals),
       App::MOUNT_PATH => App.new(externals)
