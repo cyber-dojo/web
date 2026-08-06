@@ -20,3 +20,6 @@ trail:
 
         - name: snyk-container-scan
           type: decision
+
+        - name: rubocop-lint
+          type: junit

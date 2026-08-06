@@ -83,6 +83,29 @@ jobs:
             --name=pull-request
 
 
+  rubocop-lint:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Run Rubocop linter on source
+        run:
+          make rubocop-lint
+
+      # Both configs are attached: .rubocop.yml alone would not show which
+      # cops are grandfathered, and that is what says how much the lint covers.
+      - name: Attest rubocop evidence to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest junit
+            --name=web.rubocop-lint
+            --results-dir=./reports/rubocop
+            --attachments=./.rubocop.yml,./.rubocop_todo.yml
+
+
   build-image:
     needs: [setup]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
@@ -138,6 +161,7 @@ jobs:
     needs:
       - build-image
       - pull-request
+      - rubocop-lint
       - snyk-container-scan
       - run-tests
     runs-on: ubuntu-latest

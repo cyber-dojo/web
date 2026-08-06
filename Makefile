@@ -8,7 +8,7 @@ image:
 	${PWD}/bin/build.sh
 
 rubocop-lint:
-	@DOCKER_CLI_HINTS=false docker run --rm --volume "${PWD}:/app" cyberdojo/rubocop --raise-cop-error
+	@${PWD}/bin/rubocop-lint.sh
 
 # Run all the tests, or optionally one module, filtered by test-id prefix(es).
 # Naming a module also skips the browser tests.
