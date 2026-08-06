@@ -6,6 +6,10 @@ require_relative 'runner'
 module WebApp
   class App < AppBase
 
+    # Everything no other app claims: the assets, the probes, the kata and
+    # review pages, and the catch-all 404.
+    MOUNT_PATH = '/'.freeze
+
     include FilesFrom
 
     helpers do
@@ -268,19 +272,6 @@ module WebApp
       content_type :json
       saver.kata_option_set(id, params[:name], params[:value])
       {}.to_json
-    end
-
-    # - - - - - - - - - - - - - - - -
-    # Fork
-
-    post '/fork/kata' do
-      content_type :json
-      { 'kata_fork' => saver.kata_fork(id, index) }.to_json
-    end
-
-    post '/fork/group' do
-      content_type :json
-      { 'group_fork' => saver.group_fork(id, index) }.to_json
     end
 
     # - - - - - - - - - - - - - - - -
