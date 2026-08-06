@@ -352,21 +352,14 @@ module WebApp
     # - - - - - - - - - - - - - - - -
     # Fork
 
-    # Each fork answers at two paths, so nginx and the fork-button
-    # view can move to the /fork prefix without a coordinated deploy.
-
-    %w(/kata/fork /fork/kata).each do |path|
-      post path do
-        content_type :json
-        { 'kata_fork' => saver.kata_fork(id, index) }.to_json
-      end
+    post '/fork/kata' do
+      content_type :json
+      { 'kata_fork' => saver.kata_fork(id, index) }.to_json
     end
 
-    %w(/group/fork /fork/group).each do |path|
-      post path do
-        content_type :json
-        { 'group_fork' => saver.group_fork(id, index) }.to_json
-      end
+    post '/fork/group' do
+      content_type :json
+      { 'group_fork' => saver.group_fork(id, index) }.to_json
     end
 
     # - - - - - - - - - - - - - - - -
