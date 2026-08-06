@@ -2,11 +2,10 @@ require_relative 'cleaner'
 
 module Web
   module FilesFrom # mix-in
-
     def files_from(file_content)
       files = cleaned_files(file_content)
       files.delete('output')
-      files.each.with_object({}) do |(filename,content),memo|
+      files.each.with_object({}) do |(filename, content), memo|
         memo[filename] = { 'content' => sanitized(content) }
       end
     end
@@ -17,6 +16,5 @@ module Web
     end
 
     include Cleaner
-
   end
 end

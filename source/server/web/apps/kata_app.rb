@@ -6,7 +6,6 @@ module Web
   # The kata edit page and everything it does: running tests, the inter-test
   # file events, reverting, checking out another avatar's light, the diffs.
   class KataApp < AppBase
-
     # Where this app mounts itself. Named here so config.ru and the tests
     # mount it identically. Rack strips it, so the routes below are the rest
     # of the path: /kata/edit/:id arrives here as /edit/:id.
@@ -87,33 +86,33 @@ module Web
           predicted: params['predicted'],
           revert_if_wrong: params['revert_if_wrong']
         })
-      rescue SpoolerService::Error => error
+      rescue SpoolerService::Error => e
         # The spooler write failed (it is down or unreachable), but the runner
         # already produced this traffic-light so we still show it. The browser
         # owns the displayed number and resolves a light's committed index
         # lazily from its major_index, so this uncommitted "ghost" carries no
         # index.
-        $stdout.puts(error.message)
+        $stdout.puts(e.message)
         $stdout.flush
       end
 
       @light = {
-        'colour'      => @outcome,
-        'duration'    => @duration,
-        'predicted'   => params['predicted'],
+        'colour' => @outcome,
+        'duration' => @duration,
+        'predicted' => params['predicted'],
         'revert_if_wrong' => params['revert_if_wrong']
       }
 
       content_type :json
       {
-        light:       @light,
-        outcome:     @outcome,
-        stdout:      @stdout['content'],
-        stderr:      @stderr['content'],
-        status:      @status.to_s,
-        log:         @log.to_s,
-        created:     @created,
-        changed:     @changed
+        light: @light,
+        outcome: @outcome,
+        stdout: @stdout['content'],
+        stderr: @stderr['content'],
+        status: @status.to_s,
+        log: @log.to_s,
+        created: @created,
+        changed: @changed
       }.to_json
     end
 
@@ -129,9 +128,7 @@ module Web
       # seed the scan at the event before the head - read from the committed
       # events, not the client index - then walk back to the previous light.
       previous_index = events.size - 2
-      while !light?(events[previous_index])
-        previous_index -= 1
-      end
+      previous_index -= 1 until light?(events[previous_index])
       args = [id, previous_index]
       json = source_event(id, previous_index, :revert, args)
       # The browser owns the displayed number and resolves the reverted light's
@@ -151,11 +148,11 @@ module Web
       content_type :json
       src_avatar_index = params[:src_avatar_index]
       from = {
-        id:           params[:src_id],
-        index:        params[:src_index].to_i,
-        major_index:  params[:src_major_index].to_i,
-        minor_index:  params[:src_minor_index].to_i,
-        avatarIndex:  (src_avatar_index != '') ? src_avatar_index.to_i : '',
+        id: params[:src_id],
+        index: params[:src_index].to_i,
+        major_index: params[:src_major_index].to_i,
+        minor_index: params[:src_minor_index].to_i,
+        avatarIndex: src_avatar_index == '' ? '' : src_avatar_index.to_i
       }
       json = source_event(from[:id], from[:index], :checkout, from)
       summary = { colour: @colour, checkout: from }
@@ -229,10 +226,10 @@ module Web
     end
 
     def ran_tests(id, files, stdout, stderr, status, summary)
-      if summary[:predicted] === 'none'
+      if summary[:predicted] == 'none'
         spooler.kata_ran_tests(id, files, stdout, stderr, status, summary,
                                laptop_id, tab_seq)
-      elsif summary[:predicted] === summary[:colour]
+      elsif summary[:predicted] == summary[:colour]
         spooler.kata_predicted_right(id, files, stdout, stderr, status,
                                      summary, laptop_id, tab_seq)
       else
@@ -247,13 +244,13 @@ module Web
       @stdout = event['stdout']
       @stderr = event['stderr']
       @status = event['status']
-      @colour = (src_index == 0) ? 'create' : event['colour']
+      @colour = src_index == 0 ? 'create' : event['colour']
       {
-         files: @files.to_h { |filename, file| [filename, file['content']] },
+        files: @files.to_h { |filename, file| [filename, file['content']] },
         stdout: @stdout,
         stderr: @stderr,
         status: @status,
-         light: { colour: @colour, name => value }
+        light: { colour: @colour, name => value }
       }
     end
 
@@ -262,11 +259,10 @@ module Web
     # silently drift if a new light colour is added. The create event (colour
     # nil) and every traffic-light colour are lights; only the four file events
     # are not.
-    FILE_EVENTS = %w( file_create file_delete file_rename file_edit )
+    FILE_EVENTS = %w[file_create file_delete file_rename file_edit]
 
     def light?(event)
       !FILE_EVENTS.include?(event['colour'])
     end
-
   end
 end

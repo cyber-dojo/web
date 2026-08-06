@@ -1,4 +1,3 @@
-
 def require_source(path)
   require_relative "../web/#{path}"
 end
@@ -29,19 +28,19 @@ end
 
 def create_v2_kata(count)
   v0_id = '5U2J18'
-  manifest = $http.get('kata_manifest', {id: v0_id})
+  manifest = $http.get('kata_manifest', { id: v0_id })
   manifest['version'] = 2
   manifest.delete('group_id')
   manifest.delete('group_index')
-  gid = $http.post('group_create', {manifest: manifest})
-  create_avatar(gid, inter_test_events=false, count)
-  id = create_avatar(gid, inter_test_events=true, count)
+  gid = $http.post('group_create', { manifest: manifest })
+  create_avatar(gid, inter_test_events = false, count)
+  id = create_avatar(gid, inter_test_events = true, count)
   print(id)
 end
 
 def create_avatar(gid, inter_test_events, count)
-  id = $http.post('group_join', {id: gid})
-  files = $http.get('kata_event', {id:id, index:0 })['files']
+  id = $http.post('group_join', { id: gid })
+  files = $http.get('kata_event', { id: id, index: 0 })['files']
   # [ bats_help.txt cyber-dojo.sh hiker.sh readme.txt test_hiker.sh ]
   original_hiker_sh = files['hiker.sh']['content']
 
@@ -49,22 +48,16 @@ def create_avatar(gid, inter_test_events, count)
   writer = Writer.new
   count.times do
     files['hiker.sh']['content'] = original_hiker_sh
-    if inter_test_events
-      file_create(id, files, 'wibble.txt', writer)
-    end
+    file_create(id, files, 'wibble.txt', writer) if inter_test_events
     red_traffic_light(id, files, writer)
     if inter_test_events
       file_edit(id, files, writer)
       file_rename(id, files, 'wibble.txt', 'wibble2.txt', writer)
     end
     amber_traffic_light(id, files, writer)
-    if inter_test_events
-      file_delete(id, files, 'wibble2.txt', writer)
-    end
+    file_delete(id, files, 'wibble2.txt', writer) if inter_test_events
     green_traffic_light(id, files, writer)
-    if inter_test_events
-      file_edit(id, files, writer)
-    end
+    file_edit(id, files, writer) if inter_test_events
   end
   id
 end

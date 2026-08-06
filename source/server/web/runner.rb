@@ -2,7 +2,6 @@ require_relative 'files_from'
 
 module Web
   class Runner
-
     def initialize(externals)
       @externals = externals
     end
@@ -18,7 +17,7 @@ module Web
         }
       }
 
-      if params[:rag_lambda] != ""
+      if params[:rag_lambda] != ''
         args[:manifest][:rag_lambda] = params[:rag_lambda]
       end
 
@@ -29,10 +28,10 @@ module Web
 
       # Ensure files sent to saver.kata_ran_tests() reflect
       # changes; refreshing the browser should be a no-op.
-      created.each { |filename,file| files[filename] = file }
-      changed.each { |filename,file| files[filename] = file }
+      created.each { |filename, file| files[filename] = file }
+      changed.each { |filename, file| files[filename] = file }
 
-      [result,files,created,changed]
+      [result, files, created, changed]
     end
 
     private
@@ -40,7 +39,7 @@ module Web
     include FilesFrom
 
     def plain(files)
-      files.each.with_object({}) do |(filename,file),memo|
+      files.each.with_object({}) do |(filename, file), memo|
         memo[filename] = file['content']
       end
     end
@@ -48,6 +47,5 @@ module Web
     def runner
       @externals.runner
     end
-
   end
 end

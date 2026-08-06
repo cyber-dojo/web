@@ -4,9 +4,7 @@ require 'uri'
 
 module Web
   module HttpJson
-
     class Requester
-
       def initialize(http, hostname, port)
         @http = http.new(hostname, port)
         @base_url = "http://#{hostname}:#{port}"
@@ -33,8 +31,6 @@ module Web
         req.body = JSON.generate(args)
         @http.request(req)
       end
-
     end
-
   end
 end
