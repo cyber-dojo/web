@@ -33,7 +33,8 @@ run_browser_tests_in_container()
   # run.sh and are kept out of run.sh's per-module coverage loop. Returns the
   # test run's exit status.
   local -r WEB_CID="$(service_container web)"
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run_browser.sh"
+  docker exec --user nobody "${WEB_CID}" \
+    sh -c "cd /web/test && ./run_browser.sh ${*:-}"
 }
 
 run_tests_in_container()
