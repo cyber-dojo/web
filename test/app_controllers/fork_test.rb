@@ -22,4 +22,24 @@ class ForkTest < AppControllerTestBase
     end
   end
 
+  test 'F1B7Cc', %w(
+  | /fork/kata returns the id of a new kata
+  ) do
+    in_kata do
+      post '/fork/kata', { id: @id, index: 0 }
+      assert last_response.ok?
+      assert saver.kata_exists?(json['kata_fork'])
+    end
+  end
+
+  test 'F1B7Cd', %w(
+  | /fork/group returns the id of a new group
+  ) do
+    in_kata do
+      post '/fork/group', { id: @id, index: 0 }
+      assert last_response.ok?
+      assert saver.group_exists?(json['group_fork'])
+    end
+  end
+
 end

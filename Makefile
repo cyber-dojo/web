@@ -10,8 +10,11 @@ image:
 rubocop-lint:
 	@DOCKER_CLI_HINTS=false docker run --rm --volume "${PWD}:/app" cyberdojo/rubocop --raise-cop-error
 
+# Run all the tests, or optionally one module, filtered by test-id prefix(es).
+# Naming a module also skips the browser tests.
+#   eg make test module=app_controllers tids=F1B7C
 test:
-	${PWD}/bin/run_tests.sh
+	${PWD}/bin/run_tests.sh ${module} ${tids}
 
 test_browser: image
 	${PWD}/bin/run_browser_tests.sh
