@@ -281,14 +281,6 @@ module WebApp
     end
 
     # - - - - - - - - - - - - - - - -
-    # Errors
-
-    get '*' do
-      status 404
-      erb :'error/404', layout: :'layouts/error'
-    end
-
-    # - - - - - - - - - - - - - - - -
 
     private
 

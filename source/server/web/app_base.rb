@@ -113,6 +113,15 @@ module WebApp
 
     end
 
+    # Every app answers an unmatched path the same way, because rack sends
+    # each unmatched path to whichever app owns its prefix: /kata/nonsense
+    # never reaches the app mounted at /. A hook rather than a get '*' route,
+    # so it covers every verb and cannot shadow a route declared after it.
+    not_found do
+      status 404
+      erb :'error/404', layout: :'layouts/error'
+    end
+
     error do
       status 500
       erb :'error/500', layout: :'layouts/error'
