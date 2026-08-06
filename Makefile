@@ -16,8 +16,10 @@ rubocop-lint:
 test:
 	${PWD}/bin/run_tests.sh ${module} ${tids}
 
+# Run the browser tests only, optionally filtered by test-id prefix(es).
+#   eg make test_browser tids=fK3nQ7
 test_browser: image
-	${PWD}/bin/run_browser_tests.sh
+	${PWD}/bin/run_browser_tests.sh ${tids}
 
 count ?= 1
 v ?= 2
