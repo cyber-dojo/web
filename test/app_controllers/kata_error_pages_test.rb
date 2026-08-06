@@ -26,13 +26,13 @@ class KataErrorPagesTest < AppControllerTestBase
   test 'EB6002', %w(
   | GET /kata/edit/:id with a bad id returns 500
   ) do
-    App.set :raise_errors, false
+    KataApp.set :raise_errors, false
     begin
       capture_stdout_stderr { get '/kata/edit/123' }
       assert_equal 500, last_response.status
       assert_includes last_response.body, '500'
     ensure
-      App.set :raise_errors, true
+      KataApp.set :raise_errors, true
     end
   end
 

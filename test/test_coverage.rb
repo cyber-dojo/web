@@ -26,8 +26,8 @@ SimpleCov.start do
     'app_models'      => %w(kata.rb runner.rb),
     'app_services'    => %w(externals.rb runner_service.rb saver_service.rb
                             spooler_service.rb requester.rb responder.rb),
-    'app_controllers' => %w(app.rb app_base.rb assets_app.rb fork_app.rb
-                            mounted_apps.rb review_app.rb)
+    'app_controllers' => %w(app_base.rb assets_app.rb fork_app.rb kata_app.rb
+                            mounted_apps.rb probes_app.rb review_app.rb)
   }
 
   # A group naming no existing file reports 100% covered, so an unassigned

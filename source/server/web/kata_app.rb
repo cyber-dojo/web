@@ -1,76 +1,20 @@
 require_relative 'app_base'
 require_relative 'files_from'
 require_relative 'kata'
-require_relative 'runner'
 
 module WebApp
-  class App < AppBase
+  # The kata edit page and everything it does: running tests, the inter-test
+  # file events, reverting, checking out another avatar's light, the diffs.
+  class KataApp < AppBase
 
-    # Everything no other app claims: the assets, the probes, the kata and
-    # review pages, and the catch-all 404.
-    MOUNT_PATH = '/'.freeze
+    # Where this app mounts itself. Named here so config.ru and the tests
+    # mount it identically. Rack strips it, so the routes below are the rest
+    # of the path: /kata/edit/:id arrives here as /edit/:id.
+    MOUNT_PATH = '/kata'.freeze
 
     include FilesFrom
 
-    helpers do
-
-      def service_ready?(service)
-        # Whether a dependency reports ready. The service clients raise (rather
-        # than return false) when the service is unreachable, so a raise is
-        # caught and reported as not-ready - one down dependency must not fail
-        # the whole probe.
-        service.ready? == true
-      rescue StandardError
-        false
-      end
-
-    end
-
-    # - - - - - - - - - - - - - - - -
-    # Probes
-
-    get '/alive/?' do
-      content_type :json
-      { 'alive?' => true }.to_json
-    end
-
-    # Deliberately a static true, NOT runner.ready? && saver.ready? &&
-    # spooler.ready?. This is the load balancer's readiness probe: it gates
-    # traffic and, with wait-for-steady-state, deploys. Those three are shared
-    # backends every web task talks to, so coupling readiness to them fails all
-    # tasks at once on a single dependency blip. The load balancer is then left
-    # with no healthy target and returns 503 for every route (including the many
-    # that never touch the down service), and a deploy cannot reach steady
-    # state, so a fix cannot even be shipped. Descheduling web does not heal the
-    # dependency, it only widens the outage. Readiness here means just "this web
-    # process can serve and will degrade gracefully"; a down dependency surfaces
-    # as a graceful per-action error and via /status, never here.
-    get '/ready/?' do
-      content_type :json
-      { 'ready?' => true }.to_json
-    end
-
-    # Deep, per-dependency readiness for dashboards, monitors and deploy
-    # smoke-checks. Unlike /ready this one reaches the downstream services, so
-    # it must never be wired to the load balancer's health check: a dependency
-    # blip would deschedule every web task at once. The overall verdict is the
-    # HTTP status (200 all ready, 503 any not); the body names which dependency
-    # is down.
-    get '/status/?' do
-      content_type :json
-      services = {
-        'runner'  => service_ready?(runner),
-        'saver'   => service_ready?(saver),
-        'spooler' => service_ready?(spooler)
-      }
-      status(services.values.all? ? 200 : 503)
-      { 'status' => services }.to_json
-    end
-
-    # - - - - - - - - - - - - - - - -
-    # Kata
-
-    get '/kata/edit/:id' do
+    get '/edit/:id' do
       @runtime_env = ENV
       @id = @title = params[:id]
       @manifest = saver.kata_manifest(@id)
@@ -86,28 +30,28 @@ module WebApp
     # - - - - - - - - - - - - - - - -
     # Inter-test file events
 
-    post '/kata/file_create' do
+    post '/file_create' do
       spooler.kata_file_create(id, params_files, params[:filename],
                                laptop_id, tab_seq)
       status 204
       ''
     end
 
-    post '/kata/file_delete' do
+    post '/file_delete' do
       spooler.kata_file_delete(id, params_files, params[:filename],
                                laptop_id, tab_seq)
       status 204
       ''
     end
 
-    post '/kata/file_rename' do
+    post '/file_rename' do
       spooler.kata_file_rename(id, params_files, params[:old_filename],
                                params[:new_filename], laptop_id, tab_seq)
       status 204
       ''
     end
 
-    post '/kata/file_edit' do
+    post '/file_edit' do
       spooler.kata_file_edit(id, params_files, laptop_id, tab_seq)
       status 204
       ''
@@ -116,7 +60,7 @@ module WebApp
     # - - - - - - - - - - - - - - - -
     # The core run-tests
 
-    post '/kata/run_tests/:id' do
+    post '/run_tests/:id' do
       @id = params[:id]
       kata = Kata.new(externals, @id)
       t1 = time.now
@@ -178,7 +122,7 @@ module WebApp
     # predicted-wrong [test]. Reverting to a past light chosen on the review
     # page goes through /kata/checkout instead.
 
-    post '/kata/auto_revert' do
+    post '/auto_revert' do
       content_type :json
       events = saver.kata_events(id)
       # The auto-revert always reverts from the head (the just-tested light), so
@@ -203,7 +147,7 @@ module WebApp
     # - - - - - - - - - - - - - - - -
     # Checkout traffic-light from other avatar in group
 
-    post '/kata/checkout' do
+    post '/checkout' do
       content_type :json
       src_avatar_index = params[:src_avatar_index]
       from = {
@@ -226,41 +170,36 @@ module WebApp
     # - - - - - - - - - - - - - - - -
     # Set light/dark or colour-syntax option
 
-    post '/kata/option_set' do
+    post '/option_set' do
       content_type :json
       saver.kata_option_set(id, params[:name], params[:value])
       {}.to_json
     end
 
     # - - - - - - - - - - - - - - - -
-    # Fork, at the paths the fork button used before it moved to the /fork
-    # prefix. A review page loaded before that change holds JavaScript posting
-    # here, and such a tab can stay open for hours, so removing these with the
-    # button's change would have broken forking for anyone mid-practice.
-    # ForkApp is where forking lives; these two repeat its one-line bodies and
-    # can go once no browser is still holding the old page.
+    # Forking a kata, at the path the fork button used before it moved to the
+    # /fork prefix. A review page loaded before that change holds JavaScript
+    # posting here, and such a tab can stay open for hours. ForkApp is where
+    # forking lives; this repeats its one-line body and can go once no browser
+    # is still holding the old page. Its /group/fork twin lives in the app
+    # mounted at /, since /group claims no mount of its own.
 
-    post '/kata/fork' do
+    post '/fork' do
       content_type :json
       { 'kata_fork' => saver.kata_fork(id, index) }.to_json
-    end
-
-    post '/group/fork' do
-      content_type :json
-      { 'group_fork' => saver.group_fork(id, index) }.to_json
     end
 
     # - - - - - - - - - - - - - - - -
     # Diff
 
-    get '/kata/diff_summary' do
+    get '/diff_summary' do
       content_type :json
       was = params[:was_index].to_i
       now = params[:now_index].to_i
       { diff_summary: saver.diff_summary(params[:id], was, now) }.to_json
     end
 
-    get '/kata/diff_lines' do
+    get '/diff_lines' do
       content_type :json
       was = params[:was_index].to_i
       now = params[:now_index].to_i
@@ -274,7 +213,7 @@ module WebApp
     # instead of sending a stale index the saver would reject as an out-of-order
     # event and the browser would show as a false mobbing dialog.
 
-    get '/kata/next_index/:id' do
+    get '/next_index/:id' do
       content_type :json
       events = saver.kata_events(params[:id])
       { next_index: events.last['index'] + 1 }.to_json
