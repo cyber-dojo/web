@@ -1,6 +1,8 @@
 
 # This line must come first, before any required/loaded files to be covered.
-require_relative './test_coverage'
+# The browser tests set no COVERAGE_DIR: they drive the app in the serving
+# puma process, where in-process line coverage cannot see it.
+require_relative './test_coverage' if ENV['COVERAGE_DIR']
 
 # The image copies source/server/ to /web/source, so the app sits at
 # /web/source/web in the container even though it is source/server/web here.
