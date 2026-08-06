@@ -2,7 +2,7 @@ module TestDomainHelpers
 
   def in_new_kata(&block)
     id = saver.kata_create(starter_manifest)
-    kata = WebApp::Kata.new(externals, id)
+    kata = Web::Kata.new(externals, id)
     block.call(kata)
   end
 

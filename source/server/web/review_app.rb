@@ -1,6 +1,6 @@
 require_relative 'app_base'
 
-module WebApp
+module Web
   # The review page as a page in its own right, opened from a dashboard
   # traffic-light. The same page is also a mode of the kata edit page, which
   # renders views/review/_review.erb into a hidden div and reveals it

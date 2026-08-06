@@ -1,4 +1,4 @@
-module WebApp
+module Web
   class TimeAdapter
 
     def now

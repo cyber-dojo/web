@@ -1,6 +1,6 @@
 require_relative 'app_base'
 
-module WebApp
+module Web
   # The three probes, and the app at / that answers whatever no prefix claims.
   # The probes cannot have a mount of their own: /alive, /ready and /status are
   # three top-level siblings sharing no prefix, and rack mounts by prefix.

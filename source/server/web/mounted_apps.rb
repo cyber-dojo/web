@@ -4,7 +4,7 @@ require_relative 'kata_app'
 require_relative 'probes_app'
 require_relative 'review_app'
 
-module WebApp
+module Web
   # The rack app to run: every app under its own mount point. config.ru and
   # the test base both call this, so the tests drive the topology production
   # serves rather than one app standing in for all of them.

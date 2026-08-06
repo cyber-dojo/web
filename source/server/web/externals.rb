@@ -6,7 +6,7 @@ require_relative 'spooler_service'
 # Wires the app to its collaborators. Each is memoized, so a test substitutes
 # one by poking its ivar before the first request, eg
 #   externals.instance_exec { @runner = RunnerStub.new(externals) }
-module WebApp
+module Web
   class Externals
 
     # The clock, so a test can hold time still.

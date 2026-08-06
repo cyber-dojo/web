@@ -1,6 +1,6 @@
 require_relative 'app_base'
 
-module WebApp
+module Web
   # The two compiled bundles, served straight from ${APP_DIR}/assets.
   class AssetsApp < AppBase
 

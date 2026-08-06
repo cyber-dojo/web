@@ -9,7 +9,7 @@ module TestExternalHelpers # mix-in
   # poking its ivar before the first request, eg
   #   externals.instance_exec { @runner = RunnerService.new(externals) }
   def externals
-    @externals ||= WebApp::Externals.new.tap { |it| it.runner_class = RunnerStub }
+    @externals ||= Web::Externals.new.tap { |it| it.runner_class = RunnerStub }
   end
 
   # Shorthands, so tests read as saver/runner/spooler rather than

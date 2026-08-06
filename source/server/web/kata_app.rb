@@ -2,7 +2,7 @@ require_relative 'app_base'
 require_relative 'files_from'
 require_relative 'kata'
 
-module WebApp
+module Web
   # The kata edit page and everything it does: running tests, the inter-test
   # file events, reverting, checking out another avatar's light, the diffs.
   class KataApp < AppBase

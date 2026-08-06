@@ -4,7 +4,7 @@ require 'json'
 require 'rack/protection'
 require_relative 'externals'
 
-module WebApp
+module Web
   # What every mounted app needs: its collaborators, the csrf and laptop-id
   # cookies, the compiled-asset paths, the request-param readers and the 500
   # handler. Routes live in the subclasses, because Sinatra hands a subclass

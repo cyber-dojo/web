@@ -5,10 +5,10 @@ require 'minitest/autorun'
 
 class TestBase < Minitest::Test
 
-  # The apps live in the WebApp namespace. Including it here puts that module
+  # The apps live in the Web namespace. Including it here puts that module
   # in the ancestor chain of every test class, so tests name KataApp, Kata,
   # SaverService and friends unqualified.
-  include WebApp
+  include Web
 
   include TestDomainHelpers
   include TestExternalHelpers
