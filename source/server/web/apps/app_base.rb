@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'digest'
 require 'json'
 require 'rack/protection'
-require_relative 'externals'
 
 module Web
   # What every mounted app needs: its collaborators, the csrf and laptop-id
@@ -12,8 +11,11 @@ module Web
   # simply descend from another.
   class AppBase < Sinatra::Base
 
-    set :views, "#{__dir__}/views"
-    set :public_folder, "#{__dir__}/public"
+    # The apps live one level down, in apps/, but views/ and public/ sit
+    # beside that directory rather than inside it, because they are shared:
+    # the review partials render from ReviewApp and from KataApp both.
+    set :views, File.expand_path('../views', __dir__)
+    set :public_folder, File.expand_path('../public', __dir__)
     set :host_authorization, {}
     set :protection, except: [:http_origin, :json_csrf]
     enable :static

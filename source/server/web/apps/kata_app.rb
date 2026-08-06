@@ -1,6 +1,6 @@
 require_relative 'app_base'
-require_relative 'files_from'
-require_relative 'kata'
+require_relative '../files_from'
+require_relative '../kata'
 
 module Web
   # The kata edit page and everything it does: running tests, the inter-test
