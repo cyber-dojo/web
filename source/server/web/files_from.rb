@@ -1,6 +1,6 @@
 require_relative 'cleaner'
 
-module WebApp
+module Web
   module FilesFrom # mix-in
 
     def files_from(file_content)

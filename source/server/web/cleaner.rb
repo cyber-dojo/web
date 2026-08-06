@@ -1,4 +1,4 @@
-module WebApp
+module Web
   module Cleaner # mix-in
 
     def cleaned_files(files)

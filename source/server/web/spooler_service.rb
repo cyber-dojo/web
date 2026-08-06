@@ -1,7 +1,7 @@
 require_relative 'http_json/requester'
 require_relative 'http_json/responder'
 
-module WebApp
+module Web
   class SpoolerService
 
     class Error < RuntimeError

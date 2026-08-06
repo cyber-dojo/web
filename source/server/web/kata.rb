@@ -1,6 +1,6 @@
 require_relative 'runner'
 
-module WebApp
+module Web
   class Kata
 
     def initialize(externals, id)

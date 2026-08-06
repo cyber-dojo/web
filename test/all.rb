@@ -14,13 +14,10 @@ end
 
 app_root = File.expand_path('../source/web', __dir__)
 
-Dir.glob("#{app_root}/*.rb").each { |filename|
-  # app.rb is required by the suites that exercise it. Requiring it here too
-  # would add its lines to every suite's coverage denominator.
-  next if File.basename(filename) == 'app.rb'
-
-  require filename
-}
+# The collaborators only. The mounted apps live in apps/, which this glob does
+# not reach, and are required by the suite that exercises them - requiring them
+# here would add their lines to every suite's coverage denominator.
+Dir.glob("#{app_root}/*.rb").each { |filename| require filename }
 
 # RunnerStub is the test suite's default runner (see test_external_helpers).
 # Production code no longer requires it - externals.rb used to, which pulled

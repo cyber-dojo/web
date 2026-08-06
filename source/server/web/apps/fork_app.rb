@@ -1,6 +1,6 @@
 require_relative 'app_base'
 
-module WebApp
+module Web
   # Forking a practice from a traffic-light. Two routes that differ in one
   # word, which is why the prefix holds the word they share.
   class ForkApp < AppBase

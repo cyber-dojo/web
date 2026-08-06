@@ -1,6 +1,6 @@
 require 'json'
 
-module WebApp
+module Web
   module HttpJson
 
     class Responder

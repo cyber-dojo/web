@@ -1,6 +1,6 @@
 require_relative 'files_from'
 
-module WebApp
+module Web
   class Runner
 
     def initialize(externals)

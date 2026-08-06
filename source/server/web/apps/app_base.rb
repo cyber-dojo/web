@@ -2,9 +2,8 @@ require 'sinatra/base'
 require 'digest'
 require 'json'
 require 'rack/protection'
-require_relative 'externals'
 
-module WebApp
+module Web
   # What every mounted app needs: its collaborators, the csrf and laptop-id
   # cookies, the compiled-asset paths, the request-param readers and the 500
   # handler. Routes live in the subclasses, because Sinatra hands a subclass
@@ -12,8 +11,11 @@ module WebApp
   # simply descend from another.
   class AppBase < Sinatra::Base
 
-    set :views, "#{__dir__}/views"
-    set :public_folder, "#{__dir__}/public"
+    # The apps live one level down, in apps/, but views/ and public/ sit
+    # beside that directory rather than inside it, because they are shared:
+    # the review partials render from ReviewApp and from KataApp both.
+    set :views, File.expand_path('../views', __dir__)
+    set :public_folder, File.expand_path('../public', __dir__)
     set :host_authorization, {}
     set :protection, except: [:http_origin, :json_csrf]
     enable :static
@@ -88,6 +90,38 @@ module WebApp
 
     def time
       externals.time
+    end
+
+    # View helpers, here rather than in one app, because the views are shared:
+    # the review partials render from the review page and from the kata edit
+    # page's review mode, so whichever app serves them must supply these.
+    helpers do
+
+      def partial(name)
+        parts = name.split('/')
+        parts[-1] = "_#{parts[-1]}"
+        erb :"#{parts.join('/')}", layout: false
+      end
+
+      def j(str)
+        str.to_s
+          .gsub('\\') { '\\\\' }
+          .gsub("\r\n") { '\\n' }
+          .gsub("\n") { '\\n' }
+          .gsub("\r") { '\\n' }
+          .gsub('"') { '\\"' }
+          .gsub("'") { "\\'" }
+      end
+
+    end
+
+    # Every app answers an unmatched path the same way, because rack sends
+    # each unmatched path to whichever app owns its prefix: /kata/nonsense
+    # never reaches the app mounted at /. A hook rather than a get '*' route,
+    # so it covers every verb and cannot shadow a route declared after it.
+    not_found do
+      status 404
+      erb :'error/404', layout: :'layouts/error'
     end
 
     error do

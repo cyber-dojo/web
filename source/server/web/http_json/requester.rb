@@ -2,7 +2,7 @@ require 'json'
 require 'net/http'
 require 'uri'
 
-module WebApp
+module Web
   module HttpJson
 
     class Requester
