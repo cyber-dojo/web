@@ -1,5 +1,6 @@
 require_relative 'app'
 require_relative 'fork_app'
+require_relative 'review_app'
 
 module WebApp
   # The rack app to run: every app under its own mount point. config.ru and
@@ -11,6 +12,7 @@ module WebApp
   def self.mounted(externals)
     Rack::URLMap.new(
       ForkApp::MOUNT_PATH => ForkApp.new(externals),
+      ReviewApp::MOUNT_PATH => ReviewApp.new(externals),
       App::MOUNT_PATH => App.new(externals)
     )
   end

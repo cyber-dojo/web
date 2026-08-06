@@ -14,22 +14,6 @@ module WebApp
 
     helpers do
 
-      def partial(name)
-        parts = name.split('/')
-        parts[-1] = "_#{parts[-1]}"
-        erb :"#{parts.join('/')}", layout: false
-      end
-
-      def j(str)
-        str.to_s
-          .gsub('\\') { '\\\\' }
-          .gsub("\r\n") { '\\n' }
-          .gsub("\n") { '\\n' }
-          .gsub("\r") { '\\n' }
-          .gsub('"') { '\\"' }
-          .gsub("'") { "\\'" }
-      end
-
       def service_ready?(service)
         # Whether a dependency reports ready. The service clients raise (rather
         # than return false) when the service is unreachable, so a raise is
@@ -96,17 +80,6 @@ module WebApp
       }
       status(services.values.all? ? 200 : 503)
       { 'status' => services }.to_json
-    end
-
-    # - - - - - - - - - - - - - - - -
-    # Review
-
-    get '/review/show/:id' do
-      @runtime_env = ENV
-      @id = params[:id]
-      @manifest = saver.kata_manifest(@id)
-      @title = "review:#{@id}"
-      erb :'review/show'
     end
 
     # - - - - - - - - - - - - - - - -

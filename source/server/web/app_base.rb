@@ -90,6 +90,29 @@ module WebApp
       externals.time
     end
 
+    # View helpers, here rather than in one app, because the views are shared:
+    # the review partials render from the review page and from the kata edit
+    # page's review mode, so whichever app serves them must supply these.
+    helpers do
+
+      def partial(name)
+        parts = name.split('/')
+        parts[-1] = "_#{parts[-1]}"
+        erb :"#{parts.join('/')}", layout: false
+      end
+
+      def j(str)
+        str.to_s
+          .gsub('\\') { '\\\\' }
+          .gsub("\r\n") { '\\n' }
+          .gsub("\n") { '\\n' }
+          .gsub("\r") { '\\n' }
+          .gsub('"') { '\\"' }
+          .gsub("'") { "\\'" }
+      end
+
+    end
+
     error do
       status 500
       erb :'error/500', layout: :'layouts/error'
