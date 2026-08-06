@@ -2,7 +2,6 @@ require_relative 'runner'
 
 module Web
   class Kata
-
     def initialize(externals, id)
       @externals = externals
       @id = id
@@ -31,6 +30,5 @@ module Web
     def saver
       @externals.saver
     end
-
   end
 end

@@ -1,13 +1,12 @@
 module Web
   module Cleaner # mix-in
-
     def cleaned_files(files)
       # files is an ActionController::Parameters
       # so you can't use .map or .transform_values
       cleaned = {}
-      files.each do |filename,content|
+      files.each do |filename, content|
         content = cleaned_string(content)
-        content = content.gsub(/\r\n/, "\n")
+        content = content.gsub("\r\n", "\n")
         cleaned[filename] = content
       end
       cleaned
@@ -18,10 +17,9 @@ module Web
       # if encoding is already utf-8
       # then encoding to utf-8 is a no-op and
       # invalid byte sequences are not detected.
-      s = s.encode('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
+      s = s.encode('UTF-16', 'UTF-8', invalid: :replace, replace: '')
       s = s.encode('UTF-8', 'UTF-16')
     end
-
   end
 end
 

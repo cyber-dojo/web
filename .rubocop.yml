@@ -1,17 +1,23 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
-  DisabledByDefault: true
+  NewCops: enable
   Exclude:
     # The tests hold hundreds of lines over 80. Bringing them under the ceiling
     # is its own piece of work, so they are excluded until then.
     - test/**/*
 
-# Line length only, deliberately. This repo has never been linted, and a full
-# cop set reports over 1500 offences across 78 files - almost all whitespace and
-# layout drift. Adopting rubocop wholesale is a separate decision; this file says
-# nothing about it.
+# The full cop set runs. Today's offences are grandfathered file-by-file in
+# .rubocop_todo.yml, so a newly added file is linted in full from the moment it
+# arrives, and cleaning up a file means deleting its line from the todo.
 #
 # 80 matches creator and dashboard. Long lines here come from long identifiers
 # rather than dense logic, so they gain nothing from more room.
 Layout/LineLength:
-  Enabled: true
   Max: 80
+
+# Indent a multi-line hash one step in from the line that opens it, rather than
+# aligning it under the opening paren. Aligning pushes deeply nested calls far
+# to the right and reindents every key when the method name changes length.
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent

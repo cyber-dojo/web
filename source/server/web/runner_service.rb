@@ -3,7 +3,6 @@ require_relative 'http_json/responder'
 
 module Web
   class RunnerService
-
     class Error < RuntimeError
       def initialize(message)
         super
@@ -24,6 +23,5 @@ module Web
     def run_cyber_dojo_sh(args)
       @http.get(__method__, args)
     end
-
   end
 end

@@ -5,11 +5,9 @@ module Web
   # The probes cannot have a mount of their own: /alive, /ready and /status are
   # three top-level siblings sharing no prefix, and rack mounts by prefix.
   class ProbesApp < AppBase
-
     MOUNT_PATH = '/'.freeze
 
     helpers do
-
       def service_ready?(service)
         # Whether a dependency reports ready. The service clients raise (rather
         # than return false) when the service is unreachable, so a raise is
@@ -19,7 +17,6 @@ module Web
       rescue StandardError
         false
       end
-
     end
 
     get '/alive/?' do
@@ -52,8 +49,8 @@ module Web
     get '/status/?' do
       content_type :json
       services = {
-        'runner'  => service_ready?(runner),
-        'saver'   => service_ready?(saver),
+        'runner' => service_ready?(runner),
+        'saver' => service_ready?(saver),
         'spooler' => service_ready?(spooler)
       }
       status(services.values.all? ? 200 : 503)
@@ -72,6 +69,5 @@ module Web
       content_type :json
       { 'group_fork' => saver.group_fork(id, index) }.to_json
     end
-
   end
 end

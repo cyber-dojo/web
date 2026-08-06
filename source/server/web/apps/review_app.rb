@@ -8,7 +8,6 @@ module Web
   # apart by DOM, not by URL (#kata-page present or not), so they render
   # identically whichever app serves them.
   class ReviewApp < AppBase
-
     # Where this app mounts itself. Named here so config.ru and the tests
     # mount it identically. Rack strips it, so /review/show/:id arrives as
     # /show/:id.
@@ -21,6 +20,5 @@ module Web
       @title = "review:#{@id}"
       erb :'review/show'
     end
-
   end
 end

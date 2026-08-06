@@ -8,7 +8,6 @@ require_relative 'spooler_service'
 #   externals.instance_exec { @runner = RunnerStub.new(externals) }
 module Web
   class Externals
-
     # The clock, so a test can hold time still.
     def time
       @time ||= TimeAdapter.new

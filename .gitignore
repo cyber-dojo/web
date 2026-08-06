@@ -18,6 +18,7 @@
 !/.gitignore
 !/.kosli.yml
 !/.rubocop.yml
+!/.rubocop_todo.yml
 !/.snyk
 !/CONTRIBUTING.md
 !/docker-compose.yml

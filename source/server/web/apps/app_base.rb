@@ -10,14 +10,13 @@ module Web
   # every route its superclass defines - which is exactly why one app cannot
   # simply descend from another.
   class AppBase < Sinatra::Base
-
     # The apps live one level down, in apps/, but views/ and public/ sit
     # beside that directory rather than inside it, because they are shared:
     # the review partials render from ReviewApp and from KataApp both.
     set :views, File.expand_path('../views', __dir__)
     set :public_folder, File.expand_path('../public', __dir__)
     set :host_authorization, {}
-    set :protection, except: [:http_origin, :json_csrf]
+    set :protection, except: %i[http_origin json_csrf]
     enable :static
 
     def initialize(externals)
@@ -96,7 +95,6 @@ module Web
     # the review partials render from the review page and from the kata edit
     # page's review mode, so whichever app serves them must supply these.
     helpers do
-
       def partial(name)
         parts = name.split('/')
         parts[-1] = "_#{parts[-1]}"
@@ -105,14 +103,13 @@ module Web
 
       def j(str)
         str.to_s
-          .gsub('\\') { '\\\\' }
-          .gsub("\r\n") { '\\n' }
-          .gsub("\n") { '\\n' }
-          .gsub("\r") { '\\n' }
-          .gsub('"') { '\\"' }
-          .gsub("'") { "\\'" }
+           .gsub('\\') { '\\\\' }
+           .gsub("\r\n") { '\\n' }
+           .gsub("\n") { '\\n' }
+           .gsub("\r") { '\\n' }
+           .gsub('"') { '\\"' }
+           .gsub("'") { "\\'" }
       end
-
     end
 
     # Every app answers an unmatched path the same way, because rack sends
@@ -160,6 +157,5 @@ module Web
       raw = params['tab_seq']
       raw.to_s.empty? ? nil : raw.to_i
     end
-
   end
 end
