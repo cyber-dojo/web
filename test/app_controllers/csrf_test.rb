@@ -6,7 +6,7 @@ class CsrfTest < AppControllerTestBase
   'POST with no csrf token returns 403' do
     in_kata do
       get '/alive'
-      method(:post).super_method.call('/kata/fork', { id: @id, index: 0 })
+      method(:post).super_method.call('/fork/kata', { id: @id, index: 0 })
       assert_equal 403, last_response.status
     end
   end
@@ -15,7 +15,7 @@ class CsrfTest < AppControllerTestBase
   'POST with tampered csrf token returns 403' do
     in_kata do
       get '/alive'
-      method(:post).super_method.call('/kata/fork', {
+      method(:post).super_method.call('/fork/kata', {
         id: @id, index: 0, authenticity_token: 'tampered'
       })
       assert_equal 403, last_response.status
