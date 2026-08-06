@@ -25,8 +25,10 @@ $(() => {
     }
   };
 
+  // A mobbing-locked (stale) tab keeps [test] disabled: this runs at the end of
+  // the predict slide animations, so it can land after the poll has locked.
   const  enableTestButton = () => {
-    if (cd.kata.isLatest()) {
+    if (cd.kata.isLatest() && !cd.mobbingPoll.locked) {
       $button.attr('disabled', false);
     }
   };

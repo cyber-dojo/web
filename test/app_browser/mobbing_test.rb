@@ -217,6 +217,28 @@ class MobbingTest < BrowserTestBase
     assert_selector '#test-button[disabled]', wait: 5
   end
 
+  test 'm0b037', %w(
+  | locking outlasts the [test] button's own enable: the button's show()
+  | callback runs at the end of the load-time predict slide, so it can land
+  | after the poll has locked the tab. It must not hand [test] back.
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_edit_page_ready
+
+    files = saver.kata_event(id, 0)['files']
+    other = stored_id('a1' * 16, 'ff' * 16)
+    kata_ran_tests(id, files, content('out'), content('err'), 0, ran_summary('red'), other, next_tab_seq)
+
+    execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
+    assert_selector '#test-button[disabled]', wait: 5
+
+    execute_script("cd.kata.testButton.show()")
+    sleep 1   # the 'slow' show animation and its enable callback have both run
+
+    assert_selector '#test-button[disabled]'
+  end
+
   test 'm0b010', %w(
   | locking makes the editor read-only: after the poll locks on another tab's
   | event, every CodeMirror editor is read-only so the stale tab cannot edit.
