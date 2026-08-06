@@ -275,6 +275,24 @@ module WebApp
     end
 
     # - - - - - - - - - - - - - - - -
+    # Fork, at the paths the fork button used before it moved to the /fork
+    # prefix. A review page loaded before that change holds JavaScript posting
+    # here, and such a tab can stay open for hours, so removing these with the
+    # button's change would have broken forking for anyone mid-practice.
+    # ForkApp is where forking lives; these two repeat its one-line bodies and
+    # can go once no browser is still holding the old page.
+
+    post '/kata/fork' do
+      content_type :json
+      { 'kata_fork' => saver.kata_fork(id, index) }.to_json
+    end
+
+    post '/group/fork' do
+      content_type :json
+      { 'group_fork' => saver.group_fork(id, index) }.to_json
+    end
+
+    # - - - - - - - - - - - - - - - -
     # Diff
 
     get '/kata/diff_summary' do
