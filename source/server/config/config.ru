@@ -1,7 +1,7 @@
 $stdout.sync = true
 $stderr.sync = true
 
-require_relative '../web/app'
+require_relative '../web/mounted_apps'
 require_relative '../web/externals'
 
-run WebApp::App.new(WebApp::Externals.new)
+run WebApp.mounted(WebApp::Externals.new)
