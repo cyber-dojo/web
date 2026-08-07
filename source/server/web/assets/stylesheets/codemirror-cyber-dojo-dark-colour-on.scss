@@ -25,7 +25,6 @@ $syntax-comment-color: lighten($very-dark-gray, 40%);
 
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-lines
 {
-  cursor: url(images/white-text-cursor.png), text;
   min-height: 1px; /* prevents collapsing before first draw */
 }
 
