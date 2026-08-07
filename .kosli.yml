@@ -26,3 +26,13 @@ trail:
 
         - name: server-test
           type: junit
+
+        - name: test-facts
+          type: custom:test-facts
+        - name: test-decision
+          type: decision
+
+        - name: coverage-facts
+          type: custom:coverage-facts
+        - name: coverage-decision
+          type: decision

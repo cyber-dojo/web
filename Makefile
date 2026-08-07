@@ -30,8 +30,9 @@ test_server:
 test_client:
 	${PWD}/bin/run_client_tests.sh ${tids}
 
-# Judge the last test_server run, against test/test_metrics_limits.rb and
-# test/coverage_metrics_limits.rb respectively.
+# Judge the last test_server run, against test/test_metrics_params.json and
+# test/coverage_metrics_params.json respectively. CI evaluates those same files
+# with a rego policy, so a bound is written once and applied in both places.
 metrics_test:
 	@${PWD}/bin/check_test_metrics.sh
 
