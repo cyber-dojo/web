@@ -7,8 +7,30 @@ source "${BIN_DIR}/lib.sh"
 source "${BIN_DIR}/echo_env_vars.sh"
 export $(echo_env_vars)
 
+exit_non_zero_if_on_ci()
+{
+  # CI builds the image exactly once, in the build-image job, whose digest
+  # becomes the Kosli fingerprint. Every later job (run-tests,
+  # snyk-container-scan) loads that same tar by digest via
+  # cyber-dojo/download-artifact, and sdlc-control-gate asserts on that
+  # fingerprint before deploy-to-beta ships it.
+  #
+  # A build here would replace the artifact under test with a different image.
+  # This build is not set up to be reproducible (no pinned SOURCE_DATE_EPOCH or
+  # buildkit rewrite-timestamp), so rebuilding identical source still yields a
+  # new digest, and that digest cannot be recomputed afterwards. The test and
+  # scan evidence would then vouch for an artifact nobody tested, which is the
+  # one direction that must never happen. Hence `make test` does not depend on
+  # the image target, and building on CI is an error rather than a slow path.
+  if on_ci; then
+    stderr "Inside CI workflow you must use secure-docker-build.yml reusable workflow"
+    exit_non_zero
+  fi
+}
+
 build_tagged_images()
 {
+  exit_non_zero_if_on_ci
   build_web_image
   assert_web_image_has_sha_env_var
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "${CYBER_DOJO_WEB_IMAGE}:latest"

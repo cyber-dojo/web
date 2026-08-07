@@ -43,6 +43,14 @@ echo_ci_resolved_versions()
   grep --extended-regexp '_(IMAGE|TAG|DIGEST)=' /tmp/cyber-dojo.env-vars || true
 }
 
+on_ci()
+{
+  # -n, not == true, so any non-empty CI counts. A guard reading this must fail
+  # toward refusing to act, and CI=false is far likelier to mean a misconfigured
+  # runner than a deliberate request to behave as if local.
+  [ -n "${CI:-}" ]
+}
+
 installed()
 {
   if hash "${1}" 2> /dev/null; then
