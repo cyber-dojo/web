@@ -12,8 +12,8 @@ not tear existing containers down, does not pull the runner test image, and does
 not run the unit suite.
 
 The web image loads its JavaScript from the built image, so your current code is
-only exercised after the image is rebuilt. The Makefile target 'test_client'
-rebuilds it first (via 'make image') before calling this script.
+only exercised after the image is rebuilt. Run 'make image' first after changing
+any JavaScript.
 
 Naming one or more test-ids runs only the tests whose id contains one of
 them; naming none runs the whole browser suite.
@@ -45,6 +45,9 @@ source "${BIN_DIR}/lib.sh"
 
 exit_non_zero_unless_installed docker
 export $(echo_env_vars)
+# Before containers_up, for the reason pull_runner_test_image explains. The
+# browser drives the served app, which runs [test] through the real runner.
+pull_runner_test_image
 containers_up
 copy_saver_test_data
 run_client_tests_in_container "$@"

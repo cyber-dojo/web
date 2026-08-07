@@ -21,10 +21,13 @@ test_server:
 	${PWD}/bin/run_tests.sh ${tids}
 
 # Run the client (Capybara + Selenium) tests, optionally filtered by test-id
-# prefix(es). Rebuilds the image first: the served app loads its javascript from
-# the image, so a javascript change is only exercised after a rebuild.
-#   eg make test_client tids=fK3nQ7
-test_client: image
+# prefix(es). Like test_server this does NOT depend on the image target: on CI
+# the image under test is downloaded, and rebuilding it there would produce an
+# artifact the evidence does not describe (see bin/build.sh). The served app
+# loads its javascript from the image, so after a javascript change run
+# 'make image' first.
+#   eg make image test_client tids=fK3nQ7
+test_client:
 	${PWD}/bin/run_client_tests.sh ${tids}
 
 # Judge the last test_server run, against test/test_metrics_limits.rb and

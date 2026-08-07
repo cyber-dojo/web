@@ -10,8 +10,8 @@ export $(echo_env_vars)
 exit_non_zero_if_on_ci()
 {
   # CI builds the image exactly once, in the build-image job, whose digest
-  # becomes the Kosli fingerprint. Every later job (run-tests,
-  # snyk-container-scan) loads that same tar by digest via
+  # becomes the Kosli fingerprint. Every later job (run-server-tests,
+  # run-client-tests, snyk-container-scan) loads that same tar by digest via
   # cyber-dojo/download-artifact, and sdlc-control-gate asserts on that
   # fingerprint before deploy-to-beta ships it.
   #

@@ -139,7 +139,7 @@ jobs:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
-  run-tests:
+  run-server-tests:
     needs: [setup, build-image]
     runs-on: ubuntu-latest
     steps:
@@ -151,9 +151,29 @@ jobs:
         with:
           image_digest: ${{ needs.build-image.outputs.digest }}
 
-      - name: Run tests
+      - name: Run server tests
         run:
           make test_server
+
+
+  # The client tests gate the build but are not attested. They drive the served
+  # app end-to-end through a real browser, so the in-process line coverage the
+  # server tests report cannot see what they exercise.
+  run-client-tests:
+    needs: [setup, build-image]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+
+      - name: Download docker image
+        uses: cyber-dojo/download-artifact@main
+        with:
+          image_digest: ${{ needs.build-image.outputs.digest }}
+
+      - name: Run client tests
+        run:
+          make test_client
 
 
   sdlc-control-gate:
@@ -163,7 +183,8 @@ jobs:
       - pull-request
       - rubocop-lint
       - snyk-container-scan
-      - run-tests
+      - run-server-tests
+      - run-client-tests
     runs-on: ubuntu-latest
     steps:
       - uses: cyber-dojo/harden-runner@main
