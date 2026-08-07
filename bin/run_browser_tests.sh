@@ -6,7 +6,7 @@ show_help()
   cat <<'EOF'
 Usage: bin/run_browser_tests.sh [OPTIONS] [TEST-ID]...
 
-Runs ONLY the app_browser (Capybara + Selenium) tests, for a fast inner loop
+Runs ONLY the browser (Capybara + Selenium) tests, for a fast inner loop
 when working on the browser-driven JavaScript. Unlike bin/run_tests.sh it does
 not tear existing containers down, does not pull the runner test image, and does
 not run the unit suite.

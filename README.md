@@ -19,19 +19,37 @@ $ make image
 # Run all the tests
 $ make test
 
-# Run only specific tests
-$ ./bin/run_tests.sh app_controllers 87C
+# Run only specific tests, naming test-id prefix(es). A filtered run skips the
+# browser tests, and leaves coverage ungated because a partial run's coverage
+# says nothing about the suite as a whole.
+$ make test tids=3d99
 ...
-======app_controllers======
-Run options: --seed 42705
+Run options: --seed 45085
 # Running:
-....
-Finished in 1.604879s, 2.4924 runs/s, 10.5927 assertions/s.
-4 runs, 17 assertions, 0 failures, 0 errors, 0 skips
+......
+Finished in 0.006136s, 977.8290 runs/s, 2607.5441 assertions/s.
+6 runs, 16 assertions, 0 failures, 0 errors, 0 skips
 ...
-                    t      a  f  e  s   secs  t/sec  a/sec      cov
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-app_controllers     4     17  0  0  0   1.60      2     10    40.37
+Filtered run - coverage not gated.
+
+# Run only the browser tests
+$ make test_browser
+```
+
+A full `make test` runs every test directory in one process, so it produces a
+single coverage report, and ends with the gate:
+
+```
+tests      : 117
+assertions : 443
+failures   : 0
+errors     : 0
+skips      : 0
+secs       : 50.19
+code files : 18
+coverage   : 100.00%
+
+DONE
 ```
 
 # Screenshots

@@ -1,5 +1,5 @@
 
-$args = ARGV[1..-1].sort.uniq # eg 2DD6F3 eg 2dd
+$args = ARGV.sort.uniq # eg 2DD6F3 eg 2dd
 $seen_ids = []
 $timings = {}
 

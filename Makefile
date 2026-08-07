@@ -10,11 +10,12 @@ image:
 rubocop-lint:
 	@${PWD}/bin/rubocop-lint.sh
 
-# Run all the tests, or optionally one module, filtered by test-id prefix(es).
-# Naming a module also skips the browser tests.
-#   eg make test module=app_controllers tids=F1B7C
+# Run all the tests, optionally filtered by test-id prefix(es).
+# Filtering also skips the browser tests, and leaves coverage ungated because a
+# partial run's coverage says nothing about the suite.
+#   eg make test tids=F1B7C
 test:
-	${PWD}/bin/run_tests.sh ${module} ${tids}
+	${PWD}/bin/run_tests.sh ${tids}
 
 # Run the browser tests only, optionally filtered by test-id prefix(es).
 #   eg make test_browser tids=fK3nQ7

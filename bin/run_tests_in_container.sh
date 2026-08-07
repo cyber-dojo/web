@@ -30,8 +30,8 @@ run_browser_tests_in_container()
 {
   # Browser (Capybara + Selenium) tests exercise the served app end-to-end (via
   # Firefox in the selenium container), so they run as a separate script from
-  # run.sh and are kept out of run.sh's per-module coverage loop. Returns the
-  # test run's exit status.
+  # run.sh and are kept out of run.sh's coverage run. Returns the test run's
+  # exit status.
   local -r WEB_CID="$(service_container web)"
   docker exec --user nobody "${WEB_CID}" \
     sh -c "cd /web/test && ./run_browser.sh ${*:-}"
@@ -55,7 +55,7 @@ run_tests_in_container()
   docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run.sh ${*:-}"
   local -r UNIT_STATUS=$?
 
-  # The browser tests run only on a full run (no single module requested).
+  # The browser tests run only on a full run (no test-id filter given).
   local BROWSER_STATUS=0
   if [ $# -eq 0 ]; then
     run_browser_tests_in_container
@@ -66,10 +66,7 @@ run_tests_in_container()
   mkdir -p "${DST}"
   docker cp "${SRC}/." "${DST}"
   echo
-  echo "${DST}/lib/index.html"
-  echo "${DST}/app_models/index.html"
-  echo "${DST}/app_services/index.html"
-  echo "${DST}/app_controllers/index.html"
+  echo "${DST}/index.html"
 
   if [ ${UNIT_STATUS} -ne 0 ]; then
     return ${UNIT_STATUS}
