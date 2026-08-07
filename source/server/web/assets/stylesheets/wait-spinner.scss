@@ -1,8 +1,15 @@
 
 #wait-overlay
 {
-    // mimic jQuery modal dialog background
-    background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
+    // The jQuery modal dialog background, drawn rather than fetched. Its 40x40
+    // tile was two opaque colours in 45-degree bands, 11px of #757575 then 9px
+    // of #666666 measured horizontally. A 135deg axis runs perpendicular to
+    // those bands, and widths along it are the horizontal ones over sqrt(2).
+    background: repeating-linear-gradient(
+      135deg,
+      #757575 0 7.778px,
+      #666666 7.778px 14.142px
+    );
        opacity: .50;
         filter: Alpha(Opacity=50);
        z-index: 999;
