@@ -1,4 +1,5 @@
 require 'simplecov'
+require_relative 'simplecov_formatter_json'
 
 # The image copies source/server/ to ${APP_DIR}/source, so production code sits
 # at ${APP_DIR}/source and the tests at the sibling ${APP_DIR}/test. Rooting
@@ -10,6 +11,9 @@ SimpleCov.start do
   root(APP_DIR)
   # where coverage reports are written
   coverage_dir(ENV.fetch('COVERAGE_DIR'))
+  # Branch coverage as well as line coverage, so the attested metrics say
+  # whether both sides of a condition were taken, not merely that the line ran.
+  enable_coverage(:branch)
   # Silence 'failed to recognize the test framework' warning
   command_name('Unit Tests')
 
@@ -27,6 +31,13 @@ SimpleCov.start do
   # test loads and which are not unit-testable, so they stay untracked.
   track_files("#{APP_DIR}/source/web/**/*.rb")
 end
+
+# HTML to read, JSON for the gate and the attestation to consume.
+formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::JSONFormatter
+]
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 #add_group('debug') { |src| puts "coverage:#{src.filename}"; false }

@@ -35,9 +35,6 @@ while getopts 'h' option; do
 done
 shift $((OPTIND - 1))
 
-# Silence the docker CLI "What's next:" hint banner for the whole run.
-export DOCKER_CLI_HINTS=false
-
 repo_root() { git rev-parse --show-toplevel; }
 export BIN_DIR="$(repo_root)/bin"
 

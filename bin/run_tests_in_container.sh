@@ -48,7 +48,9 @@ run_tests_in_container()
   # Now docker exec in and run the tests
   local -r WEB_CID="$(service_container web)"
   local -r SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
-  local -r DST=$(repo_root)/coverage
+  # reports/ is where every sibling repo leaves its generated reports, and
+  # where bin/check_coverage_metrics.sh and the CI attestations look for them.
+  local -r DST=$(repo_root)/reports
 
   # Drop set -e because we want to get coverage stats out
   set +e

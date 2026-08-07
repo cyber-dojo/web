@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -Eeu
 
+# The absolute path of the repo's root directory. Defined here, rather than
+# left to the sourcing script, so this file is self-sufficient: the functions
+# below call it. Mirrors ../creator.
+repo_root() { git rev-parse --show-toplevel; }
+
 echo_env_vars()
 {
   #--------------------
@@ -53,12 +58,7 @@ image_name()
 
 image_sha()
 {
-  cd "$(root_dir)" && git rev-parse HEAD
-}
-
-root_dir()
-{
-  git rev-parse --show-toplevel
+  cd "$(repo_root)" && git rev-parse HEAD
 }
 
 image_tag()

@@ -148,18 +148,4 @@ class KataTest < ModelsTestBase
     end
   end
 
-  private
-
-  def captured_stdout
-    begin
-      old_stdout = $stdout
-      $stdout = StringIO.new(+'', 'w')
-      yield
-      captured = $stdout.string
-    ensure
-      $stdout = old_stdout
-    end
-    captured
-  end
-
 end

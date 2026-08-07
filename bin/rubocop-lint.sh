@@ -26,6 +26,9 @@ if [ "${1:-}" = '-h' ]; then
 fi
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# For the shared docker settings.
+source "${ROOT_DIR}/bin/lib.sh"
+
 rm -rf "${ROOT_DIR}/reports/rubocop" &> /dev/null || true
 mkdir -p "${ROOT_DIR}/reports/rubocop"
 
@@ -34,7 +37,7 @@ mkdir -p "${ROOT_DIR}/reports/rubocop"
 #
 # That user has no home dir, so rubocop's cache resolves to /.cache, which it
 # cannot create. Caching is off: the cache would die with the container anyway.
-DOCKER_CLI_HINTS=false docker run \
+docker run \
   --rm \
   --user "$(id -u):$(id -g)" \
   --volume "${ROOT_DIR}/reports/rubocop/:/reports/" \

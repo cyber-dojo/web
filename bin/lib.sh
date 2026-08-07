@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -Eeu
 
+# Docker settings every script in bin/ wants, set here so no script repeats
+# them. Sourcing this file is enough; scripts sourced alongside it share the
+# same shell and so inherit them too.
+#
+# CLI_HINTS silences the "What's next:" banner docker prints after a run.
+# DEFAULT_PLATFORM silences "requested image's platform does not match host
+# platform" on Apple Silicon. The images are amd64, which docker-compose.yml
+# pins for every service.
+export DOCKER_CLI_HINTS=false
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 exit_non_zero_unless_installed()
 {
   printf "Checking ${1} is installed..."
@@ -22,6 +33,15 @@ exit_non_zero_unless_installed()
   echo It is
   if [ "${1}" == docker ]; then
     echo_ci_resolved_versions
+  fi
+}
+
+exit_non_zero_unless_file_exists()
+{
+  local -r filename="${1}"
+  if [ ! -f "${filename}" ]; then
+    stderr "ERROR: ${filename} does not exist!"
+    exit_non_zero
   fi
 }
 

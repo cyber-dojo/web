@@ -69,7 +69,7 @@ def criteria(stats, percent, file_count)
     # in parallel, which sits under 15s and varies by a second between runs.
     [ 'secs < 30',               stats[:time].to_f < 30,     stats[:time]          ],
     [ 'code covers >= 1 file',   file_count >= 1,            file_count            ],
-    [ 'code coverage >= 100',    percent >= 100,             f2(percent)           ],
+    [ 'code coverage == 100',    percent == 100,             f2(percent)           ],
   ]
 end
 
