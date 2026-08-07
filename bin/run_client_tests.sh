@@ -4,7 +4,7 @@ set -Eeu
 show_help()
 {
   cat <<'EOF'
-Usage: bin/run_browser_tests.sh [OPTIONS] [TEST-ID]...
+Usage: bin/run_client_tests.sh [OPTIONS] [TEST-ID]...
 
 Runs ONLY the browser (Capybara + Selenium) tests, for a fast inner loop
 when working on the browser-driven JavaScript. Unlike bin/run_tests.sh it does
@@ -12,7 +12,7 @@ not tear existing containers down, does not pull the runner test image, and does
 not run the unit suite.
 
 The web image loads its JavaScript from the built image, so your current code is
-only exercised after the image is rebuilt. The Makefile target 'test_browser'
+only exercised after the image is rebuilt. The Makefile target 'test_client'
 rebuilds it first (via 'make image') before calling this script.
 
 Naming one or more test-ids runs only the tests whose id contains one of
@@ -22,8 +22,8 @@ Options:
   -h    Show this help
 
 Example:
-  bin/run_browser_tests.sh
-  bin/run_browser_tests.sh fK3nQ7
+  bin/run_client_tests.sh
+  bin/run_client_tests.sh fK3nQ7
 EOF
 }
 
@@ -47,4 +47,4 @@ exit_non_zero_unless_installed docker
 export $(echo_env_vars)
 containers_up
 copy_saver_test_data
-run_browser_tests_in_container "$@"
+run_client_tests_in_container "$@"

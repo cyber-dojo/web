@@ -49,7 +49,7 @@ class KataTest < ModelsTestBase
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      result = kata_ran_tests(kata.id, files, stdout_1, stderr_1, status_1, ran_summary('red'), laptop_id, next_tab_seq)
+      kata_ran_tests(kata.id, files, stdout_1, stderr_1, status_1, ran_summary('red'), laptop_id, next_tab_seq)
 
       filename = 'hiker.sh'
       hiker_rb = files[filename]['content']
@@ -57,13 +57,13 @@ class KataTest < ModelsTestBase
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
       status_2 = 0
-      result = kata_ran_tests(kata.id, files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id, next_tab_seq)
+      kata_ran_tests(kata.id, files, stdout_2, stderr_2, status_2, ran_summary('green'), laptop_id, next_tab_seq)
 
       kata_revert(kata.id, kata.event(1)['files'], stdout_1, stderr_1, status_1, {
           'time' => externals.time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
-      }, laptop_id, next_tab_seq);
+      }, laptop_id, next_tab_seq)
 
       light = kata.event(-1)
       assert_equal [ kata.id, 1 ], light['revert']

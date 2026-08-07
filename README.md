@@ -17,40 +17,41 @@ $ make demo
 $ make image
 
 # Run the server tests
-$ make test
+$ make test_server
 
-# Run only specific tests, naming test-id prefix(es). A filtered run leaves
-# coverage ungated, because a partial run's coverage says nothing about the
-# suite as a whole.
-$ make test tids=3d99
-...
-Run options: --seed 45085
-# Running:
-......
-Finished in 0.006136s, 977.8290 runs/s, 2607.5441 assertions/s.
-6 runs, 16 assertions, 0 failures, 0 errors, 0 skips
-...
-Filtered run - coverage not gated.
+# Run only specific tests, naming test-id prefix(es)
+$ make test_server tids=3d99
 
-# Run the browser tests, which 'make test' does not
-$ make test_browser
+# Run the client (Capybara + Selenium) tests, which make test_server does not
+$ make test_client
+
+# Build, run the server tests, and judge the run
+$ make all
 ```
 
-A full `make test` runs every server test directory in one process, so it
-produces a single coverage report, and ends with the gate:
+Running the tests and judging them are separate steps. `make test_server` runs
+every server test directory in one ruby process, its test classes in parallel,
+and writes `reports/test_metrics.json` and `reports/coverage_metrics.json`. Two
+targets then check those against pinned limits, and fail if any is breached:
 
 ```
-tests      : 117
-assertions : 443
-failures   : 0
-errors     : 0
-skips      : 0
-secs       : 50.19
-code files : 18
-coverage   : 100.00%
+$ make metrics_coverage
 
-DONE
+                   test.lines.total |  1340   <=  1340 |  true
+                  test.lines.missed |     9   <=     9 |  true
+                test.branches.total |    26   <=    26 |  true
+               test.branches.missed |     8   <=     8 |  true
+
+                   code.lines.total |   496   <=   496 |  true
+                  code.lines.missed |     0   ==     0 |  true
+                code.branches.total |    33   <=    33 |  true
+               code.branches.missed |     3   <=     3 |  true
 ```
+
+`make metrics_test` does the same for the test counts and the run's duration.
+The limits live in `test/coverage_metrics_limits.rb` and
+`test/test_metrics_limits.rb`; a `missed` count pinned with `==` must stay
+where it is, one with `<=` is a ratchet that may fall but never rise.
 
 # Screenshots
 

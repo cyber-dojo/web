@@ -2,7 +2,10 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
-.PHONY: image test test_browser rubocop-lint demo probe_demo snyk-container-scan snyk-code-scan
+.PHONY: all image test_server test_client metrics_test metrics_coverage rubocop-lint demo probe_demo snyk-container-scan snyk-code-scan
+
+# Build, run the server tests, and judge the run.
+all: image test_server metrics_test metrics_coverage
 
 image:
 	${PWD}/bin/build.sh
@@ -10,19 +13,27 @@ image:
 rubocop-lint:
 	@${PWD}/bin/rubocop-lint.sh
 
-# Run the server tests, optionally filtered by test-id prefix(es). The browser
-# tests are a separate target, because they need the image rebuilt to pick up
-# any JavaScript change.
-# Filtering leaves coverage ungated, because a partial run's coverage says
-# nothing about the suite as a whole.
-#   eg make test tids=F1B7C
-test:
+# Run the server tests, optionally filtered by test-id prefix(es). Running the
+# tests and judging them are separate targets, so a filtered run - whose metrics
+# describe only the tests it loaded - is not gated.
+#   eg make test_server tids=F1B7C
+test_server:
 	${PWD}/bin/run_tests.sh ${tids}
 
-# Run the browser tests only, optionally filtered by test-id prefix(es).
-#   eg make test_browser tids=fK3nQ7
-test_browser: image
-	${PWD}/bin/run_browser_tests.sh ${tids}
+# Run the client (Capybara + Selenium) tests, optionally filtered by test-id
+# prefix(es). Rebuilds the image first: the served app loads its javascript from
+# the image, so a javascript change is only exercised after a rebuild.
+#   eg make test_client tids=fK3nQ7
+test_client: image
+	${PWD}/bin/run_client_tests.sh ${tids}
+
+# Judge the last test_server run, against test/test_metrics_limits.rb and
+# test/coverage_metrics_limits.rb respectively.
+metrics_test:
+	@${PWD}/bin/check_test_metrics.sh
+
+metrics_coverage:
+	@${PWD}/bin/check_coverage_metrics.sh
 
 count ?= 1
 v ?= 2

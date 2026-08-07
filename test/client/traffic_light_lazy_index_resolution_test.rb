@@ -1,4 +1,4 @@
-require_relative 'browser_test_base'
+require_relative 'client_test_base'
 
 # The kata-page traffic-light carries only major_index; its committed flat index
 # (for review navigation and the diff tooltip) is resolved lazily on click/hover
@@ -6,7 +6,7 @@ require_relative 'browser_test_base'
 # "ghost" - a light whose major_index is not among the committed events - gets a
 # dead click and no tooltip. See docs/mobbing-stale-tab-lock.md (ADR A4/A5) and
 # kata/_traffic_lights.erb + cyber-dojo_hover_tips.js.
-class TrafficLightLazyIndexResolutionTest < BrowserTestBase
+class TrafficLightLazyIndexResolutionTest < ClientTestBase
 
   FILE_EVENTS = %w( file_create file_delete file_rename file_edit )
 

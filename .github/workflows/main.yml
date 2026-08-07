@@ -153,7 +153,7 @@ jobs:
 
       - name: Run tests
         run:
-          make test
+          make test_server
 
 
   sdlc-control-gate:

@@ -1,6 +1,6 @@
-require_relative 'browser_test_base'
+require_relative 'client_test_base'
 
-class ForkButtonCreatesKataOrGroupTest < BrowserTestBase
+class ForkButtonCreatesKataOrGroupTest < ClientTestBase
 
   test 'fK3nQ7', %w(
   | the fork dialog's solo option creates a kata: the button's fetch reaches

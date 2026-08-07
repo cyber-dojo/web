@@ -1,4 +1,4 @@
-require_relative 'browser_test_base'
+require_relative 'client_test_base'
 require 'json'
 
 # Tests of the mobbing stale-tab detection (docs/mobbing-stale-tab-lock.md),
@@ -8,7 +8,7 @@ require 'json'
 # not written by this tab (its tab_id differs from mine) - with a hand-built
 # committed stream; in those the tab loaded at head 2, so knownHead = 2.
 # m0b006.. cover the poll/lock layer (cd.mobbingPoll) that drives the predicate.
-class MobbingTest < BrowserTestBase
+class MobbingTest < ClientTestBase
 
   test 'm0b001', %w(
   | use case 1, the core case: loaded at head 2. An event above my knownHead that

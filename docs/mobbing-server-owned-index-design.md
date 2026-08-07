@@ -575,7 +575,7 @@ runner); do NOT use `bin/run_tests.sh`, which tears the stack down and up:
 docker exec --user nobody \
   -e RACK_ENV=test -e CYBER_DOJO_SAVER_CLASS=SaverService \
   -e CYBER_DOJO_RUNNER_CLASS=RunnerStub \
-  -e COVERAGE_DIR=/tmp/cyber-dojo/coverage \
+  -e COVERAGE_ROOT=/tmp/cyber-dojo/coverage \
   web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage && \
     cd /web/test/controllers && \
     ruby -e "require \"../coverage.rb\"; require \"./<file>_test.rb\""'

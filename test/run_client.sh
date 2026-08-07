@@ -7,11 +7,11 @@ set -e
 # enforces is not meaningful for them - hence they are kept out of run.sh's
 # coverage run and its coverage-summary gate.
 #
-# They load through all.rb, which starts SimpleCov only when COVERAGE_DIR is
+# They load through all.rb, which starts SimpleCov only when COVERAGE_ROOT is
 # set, so setting none here leaves coverage unstarted. A test failure exits
 # non-zero (minitest autorun), which bin/run_tests_in_container.sh propagates.
 
-test_dir=browser
+test_dir=client
 
 # Same externals as run.sh: talk to the real saver container (so a kata created
 # here is visible to the served app the browser loads), stub the runner.

@@ -26,7 +26,7 @@ copy_saver_test_data()
     | docker exec -i ${SAVER_CID} tar x -C ${DEST_PATH}
 }
 
-run_browser_tests_in_container()
+run_client_tests_in_container()
 {
   # Browser (Capybara + Selenium) tests exercise the served app end-to-end (via
   # Firefox in the selenium container), so they run as a separate script from
@@ -34,7 +34,7 @@ run_browser_tests_in_container()
   # exit status.
   local -r WEB_CID="$(service_container web)"
   docker exec --user nobody "${WEB_CID}" \
-    sh -c "cd /web/test && ./run_browser.sh ${*:-}"
+    sh -c "cd /web/test && ./run_client.sh ${*:-}"
 }
 
 run_tests_in_container()

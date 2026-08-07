@@ -309,14 +309,14 @@ detection is entirely read-side; this pairs with saver ADR step A3 being deploye
   no-`laptop_id` events do not throw); `check()` backs off while `document.hidden`
   and a `visibilitychange` re-checks on foreground; `enable()` clears any prior
   interval (single timer) and a `pagehide` listener stops the poll on unload.
-- Tests: `test/browser/mobbing_test.rb`, `m0b001`-`m0b036` (predicate
+- Tests: `test/client/mobbing_test.rb`, `m0b001`-`m0b036` (predicate
   use cases incl. no-id; poll state; lock/disable; write `tab_id`-stamping;
   auto-start; meta tag; overlay-vs-app-bar-vs-generic presentation; overlay
   supersede + Dismiss; fail-safe reads; hidden back-off; pagehide stop). Run with
-  `make test_browser`.
-- Test infra: browser tests run through nginx (`bin/containers_up.sh`,
-  `browser_test_base.rb` -> `http://nginx`); `make test_browser` +
-  `bin/run_browser_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
+  `make test_client`.
+- Test infra: client tests run through nginx (`bin/containers_up.sh`,
+  `client_test_base.rb` -> `http://nginx`); `make test_client` +
+  `bin/run_client_tests.sh`; `bin/run_tests_in_container.sh` helpers extracted.
 - CSS: disabled buttons use `cursor: not-allowed` consistently (`button.scss`).
   `#mobbing-app-bar-message` is styled in `app-bar.scss` (inline in the bar, same
   colour as the id pills); the laptop overlay is styled in `mobbing-overlay.scss`

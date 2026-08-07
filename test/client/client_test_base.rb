@@ -8,7 +8,7 @@ require 'capybara/minitest'
 # browser-side reads of /saver/... which nginx proxies to saver (web has no
 # /saver route). Unlike the in-process Rack tests in controllers, these run
 # browser JS.
-class BrowserTestBase < TestBase
+class ClientTestBase < TestBase
 
   include Capybara::DSL
   include Capybara::Minitest::Assertions

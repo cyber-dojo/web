@@ -21,7 +21,7 @@ services:
       - ./source/server/web:/web/source/web:ro
       - ./test:/web/test:ro
 
-  # The browser (Capybara) tests in test/browser drive Firefox here
+  # The client (Capybara) tests in test/client drive Firefox here
   # and load the web app at http://web:3000 over the compose network, so they
   # exercise the rendered page and its JavaScript end to end (the in-process Rack
   # tests never run browser JS). amd64 image (emulated on arm hosts), matching

@@ -4,7 +4,8 @@ require 'json'
 class SimpleCov::Formatter::JSONFormatter
   # based on https://github.com/vicentllongo/simplecov-json
   # Each group sits at the top level, so a limits file can name a metric by the
-  # path that reads like one: code.lines.total. Mirrors ../saver and ../creator.
+  # path that reads like one: code.lines.total. Mirrors
+  # https://github.com/cyber-dojo/saver
 
   # Writes the run's per-group line and branch counts, and returns them as JSON.
   def format(result)

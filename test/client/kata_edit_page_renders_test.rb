@@ -1,6 +1,6 @@
-require_relative 'browser_test_base'
+require_relative 'client_test_base'
 
-class KataEditPageRendersTest < BrowserTestBase
+class KataEditPageRendersTest < ClientTestBase
 
   test 'bR9pQ2', %w(
   | the kata edit page loads in a real browser and its on-load JavaScript runs:

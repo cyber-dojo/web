@@ -59,9 +59,8 @@ module Web
     end
 
     # Compiled assets live in ${APP_DIR}/assets, a sibling of source/, populated
-    # by the Dockerfile from the asset_builder stage. This mirrors ../creator
-    # and ../dashboard and keeps the precompiled app.css/app.js out of the repo
-    # tree.
+    # by the Dockerfile from the asset_builder stage, which keeps the
+    # precompiled app.css/app.js out of the repo tree.
     ASSETS_DIR = "#{ENV.fetch('APP_DIR')}/assets"
 
     def self.asset_path(filename)

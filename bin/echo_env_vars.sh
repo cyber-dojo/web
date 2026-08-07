@@ -3,7 +3,7 @@ set -Eeu
 
 # The absolute path of the repo's root directory. Defined here, rather than
 # left to the sourcing script, so this file is self-sufficient: the functions
-# below call it. Mirrors ../creator.
+# below call it.
 repo_root() { git rev-parse --show-toplevel; }
 
 echo_env_vars()

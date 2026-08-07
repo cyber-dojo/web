@@ -36,6 +36,33 @@ exit_non_zero_unless_installed()
   fi
 }
 
+# Checks one of the run's metrics reports against its limits, by running the
+# evaluator inside the app image so it uses the same ruby the tests do. Takes
+# the metrics' name, eg 'coverage' or 'test', from which the report, the limits
+# and the evaluator's argument all follow. Requires echo_env_vars.sh to have
+# been sourced and its vars exported, for repo_root and the image name.
+check_metrics()
+{
+  local -r metrics="${1}"                    # eg coverage
+  local -r test_dir="$(repo_root)/test"
+  local -r reports_dir="$(repo_root)/reports"
+  local -r tmp=/tmp
+
+  exit_non_zero_unless_file_exists "${test_dir}/check_metrics.rb"                  # evaluator
+  exit_non_zero_unless_file_exists "${reports_dir}/${metrics}_metrics.json"        # data from the test run
+  exit_non_zero_unless_file_exists "${test_dir}/${metrics}_metrics_limits.rb"      # the limits
+
+  docker run \
+    --read-only \
+    --rm \
+    --entrypoint="" \
+    --volume "${test_dir}/check_metrics.rb:${tmp}/check_metrics.rb:ro" \
+    --volume "${reports_dir}/${metrics}_metrics.json:${tmp}/${metrics}_metrics.json:ro" \
+    --volume "${test_dir}/${metrics}_metrics_limits.rb:${tmp}/${metrics}_metrics_limits.rb:ro" \
+      "${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}" \
+        sh -c "ruby ${tmp}/check_metrics.rb ${tmp}/${metrics}_metrics.json ${metrics}_metrics_limits"
+}
+
 exit_non_zero_unless_file_exists()
 {
   local -r filename="${1}"
