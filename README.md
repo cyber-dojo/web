@@ -16,23 +16,42 @@ $ make demo
 # Build the image
 $ make image
 
-# Run all the tests
-$ make test
+# Run the server tests
+$ make test_server
 
-# Run only specific tests
-$ ./bin/run_tests.sh app_controllers 87C
-...
-======app_controllers======
-Run options: --seed 42705
-# Running:
-....
-Finished in 1.604879s, 2.4924 runs/s, 10.5927 assertions/s.
-4 runs, 17 assertions, 0 failures, 0 errors, 0 skips
-...
-                    t      a  f  e  s   secs  t/sec  a/sec      cov
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-app_controllers     4     17  0  0  0   1.60      2     10    40.37
+# Run only specific tests, naming test-id prefix(es)
+$ make test_server tids=3d99
+
+# Run the client (Capybara + Selenium) tests, which make test_server does not
+$ make test_client
+
+# Build, run the server tests, and judge the run
+$ make all
 ```
+
+Running the tests and judging them are separate steps. `make test_server` runs
+every server test directory in one ruby process, its test classes in parallel,
+and writes `reports/test_metrics.json` and `reports/coverage_metrics.json`. Two
+targets then check those against pinned limits, and fail if any is breached:
+
+```
+$ make metrics_coverage
+
+                   test.lines.total |  1340   <=  1340 |  true
+                  test.lines.missed |     9   <=     9 |  true
+                test.branches.total |    26   <=    26 |  true
+               test.branches.missed |     8   <=     8 |  true
+
+                   code.lines.total |   496   <=   496 |  true
+                  code.lines.missed |     0   ==     0 |  true
+                code.branches.total |    33   <=    33 |  true
+               code.branches.missed |     3   <=     3 |  true
+```
+
+`make metrics_test` does the same for the test counts and the run's duration.
+The limits live in `test/coverage_metrics_limits.rb` and
+`test/test_metrics_limits.rb`; a `missed` count pinned with `==` must stay
+where it is, one with `<=` is a ratchet that may fall but never rise.
 
 # Screenshots
 

@@ -575,14 +575,14 @@ runner); do NOT use `bin/run_tests.sh`, which tears the stack down and up:
 docker exec --user nobody \
   -e RACK_ENV=test -e CYBER_DOJO_SAVER_CLASS=SaverService \
   -e CYBER_DOJO_RUNNER_CLASS=RunnerStub \
-  -e COVERAGE_DIR=/tmp/cyber-dojo/coverage/app_controllers \
-  web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage/app_controllers && \
-    cd /web/test/app_controllers && \
-    ruby -e "require \"../test_coverage.rb\"; require \"./<file>_test.rb\"" app_controllers'
+  -e COVERAGE_ROOT=/tmp/cyber-dojo/coverage \
+  web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage && \
+    cd /web/test/controllers && \
+    ruby -e "require \"../coverage.rb\"; require \"./<file>_test.rb\""'
 ```
 
-Or the whole module (no stack teardown):
-`docker exec --user nobody web-web-1 sh -c 'cd /web/test && ./run.sh app_controllers'`.
+Or the whole unit suite (no stack teardown):
+`docker exec --user nobody web-web-1 sh -c 'cd /web/test && ./run.sh'`.
 
 Already verified this way in the design session: the false-mobbing reproduction
 (stale index -> HTTP 500 out-of-order) and the handoff baseline (Laptop A drove a

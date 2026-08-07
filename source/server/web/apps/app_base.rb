@@ -59,9 +59,8 @@ module Web
     end
 
     # Compiled assets live in ${APP_DIR}/assets, a sibling of source/, populated
-    # by the Dockerfile from the asset_builder stage. This mirrors ../creator
-    # and ../dashboard and keeps the precompiled app.css/app.js out of the repo
-    # tree.
+    # by the Dockerfile from the asset_builder stage, which keeps the
+    # precompiled app.css/app.js out of the repo tree.
     ASSETS_DIR = "#{ENV.fetch('APP_DIR')}/assets"
 
     def self.asset_path(filename)
@@ -91,6 +90,13 @@ module Web
 
     def time
       externals.time
+    end
+
+    # Where diagnostics are written. Per-thread, so a test can capture what one
+    # request logged without swapping the process-global $stdout that every
+    # other concurrently-running request shares.
+    def stdout_stream
+      Thread.current[:stdout_stream] || $stdout
     end
 
     # View helpers, here rather than in one app, because the views are shared:

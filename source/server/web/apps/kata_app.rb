@@ -92,8 +92,8 @@ module Web
         # owns the displayed number and resolves a light's committed index
         # lazily from its major_index, so this uncommitted "ghost" carries no
         # index.
-        $stdout.puts(e.message)
-        $stdout.flush
+        stdout_stream.puts(e.message)
+        stdout_stream.flush
       end
 
       @light = {

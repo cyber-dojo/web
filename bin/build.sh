@@ -10,8 +10,8 @@ export $(echo_env_vars)
 exit_non_zero_if_on_ci()
 {
   # CI builds the image exactly once, in the build-image job, whose digest
-  # becomes the Kosli fingerprint. Every later job (run-tests,
-  # snyk-container-scan) loads that same tar by digest via
+  # becomes the Kosli fingerprint. Every later job (run-server-tests,
+  # run-client-tests, snyk-container-scan) loads that same tar by digest via
   # cyber-dojo/download-artifact, and sdlc-control-gate asserts on that
   # fingerprint before deploy-to-beta ships it.
   #
@@ -20,8 +20,9 @@ exit_non_zero_if_on_ci()
   # buildkit rewrite-timestamp), so rebuilding identical source still yields a
   # new digest, and that digest cannot be recomputed afterwards. The test and
   # scan evidence would then vouch for an artifact nobody tested, which is the
-  # one direction that must never happen. Hence `make test` does not depend on
-  # the image target, and building on CI is an error rather than a slow path.
+  # one direction that must never happen. Hence `make test_server` does not
+  # depend on the image target, and building on CI is an error rather than a
+  # slow path.
   if on_ci; then
     stderr "Inside CI workflow you must use secure-docker-build.yml reusable workflow"
     exit_non_zero

@@ -5,7 +5,7 @@ containers_up()
 {
   echo
   # nginx is brought up too so the browser reaches the app the way production
-  # does (browser -> nginx -> {web, saver}). The app_browser tests point Capybara
+  # does (browser -> nginx -> {web, saver}). The browser tests point Capybara
   # at nginx, so a browser-side fetch of /saver/... is proxied to saver - web
   # itself has no /saver route. --no-deps keeps the demo-only web dependencies
   # (creator/dashboard/differ, added by docker-compose-nginx.yml) out; the

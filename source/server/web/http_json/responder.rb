@@ -47,8 +47,15 @@ module Web
         raise service_error(path, args, body, 'body is not JSON')
       end
 
+      # Where diagnostics are written. Per-thread, so a test can capture what
+      # one request logged without swapping the process-global $stdout that
+      # every other concurrently-running request shares.
+      def stdout_stream
+        Thread.current[:stdout_stream] || $stdout
+      end
+
       def service_error(path, args, body, message)
-        $stdout.puts(JSON.pretty_generate({
+        stdout_stream.puts(JSON.pretty_generate({
           'Exception: HttpJson::Responder': {
             path: path,
             args: args,
@@ -56,7 +63,7 @@ module Web
             message: message
           }
         }))
-        $stdout.flush
+        stdout_stream.flush
         exception_class.new(message)
       end
     end

@@ -23,3 +23,6 @@ trail:
 
         - name: rubocop-lint
           type: junit
+
+        - name: server-test
+          type: junit

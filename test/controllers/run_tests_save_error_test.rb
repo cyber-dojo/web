@@ -1,0 +1,28 @@
+require_relative 'controllers_test_base'
+require_relative '../capture_stdout_stderr'
+require_relative 'spooler_ran_tests_raises_stub'
+
+class RunTestsSaveErrorTest < ControllersTestBase
+
+  include CaptureStdoutStderr
+
+  test 'c2vE41', %w(
+  | when [test] runs but the spooler write fails with a transient error (a
+  | spooler outage), the response still returns the runner's traffic-light and is
+  | a 200, and commits no event. The light is a runner fact, independent of the
+  | write landing.
+  ) do
+    in_kata do |kata|
+      externals.instance_exec { @spooler = SpoolerRanTestsRaisesStub.new(self) }
+      stdout, stderr = capture_stdout_stderr {
+        post_run_tests
+      }
+      assert last_response.ok?, last_response.body
+      assert_equal 1, saver.kata_events(kata.id).size,
+        'a failed write must not commit an event'
+      assert_equal '', stderr
+      assert stdout.include?('spooler unavailable'), stdout
+    end
+  end
+
+end
