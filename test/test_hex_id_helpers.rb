@@ -1,17 +1,8 @@
 
 $args = ARGV.sort.uniq # eg 2DD6F3 eg 2dd
 $seen_ids = []
-$timings = {}
 
 module TestHexIdHelpers # mix-in
-
-  def hex_test_kata_id
-    ENV['CYBER_DOJO_TEST_ID']
-  end
-
-  def hex_test_name
-    ENV['CYBER_DOJO_TEST_NAME']
-  end
 
   def hex_setup
   end
@@ -28,9 +19,6 @@ module TestHexIdHelpers # mix-in
   module ClassMethods
 
     def test(id, *words, &block)
-      src = block.source_location
-      src_file = File.basename(src[0])
-      src_line = src[1].to_s
       name = words.join(' ')
       # check test-id is well-formed
       diagnostic = "'#{id}',#{name}"
@@ -44,13 +32,8 @@ module TestHexIdHelpers # mix-in
         raise "duplicate test-ID: #{diagnostic}" if $seen_ids.include?(id)
         $seen_ids << id
         block_with_test_id = lambda {
-          ENV['CYBER_DOJO_TEST_ID'] = id
-          ENV['CYBER_DOJO_TEST_NAME'] = name
           hex_setup
-          t1 = Time.now
           self.instance_eval(&block)
-          t2 = Time.now
-          $timings[id+':'+src_file+':'+src_line+':'+name] = (t2 - t1)
           hex_teardown
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)

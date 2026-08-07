@@ -10,9 +10,11 @@ image:
 rubocop-lint:
 	@${PWD}/bin/rubocop-lint.sh
 
-# Run all the tests, optionally filtered by test-id prefix(es).
-# Filtering also skips the browser tests, and leaves coverage ungated because a
-# partial run's coverage says nothing about the suite.
+# Run the server tests, optionally filtered by test-id prefix(es). The browser
+# tests are a separate target, because they need the image rebuilt to pick up
+# any JavaScript change.
+# Filtering leaves coverage ungated, because a partial run's coverage says
+# nothing about the suite as a whole.
 #   eg make test tids=F1B7C
 test:
 	${PWD}/bin/run_tests.sh ${tids}

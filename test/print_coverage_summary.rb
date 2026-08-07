@@ -65,9 +65,9 @@ def criteria(stats, percent, file_count)
     [ 'failures == 0',           stats[:failure_count] == 0, stats[:failure_count] ],
     [ 'errors == 0',             stats[:error_count]   == 0, stats[:error_count]   ],
     [ 'skips == 0',              stats[:skip_count]    == 0, stats[:skip_count]    ],
-    # Wall-clock for the whole suite in one process, which sits around 50s and
-    # varies by a second or so between runs. The limit leaves room for that.
-    [ 'secs < 60',               stats[:time].to_f < 60,     stats[:time]          ],
+    # Wall-clock for the whole suite in one process, running its test classes
+    # in parallel, which sits under 15s and varies by a second between runs.
+    [ 'secs < 30',               stats[:time].to_f < 30,     stats[:time]          ],
     [ 'code covers >= 1 file',   file_count >= 1,            file_count            ],
     [ 'code coverage >= 100',    percent >= 100,             f2(percent)           ],
   ]

@@ -5,6 +5,8 @@ require 'json'
 
 class ControllersTestBase < TestBase
 
+  parallelize_me!
+
   include Rack::Test::Methods
 
   def app

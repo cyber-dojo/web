@@ -108,8 +108,8 @@ class KataTest < ModelsTestBase
   | given two laptops as the same avatar (two different laptop_ids)
   | when one is behind (has not synced by hitting refresh in their browser)
   | and they hit the [test] button
-  | the saver accepts the write, placing it at head+1 (a behind write is no longer
-  | rejected - detection is read-side now), so a new event IS created.
+  | the saver accepts the write, placing it at head+1, so a new event IS created.
+  | A behind write is detected read-side, by the browser poll, not here.
   ) do
     laptop_ahead  = 'a1' * 32   # drives the kata to head
     laptop_behind = 'b2' * 32   # has not refreshed, writes from a stale view
@@ -127,9 +127,9 @@ class KataTest < ModelsTestBase
       assert_equal 4, events.size, :event_not_appended_to_events_json
 
       # The behind laptop has NOT refreshed, so its write lands behind the head over
-      # events a DIFFERENT laptop wrote. The saver no longer rejects that: it places
-      # the write at head+1 and appends it. The stale tab is caught read-side (the
-      # browser poll), not here.
+      # events a DIFFERENT laptop wrote. The saver accepts that: it places the write
+      # at head+1 and appends it. The stale tab is caught read-side (the browser
+      # poll), not here.
       kata_ran_tests(kata.id, files, stdout, stderr, status, ran_summary('green'), laptop_behind, next_tab_seq)
 
       events = kata.events

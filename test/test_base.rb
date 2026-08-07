@@ -2,6 +2,13 @@ require_relative 'test_domain_helpers'
 require_relative 'test_external_helpers'
 require_relative 'test_hex_id_helpers'
 require 'minitest/autorun'
+require 'etc'
+
+# The executor that concurrent test classes share. Setting it parallelises
+# nothing on its own: a class opts in with parallelize_me!, which the server
+# test bases do. The browser base deliberately does not, because those tests
+# drive one Capybara session.
+Minitest.parallel_executor = Minitest::Parallel::Executor.new(Etc.nprocessors)
 
 class TestBase < Minitest::Test
 
@@ -13,18 +20,6 @@ class TestBase < Minitest::Test
   include TestDomainHelpers
   include TestExternalHelpers
   include TestHexIdHelpers
-
-  Minitest.after_run do
-    slow = $timings.select{ |_name,secs| secs > 0.000 }
-    sorted = slow.sort_by{ |name,secs| -secs }.to_h
-    size = sorted.size < 5 ? sorted.size : 5
-    puts
-    puts "Slowest #{size} tests are..." if size != 0
-    sorted.each_with_index do |(name,secs),index|
-      puts "%3.4f - %-72s" % [secs,name]
-      break if index == size
-    end
-  end
 
   Minitest.after_run do
     # complain about any unfound test-id args

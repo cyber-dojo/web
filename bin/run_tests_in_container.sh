@@ -54,13 +54,6 @@ run_tests_in_container()
   set +e
   docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run.sh ${*:-}"
   local -r UNIT_STATUS=$?
-
-  # The browser tests run only on a full run (no test-id filter given).
-  local BROWSER_STATUS=0
-  if [ $# -eq 0 ]; then
-    run_browser_tests_in_container
-    BROWSER_STATUS=$?
-  fi
   set -e
 
   mkdir -p "${DST}"
@@ -68,8 +61,5 @@ run_tests_in_container()
   echo
   echo "${DST}/index.html"
 
-  if [ ${UNIT_STATUS} -ne 0 ]; then
-    return ${UNIT_STATUS}
-  fi
-  return ${BROWSER_STATUS}
+  return ${UNIT_STATUS}
 }

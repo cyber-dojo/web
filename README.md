@@ -16,12 +16,12 @@ $ make demo
 # Build the image
 $ make image
 
-# Run all the tests
+# Run the server tests
 $ make test
 
-# Run only specific tests, naming test-id prefix(es). A filtered run skips the
-# browser tests, and leaves coverage ungated because a partial run's coverage
-# says nothing about the suite as a whole.
+# Run only specific tests, naming test-id prefix(es). A filtered run leaves
+# coverage ungated, because a partial run's coverage says nothing about the
+# suite as a whole.
 $ make test tids=3d99
 ...
 Run options: --seed 45085
@@ -32,12 +32,12 @@ Finished in 0.006136s, 977.8290 runs/s, 2607.5441 assertions/s.
 ...
 Filtered run - coverage not gated.
 
-# Run only the browser tests
+# Run the browser tests, which 'make test' does not
 $ make test_browser
 ```
 
-A full `make test` runs every test directory in one process, so it produces a
-single coverage report, and ends with the gate:
+A full `make test` runs every server test directory in one process, so it
+produces a single coverage report, and ends with the gate:
 
 ```
 tests      : 117

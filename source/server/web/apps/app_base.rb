@@ -93,6 +93,13 @@ module Web
       externals.time
     end
 
+    # Where diagnostics are written. Per-thread, so a test can capture what one
+    # request logged without swapping the process-global $stdout that every
+    # other concurrently-running request shares.
+    def stdout_stream
+      Thread.current[:stdout_stream] || $stdout
+    end
+
     # View helpers, here rather than in one app, because the views are shared:
     # the review partials render from the review page and from the kata edit
     # page's review mode, so whichever app serves them must supply these.

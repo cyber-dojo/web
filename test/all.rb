@@ -20,8 +20,8 @@ app_root = File.expand_path('../source/web', __dir__)
 Dir.glob("#{app_root}/*.rb").each { |filename| require filename }
 
 # RunnerStub is the test suite's default runner (see test_external_helpers).
-# Production code no longer requires it - externals.rb used to, which pulled
-# the test tree into the shipped image.
+# It lives in the test tree and is required from here, so that nothing in
+# source/ reaches into test/ and pulls the test tree into the shipped image.
 require_relative './services/runner_stub'
 
 require_relative './test_base'

@@ -3,11 +3,6 @@ require_relative 'runner_stub'
 
 class RunnerStubTest < ServicesTestBase
 
-  def hex_setup
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'AF72C0', %w(
   stub_run can stub stdout and leave
   stderr defaulted to stub empty-string and,
