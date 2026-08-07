@@ -7,7 +7,7 @@ show_help()
 Usage: bin/check_coverage_metrics.sh [OPTIONS]
 
 Checks the coverage metrics of the last test run against the limits in
-test/coverage_metrics_limits.rb, printing each metric and its verdict, and
+test/coverage_metrics_params.json, printing each metric and its verdict, and
 exiting non-zero if any limit is breached.
 
 Reads reports/coverage_metrics.json, which 'make test_server' writes. This

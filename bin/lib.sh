@@ -50,7 +50,7 @@ check_metrics()
 
   exit_non_zero_unless_file_exists "${test_dir}/check_metrics.rb"                  # evaluator
   exit_non_zero_unless_file_exists "${reports_dir}/${metrics}_metrics.json"        # data from the test run
-  exit_non_zero_unless_file_exists "${test_dir}/${metrics}_metrics_limits.rb"      # the limits
+  exit_non_zero_unless_file_exists "${test_dir}/${metrics}_metrics_params.json"    # the bounds
 
   docker run \
     --read-only \
@@ -58,9 +58,9 @@ check_metrics()
     --entrypoint="" \
     --volume "${test_dir}/check_metrics.rb:${tmp}/check_metrics.rb:ro" \
     --volume "${reports_dir}/${metrics}_metrics.json:${tmp}/${metrics}_metrics.json:ro" \
-    --volume "${test_dir}/${metrics}_metrics_limits.rb:${tmp}/${metrics}_metrics_limits.rb:ro" \
+    --volume "${test_dir}/${metrics}_metrics_params.json:${tmp}/${metrics}_metrics_params.json:ro" \
       "${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}" \
-        sh -c "ruby ${tmp}/check_metrics.rb ${tmp}/${metrics}_metrics.json ${metrics}_metrics_limits"
+        sh -c "ruby ${tmp}/check_metrics.rb ${tmp}/${metrics}_metrics.json ${tmp}/${metrics}_metrics_params.json"
 }
 
 exit_non_zero_unless_file_exists()

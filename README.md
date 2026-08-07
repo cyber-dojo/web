@@ -37,21 +37,33 @@ targets then check those against pinned limits, and fail if any is breached:
 ```
 $ make metrics_coverage
 
-                   test.lines.total |  1340   <=  1340 |  true
-                  test.lines.missed |     9   <=     9 |  true
-                test.branches.total |    26   <=    26 |  true
-               test.branches.missed |     8   <=     8 |  true
+                code.branches.total |    33   >=     1 |  true
+                   code.lines.total |   496   >=     1 |  true
+                test.branches.total |    26   >=     1 |  true
+                   test.lines.total |  1340   >=     1 |  true
 
-                   code.lines.total |   496   <=   496 |  true
-                  code.lines.missed |     0   ==     0 |  true
-                code.branches.total |    33   <=    33 |  true
                code.branches.missed |     3   <=     3 |  true
+                code.branches.total |    33   <=    33 |  true
+                  code.lines.missed |     0   <=     0 |  true
+                   code.lines.total |   496   <=   496 |  true
+               test.branches.missed |     8   <=     8 |  true
+                test.branches.total |    26   <=    26 |  true
+                  test.lines.missed |     9   <=     9 |  true
+                   test.lines.total |  1340   <=  1340 |  true
 ```
 
 `make metrics_test` does the same for the test counts and the run's duration.
-The limits live in `test/coverage_metrics_limits.rb` and
-`test/test_metrics_limits.rb`; a `missed` count pinned with `==` must stay
-where it is, one with `<=` is a ratchet that may fall but never rise.
+
+The bounds live in `test/coverage_metrics_params.json` and
+`test/test_metrics_params.json`. Each is written once and applied twice: these
+targets check them locally, and CI evaluates the same files with a rego policy
+before attesting the verdict to Kosli.
+
+A `max` bound is a ratchet - the number may fall, never rise - so growing the
+code, or letting a missed count grow, is a deliberate act that has to be
+acknowledged by editing the file. The `min` bounds exist because upper bounds
+alone cannot catch an empty report: a report of all zeros satisfies every one
+of them.
 
 # Screenshots
 

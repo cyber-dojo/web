@@ -144,6 +144,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+      REGO_POLICY_FILENAME: metrics-compliance.rego
+      REGO_POLICY_URL: https://raw.githubusercontent.com/cyber-dojo/kosli-attestation-types/main/metrics-compliance.rego
+      PARAMS_TEST_FILENAME: test/test_metrics_params.json
+      PARAMS_COVERAGE_FILENAME: test/coverage_metrics_params.json
     steps:
       - uses: cyber-dojo/harden-runner@main
       - uses: cyber-dojo/pinned-checkout@main
@@ -168,6 +172,83 @@ jobs:
           kosli attest junit
             --name=web.server-test
             --results-dir=./reports/junit
+
+      # The metrics are attested in two parts. A facts attestation carries the
+      # data: its type has a schema and no jq rules, so it is always compliant.
+      # The bounds live in this repo's params files, applied by the shared
+      # policy, which is what lets each repo set its own limits rather than
+      # share one set baked into an attestation type.
+      #
+      # The policy is fetched rather than named by URL so the copy attached to
+      # each decision is the same bytes that were evaluated.
+      - name: Get the metrics policy
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          curl --fail-with-body "${REGO_POLICY_URL}" > "${REGO_POLICY_FILENAME}"
+
+      - name: Attest test metrics to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest custom
+            --attestation-data=./reports/test_metrics.json
+            --name=web.test-facts
+            --type=test-facts
+
+      # --no-assert makes evaluate a decision point: it prints a verdict and
+      # exits 0 either way, so a breach is carried by the decision attestation
+      # below rather than failing here and leaving no evidence of why. The
+      # policy reads the facts attested above, so this runs after them.
+      - name: Evaluate the test metrics against their bounds
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run: |
+          COMPLIANT="$(kosli evaluate trail "${KOSLI_TRAIL}" \
+            --flow "${KOSLI_FLOW}" \
+            --policy "${REGO_POLICY_FILENAME}" \
+            --params "@${PARAMS_TEST_FILENAME}" \
+            --no-assert \
+            --output json | jq --raw-output '.allow')"
+          echo "TEST_COMPLIANT=${COMPLIANT}" >> "${GITHUB_ENV}"
+
+      # The policy and the params are attached, because the verdict means
+      # nothing without the rules and the numbers it was reached from.
+      - name: Attest the test metrics decision to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest decision
+            --compliant="${TEST_COMPLIANT}"
+            --control=SDLC-CTRL-0008
+            --attachments="${REGO_POLICY_FILENAME}"
+            --attachments="${PARAMS_TEST_FILENAME}"
+            --name=web.test-decision
+
+      - name: Attest coverage metrics to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest custom
+            --attestation-data=./reports/coverage_metrics.json
+            --name=web.coverage-facts
+            --type=coverage-facts
+
+      - name: Evaluate the coverage metrics against their bounds
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run: |
+          COMPLIANT="$(kosli evaluate trail "${KOSLI_TRAIL}" \
+            --flow "${KOSLI_FLOW}" \
+            --policy "${REGO_POLICY_FILENAME}" \
+            --params "@${PARAMS_COVERAGE_FILENAME}" \
+            --no-assert \
+            --output json | jq --raw-output '.allow')"
+          echo "COVERAGE_COMPLIANT=${COMPLIANT}" >> "${GITHUB_ENV}"
+
+      - name: Attest the coverage metrics decision to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest decision
+            --compliant="${COVERAGE_COMPLIANT}"
+            --control=SDLC-CTRL-0008
+            --attachments="${REGO_POLICY_FILENAME}"
+            --attachments="${PARAMS_COVERAGE_FILENAME}"
+            --name=web.coverage-decision
 
 
   # The client tests gate the build but are not attested. They drive the served
