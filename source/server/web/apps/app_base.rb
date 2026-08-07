@@ -10,14 +10,16 @@ module Web
   # every route its superclass defines - which is exactly why one app cannot
   # simply descend from another.
   class AppBase < Sinatra::Base
-    # The apps live one level down, in apps/, but views/ and public/ sit
-    # beside that directory rather than inside it, because they are shared:
-    # the review partials render from ReviewApp and from KataApp both.
+    # The apps live one level down, in apps/, but views/ sits beside that
+    # directory rather than inside it, because it is shared: the review
+    # partials render from ReviewApp and from KataApp both.
+    #
+    # There is no public_folder and static serving stays off. The only files
+    # served from disk are the compiled bundles, which AssetsApp send_files
+    # from ASSETS_DIR, a sibling of source/ that no app roots itself at.
     set :views, File.expand_path('../views', __dir__)
-    set :public_folder, File.expand_path('../public', __dir__)
     set :host_authorization, {}
     set :protection, except: %i[http_origin json_csrf]
-    enable :static
 
     def initialize(externals)
       super()
