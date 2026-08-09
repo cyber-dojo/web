@@ -44,9 +44,9 @@ exit_non_zero_unless_installed()
 #
 # The image has no latest tag to ask for. kosli-dev/cli pushes exactly one tag
 # per build - the git tag on a release, an 8-char commit sha otherwise - so
-# latest is resolved here, to the tag github's releases/latest redirect names in
-# its location header. That tag is the image tag: the release workflow hands the
-# same string to its docker build.
+# latest is resolved here, to the tag github's releases/latest redirect points
+# at. That tag is the image tag: the release workflow hands the same string to
+# its docker build.
 #
 # Resolving it on each run is what makes this repo's checks use the CLI version
 # main.yml uses, without a version number written down in either place.
@@ -65,7 +65,10 @@ kosli_cli_image_tag()
     return
   fi
   local -r url=https://github.com/kosli-dev/cli/releases/latest
-  local -r location="$(curl --silent --head "${url}" | grep --ignore-case '^location:')"
+  # curl reports where the redirect points, rather than this reading the header
+  # that says so. Header lines are CRLF-terminated, and a tag carrying the
+  # trailing carriage return reaches docker as an invalid image reference.
+  local -r location="$(curl --silent --head --output /dev/null --write-out '%{redirect_url}' "${url}")"
   local -r tag="${location##*/tag/}"
   # check_metrics cannot evaluate anything without the CLI, and a check that
   # cannot run has decided nothing. Stop here, rather than let the caller reach
@@ -123,31 +126,51 @@ metrics_policy_input()
   ' "${report_filename}"
 }
 
-# Checks one of the run's metrics reports against its limits, by running the
-# evaluator inside the app image so it uses the same ruby the tests do. Takes
-# the metrics' name, eg 'coverage' or 'test', from which the report, the limits
-# and the evaluator's argument all follow. Requires echo_env_vars.sh to have
-# been sourced and its vars exported, for repo_root and the image name.
+# Checks one of the run's metrics reports against the limits in its params file.
+# Takes the metrics' name, eg 'coverage' or 'test', from which the report and
+# the params both follow. Requires echo_env_vars.sh to have been sourced, for
+# repo_root.
+#
+# The check is the rego policy .github/workflows/main.yml evaluates, run here by
+# the kosli CLI from its published image. The bounds are written once, in the
+# params file; this makes the decision made from them written once too, so a
+# local pass means what a CI pass means.
+#
+# Everything the CLI reads is mounted read-only from the repo root and named
+# relative to it, since the paths it is given are the container's.
 check_metrics()
 {
   local -r metrics="${1}"                    # eg coverage
-  local -r test_dir="$(repo_root)/test"
-  local -r reports_dir="$(repo_root)/reports"
-  local -r tmp=/tmp
+  local -r report="reports/${metrics}_metrics.json"            # data from the test run
+  local -r params="test/${metrics}_metrics_params.json"        # the bounds
+  local -r policy=metrics-compliance.rego                      # how to judge one against the other
 
-  exit_non_zero_unless_file_exists "${test_dir}/check_metrics.rb"                  # evaluator
-  exit_non_zero_unless_file_exists "${reports_dir}/${metrics}_metrics.json"        # data from the test run
-  exit_non_zero_unless_file_exists "${test_dir}/${metrics}_metrics_params.json"    # the bounds
+  exit_non_zero_unless_file_exists "$(repo_root)/${report}"
+  exit_non_zero_unless_file_exists "$(repo_root)/${params}"
 
-  docker run \
-    --read-only \
-    --rm \
-    --entrypoint="" \
-    --volume "${test_dir}/check_metrics.rb:${tmp}/check_metrics.rb:ro" \
-    --volume "${reports_dir}/${metrics}_metrics.json:${tmp}/${metrics}_metrics.json:ro" \
-    --volume "${test_dir}/${metrics}_metrics_params.json:${tmp}/${metrics}_metrics_params.json:ro" \
-      "${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}" \
-        sh -c "ruby ${tmp}/check_metrics.rb ${tmp}/${metrics}_metrics.json ${tmp}/${metrics}_metrics_params.json"
+  fetch_metrics_policy "$(repo_root)/${policy}"
+
+  # Assigned on its own line so a failure to resolve stops the run. See
+  # kosli_cli_image_tag.
+  local tag
+  tag="$(kosli_cli_image_tag)"
+
+  # --assert and --output table are today's defaults, named anyway: evaluate is
+  # a beta command, and a check that stopped failing, or started printing json,
+  # because a default moved would be found the hard way.
+  metrics_policy_input "$(repo_root)/${report}" "$(repo_root)/${params}" \
+    | docker run \
+        --read-only \
+        --rm \
+        --interactive \
+        --volume "$(repo_root):/work:ro" \
+        --workdir /work \
+          "ghcr.io/kosli-dev/cli:${tag}" \
+            evaluate input \
+              --policy "${policy}" \
+              --params "@${params}" \
+              --assert \
+              --output table
 }
 
 exit_non_zero_unless_file_exists()
