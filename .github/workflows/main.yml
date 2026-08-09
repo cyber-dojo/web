@@ -251,6 +251,27 @@ jobs:
             --attachments="${PARAMS_COVERAGE_FILENAME}"
             --name=web.coverage-decision
 
+      # The targets a developer runs, in the order 'make all' runs them, for the
+      # same reason they run there: same policy, same params, same flags. The
+      # steps above judge the trail, which is Kosli's copy of these numbers and
+      # cannot be judged from a laptop.
+      #
+      # test_check_metrics comes first, as it does in 'make all': it checks that
+      # a breached bound reaches make as a non-zero exit, so the two targets
+      # after it can be trusted to fail.
+      #
+      # The version is taken from the CLI setup-kosli-cli installed, so the
+      # container these targets run is the version this job's own kosli commands
+      # are. Left to itself the check resolves 'latest' separately, and this job
+      # would evaluate twice with two versions of a beta command.
+      #
+      # Last, so both decisions are attested before a breach stops the job.
+      # Otherwise the run continues to sdlc-control-gate, which fails on the
+      # same breach several jobs later.
+      - name: Judge the metrics as a developer does
+        run: |
+          KOSLI_CLI_VERSION="v$(kosli version --short)" make test_check_metrics metrics_test metrics_coverage
+
 
   # The client tests gate the build but are not attested. They drive the served
   # app end-to-end through a real browser, so the in-process line coverage the

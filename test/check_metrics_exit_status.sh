@@ -2,8 +2,9 @@
 set -Eeu
 
 # Asserts that the metrics check says no when a bound is breached, and says so
-# by exiting non-zero. A check that prints DENIED and exits 0 would leave every
-# caller - make, CI - believing the metrics were within their limits.
+# by exiting non-zero. make is what runs it, and make reads the exit status, not
+# the output: a check that printed DENIED and exited 0 would leave a build green
+# on breached metrics.
 
 readonly TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${TEST_DIR}/../bin/echo_env_vars.sh"
