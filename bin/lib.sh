@@ -61,7 +61,10 @@ kosli_cli_image_tag()
 {
   local -r version="${KOSLI_CLI_VERSION:-latest}"
   if [ "${version}" != latest ]; then
-    echo "${version}"
+    # The image tags are the CLI's git tags, which carry a leading v. The
+    # release binary prints that tag, v and all; a homebrew-built kosli
+    # prints the version bare. Add the v here, once, when it is missing.
+    echo "v${version#v}"
     return
   fi
   local -r url=https://github.com/kosli-dev/cli/releases/latest

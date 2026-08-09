@@ -270,7 +270,7 @@ jobs:
       # same breach several jobs later.
       - name: Judge the metrics as a developer does
         run: |
-          KOSLI_CLI_VERSION="v$(kosli version --short)" make test_check_metrics metrics_test metrics_coverage
+          KOSLI_CLI_VERSION="$(kosli version --short)" make test_check_metrics metrics_test metrics_coverage
 
 
   # The client tests gate the build but are not attested. They drive the served
