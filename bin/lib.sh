@@ -77,6 +77,31 @@ kosli_cli_image_tag()
   echo "${tag}"
 }
 
+# Fetches the rego policy that decides whether a metrics report is within the
+# limits in its params file, writing it to the file named by the caller.
+#
+# The URL lives here alone. .github/workflows/main.yml fetches the policy too,
+# for 'kosli evaluate trail', and calls this through bin/fetch_metrics_policy.sh
+# rather than curling its own copy, so the two cannot come to name different
+# policies. Where the file goes stays the caller's choice.
+#
+# Both callers fetch rather than hand the URL to the CLI, which accepts one:
+# main.yml attaches the fetched file to the decision it attests, so the bytes
+# recorded are the bytes evaluated.
+fetch_metrics_policy()
+{
+  local -r filename="${1}"
+  local -r url=https://raw.githubusercontent.com/cyber-dojo/kosli-attestation-types/main/metrics-compliance.rego
+  if ! curl --silent --show-error --fail-with-body --output "${filename}" "${url}"; then
+    # --fail-with-body has written the error response to the file. Remove it, so
+    # nothing downstream can evaluate an error page, and stop: a policy that did
+    # not arrive cannot judge anything.
+    rm -f "${filename}"
+    stderr "ERROR: cannot fetch the metrics policy from ${url}"
+    exit_non_zero
+  fi
+}
+
 # Checks one of the run's metrics reports against its limits, by running the
 # evaluator inside the app image so it uses the same ruby the tests do. Takes
 # the metrics' name, eg 'coverage' or 'test', from which the report, the limits

@@ -145,7 +145,6 @@ jobs:
     env:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
       REGO_POLICY_FILENAME: metrics-compliance.rego
-      REGO_POLICY_URL: https://raw.githubusercontent.com/cyber-dojo/kosli-attestation-types/main/metrics-compliance.rego
       PARAMS_TEST_FILENAME: test/test_metrics_params.json
       PARAMS_COVERAGE_FILENAME: test/coverage_metrics_params.json
     steps:
@@ -180,11 +179,13 @@ jobs:
       # share one set baked into an attestation type.
       #
       # The policy is fetched rather than named by URL so the copy attached to
-      # each decision is the same bytes that were evaluated.
+      # each decision is the same bytes that were evaluated. The URL itself
+      # lives in bin/lib.sh, which the metrics checks fetch through too, so this
+      # job and 'make metrics_test' cannot judge by different policies.
       - name: Get the metrics policy
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
-          curl --fail-with-body "${REGO_POLICY_URL}" > "${REGO_POLICY_FILENAME}"
+          bin/fetch_metrics_policy.sh "${REGO_POLICY_FILENAME}"
 
       - name: Attest test metrics to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
