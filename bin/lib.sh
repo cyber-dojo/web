@@ -102,6 +102,27 @@ fetch_metrics_policy()
   fi
 }
 
+# Echoes the metrics report wrapped in the shape the policy reads it from: the
+# trail as 'kosli evaluate trail' would present it in CI, holding one artifact,
+# holding one attestation, whose attestation_data is the report.
+#
+# The two names are read from the params file, which is where the policy reads
+# them too, so here they always agree with themselves. That makes the artifact
+# and attestation names plumbing rather than something this check tests: a wrong
+# name still passes locally and is caught only by CI, whose trail is real. What
+# is tested locally is the report against the bounds.
+metrics_policy_input()
+{
+  local -r report_filename="${1}"
+  local -r params_filename="${2}"
+  jq --slurpfile params "${params_filename}" '
+    $params[0] as $p |
+    { trail: { compliance_status: { artifacts_statuses:
+      { ($p.artifact_name): { attestations_statuses:
+        { ($p.attestation_name): { attestation_data: . } } } } } } }
+  ' "${report_filename}"
+}
+
 # Checks one of the run's metrics reports against its limits, by running the
 # evaluator inside the app image so it uses the same ruby the tests do. Takes
 # the metrics' name, eg 'coverage' or 'test', from which the report, the limits
