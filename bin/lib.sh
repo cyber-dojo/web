@@ -135,14 +135,22 @@ metrics_policy_input()
 # the kosli CLI from its published image. The bounds are written once, in the
 # params file; this makes the decision made from them written once too, so a
 # local pass means what a CI pass means.
-#
-# Everything the CLI reads is mounted read-only from the repo root and named
-# relative to it, since the paths it is given are the container's.
 check_metrics()
 {
   local -r metrics="${1}"                    # eg coverage
-  local -r report="reports/${metrics}_metrics.json"            # data from the test run
-  local -r params="test/${metrics}_metrics_params.json"        # the bounds
+  check_metrics_files \
+    "$(repo_root)/reports/${metrics}_metrics.json" \
+    "$(repo_root)/test/${metrics}_metrics_params.json"
+}
+
+# Checks the given metrics report against the bounds in the given params file.
+# Both are named absolutely, and both must live inside the repo: the CLI reads
+# them from a read-only mount of the repo root, so they are handed to it named
+# relative to that.
+check_metrics_files()
+{
+  local -r report="${1#"$(repo_root)/"}"                       # data from a test run
+  local -r params="${2#"$(repo_root)/"}"                       # the bounds
   local -r policy=metrics-compliance.rego                      # how to judge one against the other
 
   exit_non_zero_unless_file_exists "$(repo_root)/${report}"
