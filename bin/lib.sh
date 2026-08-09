@@ -36,6 +36,47 @@ exit_non_zero_unless_installed()
   fi
 }
 
+# Echoes the tag of the kosli CLI image that check_metrics runs, for
+# 'make metrics_test' and 'make metrics_coverage'. Takes the version from
+# KOSLI_CLI_VERSION, the same variable .github/workflows/main.yml passes to
+# cyber-dojo/setup-kosli-cli, and defaults to the value that variable holds
+# there: latest.
+#
+# The image has no latest tag to ask for. kosli-dev/cli pushes exactly one tag
+# per build - the git tag on a release, an 8-char commit sha otherwise - so
+# latest is resolved here, to the tag github's releases/latest redirect names in
+# its location header. That tag is the image tag: the release workflow hands the
+# same string to its docker build.
+#
+# Resolving it on each run is what makes this repo's checks use the CLI version
+# main.yml uses, without a version number written down in either place.
+#
+# Callers must assign this on a line of its own:
+#   local tag
+#   tag="$(kosli_cli_image_tag)"
+# Declaring and assigning together makes the exit status local's, not the
+# substitution's, so a failure to resolve would arrive as an empty tag rather
+# than as a stopped script.
+kosli_cli_image_tag()
+{
+  local -r version="${KOSLI_CLI_VERSION:-latest}"
+  if [ "${version}" != latest ]; then
+    echo "${version}"
+    return
+  fi
+  local -r url=https://github.com/kosli-dev/cli/releases/latest
+  local -r location="$(curl --silent --head "${url}" | grep --ignore-case '^location:')"
+  local -r tag="${location##*/tag/}"
+  # check_metrics cannot evaluate anything without the CLI, and a check that
+  # cannot run has decided nothing. Stop here, rather than let the caller reach
+  # a docker pull of some tag assembled from an error page.
+  if [ -z "${tag}" ] || [ "${tag}" == "${location}" ]; then
+    stderr "ERROR: cannot resolve the latest kosli CLI version from ${url}"
+    exit_non_zero
+  fi
+  echo "${tag}"
+}
+
 # Checks one of the run's metrics reports against its limits, by running the
 # evaluator inside the app image so it uses the same ruby the tests do. Takes
 # the metrics' name, eg 'coverage' or 'test', from which the report, the limits
