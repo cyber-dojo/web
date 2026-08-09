@@ -1,0 +1,28 @@
+{
+  "timestamp": 1786106107,
+  "command_name": "Unit Tests",
+  "code": {
+    "lines": {
+      "total": 496,
+      "covered": 496,
+      "missed": 0
+    },
+    "branches": {
+      "total": 33,
+      "covered": 30,
+      "missed": 3
+    }
+  },
+  "test": {
+    "lines": {
+      "total": 1340,
+      "covered": 1331,
+      "missed": 9
+    },
+    "branches": {
+      "total": 26,
+      "covered": 18,
+      "missed": 8
+    }
+  }
+}

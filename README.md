@@ -37,27 +37,28 @@ targets then check those against pinned limits, and fail if any is breached:
 ```
 $ make metrics_coverage
 
-                code.branches.total |    33   >=     1 |  true
-                   code.lines.total |   496   >=     1 |  true
-                test.branches.total |    26   >=     1 |  true
-                   test.lines.total |  1340   >=     1 |  true
+RESULT:  ALLOWED
+```
 
-               code.branches.missed |     3   <=     3 |  true
-                code.branches.total |    33   <=    33 |  true
-                  code.lines.missed |     0   <=     0 |  true
-                   code.lines.total |   496   <=   496 |  true
-               test.branches.missed |     8   <=     8 |  true
-                test.branches.total |    26   <=    26 |  true
-                  test.lines.missed |     9   <=     9 |  true
-                   test.lines.total |  1340   <=  1340 |  true
+A breach names the metric, what it measured, and the bound it broke:
+
+```
+$ make metrics_coverage
+
+RESULT:      DENIED
+VIOLATIONS:  code.branches.missed is 3, above its maximum of 2
+Error: [kosli evaluate input] policy denied: [code.branches.missed is 3, above its maximum of 2]
+make: *** [metrics_coverage] Error 1
 ```
 
 `make metrics_test` does the same for the test counts and the run's duration.
 
 The bounds live in `test/coverage_metrics_params.json` and
-`test/test_metrics_params.json`. Each is written once and applied twice: these
-targets check them locally, and CI evaluates the same files with a rego policy
-before attesting the verdict to Kosli.
+`test/test_metrics_params.json`, and are written once. So is the decision made
+from them: these targets and CI both apply the bounds with one rego policy,
+shared from the kosli-attestation-types repo, which CI then attests to Kosli.
+Running it locally needs no kosli account - the policy is evaluated from a
+published CLI image, and makes no API calls.
 
 A `max` bound is a ratchet - the number may fall, never rise - so growing the
 code, or letting a missed count grow, is a deliberate act that has to be

@@ -36,31 +36,152 @@ exit_non_zero_unless_installed()
   fi
 }
 
-# Checks one of the run's metrics reports against its limits, by running the
-# evaluator inside the app image so it uses the same ruby the tests do. Takes
-# the metrics' name, eg 'coverage' or 'test', from which the report, the limits
-# and the evaluator's argument all follow. Requires echo_env_vars.sh to have
-# been sourced and its vars exported, for repo_root and the image name.
+# Echoes the tag of the kosli CLI image that check_metrics runs, for
+# 'make metrics_test' and 'make metrics_coverage'. Takes the version from
+# KOSLI_CLI_VERSION, the same variable .github/workflows/main.yml passes to
+# cyber-dojo/setup-kosli-cli, and defaults to the value that variable holds
+# there: latest.
+#
+# The image has no latest tag to ask for. kosli-dev/cli pushes exactly one tag
+# per build - the git tag on a release, an 8-char commit sha otherwise - so
+# latest is resolved here, to the tag github's releases/latest redirect points
+# at. That tag is the image tag: the release workflow hands the same string to
+# its docker build.
+#
+# Resolving it on each run is what makes this repo's checks use the CLI version
+# main.yml uses, without a version number written down in either place.
+#
+# Callers must assign this on a line of its own:
+#   local tag
+#   tag="$(kosli_cli_image_tag)"
+# Declaring and assigning together makes the exit status local's, not the
+# substitution's, so a failure to resolve would arrive as an empty tag rather
+# than as a stopped script.
+kosli_cli_image_tag()
+{
+  local -r version="${KOSLI_CLI_VERSION:-latest}"
+  if [ "${version}" != latest ]; then
+    # The image tags are the CLI's git tags, which carry a leading v. The
+    # release binary prints that tag, v and all; a homebrew-built kosli
+    # prints the version bare. Add the v here, once, when it is missing.
+    echo "v${version#v}"
+    return
+  fi
+  local -r url=https://github.com/kosli-dev/cli/releases/latest
+  # curl reports where the redirect points, rather than this reading the header
+  # that says so. Header lines are CRLF-terminated, and a tag carrying the
+  # trailing carriage return reaches docker as an invalid image reference.
+  local -r location="$(curl --silent --head --output /dev/null --write-out '%{redirect_url}' "${url}")"
+  local -r tag="${location##*/tag/}"
+  # check_metrics cannot evaluate anything without the CLI, and a check that
+  # cannot run has decided nothing. Stop here, rather than let the caller reach
+  # a docker pull of some tag assembled from an error page.
+  if [ -z "${tag}" ] || [ "${tag}" == "${location}" ]; then
+    stderr "ERROR: cannot resolve the latest kosli CLI version from ${url}"
+    exit_non_zero
+  fi
+  echo "${tag}"
+}
+
+# Fetches the rego policy that decides whether a metrics report is within the
+# limits in its params file, writing it to the file named by the caller.
+#
+# The URL lives here alone. .github/workflows/main.yml fetches the policy too,
+# for 'kosli evaluate trail', and calls this through bin/fetch_metrics_policy.sh
+# rather than curling its own copy, so the two cannot come to name different
+# policies. Where the file goes stays the caller's choice.
+#
+# Both callers fetch rather than hand the URL to the CLI, which accepts one:
+# main.yml attaches the fetched file to the decision it attests, so the bytes
+# recorded are the bytes evaluated.
+fetch_metrics_policy()
+{
+  local -r filename="${1}"
+  local -r url=https://raw.githubusercontent.com/cyber-dojo/kosli-attestation-types/main/metrics-compliance.rego
+  if ! curl --silent --show-error --fail-with-body --output "${filename}" "${url}"; then
+    # --fail-with-body has written the error response to the file. Remove it, so
+    # nothing downstream can evaluate an error page, and stop: a policy that did
+    # not arrive cannot judge anything.
+    rm -f "${filename}"
+    stderr "ERROR: cannot fetch the metrics policy from ${url}"
+    exit_non_zero
+  fi
+}
+
+# Echoes the metrics report wrapped in the shape the policy reads it from: the
+# trail as 'kosli evaluate trail' would present it in CI, holding one artifact,
+# holding one attestation, whose attestation_data is the report.
+#
+# The two names are read from the params file, which is where the policy reads
+# them too, so here they always agree with themselves. That makes the artifact
+# and attestation names plumbing rather than something this check tests: a wrong
+# name still passes locally and is caught only by CI, whose trail is real. What
+# is tested locally is the report against the bounds.
+metrics_policy_input()
+{
+  local -r report_filename="${1}"
+  local -r params_filename="${2}"
+  jq --slurpfile params "${params_filename}" '
+    $params[0] as $p |
+    { trail: { compliance_status: { artifacts_statuses:
+      { ($p.artifact_name): { attestations_statuses:
+        { ($p.attestation_name): { attestation_data: . } } } } } } }
+  ' "${report_filename}"
+}
+
+# Checks one of the run's metrics reports against the limits in its params file.
+# Takes the metrics' name, eg 'coverage' or 'test', from which the report and
+# the params both follow. Requires echo_env_vars.sh to have been sourced, for
+# repo_root.
+#
+# The check is the rego policy .github/workflows/main.yml evaluates, run here by
+# the kosli CLI from its published image. The bounds are written once, in the
+# params file; this makes the decision made from them written once too, so a
+# local pass means what a CI pass means.
 check_metrics()
 {
   local -r metrics="${1}"                    # eg coverage
-  local -r test_dir="$(repo_root)/test"
-  local -r reports_dir="$(repo_root)/reports"
-  local -r tmp=/tmp
+  check_metrics_files \
+    "$(repo_root)/reports/${metrics}_metrics.json" \
+    "$(repo_root)/test/${metrics}_metrics_params.json"
+}
 
-  exit_non_zero_unless_file_exists "${test_dir}/check_metrics.rb"                  # evaluator
-  exit_non_zero_unless_file_exists "${reports_dir}/${metrics}_metrics.json"        # data from the test run
-  exit_non_zero_unless_file_exists "${test_dir}/${metrics}_metrics_params.json"    # the bounds
+# Checks the given metrics report against the bounds in the given params file.
+# Both are named absolutely, and both must live inside the repo: the CLI reads
+# them from a read-only mount of the repo root, so they are handed to it named
+# relative to that.
+check_metrics_files()
+{
+  local -r report="${1#"$(repo_root)/"}"                       # data from a test run
+  local -r params="${2#"$(repo_root)/"}"                       # the bounds
+  local -r policy=metrics-compliance.rego                      # how to judge one against the other
 
-  docker run \
-    --read-only \
-    --rm \
-    --entrypoint="" \
-    --volume "${test_dir}/check_metrics.rb:${tmp}/check_metrics.rb:ro" \
-    --volume "${reports_dir}/${metrics}_metrics.json:${tmp}/${metrics}_metrics.json:ro" \
-    --volume "${test_dir}/${metrics}_metrics_params.json:${tmp}/${metrics}_metrics_params.json:ro" \
-      "${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}" \
-        sh -c "ruby ${tmp}/check_metrics.rb ${tmp}/${metrics}_metrics.json ${tmp}/${metrics}_metrics_params.json"
+  exit_non_zero_unless_file_exists "$(repo_root)/${report}"
+  exit_non_zero_unless_file_exists "$(repo_root)/${params}"
+
+  fetch_metrics_policy "$(repo_root)/${policy}"
+
+  # Assigned on its own line so a failure to resolve stops the run. See
+  # kosli_cli_image_tag.
+  local tag
+  tag="$(kosli_cli_image_tag)"
+
+  # --assert and --output table are today's defaults, named anyway: evaluate is
+  # a beta command, and a check that stopped failing, or started printing json,
+  # because a default moved would be found the hard way.
+  metrics_policy_input "$(repo_root)/${report}" "$(repo_root)/${params}" \
+    | docker run \
+        --read-only \
+        --rm \
+        --interactive \
+        --volume "$(repo_root):/work:ro" \
+        --workdir /work \
+          "ghcr.io/kosli-dev/cli:${tag}" \
+            evaluate input \
+              --policy "${policy}" \
+              --params "@${params}" \
+              --assert \
+              --output table
 }
 
 exit_non_zero_unless_file_exists()

@@ -2,10 +2,12 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
-.PHONY: all image test_server test_client metrics_test metrics_coverage rubocop-lint demo probe_demo snyk-container-scan snyk-code-scan
+.PHONY: all image test_server test_client metrics_test metrics_coverage test_check_metrics rubocop-lint demo probe_demo snyk-container-scan snyk-code-scan
 
-# Build, run the server tests, and judge the run.
-all: image test_server metrics_test metrics_coverage
+# Build, run the server tests, and judge the run. The judging is checked first,
+# and takes a second: a build and a test run are a long way to go to reach a
+# verdict that cannot fail.
+all: test_check_metrics image test_server metrics_test metrics_coverage
 
 image:
 	${PWD}/bin/build.sh
@@ -31,13 +33,19 @@ test_client:
 	${PWD}/bin/run_client_tests.sh ${tids}
 
 # Judge the last test_server run, against test/test_metrics_params.json and
-# test/coverage_metrics_params.json respectively. CI evaluates those same files
-# with a rego policy, so a bound is written once and applied in both places.
+# test/coverage_metrics_params.json respectively. Both targets apply those
+# bounds with the same rego policy CI applies them with, so a bound and the
+# decision made from it are each written once.
 metrics_test:
 	@${PWD}/bin/check_test_metrics.sh
 
 metrics_coverage:
 	@${PWD}/bin/check_coverage_metrics.sh
+
+# Check that the two targets above can fail: that a breached bound reaches the
+# caller as a non-zero exit, and not merely as a line of output.
+test_check_metrics:
+	@${PWD}/test/check_metrics_exit_status.sh
 
 count ?= 1
 v ?= 2
