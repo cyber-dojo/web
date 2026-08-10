@@ -12,7 +12,7 @@ $(() => {
   review.nameRagColour = () => {
     const event = review.currentEvent();
     const rag = cd.cssColour(event.colour, `${event.major_index}`);
-    const colour = event.index == 0 ? '' : cd.cssColour(event.colour);
+    const colour = cd.lib.isCreationEvent(event) ? '' : cd.cssColour(event.colour);
     return `${avatarName()}${rag} ${colour}`;
   };
 

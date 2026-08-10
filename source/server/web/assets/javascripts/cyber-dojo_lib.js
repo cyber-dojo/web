@@ -14,6 +14,23 @@ var cyberDojo = ((cd, $) => {
       .then(json => callback(json['kata_events']));
   };
 
+  // Event 0 is the kata's creation: it carries the starting files but no
+  // traffic-light, has no predecessor, and is the one event every kata has
+  // whether or not anyone has run a test. Callers ask through here rather than
+  // spelling index==0, or length==1, themselves. Relies on an event's index
+  // being its position in the events array, which the saver guarantees by
+  // placing each write at head+1 (saver kata_v2.rb commit_on_main).
+  cd.lib.isCreationEvent = (event) => {
+    return event.index == 0;
+  };
+
+  // True when any of a kata's events is something the creator did, ie the kata
+  // is more than a bare join. The avatar-navigator and dashboard both call an
+  // avatar with no such event inactive.
+  cd.lib.hasActivity = (events) => {
+    return events.some((event) => !cd.lib.isCreationEvent(event));
+  };
+
   cd.lib.isLight = (event) => {
     return !cd.lib.isFileEvent(event);
   };

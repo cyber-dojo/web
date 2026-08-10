@@ -24,7 +24,7 @@ $(() => {
   review.firstEventIndex = () => {
     const events = review.events;
     if (review.diffRadio.isDetailed()) {
-      return (events.length == 1) ? 0 : 1;
+      return cd.lib.hasActivity(events) ? 1 : 0;
     }
     else {
       for (var i = 1; i < events.length; i++) {
