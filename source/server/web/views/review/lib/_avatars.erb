@@ -43,7 +43,7 @@ $(() => {
   const activeNeighbours = (joined) => {
     return Object
              .keys(joined)
-             .filter((key) => joined[key].events.length > 1)
+             .filter((key) => cd.lib.hasActivity(joined[key].events))
              .map((key) => ({ index:parseInt(key), id:joined[key].id }))
              .sort((lhs,rhs) => lhs.index - rhs.index);
   };
