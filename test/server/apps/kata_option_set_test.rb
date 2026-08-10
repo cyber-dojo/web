@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class KataOptionSetTest < ControllersTestBase
+class KataOptionSetTest < AppsTestBase
 
   test 'D2A8F1a', %w(
   | option_set persists the value to saver

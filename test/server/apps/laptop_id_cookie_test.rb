@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class LaptopIdCookieTest < ControllersTestBase
+class LaptopIdCookieTest < AppsTestBase
 
   test 'F2a9C1a',
   'a request with no laptop_id cookie mints one (64-char hex), mirroring csrf_token' do

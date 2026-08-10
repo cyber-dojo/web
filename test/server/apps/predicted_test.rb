@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class PredictedTest  < ControllersTestBase
+class PredictedTest  < AppsTestBase
 
   test '1D35b7', %w(
   | predicted right, no auto-revert when wrong 

@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class TimedOutTest  < ControllersTestBase
+class TimedOutTest  < AppsTestBase
 
   test 'jB4221', %w(
   | timed_out 

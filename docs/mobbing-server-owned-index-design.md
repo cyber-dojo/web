@@ -577,7 +577,7 @@ docker exec --user nobody \
   -e RACK_ENV=test \
   -e COVERAGE_ROOT=/tmp/cyber-dojo/coverage \
   web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage && \
-    cd /web/test/server/controllers && \
+    cd /web/test/server/apps && \
     ruby -e "require \"../../coverage.rb\"; require \"./<file>_test.rb\""'
 ```
 

@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class CsrfTest < ControllersTestBase
+class CsrfTest < AppsTestBase
 
   test 'C5R8T2a',
   'POST with no csrf token returns 403' do

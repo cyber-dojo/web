@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class AssetsTest < ControllersTestBase
+class AssetsTest < AppsTestBase
 
   test 'EB5001', %w(
   | hashed CSS path returns 200 with text/css and one-year immutable cache-control

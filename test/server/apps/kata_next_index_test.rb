@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class KataNextIndexTest < ControllersTestBase
+class KataNextIndexTest < AppsTestBase
 
   test 'q7F3a1', %w(
   | GET /kata/next_index/:id returns the next index the browser should hold:

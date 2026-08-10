@@ -1,7 +1,7 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 require_relative 'saver_ready_raises_stub'
 
-class ProbeTest < ControllersTestBase
+class ProbeTest < AppsTestBase
 
   test 'EB4001', %w(
   | /alive returns 200 with alive?:true

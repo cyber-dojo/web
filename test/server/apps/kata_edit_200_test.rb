@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class KataEdit200Test  < ControllersTestBase
+class KataEdit200Test  < AppsTestBase
 
   test 'BE79B9', %w(
   | edit landing page smoke test

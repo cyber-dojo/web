@@ -20,7 +20,7 @@ end
 app_root = File.expand_path('../source/web', __dir__)
 
 # The collaborators only. The mounted apps live in apps/, which this glob does
-# not reach; controllers_test_base requires them. Coverage counts them
+# not reach; apps_test_base requires them. Coverage counts them
 # either way - coverage.rb tracks every file under source/web/.
 Dir.glob("#{app_root}/*.rb").each { |filename| require filename }
 

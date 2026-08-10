@@ -1,7 +1,7 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 require_relative '../../capture_stdout_stderr'
 
-class KataControllerTest  < ControllersTestBase
+class KataBadId500Test  < AppsTestBase
 
   include CaptureStdoutStderr
 

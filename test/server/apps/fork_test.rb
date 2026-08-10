@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class ForkTest < ControllersTestBase
+class ForkTest < AppsTestBase
 
   test 'F1B7Ce', %w(
   | /kata/fork still forks a kata. A review page loaded before the fork

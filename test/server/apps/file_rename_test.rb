@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class FileRenameTest  < ControllersTestBase
+class FileRenameTest  < AppsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

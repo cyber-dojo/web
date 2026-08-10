@@ -3,7 +3,7 @@ require_source 'apps/mounted_apps'
 require 'rack/test'
 require 'json'
 
-class ControllersTestBase < TestBase
+class AppsTestBase < TestBase
 
   parallelize_me!
 

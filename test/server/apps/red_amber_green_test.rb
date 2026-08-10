@@ -1,6 +1,6 @@
-require_relative 'controllers_test_base'
+require_relative 'apps_test_base'
 
-class RedAmberGreenTest  < ControllersTestBase
+class RedAmberGreenTest  < AppsTestBase
 
   test 'gh6223', %w(
   | red-green-amber 
