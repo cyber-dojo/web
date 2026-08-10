@@ -29,6 +29,4 @@ Dir.glob("#{app_root}/*.rb").each { |filename| require filename }
 # source/ reaches into test/ and pulls the test tree into the shipped image.
 require_relative './services/runner_stub'
 
-require_relative './test_base'
-
 require 'json'

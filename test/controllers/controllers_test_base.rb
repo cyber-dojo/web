@@ -1,4 +1,4 @@
-require_relative '../all'
+require_relative '../test_base'
 require_source 'apps/mounted_apps'
 require 'rack/test'
 require 'json'
