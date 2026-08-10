@@ -150,6 +150,9 @@ check_metrics()
 # Both are named absolutely, and both must live inside the repo: the CLI reads
 # them from a read-only mount of the repo root, so they are handed to it named
 # relative to that.
+#
+# Requires echo_metrics_bounds_table.sh to have been sourced, for the table it
+# prints before evaluating.
 check_metrics_files()
 {
   local -r report="${1#"$(repo_root)/"}"                       # data from a test run
@@ -160,6 +163,12 @@ check_metrics_files()
   exit_non_zero_unless_file_exists "$(repo_root)/${params}"
 
   fetch_metrics_policy "$(repo_root)/${policy}"
+
+  # Every bound and how the run measures against it, which the CLI's own output
+  # cannot show: the policy reports only the bounds that failed. Printed before
+  # the evaluation so the verdict stays the last thing said.
+  echo_metrics_bounds_table "$(repo_root)/${report}" "$(repo_root)/${params}"
+  echo
 
   # Assigned on its own line so a failure to resolve stops the run. See
   # kosli_cli_image_tag.
