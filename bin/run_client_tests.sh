@@ -48,6 +48,6 @@ export $(echo_env_vars)
 # Before containers_up, for the reason pull_runner_test_image explains. The
 # browser drives the served app, which runs [test] through the real runner.
 pull_runner_test_image
-containers_up
+client_containers_up
 copy_saver_test_data
 run_client_tests_in_container "$@"

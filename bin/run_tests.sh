@@ -15,5 +15,5 @@ exit_non_zero_unless_installed docker
 export $(echo_env_vars)
 containers_down
 pull_runner_test_image
-containers_up
+server_containers_up
 run_tests_in_container "$@"
