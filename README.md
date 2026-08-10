@@ -60,11 +60,14 @@ shared from the kosli-attestation-types repo, which CI then attests to Kosli.
 Running it locally needs no kosli account - the policy is evaluated from a
 published CLI image, and makes no API calls.
 
-A `max` bound is a ratchet - the number may fall, never rise - so growing the
-code, or letting a missed count grow, is a deliberate act that has to be
-acknowledged by editing the file. The `min` bounds exist because upper bounds
-alone cannot catch an empty report: a report of all zeros satisfies every one
-of them.
+Every metric names a range, `{"min": n, "max": m}`, and the check is
+`min <= value <= max`. The maximum is a ratchet - the number may fall, never
+rise - so growing the code, or letting a missed count grow, is a deliberate act
+that has to be acknowledged by editing the file. The minimum is there because
+upper bounds alone cannot catch an empty report: a report of all zeros
+satisfies every one of them. Naming one side and not the other leaves a metric
+half checked, so the policy reports it as a breach rather than applying the
+side that is there.
 
 # Screenshots
 

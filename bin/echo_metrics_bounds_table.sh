@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# Prints one row per bound in a metrics params file: the metric's name, the
-# value the run reported, the comparison applied, the bound, and whether it
-# holds. Green when it holds, red when it does not.
+# Prints one row per metric in a metrics params file: the metric's name, the
+# value the run reported, the range that value must lie in, and whether it
+# does. Green when it does, red when it does not.
 #
 # Purely informational. The decision stays with the rego policy the kosli CLI
 # evaluates; this shows what that policy weighs, not what it concluded. The
@@ -24,8 +24,8 @@ echo_metrics_bounds_table()
   fi
 
   local group previous_group='' colour
-  local name value op bound holds
-  while IFS=$'\t' read -r name value op bound holds; do
+  local name value min max holds
+  while IFS=$'\t' read -r name value min max holds; do
     # A blank line between the metric families, eg code and test. A flat report,
     # whose names have no family prefix, is one family and so stays unbroken.
     group=''
@@ -41,8 +41,8 @@ echo_metrics_bounds_table()
     if [ "${holds}" == 'true' ]; then
       colour="${green}"
     fi
-    printf '%s%34s | %6s  %s %6s |  %s%s\n' \
-      "${colour}" "${name}" "${value}" "${op}" "${bound}" "${holds}" "${off}"
+    printf '%s%34s | %6s | %6s <= value <= %-6s |  %s%s\n' \
+      "${colour}" "${name}" "${value}" "${min}" "${max}" "${holds}" "${off}"
   done < <(echo_metrics_bounds_tsv "${report}" "${params}")
 }
 
@@ -53,40 +53,42 @@ colour_is_rendered()
   [ -t 1 ] || [ -n "${GITHUB_ACTIONS:-}" ]
 }
 
-# One tab-separated row per bound: name, reported value, comparison, bound,
-# whether it holds.
+# One tab-separated row per metric: name, reported value, minimum, maximum,
+# whether the value lies between them.
 #
-# The params drive the walk, so each numeric leaf under max/min names a path to
-# look up in the report. The comparison is the one actually applied - a max
-# bound gives <=, a min bound gives >= - so the table cannot imply a tighter
+# The params drive the walk: every object under bounds naming both a min and a
+# max is a range, and its path is the path to look up in the report. The
+# comparison is the one the policy applies, so the table cannot imply a tighter
 # bound than the gate enforces. A metric the report lacks reads as absent and
 # does not hold, matching the policy, which counts a missing metric as
 # non-compliant rather than ignoring it.
+#
+# A params entry naming only one side is left out rather than shown half
+# applied. The policy reports it, and reports it as a breach.
 echo_metrics_bounds_tsv()
 {
   local -r report="${1}"
   local -r params="${2}"
 
   jq --raw-output --slurpfile report "${report}" '
-    def bounds($op): [ paths(scalars) as $path
-      | {path: $path, op: $op, bound: getpath($path)} ];
+    def ranges: [ paths(objects | has("min") and has("max")) as $path
+      | {path: $path, min: getpath($path).min, max: getpath($path).max} ];
 
     $report[0] as $reported
-    | (.max // {} | bounds("<=")) + (.min // {} | bounds(">="))
+    | (.bounds // {} | ranges)
     | .[]
     # Bound to locals because the getpath below switches . to the report, where
-    # .path and .bound would resolve against the wrong object.
+    # .path and .min would resolve against the wrong object.
     | .path as $path
-    | .op as $op
-    | .bound as $bound
+    | .min as $min
+    | .max as $max
     | ($reported | getpath($path)) as $value
     | [ ($path | join(".")),
         (if $value == null then "absent" else $value end),
-        $op,
-        $bound,
+        $min,
+        $max,
         (if $value == null then false
-         elif $op == "<=" then $value <= $bound
-         else $value >= $bound
+         else ($value >= $min and $value <= $max)
          end | tostring)
       ]
     | @tsv
