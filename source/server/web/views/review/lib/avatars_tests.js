@@ -7,7 +7,7 @@ describe('avatarsActive/avatarsNeighbours', () => {
   it('returns {} when kata.id is not in a group', () => {
     const id = 'RNCzUr';
     const joined = {};
-    expectNeighbours(id, joined, '','','');
+    expectNeighbours(id, joined, null, null, null);
     expectActive(joined);
   });
 
@@ -16,7 +16,7 @@ describe('avatarsActive/avatarsNeighbours', () => {
     const joined = {
       '2': { 'id':id, 'events':[0,1,2] },
     };
-    expectNeighbours(id, joined, '',2,'');
+    expectNeighbours(id, joined, null, 2, null);
     expectActive(joined, 2);
   });
 
@@ -27,7 +27,7 @@ describe('avatarsActive/avatarsNeighbours', () => {
        '2':{ 'id':prevId, 'events':[0,1,2,3    ] },
       '12':{ 'id':id    , 'events':[0,1,2,3,4,5] },
     };
-    expectNeighbours(id, joined, 2,12,'');
+    expectNeighbours(id, joined, 2, 12, null);
     expectActive(joined, 2,12);
   });
 
@@ -38,7 +38,7 @@ describe('avatarsActive/avatarsNeighbours', () => {
        '2': { 'id':id    , 'events':[0,1,2,3,4] },
       '27': { 'id':nextId, 'events':[0,1      ] },
     };
-    expectNeighbours(id,joined, '',2,27);
+    expectNeighbours(id, joined, null, 2, 27);
     expectActive(joined, 2,27);
   });
 
@@ -51,7 +51,7 @@ describe('avatarsActive/avatarsNeighbours', () => {
       '13': { 'id':    id, 'events':[0,1        ] },
       '27': { 'id':nextId, 'events':[0,1,2,3,4,5] },
     };
-    expectNeighbours(id,joined, 9,13,27);
+    expectNeighbours(id, joined, 9, 13, 27);
     expectActive(joined, 9,13,27);
   });
 
