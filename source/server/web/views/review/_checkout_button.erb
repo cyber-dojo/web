@@ -60,7 +60,8 @@ $(() => {
       src_index: event.index,
       src_major_index: event.major_index,
       src_minor_index: event.minor_index,
-      src_avatar_index: review.avatarIndex,
+      // '' is what kata_app reads as "no avatar"; ?? (unlike ||) passes index 0 on
+      src_avatar_index: review.avatarIndex ?? '',
       tab_id: cd.mobbingPoll.tabId,
       tab_seq: cd.kata.nextTabSeq()
     };

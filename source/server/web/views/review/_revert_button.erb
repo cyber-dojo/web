@@ -17,7 +17,7 @@ $(() => {
   };
 
   const avatarName = () => {
-    if (review.avatarIndex != '') {
+    if (review.avatarIndex != null) {
       return cd.lib.avatarName(review.avatarIndex) + ' ';
     } 
     else {

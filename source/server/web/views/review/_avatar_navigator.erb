@@ -30,9 +30,9 @@ $(() => {
 
   const avatarNavigatorRefresher = (joined) => {
     const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(review.id, joined);
-    review.avatarIndex = avatarIndex; // eg 23 or ''  for [revert]/[checkout] buttons
-	
-    if (avatarIndex != '') {
+    review.avatarIndex = avatarIndex; // eg 23 or null for [revert]/[checkout] buttons
+
+    if (avatarIndex != null) {
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
@@ -48,7 +48,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshAvatar = (button, joined, index) => {
     button
-      .attr('disabled', index == '')
+      .attr('disabled', index == null)
       .off('click')
       .on('click', () => moveToAvatar(joined[index]));
   };

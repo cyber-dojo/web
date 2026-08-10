@@ -52,13 +52,13 @@ $(() => {
   const avatarIndex = (avatars, n, delta) => {
     const i = n + delta;
     if (n == -1) {
-      return '';
+      return null;
     } 
     else if (i >= 0 && i < avatars.length) {
       return avatars[i].index;
     } 
     else {
-      return '';
+      return null;
     }
   };
 
