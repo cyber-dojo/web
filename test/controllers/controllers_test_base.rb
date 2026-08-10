@@ -73,12 +73,21 @@ class ControllersTestBase < TestBase
     wait_until_committed(@id, params[:tab_seq], colour: json.dig('light', 'colour'))
   end
 
+  # POSTs a [test] run without waiting for a committed event, for a test whose
+  # spooler write is arranged to fail: there is nothing to wait for, and
+  # post_run_tests would burn both its commit timeouts before returning.
+  def post_run_tests_failing_write(options = {})
+    post '/kata/run_tests/' + (options[:id] || kata.id), run_test_params(options)
+  end
+
   def run_test_params(options = {})
     {
       image_name:   @manifest['image_name'],
       max_seconds:  (options[:max_seconds] || @manifest['max_seconds']),
       file_content: @files,
       predicted:    (options[:predicted]   || 'none'),
+      rag_lambda:   (options[:rag_lambda]  || @manifest['rag_lambda']),
+      tab_id:       (options[:tab_id]      || tab_id),
       tab_seq:      (options[:tab_seq]     || next_tab_seq)
     }
   end

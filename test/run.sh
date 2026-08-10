@@ -11,6 +11,7 @@ test_dirs=(
   models
   services
   controllers
+  meta
 )
 
 coverage_dir=/tmp/cyber-dojo/coverage

@@ -2,7 +2,12 @@
 # This line must come first, before any required/loaded files to be covered.
 # The browser tests set no COVERAGE_ROOT: they drive the app in the serving
 # puma process, where in-process line coverage cannot see it.
+# The else arm of this condition is "coverage is not running", so no run that
+# measures coverage can ever record it. :nocov: keeps that impossible branch
+# out of the totals rather than leaving it as a permanent missed branch.
+# :nocov:
 require_relative './coverage' if ENV['COVERAGE_ROOT']
+# :nocov:
 
 # The image copies source/server/ to /web/source, so the app sits at
 # /web/source/web in the container even though it is source/server/web here.

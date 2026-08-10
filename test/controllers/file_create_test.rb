@@ -11,6 +11,7 @@ class FileCreateTest  < ControllersTestBase
     in_kata do
       post_json '/kata/file_create', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: created_filename

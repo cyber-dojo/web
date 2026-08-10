@@ -11,6 +11,7 @@ class FileEditTest  < ControllersTestBase
     in_kata do
       post_json '/kata/file_edit', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files }
       }
@@ -30,6 +31,7 @@ class FileEditTest  < ControllersTestBase
       @files[edited_filename] += 'Hello world'
       post_json '/kata/file_edit', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files }
       }

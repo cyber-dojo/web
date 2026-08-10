@@ -8,11 +8,11 @@
   "max": {
     "code": {
       "lines":    { "total": 496,  "missed": 0 },
-      "branches": { "total": 33,   "missed": 3 }
+      "branches": { "total": 33,   "missed": 0 }
     },
     "test": {
-      "lines":    { "total": 1340, "missed": 9 },
-      "branches": { "total": 26,   "missed": 8 }
+      "lines":    { "total": 1431, "missed": 0 },
+      "branches": { "total": 22,   "missed": 0 }
     }
   }
 }

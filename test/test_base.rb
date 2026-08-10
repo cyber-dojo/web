@@ -21,21 +21,25 @@ class TestBase < Minitest::Test
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  Minitest.after_run do
-    # complain about any unfound test-id args
-    unseen_arg = lambda { |arg|
-      $seen_ids.none? { |id|
+  # Raises unless every tid argument the run was filtered by matched at least
+  # one test-ID, so a mistyped 'make test_server tids=...' is reported instead
+  # of quietly running nothing. Takes both as arguments so a test can drive it
+  # without disturbing the globals the run itself uses.
+  def self.check_all_tid_args_matched(args, seen_ids)
+    unseen_args = args.find_all { |arg|
+      seen_ids.none? { |id|
         id.include?(arg)
       }
-    }
-    unseen_args = $args.find_all { |arg|
-      unseen_arg.call(arg)
     }
     unless unseen_args == []
       message = 'the following test id arguments were *not* found'
       lines = [ '', message, "#{unseen_args}", '' ]
       raise lines.join("\n")
     end
+  end
+
+  Minitest.after_run do
+    check_all_tid_args_matched($args, $seen_ids)
   end
 
 end
