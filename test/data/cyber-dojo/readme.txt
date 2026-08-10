@@ -1,5 +1,11 @@
-This cyber-dojo/ dir holds test data for saver.
-It is tar-piped into the saver container in the sh/test_in_containers.sh script.
+This cyber-dojo/ dir holds saver data, laid out as saver stores it on disk, so
+it is tar-piped into the saver container at /cyber-dojo rather than copied (you
+cannot docker cp to a tmpfs).
+
+Three callers do that, which is why this lives at test/ root rather than under
+test/server or test/client:
+  copy_saver_test_data()    in bin/run_tests_in_container.sh - both test suites
+  copy_in_saver_test_data() in bin/copy_in_saver_test_data.sh - bin/demo.sh
 
 saver data, version 0
 ---------------------

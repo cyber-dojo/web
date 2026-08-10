@@ -1,0 +1,30 @@
+require_relative 'apps_test_base'
+
+class FileRenameTest  < AppsTestBase
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '87C3ed', %w(
+  | file_rename() creates a file-rename event in saver 
+  ) do
+    old_filename = 'readme.txt'
+    new_filename = 'readme2.txt'
+    in_kata do
+      post_json '/kata/file_rename', {
+        id: @id,
+        tab_id: tab_id,
+        tab_seq: next_tab_seq,
+        data: { file_content: @files },
+        old_filename: old_filename,
+        new_filename: new_filename
+      }
+      assert last_response.successful?
+      assert_equal 2, kata.events.size
+      event = kata.event(1)
+      assert_equal 'file_rename', event['colour']
+      assert_equal old_filename, event['old_filename']
+      assert_equal new_filename, event['new_filename']
+    end
+  end
+
+end

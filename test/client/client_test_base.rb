@@ -6,7 +6,7 @@ require 'capybara/minitest'
 # web app through nginx (http://nginx) over the compose network - so they
 # exercise the rendered page and its JavaScript end to end, including
 # browser-side reads of /saver/... which nginx proxies to saver (web has no
-# /saver route). Unlike the in-process Rack tests in controllers, these run
+# /saver route). Unlike the in-process Rack tests in server/apps, these run
 # browser JS.
 class ClientTestBase < TestBase
 

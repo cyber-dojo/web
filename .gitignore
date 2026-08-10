@@ -24,6 +24,7 @@
 !/docker-compose.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml
+!/docker-compose-selenium.yml
 !/Dockerfile
 !/LICENSE.md
 !/Makefile

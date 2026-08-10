@@ -20,7 +20,7 @@ rubocop-lint:
 # describe only the tests it loaded - is not gated.
 #   eg make test_server tids=F1B7C
 test_server:
-	${PWD}/bin/run_tests.sh ${tids}
+	${PWD}/bin/run_server_tests.sh ${tids}
 
 # Run the client (Capybara + Selenium) tests, optionally filtered by test-id
 # prefix(es). Like test_server this does NOT depend on the image target: on CI

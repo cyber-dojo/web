@@ -11,8 +11,8 @@ AllCops:
 # .rubocop_todo.yml, so a newly added file is linted in full from the moment it
 # arrives, and cleaning up a file means deleting its line from the todo.
 #
-# 80 matches creator and dashboard. Long lines here come from long identifiers
-# rather than dense logic, so they gain nothing from more room.
+# Long lines here come from long identifiers rather than dense logic, so they
+# gain nothing from more room.
 Layout/LineLength:
   Max: 80
 

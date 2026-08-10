@@ -4,7 +4,7 @@ module TestExternalHelpers # mix-in
   module_function
 
   # The collaborators this test drives the app with. The runner defaults to
-  # RunnerStub so no unit test starts a real container; saver and spooler are the
+  # RunnerStub so no server test starts a real container; saver and spooler are the
   # real services, talking to the saver and spooler containers. Substitute one by
   # poking its ivar before the first request, eg
   #   externals.instance_exec { @runner = RunnerService.new(externals) }
