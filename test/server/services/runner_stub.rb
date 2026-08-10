@@ -1,6 +1,6 @@
 require 'json'
 
-# The suite's default runner, so no unit test starts a real container. A test
+# The suite's default runner, so no server test starts a real container. A test
 # arranges the next run's outcome with stub_run; the app then reads it back
 # through run_cyber_dojo_sh. The stub lives in this instance, which the test and
 # the app share (Externals memoizes one runner), so concurrent tests cannot see
