@@ -36,6 +36,7 @@ shift $((OPTIND - 1))
 
 readonly BIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${BIN_DIR}/echo_env_vars.sh"
+source "${BIN_DIR}/echo_metrics_bounds_table.sh"
 source "${BIN_DIR}/lib.sh"
 export $(echo_env_vars)
 
