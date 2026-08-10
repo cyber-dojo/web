@@ -569,7 +569,7 @@ etc with a JSON body `{id:, index:, files:, ...}`. On an out-of-order the saver
 returns HTTP 500 with body `{"exception":"Out of order event for <id>"}`.
 
 Run one controller test file against the running saver (the tests default to
-RunnerStub, so no real runner starts); do NOT use `bin/run_tests.sh`, which tears
+RunnerStub, so no real runner starts); do NOT use `bin/run_server_tests.sh`, which tears
 the stack down and up:
 
 ```
@@ -581,8 +581,8 @@ docker exec --user nobody \
     ruby -e "require \"../../coverage.rb\"; require \"./<file>_test.rb\""'
 ```
 
-Or the whole unit suite (no stack teardown):
-`docker exec --user nobody web-web-1 sh -c 'cd /web/test && ./run.sh'`.
+Or the whole server suite (no stack teardown):
+`docker exec --user nobody web-web-1 sh -c 'cd /web/test && ./run_server.sh'`.
 
 Already verified this way in the design session: the false-mobbing reproduction
 (stale index -> HTTP 500 out-of-order) and the handoff baseline (Laptop A drove a

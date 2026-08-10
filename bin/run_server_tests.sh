@@ -16,4 +16,4 @@ export $(echo_env_vars)
 containers_down
 pull_runner_test_image
 server_containers_up
-run_tests_in_container "$@"
+run_server_tests_in_container "$@"

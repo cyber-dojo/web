@@ -7,9 +7,9 @@ show_help()
 Usage: bin/run_client_tests.sh [OPTIONS] [TEST-ID]...
 
 Runs ONLY the browser (Capybara + Selenium) tests, for a fast inner loop
-when working on the browser-driven JavaScript. Unlike bin/run_tests.sh it does
-not tear existing containers down, does not pull the runner test image, and does
-not run the unit suite.
+when working on the browser-driven JavaScript. Unlike bin/run_server_tests.sh
+it does not tear existing containers down, does not pull the runner test image,
+and does not run the server suite.
 
 The web image loads its JavaScript from the built image, so your current code is
 only exercised after the image is rebuilt. Run 'make image' first after changing

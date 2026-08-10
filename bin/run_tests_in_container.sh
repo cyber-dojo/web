@@ -30,18 +30,18 @@ run_client_tests_in_container()
 {
   # Browser (Capybara + Selenium) tests exercise the served app end-to-end (via
   # Firefox in the selenium container), so they run as a separate script from
-  # run.sh and are kept out of run.sh's coverage run. Returns the test run's
+  # run_server.sh and are kept out of its coverage run. Returns the test run's
   # exit status.
   local -r WEB_CID="$(service_container web)"
   docker exec --user nobody "${WEB_CID}" \
     sh -c "cd /web/test && ./run_client.sh ${*:-}"
 }
 
-run_tests_in_container()
+run_server_tests_in_container()
 {
   # The container ids are resolved here (not at source-time) because the
-  # containers are not up until run_tests.sh calls containers_up, which happens
-  # after this file is sourced.
+  # containers are not up until run_server_tests.sh calls containers_up, which
+  # happens after this file is sourced.
   copy_saver_test_data
 
   #- - - - - - - - - - - - - - - - - - - -
@@ -54,7 +54,7 @@ run_tests_in_container()
 
   # Drop set -e because we want to get coverage stats out
   set +e
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run.sh ${*:-}"
+  docker exec --user nobody "${WEB_CID}" sh -c "cd /web/test && ./run_server.sh ${*:-}"
   local -r UNIT_STATUS=$?
   set -e
 
