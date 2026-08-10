@@ -1,4 +1,4 @@
-require_relative '../all'
+require_relative '../test_base'
 require 'capybara/minitest'
 
 # Base for browser (Capybara + Selenium) tests. These run inside the web

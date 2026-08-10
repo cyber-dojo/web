@@ -1,3 +1,7 @@
+# The production code this file's 'include Web' needs. Requiring it here, and
+# not leaving it to whichever file happens to be loaded first, is what lets a
+# test file require only test_base. test/run.sh shuffles the load order.
+require_relative 'all'
 require_relative 'test_domain_helpers'
 require_relative 'test_external_helpers'
 require_relative 'test_hex_id_helpers'

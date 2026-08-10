@@ -1,4 +1,4 @@
-require_relative '../all'
+require_relative '../test_base'
 
 class ModelsTestBase < TestBase
 
