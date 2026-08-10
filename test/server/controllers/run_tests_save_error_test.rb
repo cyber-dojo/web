@@ -1,5 +1,5 @@
 require_relative 'controllers_test_base'
-require_relative '../capture_stdout_stderr'
+require_relative '../../capture_stdout_stderr'
 require_relative 'spooler_ran_tests_raises_stub'
 
 class RunTestsSaveErrorTest < ControllersTestBase

@@ -1,5 +1,5 @@
-require_relative '../test_base'
-require_relative '../capture_stdout_stderr'
+require_relative '../../test_base'
+require_relative '../../capture_stdout_stderr'
 
 class ServicesTestBase < TestBase
 

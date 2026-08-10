@@ -38,11 +38,11 @@ Web-only, saver untouched.
 
 - New `GET /kata/next_index/:id` returns `last_committed_index + 1`, the
   authoritative index a browser resyncs to. Proving tests: `q7F3a1`, `q7F3a2`
-  in `test/controllers/kata_next_index_test.rb`.
+  in `test/server/controllers/kata_next_index_test.rb`.
 - On a lost/failed inter-test response the client resyncs its index from that
   endpoint instead of leaving it stale (`_file_inter_test_events.erb`,
   `resyncIndex`). Recovery proving test: `kT9mB2` in
-  `test/controllers/mobbing_resync_after_lost_event_test.rb`.
+  `test/server/controllers/mobbing_resync_after_lost_event_test.rb`.
 - The in-progress flag is held for every inter-test event (not just file_edit),
   so a following [test] waits behind an in-flight file op.
 - The inter-test abort was raised from 2s to 30s (it was not guarding a rate

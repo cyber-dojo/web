@@ -27,6 +27,6 @@ Dir.glob("#{app_root}/*.rb").each { |filename| require filename }
 # RunnerStub is the test suite's default runner (see test_external_helpers).
 # It lives in the test tree and is required from here, so that nothing in
 # source/ reaches into test/ and pulls the test tree into the shipped image.
-require_relative './services/runner_stub'
+require_relative './server/services/runner_stub'
 
 require 'json'

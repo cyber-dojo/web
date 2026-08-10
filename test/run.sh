@@ -4,16 +4,6 @@ set -e
 # Fakes/Mocks saver writes to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
-# The server-test directories, all of which run together. client is not one of
-# them: those tests drive the served app end-to-end, from run_client.sh.
-test_dirs=(
-  lib
-  models
-  services
-  controllers
-  meta
-)
-
 coverage_dir=/tmp/cyber-dojo/coverage
 mkdir -p "${coverage_dir}"
 # clear out old coverage stats
@@ -24,13 +14,13 @@ export COVERAGE_ROOT=${coverage_dir}
 export RACK_ENV=test
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 
-# Every test directory runs in ONE ruby process, so there is a single resultset
-# and a single coverage report spanning the whole of source/.
-testFiles=()
-for test_dir in ${test_dirs[*]}
-do
-  testFiles+=(${test_dir}/*_test.rb)
-done
+# Every server test, however deeply nested, so a new directory under server/
+# runs without being named anywhere. The browser tests are not under server/:
+# they drive the served app end-to-end, from run_client.sh.
+#
+# They all run in ONE ruby process, so there is a single resultset and a single
+# coverage report spanning the whole of source/.
+mapfile -t testFiles < <(find server -name '*_test.rb' | sort)
 
 # run-the-tests!
 set +e

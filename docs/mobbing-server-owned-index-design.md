@@ -559,7 +559,7 @@ cd web && make demo          # builds web, creates a seeded v2 kata, opens it
 an empty one. Make a fresh one for a clean run:
 
 ```
-docker exec --env CYBER_DOJO_SAVER_CLASS=SaverService web-web-1 \
+docker exec web-web-1 \
   bash -c "ruby /web/source/script/create_v2_kata.rb 1"   # prints the new id
 ```
 
@@ -568,17 +568,17 @@ saver image, so use ruby Net::HTTP): POST `/kata_ran_tests`, `/kata_file_create`
 etc with a JSON body `{id:, index:, files:, ...}`. On an out-of-order the saver
 returns HTTP 500 with body `{"exception":"Out of order event for <id>"}`.
 
-Run one controller test file against the running saver (RunnerStub avoids the real
-runner); do NOT use `bin/run_tests.sh`, which tears the stack down and up:
+Run one controller test file against the running saver (the tests default to
+RunnerStub, so no real runner starts); do NOT use `bin/run_tests.sh`, which tears
+the stack down and up:
 
 ```
 docker exec --user nobody \
-  -e RACK_ENV=test -e CYBER_DOJO_SAVER_CLASS=SaverService \
-  -e CYBER_DOJO_RUNNER_CLASS=RunnerStub \
+  -e RACK_ENV=test \
   -e COVERAGE_ROOT=/tmp/cyber-dojo/coverage \
   web-web-1 sh -c 'mkdir -p /tmp/cyber-dojo/coverage && \
-    cd /web/test/controllers && \
-    ruby -e "require \"../coverage.rb\"; require \"./<file>_test.rb\""'
+    cd /web/test/server/controllers && \
+    ruby -e "require \"../../coverage.rb\"; require \"./<file>_test.rb\""'
 ```
 
 Or the whole unit suite (no stack teardown):
