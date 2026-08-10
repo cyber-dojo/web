@@ -1,18 +1,26 @@
 {
   "artifact_name": "web",
   "attestation_name": "coverage-facts",
-  "min": {
-    "code": { "lines": { "total": 1 }, "branches": { "total": 1 } },
-    "test": { "lines": { "total": 1 }, "branches": { "total": 1 } }
-  },
-  "max": {
+  "bounds": {
     "code": {
-      "lines":    { "total": 496,  "missed": 0 },
-      "branches": { "total": 33,   "missed": 0 }
+      "lines": {
+        "total":  {"min": 1, "max": 496},
+        "missed": {"min": 0, "max": 0}
+      },
+      "branches": {
+        "total":  {"min": 1, "max": 33},
+        "missed": {"min": 0, "max": 0}
+      }
     },
     "test": {
-      "lines":    { "total": 1431, "missed": 0 },
-      "branches": { "total": 22,   "missed": 0 }
+      "lines": {
+        "total":  {"min": 1, "max": 1431},
+        "missed": {"min": 0, "max": 0}
+      },
+      "branches": {
+        "total":  {"min": 1, "max": 22},
+        "missed": {"min": 0, "max": 0}
+      }
     }
   }
 }
