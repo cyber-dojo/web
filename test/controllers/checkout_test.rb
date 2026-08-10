@@ -25,6 +25,7 @@ class CheckoutTest  < ControllersTestBase
         src_index: 2,
         src_major_index: 2,
         src_minor_index: 0,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         id: @id
       }
@@ -64,6 +65,7 @@ class CheckoutTest  < ControllersTestBase
           src_index: 1,
           src_major_index: 1,
           src_minor_index: 0,
+          tab_id: tab_id,
           tab_seq: next_tab_seq,
           id: hippo.id
         }

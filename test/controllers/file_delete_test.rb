@@ -11,6 +11,7 @@ class FileDeleteTest  < ControllersTestBase
     in_kata do
       post_json '/kata/file_delete', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: deleted_filename

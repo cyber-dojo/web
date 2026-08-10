@@ -14,6 +14,7 @@ class AutoRevertTest < ControllersTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq
       }
       assert last_response.successful?
@@ -48,6 +49,7 @@ class AutoRevertTest < ControllersTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq
       }
       assert last_response.successful?
@@ -82,6 +84,7 @@ class AutoRevertTest < ControllersTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq
       }
       assert last_response.successful?
@@ -120,6 +123,7 @@ class AutoRevertTest < ControllersTestBase
 
       post_json '/kata/auto_revert', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq
       }
       assert last_response.successful?
@@ -149,6 +153,7 @@ class AutoRevertTest < ControllersTestBase
       filename = 'newfile.txt'
       post_json '/kata/file_create', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: filename
@@ -159,6 +164,7 @@ class AutoRevertTest < ControllersTestBase
 
       post_json '/kata/file_delete', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files },
         filename: filename
@@ -169,6 +175,7 @@ class AutoRevertTest < ControllersTestBase
       # REVERT
       post_json '/kata/auto_revert', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq
       }
       assert last_response.successful?

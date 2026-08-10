@@ -12,6 +12,7 @@ class FileRenameTest  < ControllersTestBase
     in_kata do
       post_json '/kata/file_rename', {
         id: @id,
+        tab_id: tab_id,
         tab_seq: next_tab_seq,
         data: { file_content: @files },
         old_filename: old_filename,
