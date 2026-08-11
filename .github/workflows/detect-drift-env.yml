@@ -26,18 +26,26 @@ on:
 jobs:
   image:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       id-token: write
       contents: read
     outputs:
       image: ${{ steps.read.outputs.image }}
     steps:
+      # The credential bounds below are the standard for any Kosli workflow using
+      # configure-aws-credentials; see the Timeouts section of kosli-dev/tf's README.
+      # An unreachable STS endpoint fails in under a minute instead of holding the
+      # runner for over an hour on retries that were never going to succeed.
       - name: Configure AWS credentials
+        timeout-minutes: 2
         uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/gh_actions_services
           aws-region: eu-central-1
           role-session-name: ${{ github.event.repository.name }}
+          action-timeout-s: 45
+          retry-max-attempts: 3
       - name: Read deployed image
         id: read
         run: |
