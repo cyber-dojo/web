@@ -5,6 +5,7 @@ repo_root() { git rev-parse --show-toplevel; }
 readonly BIN_DIR="$(repo_root)/bin"
 source "${BIN_DIR}/lib.sh"
 source "${BIN_DIR}/echo_env_vars.sh"
+source "${BIN_DIR}/remove_old_images.sh"
 export $(echo_env_vars)
 
 exit_non_zero_if_on_ci()
@@ -37,6 +38,10 @@ build_tagged_images()
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "${CYBER_DOJO_WEB_IMAGE}:latest"
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "cyberdojo/web:$(image_tag)"
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" cyberdojo/web:latest
+  # After tagging, so removing an earlier build's tags takes its last tag with
+  # them and the image itself goes, rather than being left dangling when :latest
+  # moves to this build.
+  remove_old_images
   echo
   echo "  echo CYBER_DOJO_WEB_SHA=${CYBER_DOJO_WEB_SHA}"
   echo "  echo CYBER_DOJO_WEB_TAG=${CYBER_DOJO_WEB_TAG}"
