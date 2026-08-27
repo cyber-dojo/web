@@ -23,21 +23,30 @@ SimpleCov.start do
   # group the moment it is added. These two names are the keys of the
   # coverage_metrics.json that gets attested, so they are deliberately terse.
   filters.clear
-  add_group('code') { |src| src.filename.start_with?("#{APP_DIR}/source/") }
-  add_group('test') { |src| src.filename.start_with?("#{APP_DIR}/test/") }
+  group('code') { |path| path.filename.start_with?("#{APP_DIR}/source/") }
+  group('test') { |path| path.filename.start_with?("#{APP_DIR}/test/") }
 
   # SimpleCov reports only the files something loaded, so a production file no
   # test reaches would be silently absent rather than reported as uncovered.
   # Tracking them explicitly makes such a file show up at 0% and fail the gate.
   # config/ holds the server boot files (config.ru, puma.rb), which no unit
   # test loads and which are not unit-testable, so they stay untracked.
-  track_files("#{APP_DIR}/source/web/**/*.rb")
+  # cover does two jobs: it restricts the report to what it names, and for a
+  # string glob it also sweeps those off disk so a file nothing loaded still
+  # appears, at 0%. Both are relative to root, so an absolute glob matches
+  # nothing.
+  #
+  # source/ wants both jobs, which is the string glob. test/ wants only the
+  # restriction: sweeping it would pull in the browser and client tests this
+  # run never loads and report them as missed. Only string globs drive the
+  # sweep, so the regexp includes the tests that did load and nothing else.
+  cover('source/web/**/*.rb', %r{\Atest/})
 end
 
 # HTML to read, JSON for the gate and the attestation to consume.
 formatters = [
   SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::JSONFormatter
+  CoverageMetricsFormatter
 ]
 SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
 
@@ -54,4 +63,4 @@ Minitest::Reporters.use!([
 ])
 
 #- - - - - - - - - - - - - - - - - - - - - - -
-#add_group('debug') { |src| puts "coverage:#{src.filename}"; false }
+#group('debug') { |path| puts "coverage:#{path.filename}"; false }
