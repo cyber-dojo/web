@@ -81,10 +81,10 @@ module Web
 
       # The write waits until the light has reached the browser. A healthy
       # spooler acks in about a millisecond against a runner call of several
-      # hundred, so this is not about the ordinary case; it is about the bad one.
-      # An unreachable or hung spooler costs Net::HTTP's default 60-second
-      # connect and read timeouts, and holding the light behind that would make
-      # the browser wait a minute for a result the runner has already produced.
+      # hundred, so this is not about the ordinary case but the bad one. An
+      # unreachable or hung spooler costs Net::HTTP's default 60-second connect
+      # and read timeouts, and holding the light behind that would make the
+      # browser wait a minute for a result the runner has already produced.
       summary = {
         duration: @duration,
         colour: @outcome,
@@ -92,17 +92,15 @@ module Web
         revert_if_wrong: params['revert_if_wrong']
       }
       after_response do
-        begin
-          ran_tests(@id, @files, @stdout, @stderr, @status, summary)
-        rescue SpoolerService::Error => e
-          # The spooler write failed (it is down or unreachable), but the runner
-          # already produced this traffic-light so we still show it. The browser
-          # owns the displayed number and resolves a light's committed index
-          # lazily from its major_index, so this uncommitted "ghost" carries no
-          # index.
-          stdout_stream.puts(e.message)
-          stdout_stream.flush
-        end
+        ran_tests(@id, @files, @stdout, @stderr, @status, summary)
+      rescue SpoolerService::Error => e
+        # The spooler write failed (it is down or unreachable), but the runner
+        # already produced this traffic-light so we still show it. The browser
+        # owns the displayed number and resolves a light's committed index
+        # lazily from its major_index, so this uncommitted "ghost" carries no
+        # index.
+        stdout_stream.puts(e.message)
+        stdout_stream.flush
       end
 
       @light = {
