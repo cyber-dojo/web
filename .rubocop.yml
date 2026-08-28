@@ -1,5 +1,11 @@
 inherit_from: .rubocop_todo.yml
 
+# Add to the todo's Exclude lists rather than replacing them, so a cop
+# configured in both files keeps its grandfathered files.
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   NewCops: enable
   Exclude:
@@ -15,6 +21,15 @@ AllCops:
 # gain nothing from more room.
 Layout/LineLength:
   Max: 80
+
+# By default this cop demands a "# frozen_string_literal: true" comment at the
+# top of every file. We deliberately add none: strings are already frozen
+# globally at runtime via RUBYOPT=--enable-frozen-string-literal (see
+# source/server/config/up.sh), so such a comment would be redundant. Mirrors
+# the sibling repos (eg ../creator).
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - source/**/*
 
 # Indent a multi-line hash one step in from the line that opens it, rather than
 # aligning it under the opening paren. Aligning pushes deeply nested calls far

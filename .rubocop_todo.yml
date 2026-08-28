@@ -105,33 +105,15 @@ Style/Documentation:
     - 'source/server/web/spooler_service.rb'
     - 'source/server/web/time_adapter.rb'
 
-# Offense count: 21
+# Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: always, always_true, never
+# source/ is excluded in .rubocop.yml, where the reason is recorded. This
+# script runs outside the app, so RUBYOPT does not reach it.
 Style/FrozenStringLiteralComment:
   Exclude:
     - 'bin/create_v2_kata.rb'
-    - 'source/server/config/config.ru'
-    - 'source/server/config/puma.rb'
-    - 'source/server/web/apps/app_base.rb'
-    - 'source/server/web/apps/assets_app.rb'
-    - 'source/server/web/apps/fork_app.rb'
-    - 'source/server/web/apps/kata_app.rb'
-    - 'source/server/web/apps/mounted_apps.rb'
-    - 'source/server/web/apps/probes_app.rb'
-    - 'source/server/web/apps/review_app.rb'
-    - 'source/server/web/cleaner.rb'
-    - 'source/server/web/externals.rb'
-    - 'source/server/web/files_from.rb'
-    - 'source/server/web/http_json/requester.rb'
-    - 'source/server/web/http_json/responder.rb'
-    - 'source/server/web/kata.rb'
-    - 'source/server/web/runner.rb'
-    - 'source/server/web/runner_service.rb'
-    - 'source/server/web/saver_service.rb'
-    - 'source/server/web/spooler_service.rb'
-    - 'source/server/web/time_adapter.rb'
 
 # Offense count: 12
 # Configuration parameters: AllowedVariables.
