@@ -35,12 +35,11 @@ build_tagged_images()
   exit_non_zero_if_on_ci
   build_web_image
   assert_web_image_has_sha_env_var
-  docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "${CYBER_DOJO_WEB_IMAGE}:latest"
+  # Tag image-name for local development, where sibling repos name the web
+  # image with the dockerhub name their env-vars carry rather than the ECR one.
   docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "cyberdojo/web:$(image_tag)"
-  docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" cyberdojo/web:latest
-  # After tagging, so removing an earlier build's tags takes its last tag with
-  # them and the image itself goes, rather than being left dangling when :latest
-  # moves to this build.
+  # After tagging, so this build is protected by its own tag, and removing an
+  # earlier build's tags takes its last tag with them and the image itself goes.
   remove_old_images
   echo
   echo "  echo CYBER_DOJO_WEB_SHA=${CYBER_DOJO_WEB_SHA}"
@@ -61,7 +60,7 @@ build_web_image()
 assert_web_image_has_sha_env_var()
 {
   if [ "$(git_commit_sha)" != "$(sha_inside_image)" ]; then
-    echo "unexpected env-var inside image $(image_name):latest"
+    echo "unexpected env-var inside image $(image_name):$(image_tag)"
     echo "expected: 'SHA=$(git_commit_sha)'"
     echo "  actual: '$(sha_inside_image)'"
     exit_non_zero

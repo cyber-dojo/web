@@ -11,17 +11,15 @@ remove_old_images()
   remove_all_but_current "${dil}" cyberdojo/web
 }
 
-# Keeps :latest, which local tooling refers to, and this commit's tag, which
-# names the build just made. Every older tag goes, and an earlier build whose
-# last tag was one of those goes with it.
+# Keeps this commit's tag, which names the build just made. Every older tag
+# goes, and an earlier build whose last tag was one of those goes with it.
 remove_all_but_current()
 {
   local -r docker_image_ls="${1}"
   local -r name="${2}"
   for image_name in $(echo "${docker_image_ls}" | grep "${name}:" || true)
   do
-    if [ "${image_name}" != "${name}:latest" ] \
-    && [ "${image_name}" != "${name}:$(image_tag)" ]; then
+    if [ "${image_name}" != "${name}:$(image_tag)" ]; then
       # Removing by name:tag untags, so this succeeds even while a container
       # references the image, leaving it dangling until that container goes.
       # The guard is for a genuine daemon error: report it rather than abort the
