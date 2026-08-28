@@ -24,7 +24,10 @@ mapfile -t testFiles < <(find server -name '*_test.rb' | sort)
 
 # run-the-tests!
 set +e
-ruby -e "(%w( ./coverage.rb ) + %w( ${testFiles[*]} ).shuffle).map{ |file| require './'+file }" \
+# $stdout.sync = true keeps the progress dots appearing as the tests run. The
+# pipe into tee makes ruby's stdout block-buffered, which would hold the dots
+# back until the process exits.
+ruby -e "\$stdout.sync = true; (%w( ./coverage.rb ) + %w( ${testFiles[*]} ).shuffle).map{ |file| require './'+file }" \
   -- "$@" 2>&1 | tee "${test_log}"
 # Exit with ruby's status, not tee's, which always succeeds.
 ruby_status=${PIPESTATUS[0]}
