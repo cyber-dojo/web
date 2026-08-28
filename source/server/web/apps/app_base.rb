@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'digest'
 require 'json'
 require 'rack/protection'
+require_relative '../after_response'
 
 module Web
   # What every mounted app needs: its collaborators, the csrf and laptop-id
@@ -76,6 +77,15 @@ module Web
 
     # Collaborator shorthands, so the routes read as saver/runner/spooler
     # rather than externals.saver and friends.
+    # Stashes work to run once this request's response has been written, so the
+    # browser does not wait on it. The AfterResponse middleware wrapping the
+    # mounted apps runs it when the server closes the body. The work runs
+    # outside the route, so it carries its own error handling: nothing left in
+    # the route can rescue it.
+    def after_response(&work)
+      AfterResponse.stash(env, work)
+    end
+
     def runner
       externals.runner
     end
