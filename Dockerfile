@@ -1,4 +1,4 @@
-FROM ghcr.io/cyber-dojo/sinatra-base:5ab6a10@sha256:c096154011cc1cef9cc69e8be948fb4329543f9670d4fb4fd3851a8aa016630d AS base
+FROM ghcr.io/cyber-dojo/sinatra-base:949edc1@sha256:fd5205d77df654e812682c185b04f8c94f22ae192d2a09efb68f1358a36d73a2 AS base
 # The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
