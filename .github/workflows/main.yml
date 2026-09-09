@@ -61,6 +61,9 @@ jobs:
           flow_description: "UX for practicing TDD"
           flow_tags: |
             env=${{ env.KOSLI_AWS_BETA }}
+            kind=build
+            ci=github
+            repo_url=${{ github.server_url }}/${{ github.repository }}
 
 
   pull-request:
