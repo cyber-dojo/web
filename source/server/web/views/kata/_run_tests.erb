@@ -69,7 +69,19 @@ $(() => {
     .then(r => r.json())
     .then(handleResponse)
     .catch(err => cd.dialogError(err.message))
-    .finally(() => { clearTimeout(timer); runTestsInProgress = false; cd.waitSpinner.fadeOut('slow', onComplete); });
+    .finally(() => {
+      clearTimeout(timer);
+      runTestsInProgress = false;
+      // #wait-overlay covers the whole page at 50% opacity, so the result
+      // handleResponse has just painted is behind it until it goes. Fading it
+      // out takes 600ms, which the learner would spend looking at their own
+      // traffic-light through a grey veil, longer than the test-run that
+      // produced it. Hiding it shows the result at once.
+      cd.waitSpinner.hide();
+      // Called here rather than from a fade's completion callback. Both
+      // callers only re-enable their buttons, and hide() takes no callback.
+      if (onComplete) { onComplete(); }
+    });
   };
 
   const handleResponse = (data) => {
