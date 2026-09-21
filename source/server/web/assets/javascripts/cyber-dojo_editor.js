@@ -88,14 +88,21 @@ var cyberDojo = ((cd, $) => {
         class: 'filename_div',
            id: `${filename}_div`
     });
-    const $text = $('<textarea>', {
+    const attrs = {
       class: 'file_content',
-      name: `file_content[${filename}]`,
       id: `file_content_for_${filename}`,
       'spellcheck': 'false',
       'data-filename': filename,
       text: file.content
-    });
+    };
+    // 'output' is regenerated from each run's stdout/stderr/status, so its
+    // content is never an input. A textarea with no name is not a successful
+    // control, so it is left out of both form.serialize() and
+    // new FormData(form).
+    if (filename !== 'output') {
+      attrs.name = `file_content[${filename}]`;
+    }
+    const $text = $('<textarea>', attrs);
     $div.append($text);
     return $div;
   };
