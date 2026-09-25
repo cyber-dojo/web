@@ -334,7 +334,7 @@ jobs:
       aws_region: eu-central-1
       aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
       environment: beta
-      working_directory: deployment/terraform/
+      working_directory: deployment/terraform-web/
       tf_version: v1.14.9
       tf_vars: |
         TF_VAR_TAGGED_IMAGE=${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}

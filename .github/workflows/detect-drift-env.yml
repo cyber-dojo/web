@@ -63,6 +63,6 @@ jobs:
       aws_region: eu-central-1
       aws_role_arn: "arn:aws:iam::${{ inputs.aws_account_id }}:role/gh_actions_services"
       environment: ${{ inputs.environment }}
-      working_directory: deployment/terraform/
+      working_directory: deployment/terraform-web/
       tf_version: v1.14.9
       tf_vars: TF_VAR_TAGGED_IMAGE=${{ needs.image.outputs.image }}
