@@ -2,7 +2,7 @@
   "artifact_name": "web",
   "attestation_name": "test-facts",
   "bounds": {
-    "test_count":    {"min": 132, "max": 132},
+    "test_count":    {"min": 134, "max": 134},
     "failure_count": {"min": 0, "max": 0},
     "error_count":   {"min": 0, "max": 0},
     "skip_count":    {"min": 0, "max": 0},
