@@ -69,6 +69,42 @@ class HttpJsonTest < ServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def runner_exception
+    {
+      'path' => '/ready',
+      'body' => '{"id":"FxWwrr"}',
+      'class' => 'Runner',
+      'message' => 'unversioned image_name',
+      'backtrace' => [
+        '/runner/source/server/dispatcher.rb:28:in `rescue in call\'',
+        '/runner/source/server/rack_dispatcher.rb:15:in `call\''
+      ]
+    }
+  end
+
+  class HttpJsonRequesterExceptionHashStub
+    def initialize(_hostname, _port)
+    end
+    def request(_req)
+      OpenStruct.new(body:JSON.generate({ 'exception' => HttpJsonTest.new(nil).runner_exception }))
+    end
+  end
+
+  test '12D2CB',
+  'response.body with exception Hash raises its pretty JSON without the body' do
+    set_http(HttpJsonRequesterExceptionHashStub)
+    stdout,stderr = capture_stdout_stderr do
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      expected = runner_exception.reject { |key,_| key == 'body' }
+      assert_equal JSON.pretty_generate(expected), error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    logged = JSON.parse!(stdout)['Exception: HttpJson::Responder']['message']
+    assert_equal runner_exception, logged, :full_exception_printed_to_stdout
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   class HttpJsonRequesterNoPathKeyStub
     def initialize(_hostname, _port)
     end

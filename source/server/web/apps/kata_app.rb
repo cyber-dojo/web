@@ -121,6 +121,11 @@ module Web
         created: @created,
         changed: @changed
       }.to_json
+    rescue RunnerService::Error => e
+      # The runner refused the run (for example an untagged image_name). Its
+      # message goes back as the body so the [test] error dialog can show it.
+      status 500
+      e.message
     end
 
     # - - - - - - - - - - - - - - - -

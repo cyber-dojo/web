@@ -2,7 +2,7 @@ name: 'Detect Drift (environment)'
 
 # Drift detection for a single environment.
 #
-# The terraform for this repository lives in deployment/terraform and deploys
+# The terraform for web lives in deployment/terraform-web and deploys
 # the ECS service with a per-build container image (TF_VAR_TAGGED_IMAGE). The
 # variable has no default and the task definition tracks it directly, so a
 # drift plan must be given the image that is currently deployed - otherwise

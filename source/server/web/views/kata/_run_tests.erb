@@ -59,8 +59,9 @@ $(() => {
     })
     .then(r => {
       if (!r.ok) {
-        r.text().then(console.warn);
-        throw new Error(`Status=${r.status}`);
+        return r.text().then(text => {
+          throw new Error(`Status=${r.status}\n${text}`);
+        });
       }
       else {
         return r;

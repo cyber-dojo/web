@@ -64,7 +64,16 @@ module Web
           }
         }))
         stdout_stream.flush
-        exception_class.new(message)
+        exception_class.new(readable(message))
+      end
+
+      # A service's exception Hash as pretty JSON, so its message and backtrace
+      # read line by line. Its body is the whole request, every kata file
+      # included, so it goes to the log above but not into the message.
+      def readable(message)
+        return message unless message.is_a?(Hash)
+
+        JSON.pretty_generate(message.reject { |key, _| key == 'body' })
       end
     end
   end
