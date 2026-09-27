@@ -10,6 +10,7 @@ services:
     platform: linux/amd64
     build:
       context: .
+      target: web
       args:
         - COMMIT_SHA
         - BASE_IMAGE

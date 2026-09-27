@@ -127,6 +127,7 @@ jobs:
       checkout_repository: cyber-dojo/web
       checkout_ref: ${{ github.sha }}
       checkout_fetch_depth: 1
+      target: web
       image_name: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
