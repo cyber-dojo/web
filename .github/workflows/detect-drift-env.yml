@@ -1,8 +1,8 @@
 name: 'Detect Drift (environment)'
 
-# Drift detection for a single environment.
+# Drift detection for a single app in a single environment.
 #
-# The terraform for web lives in deployment/terraform-web and deploys
+# The terraform for each app lives in deployment/terraform-<app> and deploys
 # the ECS service with a per-build container image (TF_VAR_TAGGED_IMAGE). The
 # variable has no default and the task definition tracks it directly, so a
 # drift plan must be given the image that is currently deployed - otherwise
@@ -16,6 +16,9 @@ name: 'Detect Drift (environment)'
 on:
   workflow_call:
     inputs:
+      app:
+        required: true
+        type: string
       aws_account_id:
         required: true
         type: string
@@ -48,8 +51,10 @@ jobs:
           retry-max-attempts: 3
       - name: Read deployed image
         id: read
+        env:
+          APP: ${{ inputs.app }}
         run: |
-          IMAGE=$(aws ecs describe-task-definition --task-definition web \
+          IMAGE=$(aws ecs describe-task-definition --task-definition "${APP}" \
             --query 'taskDefinition.containerDefinitions[0].image' --output text)
           echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
 
@@ -63,6 +68,6 @@ jobs:
       aws_region: eu-central-1
       aws_role_arn: "arn:aws:iam::${{ inputs.aws_account_id }}:role/gh_actions_services"
       environment: ${{ inputs.environment }}
-      working_directory: deployment/terraform-web/
+      working_directory: deployment/terraform-${{ inputs.app }}/
       tf_version: v1.14.9
       tf_vars: TF_VAR_TAGGED_IMAGE=${{ needs.image.outputs.image }}
