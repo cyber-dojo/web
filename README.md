@@ -31,8 +31,9 @@ $ make all
 
 Running the tests and judging them are separate steps. `make test_server` runs
 every server test directory in one ruby process, its test classes in parallel,
-and writes `reports/test_metrics.json` and `reports/coverage_metrics.json`. Two
-targets then check those against pinned limits, and fail if any is breached:
+and writes `web/reports/test_metrics.json` and
+`web/reports/coverage_metrics.json`. Two targets then check those against pinned
+limits, and fail if any is breached:
 
 ```
 $ make metrics_coverage
@@ -53,8 +54,8 @@ make: *** [metrics_coverage] Error 1
 
 `make metrics_test` does the same for the test counts and the run's duration.
 
-The bounds live in `test/coverage_metrics_params.json` and
-`test/test_metrics_params.json`, and are written once. So is the decision made
+The bounds live in `web/test/coverage_metrics_params.json` and
+`web/test/test_metrics_params.json`, and are written once. So is the decision made
 from them: these targets and CI both apply the bounds with one rego policy,
 shared from the kosli-attestation-types repo, which CI then attests to Kosli.
 Running it locally needs no kosli account - the policy is evaluated from a

@@ -142,8 +142,8 @@ check_metrics()
 {
   local -r metrics="${1}"                    # eg coverage
   check_metrics_files \
-    "$(repo_root)/reports/${metrics}_metrics.json" \
-    "$(repo_root)/test/${metrics}_metrics_params.json"
+    "$(repo_root)/web/reports/${metrics}_metrics.json" \
+    "$(repo_root)/web/test/${metrics}_metrics_params.json"
 }
 
 # Checks the given metrics report against the bounds in the given params file.

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${ROOT_DIR}/bin/lib.sh"
+readonly BIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly ROOT_DIR="$(git rev-parse --show-toplevel)"
+source "${BIN_DIR}/lib.sh"
 
 exit_non_zero_unless_installed docker
 

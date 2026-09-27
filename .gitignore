@@ -6,20 +6,17 @@
 
 !/.github
 !/deployment
-!/docs
-!/bin
 !/flow-templates
-!/source
-!/test
+!/web
+
+# but still ignore these generated dirs inside them...
+
+/web/reports/
 
 # and these files...
 
 !/.dockerignore
 !/.gitignore
-!/.kosli.yml
-!/.rubocop.yml
-!/.rubocop_todo.yml
-!/.snyk
 !/CONTRIBUTING.md
 !/docker-compose.yml
 !/docker-compose-depends.yml

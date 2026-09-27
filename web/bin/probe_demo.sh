@@ -2,7 +2,7 @@
 set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
-readonly BIN_DIR="$(repo_root)/bin"
+readonly BIN_DIR="$(repo_root)/web/bin"
 source "${BIN_DIR}/lib.sh"
 source "${BIN_DIR}/echo_env_vars.sh"
 export $(echo_env_vars)

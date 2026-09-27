@@ -17,9 +17,9 @@ services:
     env_file: [ web.env ]
     restart: no
     volumes:
-      - ./bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
-      - ./source/server/web:/web/source/web:ro
-      - ./test:/web/test:ro
+      - ./web/bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
+      - ./web/source/server/web:/web/source/web:ro
+      - ./web/test:/web/test:ro
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
@@ -29,6 +29,15 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: no
+
+  dashboard:
+    image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
+    platform: linux/amd64
+    user: nobody
+    env_file: [ .env ]
+    read_only: true
+    restart: no
+    tmpfs: /tmp
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
@@ -103,11 +112,3 @@ services:
     tmpfs: /tmp
     restart: no
 
-  dashboard:
-    image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
-    platform: linux/amd64
-    user: nobody
-    env_file: [ .env ]
-    read_only: true
-    restart: no
-    tmpfs: /tmp
