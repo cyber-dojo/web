@@ -4,7 +4,7 @@ set -Eeu
 show_help()
 {
   cat <<'EOF'
-Usage: bin/fetch_metrics_policy.sh [OPTIONS] <filename>
+Usage: web/bin/fetch_metrics_policy.sh [OPTIONS] <filename>
 
 Downloads the rego policy that decides whether a metrics report is within the
 limits in its params file, and writes it to <filename>.
@@ -19,7 +19,7 @@ Options:
   -h    Show this help
 
 Example:
-  bin/fetch_metrics_policy.sh metrics-compliance.rego
+  web/bin/fetch_metrics_policy.sh metrics-compliance.rego
 EOF
 }
 

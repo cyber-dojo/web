@@ -4,7 +4,7 @@ set -Eeu
 # Brings up a local server (without using commander).
 
 repo_root() { git rev-parse --show-toplevel; }
-readonly BIN_DIR="$(repo_root)/bin"
+readonly BIN_DIR="$(repo_root)/web/bin"
 
 source "${BIN_DIR}/echo_env_vars.sh"
 source "${BIN_DIR}/copy_in_saver_test_data.sh"
@@ -18,7 +18,7 @@ export $(echo_env_vars)
 # published to the host; the backend services talk over the project's
 # private network. Override these two vars to run a second web demo
 # alongside the first, eg:
-#   COMPOSE_PROJECT_NAME=web2 CYBER_DOJO_NGINX_HOST_PORT=81 bin/demo.sh
+#   COMPOSE_PROJECT_NAME=web2 CYBER_DOJO_NGINX_HOST_PORT=81 web/bin/demo.sh
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-web}"
 export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-80}"
 

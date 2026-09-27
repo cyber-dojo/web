@@ -4,10 +4,10 @@ set -Eeu
 show_help()
 {
   cat <<'EOF'
-Usage: bin/run_client_tests.sh [OPTIONS] [TEST-ID]...
+Usage: web/bin/run_client_tests.sh [OPTIONS] [TEST-ID]...
 
 Runs ONLY the browser (Capybara + Selenium) tests, for a fast inner loop
-when working on the browser-driven JavaScript. Unlike bin/run_server_tests.sh
+when working on the browser-driven JavaScript. Unlike web/bin/run_server_tests.sh
 it does not tear existing containers down, does not pull the runner test image,
 and does not run the server suite.
 
@@ -22,8 +22,8 @@ Options:
   -h    Show this help
 
 Example:
-  bin/run_client_tests.sh
-  bin/run_client_tests.sh fK3nQ7
+  web/bin/run_client_tests.sh
+  web/bin/run_client_tests.sh fK3nQ7
 EOF
 }
 
@@ -36,7 +36,7 @@ done
 shift $((OPTIND - 1))
 
 repo_root() { git rev-parse --show-toplevel; }
-export BIN_DIR="$(repo_root)/bin"
+export BIN_DIR="$(repo_root)/web/bin"
 
 source "${BIN_DIR}/containers_up.sh"
 source "${BIN_DIR}/echo_env_vars.sh"

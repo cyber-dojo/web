@@ -1,9 +1,9 @@
 require_relative 'client_test_base'
 require 'json'
 
-# Tests of the mobbing stale-tab detection (docs/mobbing-stale-tab-lock.md),
-# driven in a real browser. m0b001..m0b005 are the predicate use cases: they load
-# a kata edit page (so app.js defines cd.isStale) and drive
+# Tests of mobbing stale-tab detection (web/docs/mobbing-stale-tab-lock.md),
+# in a real browser. m0b001..m0b005 are the predicate use cases: they load a
+# kata edit page (so app.js defines cd.isStale) and drive
 # cd.isStale(events, knownHead, myTabId) - true iff some event above knownHead was
 # not written by this tab (its tab_id differs from mine) - with a hand-built
 # committed stream; in those the tab loaded at head 2, so knownHead = 2.

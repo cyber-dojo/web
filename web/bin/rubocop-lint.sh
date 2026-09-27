@@ -7,16 +7,16 @@ set -Eeu
 show_help()
 {
   cat <<-EOF
-	Usage: bin/rubocop-lint.sh [OPTIONS]
+	Usage: web/bin/rubocop-lint.sh [OPTIONS]
 
 	Lints the ruby source with rubocop and writes junit xml to
-	reports/rubocop/junit.xml for CI to attest to Kosli.
+	web/reports/rubocop/junit.xml for CI to attest to Kosli.
 
 	Options:
 	  -h    Show this help
 
 	Example:
-	  bin/rubocop-lint.sh
+	  web/bin/rubocop-lint.sh
 	EOF
 }
 
@@ -25,12 +25,15 @@ if [ "${1:-}" = '-h' ]; then
   exit 0
 fi
 
-export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# The app dir holds .rubocop.yml beside the code it lints, so rubocop reads
+# the config's relative paths against the right tree.
+readonly WEB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly REPORTS_DIR="${WEB_DIR}/reports"
 # For the shared docker settings.
-source "${ROOT_DIR}/bin/lib.sh"
+source "${WEB_DIR}/bin/lib.sh"
 
-rm -rf "${ROOT_DIR}/reports/rubocop" &> /dev/null || true
-mkdir -p "${ROOT_DIR}/reports/rubocop"
+rm -rf "${REPORTS_DIR}/rubocop" &> /dev/null || true
+mkdir -p "${REPORTS_DIR}/rubocop"
 
 # As the invoking user, so junit.xml belongs to whoever ran this rather than to
 # the container's user. A root-owned file left in the working tree is unwelcome.
@@ -40,8 +43,8 @@ mkdir -p "${ROOT_DIR}/reports/rubocop"
 docker run \
   --rm \
   --user "$(id -u):$(id -g)" \
-  --volume "${ROOT_DIR}/reports/rubocop/:/reports/" \
-  --volume "${ROOT_DIR}:/app" \
+  --volume "${REPORTS_DIR}/rubocop/:/reports/" \
+  --volume "${WEB_DIR}:/app" \
   cyberdojo/rubocop \
   --raise-cop-error \
   --cache false \

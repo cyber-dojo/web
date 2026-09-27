@@ -2,7 +2,7 @@
 set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
-export BIN_DIR="$(repo_root)/bin"
+export BIN_DIR="$(repo_root)/web/bin"
 
 source "${BIN_DIR}/containers_down.sh"
 source "${BIN_DIR}/containers_up.sh"

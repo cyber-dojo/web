@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly SRC_PATH=$(repo_root)/test/data/cyber-dojo
+readonly SRC_PATH=$(repo_root)/web/test/data/cyber-dojo
 readonly DEST_PATH=/cyber-dojo
 
 pull_runner_test_image()
@@ -10,7 +10,7 @@ pull_runner_test_image()
   # every locally-present image into its in-memory @pulled set before forking
   # Puma workers. This pull must therefore happen before containers_up so that
   # the image is present when the runner starts and all workers inherit it.
-  local -r manifest="$(repo_root)/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
+  local -r manifest="$(repo_root)/web/test/data/cyber-dojo/katas/5U/2J/18/manifest.json"
   local -r image=$(jq --raw-output '.image_name' "${manifest}")
   docker pull --quiet "${image}"
 }
@@ -50,7 +50,7 @@ run_server_tests_in_container()
   local -r SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
   # reports/ is where every sibling repo leaves its generated reports, and
   # where bin/check_coverage_metrics.sh and the CI attestations look for them.
-  local -r DST=$(repo_root)/reports
+  local -r DST=$(repo_root)/web/reports
 
   # Drop set -e because we want to get coverage stats out
   set +e
