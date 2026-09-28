@@ -1,0 +1,24 @@
+
+button
+{
+  @include non-code-font();
+  @include rounded-corner(6px);
+  background: darken($lighter-color, 12%);
+
+  display: inline-block;
+  cursor: pointer;
+  padding: { left:15px; right:15px; bottom:4px; top:2px; }
+  margin: { left:0px; top:10px; bottom:10px; bottom:0px; }
+  text-align:left;
+  text-decoration: none;
+  font-weight: normal;
+  border: 2px solid $darker-color;
+
+  &:hover { border: 2px dotted lighten($darker-color, 20%); }
+  &[disabled]
+  {
+    background: lighten($darker-color, 20%);
+    cursor: default;
+    &:hover { border: 2px solid $darker-color; }
+  }
+}

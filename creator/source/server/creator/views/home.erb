@@ -1,0 +1,387 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.kata' ).click(() => cd.goto(cd.mountedPath('/choose_problem?type=kata')));
+  $('button.group').click(() => cd.goto(cd.mountedPath('/choose_problem?type=group')));
+  $('button.enter').click(() => cd.goto(cd.mountedPath('/enter')));
+
+});
+</script>
+
+<div id="home-page">
+  <div class="edged-panel heading">
+    <div class="lockup">
+      <table class="logo">
+        <tr>
+          <td><img src="/images/cyber-dojo.png"></td>
+          <td class="cyber-dojo">cyber&#8209;dojo</td>
+        </tr>
+      </table>
+      <div class="a-place-to-practise-programming">
+        a&nbsp;place&nbsp;to&nbsp;<a href="https://blog.cyber-dojo.org/2015/05/do-more-deliberate-practice.html" target="_blank">practice</a>&nbsp;programming
+      </div>
+    </div>
+  </div>
+
+  <% if @hostname == 'staging' %>
+    <div class="edged-panel questions" style="background:red;">
+    You are on https://<i><b><u>beta</u></b></i>.cyber-dojo.org <br/>
+    These are <b><u>not</u></b> the pages you are looking for.<br/>
+    Please go to <a href="https://cyber-dojo.org">https://cyber-dojo.org</a>
+    </div>
+  <% end %>
+
+  <div class="edged-panel buttons">
+    <button class="kata" type="button">
+      <span class="fork-option-name">Practise solo</span>
+      <span class="fork-option-note">Just you, your code and tests.</span>
+      <ul>
+        <li>No avatar</li>
+        <li>No dashboard</li>
+      </ul>
+    </button>
+    <button class="group" type="button">
+      <span class="fork-option-name">Practise as a group</span>
+      <span class="fork-option-note">A class or team practising together.</span>
+      <ul>
+        <li>Everyone gets an avatar</li>
+        <li>One shared dashboard</li>
+      </ul>
+    </button>
+    <button class="enter" type="button">
+      <span class="fork-option-name">Enter existing</span>
+      <span class="fork-option-note">Have a six-digit id?</span>
+      <ul>
+        <li>Join a group practice</li>
+        <li>Drop back in where you left off</li>
+      </ul>
+    </button>
+  </div>
+
+  <div class="edged-panel questions">
+    <div class="question">
+      Can you use cyber-dojo to get better at TDD?
+    </div>
+    <div class="answer">
+      Yes, either individually or in a group training session.
+      <ul>
+        <li>
+          this video explains how to use it for individual practice:
+          <a href="https://youtu.be/lIRF8MgyXho" target="_blank">https://youtu.be/lIRF8MgyXho</a>
+        </li>
+        <li>
+          this video explains how to use it for group practice:
+          <a href="https://youtu.be/OGGk-iFVOPQ" target="_blank">https://youtu.be/OGGk-iFVOPQ</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Is cyber-dojo free?
+    </div>
+    <div class="answer">
+      It depends...
+      <ul>
+        <li>
+          Using <code>https://cyber-dojo.org</code> in a commercial organization requires a licence
+        </li>
+        <li>
+          Non-commercial use is free, but please donate
+        </li>
+        <li>
+          100% of the licence fees and donations
+          <a href="https://blog.cyber-dojo.org/2020/06/supporting-turing-trust.html"
+             target="_blank">help children learn about software</a>
+        </li>
+        <li>
+          The
+          <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+            target="_blank">cyber-dojo Foundation</a>
+            is a Scottish Charitable Incorporated Organisation<br/>
+            <%= erb :'shared/donate_gbp_button' %>
+            <%= erb :'shared/donate_usd_button' %>
+            <%= erb :'shared/donate_eur_button' %>
+		    </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      How much is a licence?
+    </div>
+    <div class="answer">
+      It's up to you!
+      <ul>
+        <li>Large companies/organizations typically pay ~ £1000</li>
+        <li>Smaller teams/individuals, less</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      How long does a license last?
+    </div>
+    <div class="answer">
+      That's also up to you!
+      <ul>
+        <li>You can pay a larger amount once</li>
+        <li>You can pay a smaller amount every year</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      How do I buy a licence?
+    </div>
+    <div class="answer">
+      There are two ways:
+      <ul>
+		    <li>For larger corporations, email
+        <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a cyber-dojo license please&body=...">license@cyber-dojo.org</a>
+        with much you would like to pay, and how often, and we will raise an invoice
+        </li>
+        <li>Smaller businesses and individuals may prefer to pay directly via PayPal. See above
+        </li>
+        <li>Thank you</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      What about operational costs (such as cloud hosting)?
+    </div>
+    <div class="answer">
+      They are generously paid by our sponsors:
+      <ul>
+        <li>
+          <a href="https://kosli.com" target="_blank">Kosli</a>
+          and CodeEntropy
+        </li>
+        <li>
+          If you are interested in being a sponsor, please email
+          <a href="mailto:sponsor@cyber-dojo.org?subject=I'm interesting in sponsoring cyber-dojo&body=...">sponsor@cyber-dojo.org</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Why does cyber-dojo use animal avatars (drawn by <a href="https://www.behance.net/NadyaSivers" target="_blank">Nadya Sivers</a>)?
+    </div>
+    <div class="answer">
+      Two reasons:
+      <ul>
+        <li>To provide identity without requiring a login</li>
+        <li>To provide anonymity during reviews</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Is cyber-dojo open-sourced?
+    </div>
+    <div class="answer">
+      Yes. The repositories are split across four
+      <a href="https://github.com" target="_blank">github</a> organizations:
+      <ul>
+        <li><a href="https://github.com/cyber-dojo-start-points"
+               target="_blank">cyber-dojo-start-points</a>
+            holds the sets of initial source files
+        </li>
+        <li><a href="https://github.com/cyber-dojo-languages"
+               target="_blank">cyber-dojo-languages</a>
+            holds the Dockerfiles for the images where the tests run
+        </li>
+        <li><a href="https://github.com/cyber-dojo"
+               target="_blank">cyber-dojo</a>
+            holds the microservices for the server
+        </li>
+        <li><a href="https://github.com/cyber-dojo-tools"
+               target="_blank">cyber-dojo-tools</a>
+            holds custom tools
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Can I run my own cyber-dojo server?
+    </div>
+    <div class="answer">
+      Yes. Instructions and scripts for running on...
+      <ul>
+        <li>
+        <a href="https://blog.cyber-dojo.org/2016/10/running-your-own-cyber-dojo-server-on.html" target="_blank">Linux</a>
+        </li>
+        <li>
+        <a href="https://blog.cyber-dojo.org/2016/10/running-your-own-cyber-dojo-server-on_15.html" target="_blank">Mac</a>
+        </li>
+        <li>
+        <a href="https://blog.cyber-dojo.org/2016/10/running-your-own-cyber-dojo-server-on_34.html" target="_blank">Windows</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      What technologies does cyber-dojo use?
+    </div>
+    <div class="answer">
+      <table>
+        <tr>
+          <td>
+            <a href="https://en.wikipedia.org/wiki/Ruby_(programming_language)"
+               target="_blank">
+              <img class="technology" src="/images/technologies/ruby.png">
+            </a>
+          </td>
+          <td>
+            <a href="https://github.com/cyber-dojo"
+               target="_blank">
+              <img class="technology" src="/images/technologies/github.png">
+            </a>
+          </td>
+          <td>
+            <a href="https://hub.docker.com/u/cyberdojo/"
+               target="_blank">
+              <img class="technology" src="/images/technologies/docker.png">
+            </a>
+          </td>          
+          <td>
+            <a href="https://en.wikipedia.org/wiki/AWS"
+               target="_blank">
+              <img class="technology" src="/images/technologies/aws.png">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">ruby</td>
+          <td class="name">github</td>
+          <td class="name">docker</td>
+          <td class="name">aws</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Who are the
+      <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+        target="_blank">cyber-dojo Foundation</a> trustees?
+    </div>
+    <div class="answer">
+      <table>
+        <tr>
+          <td>
+            <a href="https://jonjagger.blogspot.co.uk" target="_blank">
+              <img class="trustee" src="/images/trustees/JonJagger.jpg">
+            </a>
+          </td>
+          <td>
+            <a href="https://www.kosli.com" target="_blank">
+              <img class="trustee" src="/images/trustees/MikeLong.jpg">
+            </a>
+          </td>
+          <td>
+            <a href="https://olvemaudal.com" target="_blank">
+              <img class="trustee" src="/images/trustees/OlveMaudal.jpg">
+            </a>
+          </td>
+          <td>
+            <a href="https://cucumber.io" target="_blank">
+              <img class="trustee" src="/images/trustees/SebRose.jpg">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td class="bio">
+            <a href="https://jonjagger.blogspot.co.uk">Jon Jagger</a>
+            is a software developer
+            at <a href="https://www.kosli.com" target="_blank">Kosli</a>
+          </td>
+          <td class="bio">
+            Mike Long is CEO
+            at <a href="https://www.kosli.com" target="_blank">Kosli</a>
+          </td>
+          <td class="bio">
+            <a href="https://olvemaudal.com" target="_blank">Olve Maudal</a>
+            is a software guru at Equinor
+          </td>
+          <td class="bio">
+            Seb Rose
+            is an independent software consultant at
+            <a href="https://claysnow.co.uk" target="_blank">claysnow.co.uk</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      What was the inspiration for cyber-dojo?
+    </div>
+    <div class="answer">
+      In 2009 I (Jon) was consulting in Norway. A user-group organized an evening coding-dojo
+      (in a local pub). An exercise, language, and test-framework was picked, and participants split
+      into teams of about 5 people. After ~90 minutes everyone gathered for a review...
+      <ul>
+        <li>
+        two teams had <em>nothing</em> to show since they were still trying to install
+        the language and test-framework (using the pub wifi)
+        </li>
+        <li>
+        the other teams spent a <em>long</em> <em>long</em> <em>long</em> time trying to connect
+        their laptops to the projector (Linux, Mac, &amp; Windows)
+        </li>
+      </ul>
+      I became convinced an online coding-dojo was a worthwhile project
+      <ul>
+        <li><a href="https://blog.cyber-dojo.org/2015/05/do-more-deliberate-practice.html" target="_blank">practising</a> programming deserves more attention</li>
+        <li>effective development is a
+        <a href="https://jonjagger.blogspot.com/2013/10/teams.html" target="_blank">team</a> activity
+        </li>
+      </ul>
+      I think there is real benefit in practising <em>outside</em> a professional IDE:
+      <ul>
+        <li>
+          cyber-dojo is about
+          <a href="https://jonjagger.blogspot.co.uk/2013/10/learning.html" target="_blank">learning</a>
+          &mdash; an IDE about <em>development</em>
+        </li>
+        <li>
+          cyber-dojo is for working
+          <a href="https://jonjagger.blogspot.co.uk/2013/10/teams.html" target="_blank">together</a>
+          &mdash; an IDE typically <em>alone</em>
+        </li>
+        <li>
+          cyber-dojo aims to
+          <a href="https://jonjagger.blogspot.co.uk/2014/02/improving.html" target="_blank">improve</a>
+          <em>skills</em>
+          &mdash; an IDE to <em>finish</em> <em>products</em>
+        </li>
+        <li>
+          cyber-dojo promotes <a href="https://jonjagger.blogspot.com/2016/03/code-and-test-oppose-each-other.html" target="_blank">coding &amp; testing</a>
+          &mdash; an IDE, mostly coding
+        </li>
+        <li>
+          cyber-dojo helps you work <a href="https://jonjagger.blogspot.com/2013/12/time.html" target="_blank">slower</a>
+          &mdash; an IDE <em>faster</em>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

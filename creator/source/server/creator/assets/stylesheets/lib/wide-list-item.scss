@@ -1,0 +1,25 @@
+
+@mixin wide-list-item
+{
+  @include plaintext-font();
+  color: $lighter-color;
+  background: $darker-color;
+  text-align: left;
+  border: 1px solid $darker-color;
+  margin: 0px;
+  padding: { left: 6px; right: 0px; }
+  cursor: pointer;
+  overflow-x:auto;
+  overflow-y:hidden;
+
+  &[class~='selected']
+  {
+    color: $darker-color;
+    background: white;
+    cursor: default;
+  }
+  &:hover
+  {
+    border: 1px dotted lighten($darker-color,25%);
+  }
+}

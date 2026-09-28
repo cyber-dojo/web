@@ -1,0 +1,57 @@
+
+Signed up at snyk for free account.
+Followed the installation instructions for CLI scanning.
+Impressive onboarding.
+After authenticating, the command to scan cyberdojo/creator:a9136e1
+is
+
+snyk container test cyberdojo/creator:a9136e1 --org=858e680b-5d28-4aef-83ca-e3f1465057b0
+
+Did not report any vulnerabilities.
+echo $? says 0
+So I assume the latest creator image is ok.
+
+Output of command also says...
+
+<quote>
+Explore this snapshot at https://app.snyk.io/org/jrbjagger/project/2fcf4bd0-5ba1-4831-8c55-89e3d8bb927e/history/12323ea7-689c-4cc3-87ba-3cac3c97a46d
+</quote>
+
+This is also an impressive dashboard.
+Base image: ruby:3.2.2-alpine3.17
+Target OS: alpine:3.17.4
+Image ID: 6e54832800bb
+Platform : linux/amd64
+
+Also says there are 9 vulnerabilities, 2 critical, related to nodejs/nodejs
+Do I even have that installed in that image?
+docker run --rm -it cyberdojo/creator:a9136e1 bash
+node
+Welcome to Node.js v18.16.1.
+Type ".help" for more information.
+>
+
+yes I do!
+
+
+<quote>
+Notifications about newly disclosed issues related to these dependencies will be emailed to you.
+</quote>
+
+Interesting...
+
+dashboard at https://app.snyk.io/org/jrbjagger
+Shows much more clearly that there are 2 critical vulnerabilities.
+
+Snyk Free Plan gives 100 container tests a month
+Open Source 200 tests per month.
+
+Team Plan: $52 Per contributing dev/month
+Open Source: unlimited tests per month
+
+This page
+https://support.snyk.io/hc/en-us/articles/360000925418-What-counts-as-a-test-?_gl=1*98graq*_ga*MTk5MjQ4NzAwNC4xNjkyNTEyMzY1*_ga_X9SH3KP7B4*MTY5NDE2NjU0MS40LjEuMTY5NDE2ODQ1Ni4wLjAuMA..
+says:
+A test is counted each time you run one of the following commands:
+  For Snyk Open Source: snyk test or snyk monitor
+  For Snyk Container: snyk container test or snyk container monitor

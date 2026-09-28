@@ -53,7 +53,7 @@ web_test_check_metrics:
 count ?= 1
 v ?= 2
 
-web_demo: web_image dashboard_image
+web_demo: creator_image dashboard_image web_image
 	${PWD}/web/bin/demo.sh ${count} ${v}
 
 web_probe_demo:
@@ -91,9 +91,40 @@ dashboard_rubocop_lint:
 dashboard_snyk_container_scan:
 	@${PWD}/dashboard/bin/snyk_container_scan.sh
 
-dashboard_demo: web_image dashboard_image
+dashboard_demo: creator_image dashboard_image web_image
 	@${PWD}/dashboard/bin/demo.sh
 
 dashboard_demo_data:
 	@${PWD}/dashboard/bin/demo_data.sh
+
+.PHONY: creator_image creator_test creator_test_server creator_test_client
+.PHONY: creator_rubocop_lint creator_snyk_container_scan creator_demo
+
+creator_image:
+	bash -c ". ${PWD}/creator/bin/build_tagged_images.sh && build_tagged_images"
+
+creator_test:
+	bash -c ". ${PWD}/creator/bin/run_tests_with_coverage.sh && run_tests_with_coverage"
+
+# Run only the server (or client) tests. Optionally filter by test-id prefix(es)
+# via the tids var, eg:  make creator_test_server tids=p42   or   make creator_test_server tids="p42 p99"
+creator_test_server:
+	@${PWD}/creator/bin/run_tests_with_coverage.sh server ${tids}
+
+creator_test_client:
+	@${PWD}/creator/bin/run_tests_with_coverage.sh client ${tids}
+
+creator_rubocop_lint:
+	@${PWD}/creator/bin/rubocop-lint.sh
+
+# IMAGE_NAME above names web's image, so this names creator's itself.
+creator_snyk_container_scan: creator_image
+	snyk container test cyberdojo/creator:${SHORT_SHA} \
+		--file=Dockerfile \
+		--policy-path=creator/.snyk \
+		--sarif \
+		--sarif-file-output=snyk.container.scan.json
+
+creator_demo: creator_image dashboard_image web_image
+	@${PWD}/creator/bin/demo.sh
 

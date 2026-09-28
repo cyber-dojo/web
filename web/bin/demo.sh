@@ -26,6 +26,8 @@ export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-80}"
 # targets built from this commit (the Makefile's web_demo depends on them), not
 # from the published images versioner names, so one change (eg to shared CSS)
 # shows up in all of them at once.
+export CYBER_DOJO_CREATOR_IMAGE=cyberdojo/creator
+export CYBER_DOJO_CREATOR_TAG="$(image_tag)"
 export CYBER_DOJO_DASHBOARD_IMAGE=244531986313.dkr.ecr.eu-central-1.amazonaws.com/dashboard
 export CYBER_DOJO_DASHBOARD_TAG="$(image_tag)"
 

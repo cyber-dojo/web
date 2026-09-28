@@ -1,0 +1,38 @@
+
+img.avatars
+{
+  width:314px;
+  height:314px;
+}
+
+img.avatar
+{
+  &.large
+  {
+    @include rounded-corner(6px);
+    display:inline-block;
+    margin:{ right:5px; }
+    width:183px;
+    height:183px;
+  }
+  &.small
+  {
+    @include rounded-corner(2px);
+    width:35px;
+    height:35px;
+    display:block;
+  }
+  &.grey
+  {
+    filter:grayscale(100%);
+    opacity:0.5;
+  }
+  &.colour { cursor:pointer; }
+}
+
+#reenter-page img.avatar.small { width:45px; height:45px; }
+
+#avatar-page, #full-page
+{
+  img.avatar.colour { cursor:default; }
+}

@@ -1,0 +1,10 @@
+
+$red: #F00;
+$amber: #FF0;
+$green: #0F0;
+
+$darker-color: darken(#666, 25%);
+$lighter-color: lighten(Khaki, 10%);
+$text-color: darken($lighter-color, 10%);
+
+a:link, a:visited { color: $text-color; }
