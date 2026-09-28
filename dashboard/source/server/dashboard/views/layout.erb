@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>cyber-dojo</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Free Online Coding Dojo" />
+    <meta name="keywords" content="Free Online Coding Dojo Kata Deliberate Software Team Practice" />
+    <meta name="author" content="Jon Jagger" />
+    <script>const cd = { mountPath: '<%= request.script_name %>' };/*CyberDojo 'namespace'*/</script>
+    <link href="<%= path_to(CSS_PATH) %>" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"
+            integrity="sha384-XcdcwHqIPULERb2yDEM4R0XaQKU3YnDsrTmjACBZyfdVVqjh6xQ4/DCMd7XLcA6Y"
+            crossorigin="anonymous"></script>
+    <script src="<%= path_to(JS_PATH) %>"></script>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

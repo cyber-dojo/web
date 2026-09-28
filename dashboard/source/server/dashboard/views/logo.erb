@@ -1,0 +1,12 @@
+<img id="logo" src="/images/cyber-dojo.png" />
+
+<script>
+'use strict';
+$(() => {
+
+  const $logo = $('#logo');
+  $logo.click(() => window.location.href = '/');
+  cd.createTip($logo, 'Go back to the home page');
+
+});
+</script>

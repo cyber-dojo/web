@@ -1,0 +1,8 @@
+.column
+{
+  height: 26px;
+  padding: 0px;
+   border: { bottom: dotted lighten($darker-color, 3%) 1px; }
+  &.odd  { background: lighten($darker-color,  5%); }
+  &.even { background: lighten($darker-color, 11%); }
+}

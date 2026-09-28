@@ -1,0 +1,39 @@
+<div id="minute-columns-panel">
+  <span id="minute-columns-text">
+    minute&nbsp;columns
+  </span>
+  <input type="checkbox" id="minute-columns-checkbox"/>
+  <label for="minute-columns-checkbox"></label>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $checkBox = $('#minute-columns-checkbox');
+
+  const initially = cd.urlParam('minute_columns', 'true');
+
+  $checkBox.attr('checked', initially == 'true')
+           .click(() => $checkBox.onClick());
+
+  $checkBox.isChecked = () => $checkBox.prop('checked');
+  $checkBox.toggle = () => $checkBox.prop('checked', !$checkBox.isChecked());
+  $checkBox.onClick = () => cd.refresh();
+
+  $('#minute-columns-text').click(() => {
+    $checkBox.toggle()
+            .onClick();
+  });
+
+  cd.minuteColumns = $checkBox; // public to allow cd.minuteColumns.isChecked()
+
+  const tip = [
+    'Toggle the one-minute',
+    'columns on/off'
+  ].join('<br/>');
+
+  cd.createTip($('#minute-columns-panel'), tip);
+
+});
+</script>

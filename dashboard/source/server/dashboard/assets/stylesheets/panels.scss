@@ -1,0 +1,21 @@
+
+#age-panel,
+#auto-refresh-panel,
+#minute-columns-panel,
+#detailed-panel
+{
+  @include edged-panel();
+  @include plaintext-font();
+  background: lighten($darker-color,8%);
+      cursor: pointer;
+   font-size: 13px;
+      margin: { bottom:0px; left:0px; right:7px; }
+     padding: { left:7px; top:2px; bottom:5px; }
+     display: inline-block;
+}
+
+#age-panel
+{
+  cursor: default;
+  padding: { top:6px; bottom:6px; }
+}

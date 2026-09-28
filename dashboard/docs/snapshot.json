@@ -1,0 +1,401 @@
+{
+  "index": 1138,
+  "is_latest": true,
+  "next_snapshot_timestamp": null,
+  "artifact_compliance_count": {
+    "true": 5,
+    "false": 6
+  },
+  "timestamp": 1697084697.301973,
+  "type": "ECS",
+  "compliant": false,
+  "html_url": "https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/1138",
+  "artifacts": [
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/differ:44e6c27",
+      "compliant": false,
+      "deployments": [
+        178
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "c6cd1a5b122d88aaeb41c1fdd015ad88c2bea95ae85f63eb5544fb707254847e",
+      "creationTimestamp": [
+        1696223791
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "changed",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "differ",
+      "git_commit": "44e6c271b46a56acd07f3b426c6cbca393442bb4",
+      "commit_url": "https://github.com/cyber-dojo/differ/commit/44e6c271b46a56acd07f3b426c6cbca393442bb4",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/differ/artifacts/c6cd1a5b122d88aaeb41c1fdd015ad88c2bea95ae85f63eb5544fb707254847e",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/differ",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/differ/compare/d57890ea81dfa1b045f298c45818ed89078e0c42...44e6c271b46a56acd07f3b426c6cbca393442bb4",
+        "previous_git_commit": "d57890ea81dfa1b045f298c45818ed89078e0c42",
+        "previous_fingerprint": "708c5c4c6c4291f91117384b0de5ba6fc06bd0c237618dc690929d345aa67a50",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/differ:d57890e",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "401"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/runner:4a90753",
+      "compliant": true,
+      "deployments": [
+        50
+      ],
+      "reasons_for_incompliance": [],
+      "fingerprint": "c48f0821fb1f5460cdc8884fa124d66cd51b2e671448c897be02f0529042c1fd",
+      "creationTimestamp": [
+        1697060662,
+        1697060663,
+        1697060666
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 3,
+        "now": 3
+      },
+      "flow_name": "runner",
+      "git_commit": "4a907536be7f7f17440e7b69cea64e76ee85a991",
+      "commit_url": "https://github.com/cyber-dojo/runner/commit/4a907536be7f7f17440e7b69cea64e76ee85a991",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/runner/artifacts/c48f0821fb1f5460cdc8884fa124d66cd51b2e671448c897be02f0529042c1fd",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/runner",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/runner/compare/5f1f3cad8f7fd4ada231277b81ef3cfb92aa7ee6...4a907536be7f7f17440e7b69cea64e76ee85a991",
+        "previous_git_commit": "5f1f3cad8f7fd4ada231277b81ef3cfb92aa7ee6",
+        "previous_fingerprint": "86e8dc5ae27ab00f390f241285668be7599b84fce7b80220833feb6717596007",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/runner:5f1f3ca",
+        "previous_artifact_compliance_state": "NON-COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "396"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/exercises-start-points:f6ae20a",
+      "compliant": true,
+      "deployments": [
+        62
+      ],
+      "reasons_for_incompliance": [],
+      "fingerprint": "c15ee66eb77cca91939c40a71ed2c0b7597a7fd4756d035dec3417c595242078",
+      "creationTimestamp": [
+        1697060231
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "exercises-start-points",
+      "git_commit": "f6ae20a8db68ec187c937f85736e2dca8f6a0fbf",
+      "commit_url": "https://github.com/cyber-dojo/exercises-start-points/commit/f6ae20a8db68ec187c937f85736e2dca8f6a0fbf",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/exercises-start-points/artifacts/c15ee66eb77cca91939c40a71ed2c0b7597a7fd4756d035dec3417c595242078",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/exercises-start-points",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/exercises-start-points/compare/8032bee72e64f77e059049154a2555610bf58da2...f6ae20a8db68ec187c937f85736e2dca8f6a0fbf",
+        "previous_git_commit": "8032bee72e64f77e059049154a2555610bf58da2",
+        "previous_fingerprint": "da4354893537dbb1f992c2f3285d9d3db66584b56eb91f311257be7a50d6f37c",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/exercises-start-points:8032bee",
+        "previous_artifact_compliance_state": "NON-COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "215"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:72d4df2",
+      "compliant": true,
+      "deployments": [
+        42
+      ],
+      "reasons_for_incompliance": [],
+      "fingerprint": "a27c79318134ad4c522941d723f1cd42d440f2c82ea154c44f7e28eff681480c",
+      "creationTimestamp": [
+        1697060135
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "custom-start-points",
+      "git_commit": "72d4df2caf620c5069adff276d9f5e07590e8d0e",
+      "commit_url": "https://github.com/cyber-dojo/custom-start-points/commit/72d4df2caf620c5069adff276d9f5e07590e8d0e",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/custom-start-points/artifacts/a27c79318134ad4c522941d723f1cd42d440f2c82ea154c44f7e28eff681480c",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/custom-start-points",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/custom-start-points/compare/634f1cdea2d1cf8f8aeec91e757b73755e901107...72d4df2caf620c5069adff276d9f5e07590e8d0e",
+        "previous_git_commit": "634f1cdea2d1cf8f8aeec91e757b73755e901107",
+        "previous_fingerprint": "5501d3697454fb0117436372109006216fd6a968d4bdf9c4d857fb089d44d1c0",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:634f1cd",
+        "previous_artifact_compliance_state": "NON-COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "252"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/languages-start-points:3ef8797",
+      "compliant": true,
+      "deployments": [
+        69
+      ],
+      "reasons_for_incompliance": [],
+      "fingerprint": "ea2aa706b3a6aa2c891263651d4d7c05519ee04e77c61828ea4761fdcfa47c90",
+      "creationTimestamp": [
+        1697060099
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "languages-start-points",
+      "git_commit": "3ef87970efb48c2e5f8c164045736014e6431cf9",
+      "commit_url": "https://github.com/cyber-dojo/languages-start-points/commit/3ef87970efb48c2e5f8c164045736014e6431cf9",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/languages-start-points/artifacts/ea2aa706b3a6aa2c891263651d4d7c05519ee04e77c61828ea4761fdcfa47c90",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/languages-start-points",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/languages-start-points/compare/a9b50ce5a4bde756ac3e9d07ff13eb147ace41b5...3ef87970efb48c2e5f8c164045736014e6431cf9",
+        "previous_git_commit": "a9b50ce5a4bde756ac3e9d07ff13eb147ace41b5",
+        "previous_fingerprint": "ef49c9f5a970e2781cd2207483a1df1e70a94165175f9ebc3e644bc7d12a1577",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/languages-start-points:a9b50ce",
+        "previous_artifact_compliance_state": "NON-COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "269"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/nginx:b1ff2f7",
+      "compliant": true,
+      "deployments": [
+        74
+      ],
+      "reasons_for_incompliance": [],
+      "fingerprint": "6442cf22ccba72a98e68d772c38c2cfb2492e5a34ad4cf68f6f0e69694d5b00a",
+      "creationTimestamp": [
+        1697053353
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "nginx",
+      "git_commit": "b1ff2f75f55fdf8733de82f22b529b6d9cac37fb",
+      "commit_url": "https://github.com/cyber-dojo/nginx/commit/b1ff2f75f55fdf8733de82f22b529b6d9cac37fb",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/nginx/artifacts/6442cf22ccba72a98e68d772c38c2cfb2492e5a34ad4cf68f6f0e69694d5b00a",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/nginx",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/nginx/compare/4f9e4552ae594505e3250729299b4c6dcf864fdc...b1ff2f75f55fdf8733de82f22b529b6d9cac37fb",
+        "previous_git_commit": "4f9e4552ae594505e3250729299b4c6dcf864fdc",
+        "previous_fingerprint": "b9d5301dfc6d329ed547a6751a7fded2bf5965793361b8a24e2910f220039e24",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/nginx:4f9e455",
+        "previous_artifact_compliance_state": "NON-COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "525"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/shas:81ab491",
+      "compliant": false,
+      "deployments": [
+        59
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "eaa2885bdceaeb49372ec734bab19f5e3e2d1ce59661fe6f97ad2d10ee39a8b0",
+      "creationTimestamp": [
+        1697015681
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "shas",
+      "git_commit": "81ab49132e118a98b5c2e3f9e447a6bc3a472379",
+      "commit_url": "https://github.com/cyber-dojo/shas/commit/81ab49132e118a98b5c2e3f9e447a6bc3a472379",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/shas/artifacts/eaa2885bdceaeb49372ec734bab19f5e3e2d1ce59661fe6f97ad2d10ee39a8b0",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/shas",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/shas/compare/57f22c0cb57617fe123f7eb6044094973720fac9...81ab49132e118a98b5c2e3f9e447a6bc3a472379",
+        "previous_git_commit": "57f22c0cb57617fe123f7eb6044094973720fac9",
+        "previous_fingerprint": "16654336918ed7305eafa04cbe1ae548d44ad2549629e216606b41e1af586594",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/shas:57f22c0",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "278"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/web:a6d085f",
+      "compliant": false,
+      "deployments": [
+        91
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "7ef0a70593852064b16c4cc36800551f0776c030eca8f5265669ddb7a8cebbaf",
+      "creationTimestamp": [
+        1696306052,
+        1696306052,
+        1696306052
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 3,
+        "now": 3
+      },
+      "flow_name": "web",
+      "git_commit": "a6d085f22f1ba4c4097d1dd1086a0ed3b6703641",
+      "commit_url": "https://github.com/cyber-dojo/web/commit/a6d085f22f1ba4c4097d1dd1086a0ed3b6703641",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/web/artifacts/7ef0a70593852064b16c4cc36800551f0776c030eca8f5265669ddb7a8cebbaf",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/web",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/web/compare/692d666283c7bfcd63b5f8e93a38e7085d61a535...a6d085f22f1ba4c4097d1dd1086a0ed3b6703641",
+        "previous_git_commit": "692d666283c7bfcd63b5f8e93a38e7085d61a535",
+        "previous_fingerprint": "a2fea9dda99de527da5400b4921c3f93953d977e00077442bf095942c0dc85d7",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/web:692d666",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "865"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/saver:4d23f0e",
+      "compliant": false,
+      "deployments": [
+        167
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "45a9896337df0f39e47111eab7c01f412bad1c685732b9b97e4c0ee1c94db0fa",
+      "creationTimestamp": [
+        1696225006
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "saver",
+      "git_commit": "4d23f0e8c867d09518b0a96ec76859feb0d7a82e",
+      "commit_url": "https://github.com/cyber-dojo/saver/commit/4d23f0e8c867d09518b0a96ec76859feb0d7a82e",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/saver/artifacts/45a9896337df0f39e47111eab7c01f412bad1c685732b9b97e4c0ee1c94db0fa",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/saver",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/saver/compare/d637b4b9d2d929f9a0accbae0ab8795897222240...4d23f0e8c867d09518b0a96ec76859feb0d7a82e",
+        "previous_git_commit": "d637b4b9d2d929f9a0accbae0ab8795897222240",
+        "previous_fingerprint": "2224a97de2160f0c8c14d450d817da2587180a929d45afcfa868e88223a2c021",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/saver:d637b4b",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "1867"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:1afdb47",
+      "compliant": false,
+      "deployments": [
+        232
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "243e8efaeb41bc687d0c177f114ecdf10afeeef6426f55efcb897081da369edc",
+      "creationTimestamp": [
+        1696224065
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "creator",
+      "git_commit": "1afdb47a2b4256cadea4b5ac1a6e1e0ac81b8f5e",
+      "commit_url": "https://github.com/cyber-dojo/creator/commit/1afdb47a2b4256cadea4b5ac1a6e1e0ac81b8f5e",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/creator/artifacts/243e8efaeb41bc687d0c177f114ecdf10afeeef6426f55efcb897081da369edc",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/creator",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/creator/compare/6746e511d05485812afaa231fab26a53b094ae95...1afdb47a2b4256cadea4b5ac1a6e1e0ac81b8f5e",
+        "previous_git_commit": "6746e511d05485812afaa231fab26a53b094ae95",
+        "previous_fingerprint": "b1a0ac824b5448244fea2fee2fa1cfcfc77acbb87331d02f2ddf82ecf3ad3d27",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:6746e51",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "364"
+    },
+    {
+      "name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/dashboard:5cee400",
+      "compliant": false,
+      "deployments": [
+        46
+      ],
+      "reasons_for_incompliance": [
+        {
+          "type": "failing_evidence",
+          "message": "Artifact has failed evidence for snyk-scan"
+        }
+      ],
+      "fingerprint": "5e5fe53a9f330552c9509adc3c6b8db38323e165c9307f0be1a515f5a562b405",
+      "creationTimestamp": [
+        1696223924
+      ],
+      "pods": null,
+      "annotation": {
+        "type": "unchanged",
+        "was": 1,
+        "now": 1
+      },
+      "flow_name": "dashboard",
+      "git_commit": "5cee400e2df410479b8118fca4956aea33ac8fe9",
+      "commit_url": "https://github.com/cyber-dojo/dashboard/commit/5cee400e2df410479b8118fca4956aea33ac8fe9",
+      "html_url": "https://app.kosli.com/cyber-dojo/flows/dashboard/artifacts/5e5fe53a9f330552c9509adc3c6b8db38323e165c9307f0be1a515f5a562b405",
+      "flow_html_url": "https://app.kosli.com/cyber-dojo/flows/dashboard",
+      "deployment_diff": {
+        "diff_url": "https://github.com/cyber-dojo/dashboard/compare/7d0dd9b4f06af7c57507530d2fa93ce229c8598e...5cee400e2df410479b8118fca4956aea33ac8fe9",
+        "previous_git_commit": "7d0dd9b4f06af7c57507530d2fa93ce229c8598e",
+        "previous_fingerprint": "d89112951e9eed696013f27f1b38f1e33d72cec801dcddf147ad7be645da2111",
+        "previous_artifact_name": "274425519734.dkr.ecr.eu-central-1.amazonaws.com/dashboard:7d0dd9b",
+        "previous_artifact_compliance_state": "COMPLIANT",
+        "previous_running": false
+      },
+      "commit_lead_time": "300"
+    }
+  ]
+}

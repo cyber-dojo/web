@@ -1,0 +1,9 @@
+// The age readout and the three checkboxes are shared across all LTFs of a
+// cluster, so #controls sits above the per-LTF tab bar (see show.erb), not
+// inside a tab. padding-top clears the fixed #top-bar; margin-left aligns it
+// with the tabs and the traffic-lights grid (both indented 35px).
+#controls
+{
+  margin-left: 35px;
+  padding-top: 39px;
+}

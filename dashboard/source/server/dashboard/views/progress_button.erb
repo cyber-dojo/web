@@ -1,0 +1,81 @@
+<div id="progress-button-box">
+  <button type="button"
+            id="progress-button">
+    progress?
+  </button>
+</div>
+
+<dialog id="progress-dialog">
+  <div class="dialog-header">
+    <span class="dialog-title">progress?</span>
+    <button class="dialog-close">close</button>
+  </div>
+  <div class="dialog-body"></div>
+</dialog>
+
+<script>
+'use strict';
+$(() => {
+
+  const $progressButton = $('#progress-button');
+
+  $progressButton.click(() => openProgressDialog());
+  cd.createTip($progressButton, 'open progress dialog');
+
+  const dialog = document.getElementById('progress-dialog');
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  const openProgressDialog = () => {
+    fetch(cd.mountedPath(`/progress/${cd.groupId()}`), { headers: cd.lib.jsonHeaders })
+      .then(r => r.json())
+      .then(data => {
+        dialog.querySelector('.dialog-body').innerHTML = progressTable(data.katas);
+        dialog.querySelectorAll('.avatar-image').forEach(img => {
+          img.addEventListener('click', () => window.open(`/kata/edit/${img.dataset.id}`));
+        });
+        dialog.showModal();
+      });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - -
+  const progressTable = (katas) => {
+    let html = '<table>';
+    let index = 0;
+    $.each(katas, (_name, kata) => {
+      index += 1;
+      html += progressTr(index, kata);
+    });
+    html += '</table>';
+    return html;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - -
+  const progressTr = (index, kata) => {
+    const parity = (index % 2 === 0) ? 'even' : 'odd';
+    return '' +
+      `<tr class='${parity} avatar'>` +
+        "<td class='progress'>" +
+          `<img src='/images/traffic-light/${kata.colour}.png'` +
+              " class='progress-traffic-light'" +
+              ` alt='${kata.colour} traffic-light'` +
+              " width='20'" +
+              " height='20'/>" +
+        '</td>' +
+        '<td>' +
+          `<img src='/images/avatars/${kata.avatar_index}.jpg'` +
+            ` data-id='${kata.id}'` +
+            " width='30'" +
+            " height='30'" +
+            " class='avatar-image'/>" +
+        '</td>' +
+        `<td class='${kata.colour} progress'>` +
+          kata.progress +
+        '</td>' +
+      '</tr>';
+  };
+
+});
+</script>

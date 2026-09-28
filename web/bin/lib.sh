@@ -12,6 +12,10 @@ set -Eeu
 export DOCKER_CLI_HINTS=false
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
+# Each app in this repo runs its containers as its own compose project, so one
+# app's test run or demo never stops or finds another app's containers.
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-web}"
+
 exit_non_zero_unless_installed()
 {
   printf "Checking ${1} is installed..."
@@ -239,13 +243,12 @@ installed()
 
 service_container()
 {
-  # Echo the container id of the given docker-compose service within
-  # this demo's project. The project is COMPOSE_PROJECT_NAME (set by
-  # bin/demo.sh), defaulting to web so the saver/test helpers work
-  # against a plain demo when the var is not exported in the shell.
+  # Echo the container id of the given docker-compose service within this
+  # app's compose project, COMPOSE_PROJECT_NAME (exported at the top of this
+  # file).
   local -r service="${1}"
   docker ps \
-    --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME:-web}" \
+    --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}" \
     --filter "label=com.docker.compose.service=${service}" \
     --format '{{.ID}}'
 }

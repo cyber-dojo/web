@@ -1,0 +1,20 @@
+
+<div id='age-panel'>
+  <span id='days'></span><span class='d-for-days'>d</span>
+  <span id='hours'></span><span class='h-for-hours'>h</span>
+  <span id='minutes'></span><span class='m-for-minutes'>m</span>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const tip = [
+    'The time between the oldest',
+    'and newest traffic-lights'
+  ].join('<br/>');
+
+  cd.createTip($('#age-panel'), tip);
+
+});
+</script>

@@ -1,0 +1,30 @@
+version: 1
+
+trail:
+  attestations:
+    - name: pull-request
+      type: pull_request
+  artifacts:
+    - name: dashboard
+      attestations:
+        - name: provenance-facts
+          type: custom:provenance-facts
+        - name: provenance-decision
+          type: decision
+
+        - name: sbom-facts
+          type: custom:sbom-facts
+        - name: sbom-decision
+          type: decision
+
+        - name: snyk-container-scan
+          type: decision
+
+        - name: rubocop-lint
+          type: junit
+        - name: sonarcloud-scan
+          type: sonar
+        - name: unit-test
+          type: junit
+        - name: unit-test-coverage
+          type: generic

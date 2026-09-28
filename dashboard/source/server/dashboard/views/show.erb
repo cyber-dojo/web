@@ -1,0 +1,75 @@
+<div id="hover-tip-container"></div>
+<%= erb :id %>
+<%= erb :manifest %>
+<%= erb :top_bar %>
+<%= erb :controls %>
+<%= erb :tabs %>
+<div id="dashboard-page">
+  <%= erb :traffic_lights %>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  cd.refresh();
+  const seconds = (n) => n * 1000; // millisecs
+
+  // For a cluster (more than one tab) the auto-refresh heartbeat slowly
+  // rotates through the child groups: it dwells on each group for DWELL_BEATS
+  // heartbeats (refreshing its data in place) then advances to the next tab.
+  // It only rotates onto a group that currently has activity (an avatar with a
+  // non-creation event), per /active_groups, skipping dormant tabs; if no other
+  // group is active it stays put. All tabs stay visible either way. A standalone
+  // group (no tabs) just refreshes in place. Rotation is driven entirely by the
+  // existing auto-refresh checkbox; it is time-based apart from this dwell counter.
+  const DWELL_BEATS = 3; // ~30s per group (heartbeat fires every 10s)
+  let dwell = 0;
+  cd.resetDwell = () => { dwell = 0; };
+
+  const isCluster = () => cd.tabs().length > 1;
+
+  // The next tab (in tab order, wrapping) whose group has activity in the
+  // active-map from /active_groups. Falls back to the current group when no
+  // other active group exists, so rotation never lands on a dormant tab.
+  const nextActiveGroupId = (active) => {
+    const ids = cd.tabs().map((tab) => tab['id']);
+    const start = ids.indexOf(cd.groupId());
+    for (let step = 1; step <= ids.length; step++) {
+      const candidate = ids[(start + step) % ids.length];
+      if (active[candidate]) { return candidate; }
+    }
+    return cd.groupId();
+  };
+
+  // Advance the rotation onto the next active group; if that is the current
+  // group (nothing else active) just refresh in place.
+  const rotateToNextActiveGroup = () => {
+    fetch(cd.mountedPath(`/active_groups/${cd.id()}`), { headers: cd.lib.jsonHeaders })
+      .then((response) => response.json())
+      .then((active) => {
+        const nextId = nextActiveGroupId(active);
+        if (nextId === cd.groupId()) {
+          cd.refresh();
+        } else {
+          cd.activateGroup(nextId); // advances the tab and refreshes
+        }
+      })
+      .catch(() => cd.refresh());
+  };
+
+  const heartbeat = () => {
+    if (cd.autoRefresh.isChecked()) {
+      if (isCluster() && ++dwell >= DWELL_BEATS) {
+        dwell = 0;
+        rotateToNextActiveGroup();
+      } else {
+        cd.refresh();
+      }
+    }
+    setTimeout(heartbeat, seconds(10));
+  };
+  setTimeout(heartbeat, seconds(10));
+
+});
+</script>

@@ -1,0 +1,44 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.highlightFilenames = () => [];
+  cd.extensionFilenames = () => [];
+  cd.progressRegexs = () => [];
+
+  // Loads the active child group's manifest (display-name, exercise, progress
+  // regexs). Called on page load and again on each cluster tab switch, so the
+  // top-bar and progress button always reflect the child group being shown.
+  cd.loadManifest = () => {
+    const params = new URLSearchParams({id: cd.groupId()});
+    fetch(`/saver/group_manifest?${params}`, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(r => r.json())
+      .then(json => {
+        const manifest = json.group_manifest;
+        cd.highlightFilenames = () => manifest.highlight_filenames;
+        cd.extensionFilenames = () => manifest.filename_extension;
+        cd.progressRegexs     = () => manifest.progress_regexs;
+        // In cluster mode the top-bar represents the whole cluster: show the
+        // cluster-wide exercise and the cluster id (cd.id()), and drop the
+        // per-LTF display-name and child group id - those live in the tabs, so
+        // showing them here too would duplicate the active tab. Standalone
+        // groups keep the original display-name + group id.
+        if (cd.tabs().length > 1) {
+          $('#display-name-box').hide();
+          $('#id-box').html(cd.id());
+        } else {
+          $('#display-name-box').show().html(manifest.display_name);
+          $('#id-box').html(manifest.id);
+        }
+        $('#exercise-name-box').html(manifest.exercise);
+        // Disable (grey out, unclickable) the progress button when this LTF has
+        // no progress_regexs - do NOT hide it - so its slot stays visible and
+        // consistent whichever tab is active.
+        $('#progress-button').prop('disabled', cd.progressRegexs().length === 0);
+      });
+  };
+
+  cd.loadManifest();
+
+});
+</script>

@@ -54,7 +54,7 @@ build_web_image()
   echo
   docker --log-level=ERROR compose \
     --file="$(repo_root)/docker-compose.yml" \
-    build
+    build web
 }
 
 assert_web_image_has_sha_env_var()

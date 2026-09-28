@@ -34,11 +34,26 @@ services:
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
     platform: linux/amd64
+    build:
+      context: .
+      target: dashboard
+      args:
+        - COMMIT_SHA
     user: nobody
-    env_file: [ .env ]
+    depends_on:
+      - differ
+      - saver
+    env_file: [ dashboard.env ]
     read_only: true
     restart: no
-    tmpfs: /tmp
+    volumes:
+      - ./dashboard/source/server:/dashboard/source:ro
+      - ./dashboard/test:/dashboard/test:ro
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
@@ -80,7 +95,7 @@ services:
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     platform: linux/amd64
-    user: root
+    user: saver
     env_file: [ .env ]
     read_only: true
     restart: no

@@ -1,0 +1,12 @@
+.traffic-light-count
+{
+  width: 30px;
+  @include non-code-font();
+  cursor: default;
+  margin: 0px;
+  padding: { left: 8px; right: 12px; } // right: space before the lights
+  font-size: 22px;
+  position: relative;
+  top: -2px;
+  text-align: right;
+}

@@ -1,0 +1,110 @@
+@import "lib/all";
+@import "checkboxes";
+@import "panels";
+@import "avatar-image";
+@import "traffic-lights";
+@import "traffic-light-count";
+@import "time-tick";
+@import "age";
+@import "collapsed-columns";
+@import "minute-box";
+@import "fixed-column";
+@import "column";
+@import "diff-line-count";
+@import "diff-filename";
+@import "top-bar";
+@import "cluster-tabs";
+@import "controls";
+// - - - - - - - - - - - - - - - - - - -
+
+#dashboard-page
+{
+  margin: { left:35px; right:35px; top:0px; }
+
+  .table-scroll
+  {
+    max-height: calc(100dvh - 90px);
+    z-index: 1;
+    overflow-x: auto;
+    overflow-y: auto;
+    table
+    {
+      // max-content keeps the table sized to its content so it does not
+      // expand to fill max-width on a sparse dashboard, while keeping
+      // display:table so position:sticky works for the full scroll range.
+      width: max-content;
+      height: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    th, td { vertical-align: middle; }
+    thead th
+    { // fix vertical positions of time-tick column headings
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background: $darker-color; // overlay what scrolls underneath
+    }
+    th:nth-child(1)
+    { // fix horizontal position of
+      position: sticky; // [avatar-image] (pie-chart) traffic-light-count
+      position: -webkit-sticky;
+      z-index: 2;
+      background: $darker-color; // overlay what scrolls underneath
+      left: 0px;
+    }
+    thead th:nth-child(1) { z-index: 5; }
+  }
+}
+
+.traffic-light-diff-tip-tag
+{
+  @include non-code-font;
+       font-size: 12px;
+       text-align: right;
+}
+
+.traffic-light-diff-tip-traffic-light-image
+{
+  height: 22px;
+   width: 22px;
+   border-radius: 12px;
+   margin-right:4px;
+}
+
+.traffic-light-diff-tip-avatar-image
+{
+  @include rounded-corner(4px);
+   width: 26px !important;
+  height: 26px !important;
+}
+
+@mixin diff-line-count
+{
+  text-align: right;
+      margin: 0px;
+      margin: { bottom: 2px; }
+     padding: 2px;
+   font-size: 13px;
+       width: 20px;
+}
+
+.traffic-light-diff-tip-line-count-deleted,
+.traffic-light-diff-tip-line-count-added
+{
+  @include rounded-corner(4px);
+  @include right-align(0px);
+  @include diff-line-count;
+  @include non-code-font;
+  color: $darker-color;
+  border: 1px solid lighten($darker-color,6%);
+}
+
+.traffic-light-diff-tip-line-count-deleted
+{
+  background: $diff-deleted-count-color;
+}
+.traffic-light-diff-tip-line-count-added
+{
+  background: $diff-added-count-color;
+}

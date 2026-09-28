@@ -1,0 +1,17 @@
+<script>
+'use strict';
+$(() => {
+  // cd.id() is the shared/top id in the URL (a cluster id for a multi-LTF
+  // practice, else a group id). cd.groupId() is the child group currently
+  // shown - it equals cd.id() for a standalone group, and switches per tab
+  // for a cluster. All per-child fetches (heartbeat, group_manifest,
+  // progress) key off cd.groupId(), not cd.id().
+  cd.id = () => "<%= @id %>";
+
+  let _groupId = "<%= @group_id %>";
+  cd.groupId = () => _groupId;
+  cd.setGroupId = (groupId) => { _groupId = groupId; };
+
+  cd.tabs = () => <%= @tabs.to_json %>;
+});
+</script>

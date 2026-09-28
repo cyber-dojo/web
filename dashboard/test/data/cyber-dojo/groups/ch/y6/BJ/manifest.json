@@ -1,0 +1,86 @@
+{
+  "display_name": "Ruby, MiniTest",
+  "hidden_filenames": [
+    "coverage/\\.last_run\\.json",
+    "coverage/\\.resultset\\.json"
+  ],
+  "image_name": "cyberdojofoundation/ruby_mini_test",
+  "filename_extension": [
+    ".rb"
+  ],
+  "tab_size": 2,
+  "visible_files": {
+    "test_hiker.rb": {
+      "content": [
+        "require_relative 'coverage'\n",
+        "require_relative 'hiker'\n",
+        "require 'minitest/autorun'\n",
+        "\n",
+        "class TestHiker < MiniTest::Test\n",
+        "\n",
+        "  def test_life_the_universe_and_everything\n",
+        "    assert_equal 42, answer\n",
+        "  end\n",
+        "\n",
+        "end\n"
+      ]
+    },
+    "hiker.rb": {
+      "content": [
+        "\n",
+        "def answer\n",
+        "  6 * 9\n",
+        "end\n"
+      ]
+    },
+    "cyber-dojo.sh": {
+      "content": [
+        "for test_file in *test*.rb\n",
+        "do\n",
+        "  ruby $test_file\n",
+        "done\n"
+      ]
+    },
+    "coverage.rb": {
+      "content": [
+        "require 'simplecov'\n",
+        "require 'simplecov-console'\n",
+        "SimpleCov.formatter = SimpleCov::Formatter::Console\n",
+        "SimpleCov.start\n"
+      ]
+    },
+    "readme.txt": {
+      "content": [
+        "There are four types of common coins in US currency:\n",
+        "  quarters (25 cents)\n",
+        "  dimes (10 cents)\n",
+        "  nickels (5 cents) \n",
+        "  pennies (1 cent)\n",
+        "  \n",
+        "There are 6 ways to make change for 15 cents:\n",
+        "  A dime and a nickel;\n",
+        "  A dime and 5 pennies;\n",
+        "  3 nickels;\n",
+        "  2 nickels and 5 pennies;\n",
+        "  A nickel and 10 pennies;\n",
+        "  15 pennies.\n",
+        "  \n",
+        "How many ways are there to make change for a dollar\n",
+        "using these common coins? (1 dollar = 100 cents).\n",
+        "\n",
+        "[Source http://rosettacode.org]"
+      ]
+    }
+  },
+  "exercise": "Count_Coins",
+  "created": [
+    2019,
+    1,
+    19,
+    12,
+    41,
+    0,
+    406370
+  ],
+  "id": "chy6BJ"
+}

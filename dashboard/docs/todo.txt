@@ -1,0 +1,2 @@
+
+- If the group is v0, v1 then the detailed[x] checkbox should be disabled.
