@@ -21,8 +21,8 @@ exit_non_zero_if_on_ci()
   # buildkit rewrite-timestamp), so rebuilding identical source still yields a
   # new digest, and that digest cannot be recomputed afterwards. The test and
   # scan evidence would then vouch for an artifact nobody tested, which is the
-  # one direction that must never happen. Hence `make test_server` does not
-  # depend on the image target, and building on CI is an error rather than a
+  # one direction that must never happen. Hence `make web_test_server` does not
+  # depend on web_image, and building on CI is an error rather than a
   # slow path.
   if on_ci; then
     stderr "Inside CI workflow you must use secure-docker-build.yml reusable workflow"

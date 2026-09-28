@@ -107,7 +107,7 @@ jobs:
 
       - name: Run Rubocop linter on source
         run:
-          make rubocop-lint
+          make web_rubocop_lint
 
       # Both configs are attached: .rubocop.yml alone would not show which
       # cops are grandfathered, and that is what says how much the lint covers.
@@ -174,7 +174,7 @@ jobs:
 
       - name: Run server tests
         run:
-          make test_server
+          make web_test_server
 
       # Evidence for SDLC-CTRL-0008 (Quality Assurance): test results documented
       # and linked to the artifact they tested. Attested even when the run
@@ -196,7 +196,7 @@ jobs:
       # The policy is fetched rather than named by URL so the copy attached to
       # each decision is the same bytes that were evaluated. The URL itself
       # lives in web/bin/lib.sh, which the metrics checks fetch through too, so this
-      # job and 'make metrics_test' cannot judge by different policies.
+      # job and 'make web_metrics_test' cannot judge by different policies.
       - name: Get the metrics policy
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
@@ -266,14 +266,14 @@ jobs:
             --attachments="${PARAMS_COVERAGE_FILENAME}"
             --name=web.coverage-decision
 
-      # The targets a developer runs, in the order 'make all' runs them, for the
+      # The targets a developer runs, in the order 'make web_all' runs them, for the
       # same reason they run there: same policy, same params, same flags. The
       # steps above judge the trail, which is Kosli's copy of these numbers and
       # cannot be judged from a laptop.
       #
-      # test_check_metrics comes first, as it does in 'make all': it checks that
-      # a breached bound reaches make as a non-zero exit, so the two targets
-      # after it can be trusted to fail.
+      # web_test_check_metrics comes first, as it does in 'make web_all': it
+      # checks that a breached bound reaches make as a non-zero exit, so the two
+      # targets after it can be trusted to fail.
       #
       # The version is taken from the CLI setup-kosli-cli installed, so the
       # container these targets run is the version this job's own kosli commands
@@ -285,7 +285,7 @@ jobs:
       # same breach several jobs later.
       - name: Judge the metrics as a developer does
         run: |
-          KOSLI_CLI_VERSION="$(kosli version --short)" make test_check_metrics metrics_test metrics_coverage
+          KOSLI_CLI_VERSION="$(kosli version --short)" make web_test_check_metrics web_metrics_test web_metrics_coverage
 
 
   # The client tests gate the build but are not attested. They drive the served
@@ -305,7 +305,7 @@ jobs:
 
       - name: Run client tests
         run:
-          make test_client
+          make web_test_client
 
 
   sdlc-control-gate:
