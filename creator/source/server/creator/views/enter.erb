@@ -1,0 +1,256 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+	
+  const $title = $('.title');
+  const type = cd.urlParam('type');
+  
+  if (type != undefined) {
+	$title.text(`created a new ${type} practice`);
+  } else {
+	$title.text('enter an existing practice');
+  }
+  
+  const phonetic = {
+    '0' : 'zero',
+    '1' : 'one',
+    '2' : 'two',
+    '3' : 'three',
+    '4' : 'four',
+    '5' : 'five',
+    '6' : 'six',
+    '7' : 'seven',
+    '8' : 'eight',
+    '9' : 'nine',
+
+    'A' : 'ALPHA',
+    'B' : 'BRAVO',
+    'C' : 'CHARLIE',
+    'D' : 'DELTA',
+    'E' : 'ECHO',
+    'F' : 'FOXTROT',
+    'G' : 'GOLF',
+    'H' : 'HOTEL',
+    'I' : 'INDIA',
+    'J' : 'JULIETT',
+    'K' : 'KILO',
+    'L' : 'LIMA',
+    'M' : 'MIKE',
+    'N' : 'NOVEMBER',
+    'O' : 'OSCAR',
+    'P' : 'PAPPA',
+    'Q' : 'QUEBEC',
+    'R' : 'ROMEO',
+    'S' : 'SIERRA',
+    'T' : 'TANGO',
+    'U' : 'UNIFORM',
+    'V' : 'VICTOR',
+    'W' : 'WHISKEY',
+    'X' : 'XRAY',
+    'Y' : 'YANKEE',
+    'Z' : 'ZULU',
+
+
+    'a' : 'alpha',
+    'b' : 'bravo',
+    'c' : 'charlie',
+    'd' : 'delta',
+    'e' : 'echo',
+    'f' : 'foxtrot',
+    'g' : 'golf',
+    'h' : 'hotel',
+    'i' : 'india',
+    'j' : 'juliett',
+    'k' : 'kilo',
+    'l' : 'lima',
+    'm' : 'mike',
+    'n' : 'november',
+    'o' : 'oscar',
+    'p' : 'pappa',
+    'q' : 'quebec',
+    'r' : 'romeo',
+    's' : 'sierra',
+    't' : 'tango',
+    'u' : 'uniform',
+    'v' : 'victor',
+    'w' : 'whiskey',
+    'x' : 'xray',
+    'y' : 'yankee',
+    'z' : 'zulu'
+  };
+
+  const $idInput = $('input#id');
+  const $waitSpinner = $('.wait-spinner');
+  const $phoneticId = $('.phonetic-id');
+  const $ltfName = $('.ltf-name');
+
+  const $openSingleButton = $('button.enter.single');
+
+  const $enterGroupButton = $('button.enter.group');
+  const $reenterGroupButton = $('button.reenter.group');
+  const $openDashboardButton = $('button.open.dashboard');
+
+  const $allGroupButtons = $enterGroupButton.add($reenterGroupButton).add($openDashboardButton);
+
+  const $clusterButtons = $('.cluster-ltf-buttons');
+
+  let id = $idInput.val();
+  let idType = undefined;
+
+  $idInput.isDisabled = () => $idInput.attr('disabled');
+  $idInput.disable = () => $idInput.attr('disabled',  true);
+  $idInput.enable  = () => $idInput.attr('disabled', false);
+
+  const showPhoneticId = () => {
+    let html = '';
+    for (let i = 0; i < id.length; i++) {
+      html += phonetic[id.charAt(i)];
+      html += '&nbsp;&nbsp;';
+    }
+    $phoneticId.show().html(html);
+  };
+
+  // A group's LTF (language + test-framework) name, shown as a row below the
+  // phonetic id whenever the entered id is a group.
+  const showLtfName = () => {
+    const route = cd.mountedPath(`/group_display_name?id=${urlId()}`);
+    $.get(route, (response) => $ltfName.text(response.display_name).show());
+  };
+
+  // A cluster offers several LTFs. Show one button per child group, labelled
+  // with the LTF display name (not its id). Clicking one behaves exactly as if
+  // that child group's id had been typed in: setButtonStates() re-runs, sees a
+  // group, and reveals the id + the three group buttons.
+  const enterAsChildGroup = (childId) => {
+    $idInput.val(childId);
+    setButtonStates();
+  };
+
+  const showClusterButtons = () => {
+    const clusterId = urlId();
+    const route = cd.mountedPath(`/cluster_children?id=${clusterId}`);
+    $.get(route, (response) => {
+      $clusterButtons.empty();
+      response.children.forEach((child) => {
+        const $button = $('<button>', {
+          'type': 'button',
+          'class': 'large enter ltf',
+          'text': child.display_name
+        });
+        $button.click(() => enterAsChildGroup(child.id));
+        $clusterButtons.append($button);
+      });
+      // Below the LTF buttons, a smaller button opens the whole cluster's
+      // dashboard, passing the cluster id (not a child group's id).
+      const $dashboard = $('<button>', {
+        'type': 'button',
+        'class': 'medium cluster-dashboard',
+        'text': 'open dashboard'
+      });
+      $dashboard.click(() => cd.windowOpen(`/dashboard/show/${clusterId}`));
+      $clusterButtons.append($dashboard);
+      $clusterButtons.show();
+    });
+  };
+
+  const hideAllButtons = () => {
+    $openSingleButton.hide();
+    $allGroupButtons.hide();
+    $clusterButtons.empty().hide();
+  };
+
+  const setButtonStates = () => {
+    id = $idInput.val();
+    $ltfName.hide();
+    if (id.length < 6) {
+      $idInput.removeClass('invalid');
+      $phoneticId.hide();
+      hideAllButtons();
+      return;
+    }
+    if (id.length > 6) {
+      $idInput.addClass('invalid');
+      $phoneticId.hide();
+      hideAllButtons();
+      return;
+    }
+    $waitSpinner.fadeIn('fast', () => {
+      const route = cd.mountedPath(`/id_type?id=${encodeURIComponent(id)}`);
+      $.get(route, (response) => {
+        idType = response.id_type;
+        $waitSpinner.fadeOut('fast', () => {
+          hideAllButtons();
+          if (idType) {
+            $idInput.removeClass('invalid');
+            showPhoneticId();
+            if (idType === 'group') {
+              $allGroupButtons.show().css('display', 'block');
+              showLtfName();
+            }
+            if (idType === 'single') {
+              // display:block puts the button on its own row, directly below
+              // the id entry field, so it is a short mouse move from typing.
+              $openSingleButton.show().css('display', 'block');
+              $openSingleButton.attr('href', `/kata/edit/${urlId()}`);
+              $openSingleButton.attr('target', "_blank");
+            }
+            if (idType === 'cluster') {
+              showClusterButtons();
+            }
+          } else {
+            $idInput.addClass('invalid');
+            $phoneticId.hide();
+          }
+        });
+      });
+    });
+  };
+
+  const idInputChange = () => {
+    if ($idInput.val() === id) {
+      return;
+    } else {
+      setButtonStates();
+    }
+  };
+
+  const urlId = () => encodeURIComponent(id);
+
+  $idInput.keyup(() => idInputChange()).focus();
+
+  $enterGroupButton.click(() => {
+    const json = JSON.stringify({"id":id});
+    $.post(cd.mountedPath('/enter.json'), json, (response) => cd.goto(response.route));
+  });
+
+  $reenterGroupButton.click (() => cd.goto(cd.mountedPath(`/reenter?id=${urlId()}`)));
+
+  $openDashboardButton.click(() => cd.windowOpen(`/dashboard/show/${urlId()}`));
+
+  $openSingleButton.click   (() => {
+      cd.windowOpen(`/kata/edit/${urlId()}`);
+      $('.home-icon').click();
+  });
+
+  setButtonStates();
+
+});
+</script>
+
+<div id="enter-page">
+  <div class="edged-panel">
+    <div class="title"></div>
+    <div class="sub-title">the ID of your practice is...</div>
+    <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
+    <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">
+    <div class="phonetic-id"></div>
+    <div class="ltf-name"></div>
+    <div class="cluster-ltf-buttons" style="display:none;"></div>
+    <button type="button" class="large enter group" style="display:none;">enter group practice as <u>new</u> avatar</button>
+    <button type="button" class="medium reenter group"  style="display:none;">join group practice as <u>existing</u> avatar</button>
+    <button type="button" class="medium open dashboard" style="display:none;">open dashboard</button>
+    <button type="button" class="large enter single"    style="display:none;">ok</button>
+  </div>
+</div>

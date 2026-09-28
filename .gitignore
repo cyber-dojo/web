@@ -5,6 +5,7 @@
 # except these dirs...
 
 !/.github
+!/creator
 !/dashboard
 !/deployment
 !/flow-templates
@@ -12,6 +13,10 @@
 
 # but still ignore these generated dirs inside them...
 
+/creator/reports/
+/creator/test/evidence.json
+/creator/test/server/reports/
+/creator/test/client/reports/
 /dashboard/reports/
 /web/reports/
 
@@ -20,6 +25,7 @@
 !/.dockerignore
 !/.gitignore
 !/CONTRIBUTING.md
+!/creator.env
 !/dashboard.env
 !/docker-compose.yml
 !/docker-compose-depends.yml

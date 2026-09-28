@@ -1,0 +1,3 @@
+# This file specifies snyk vulnerabilities to be ignored.
+# If this file contains only comments, then no vulnerabilities are ignored
+# but do not delete this file - it is needed for the live-snyk-scans repo workflows.

@@ -25,11 +25,23 @@ services:
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
+    build:
+      context: .
+      target: creator
+      args:
+        - COMMIT_SHA
     user: nobody
-    env_file: [ .env ]
+    env_file: [ .env, creator.env ]
     read_only: true
-    tmpfs: /tmp
     restart: no
+    volumes:
+      - ./creator/source/server:/app/source:ro
+      - ./creator/test:/app/test:ro
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}

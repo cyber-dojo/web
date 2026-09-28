@@ -1,0 +1,52 @@
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - test/**/*
+
+# Rubocop's default of 120 is far longer than this codebase needs. Long lines
+# here come from long identifiers rather than dense logic, so they gain nothing
+# from the extra room.
+#
+# This also works with Style/IfUnlessModifier, which demands the one-line
+# modifier form whenever it fits inside this Max, so the ceiling is what pushes
+# a long "do_something(...) if condition" out into an if/end block, the more
+# readable shape once the line gets long.
+Layout/LineLength:
+  Max: 80
+
+Lint/PercentStringArray:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# ENV['X'] is used deliberately for its nil-on-missing semantics (eg
+# scoped_env_var_helper.rb reads and later restores ENV[name]); ENV.fetch
+# would raise instead. So this cop does not fit this codebase.
+Style/FetchEnvVar:
+  Enabled: false
+
+# By default this cop demands a "# frozen_string_literal: true" comment at the
+# top of every file. We deliberately add none: strings are already frozen
+# globally at runtime via RUBYOPT=--enable-frozen-string-literal (see
+# source/server/config/up.sh, source/client/config/up.sh), so such a comment
+# would be redundant. Mirrors the sibling repos (eg ../differ).
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - source/**/*
+
+Style/EmptyElse:
+  Exclude:
+    - source/server/creator/id_typer.rb
+
+# ServiceError is a value object that mirrors the fields of a failed HTTP
+# response (path, args, name, body, status, message). All six are inherent to
+# what the error carries, so the constructor legitimately takes six arguments.
+Metrics/ParameterLists:
+  Exclude:
+    - source/server/creator/http_json_hash/service_error.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - source/server/creator/app.rb

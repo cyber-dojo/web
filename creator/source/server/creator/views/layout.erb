@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>cyber-dojo</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Free Online Coding Dojo" />
+    <meta name="keywords" content="Free Online Coding Dojo Kata Deliberate Software Team Practice" />
+    <meta name="author" content="Jon Jagger" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs"
+            crossorigin="anonymous"></script>
+    <link href="<%= path_to(CSS_PATH) %>" rel="stylesheet" />
+    <script src="<%= path_to(JS_PATH) %>"></script>
+    <%# app.js creates the cd namespace, so this must follow it. %>
+    <script>cd.mountPath = '<%= request.script_name %>';</script>
+  </head>
+  <body>
+    <img class="home-icon"
+         src="/images/cyber-dojo.png"
+         style="width:20px;height:20px;"
+         data-tip="go back to the home page"/>
+    <div id="hover-tip-container"></div>
+    <%= yield %>
+  </body>
+</html>

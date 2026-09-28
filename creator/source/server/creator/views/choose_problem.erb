@@ -1,0 +1,41 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+
+  $('button.next').click(() => {
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    cd.goto(cd.mountedPath(`/choose_ltf?${cd.urlParams()}&exercise_name=${name}`));
+  });
+
+  // Only a 'single' practice (type=kata) may skip choosing an exercise;
+  // a 'classroom' practice (type=group) must choose one.
+  if (cd.urlParam('type') === 'kata') {
+    $('button.skip').click(() => cd.goto(cd.mountedPath(`/choose_ltf?${cd.urlParams()}&exercise_name=`)));
+  } else {
+    $('button.skip').hide();
+  }
+
+  $('button.switch').click(() => cd.goto(cd.mountedPath(`/choose_custom_problem?${cd.urlParams()}`)));
+
+});
+</script>
+
+<div id="choose-problem-page">
+  <div class="edged-panel">
+    <div class="title">create a new practice</div>
+    <div class="header-row">
+      <div class="sub-title">choose your exercise</div>
+      <div class="help"><a href="https://github.com/cyber-dojo/exercises-start-points/blob/main/CONTRIBUTING.md" target="_blank">I'd like to contribute</a> a new exercise</div>
+    </div>
+    <%= erb :'shared/display_names' %>
+    <div class="footer-row">
+      <button type="button" class="large next" disabled>next</button>
+      <div class="stacked-buttons">
+        <button type="button" class="switch">switch to custom exercises</button>
+        <button type="button" class="skip">skip the exercise</button>
+      </div>
+    </div>
+  </div>
+</div>

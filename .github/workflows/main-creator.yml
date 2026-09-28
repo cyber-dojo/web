@@ -1,0 +1,264 @@
+name: Main creator
+
+on:
+  push:
+    paths:
+      - 'creator/**'
+      - 'creator.env'
+      - 'deployment/terraform-creator/**'
+      - 'flow-templates/**'
+      - 'Dockerfile'
+      - 'Makefile'
+      - 'docker-compose*.yml'
+      - '.dockerignore'
+      - '.github/workflows/main-creator.yml'
+
+env:
+  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  KOSLI_AWS_BETA:  ${{ vars.KOSLI_AWS_BETA }}          # aws-beta
+  KOSLI_DEBUG:     ${{ vars.KOSLI_DEBUG }}             # true/false
+  KOSLI_DRY_RUN:   ${{ vars.KOSLI_DRY_RUN }}           # true/false
+  KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
+  KOSLI_ORG:       ${{ vars.KOSLI_ORG }}               # cyber-dojo
+  KOSLI_FLOW:      creator-ci
+  KOSLI_TRAIL:     ${{ github.sha }}
+
+  AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
+  AWS_REGION:          ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
+  SERVICE_NAME:        creator
+
+jobs:
+
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      aws_account_id_beta:      ${{ steps.vars.outputs.aws_account_id_beta }}
+      ecr_registry:             ${{ steps.vars.outputs.ecr_registry }}
+      aws_region:               ${{ steps.vars.outputs.aws_region }}
+      gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
+      service_name:             ${{ steps.vars.outputs.service_name }}
+      image_tag:                ${{ steps.vars.outputs.image_tag }}
+      image_name:               ${{ steps.vars.outputs.image_name }}
+      kosli_flow:               ${{ steps.vars.outputs.kosli_flow }}
+      kosli_trail:              ${{ steps.vars.outputs.kosli_trail }}
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+
+      - name: Prepare outputs for workflow jobs
+        id: vars
+        run: |
+          ECR_REGISTRY="${AWS_ECR_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+          IMAGE_TAG="${GITHUB_SHA:0:7}"
+          IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
+          {
+            echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"
+            echo "ecr_registry=${ECR_REGISTRY}"
+            echo "aws_region=${AWS_REGION}"
+            echo "gh_actions_iam_role_name=gh_actions_services"
+            echo "service_name=${{ env.SERVICE_NAME }}"
+            echo "image_tag=${IMAGE_TAG}"
+            echo "image_name=${IMAGE_NAME}"
+            echo "kosli_flow=${KOSLI_FLOW}"
+            echo "kosli_trail=${KOSLI_TRAIL}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Begin Kosli Trail
+        uses: cyber-dojo/kosli-begin-trail@main
+        with:
+          template_filename: creator/.kosli.yml
+          flow_description: "UX for Group/Kata creation"
+          flow_tags: |
+            env=${{ env.KOSLI_AWS_BETA }}
+            kind=build
+            ci=github
+            repo_url=${{ github.server_url }}/${{ github.repository }}
+
+
+  pull-request:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    needs: [setup]
+    permissions:
+      id-token:      write
+      contents:      read
+      pull-requests: read
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Attest pull-request evidence to Kosli
+        run:
+          kosli attest pullrequest github
+            --github-token=${{ secrets.GITHUB_TOKEN }}
+            --name=pull-request
+
+
+  rubocop-lint:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Run Rubocop linter on source
+        run:
+          make creator_rubocop_lint
+
+      - name: Attest rubocop evidence to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest junit
+            --name=creator.rubocop-lint
+            --results-dir=./creator/reports/rubocop
+            --attachments=./creator/.rubocop.yml
+
+
+  build-image:
+    needs: [setup]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
+    with:
+      checkout_repository: cyber-dojo/web
+      checkout_ref: ${{ github.sha }}
+      checkout_fetch_depth: 1
+      target: creator
+      image_name: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
+      image_tag: ${{ needs.setup.outputs.image_tag }}
+      image_build_args: |
+        COMMIT_SHA=${{ github.sha }}
+      kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
+      kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
+      kosli_reference_name: ${{ needs.setup.outputs.service_name }}
+      attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}
+    secrets:
+      kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
+
+
+  snyk-container-scan:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [setup, build-image]
+    uses: cyber-dojo/snyk-scanning/.github/workflows/artifact_snyk_test.yml@main
+    with:
+      artifact_name: ${{ needs.build-image.outputs.tagged_image_name }}
+      kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
+      kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
+      kosli_attestation_name: creator.snyk-container-scan
+    secrets:
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
+      kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
+
+
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: [build-image]
+    env:
+      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Download the docker image built in the build-image job
+        uses: cyber-dojo/download-artifact@main
+        with:
+          image_digest: ${{ needs.build-image.outputs.digest }}
+
+      - name: Tag downloaded image as the name docker-compose expects
+        # The build-image job pushed/saved the image as <ecr>/creator:<tag>.
+        # docker-compose looks it up under ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+        # (cyberdojo/creator:<tag>, from cyberdojo/versioner). Retag the downloaded
+        # image to that name so 'make creator_test' uses the built artifact and does NOT
+        # rebuild it from source.
+        run: |
+          source creator/bin/echo_env_vars.sh
+          # shellcheck disable=SC2046
+          export $(echo_env_vars)
+          docker tag \
+            "${{ needs.build-image.outputs.tagged_image_name }}" \
+            "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
+
+      - name: Run server tests with branch coverage, and the browser tests
+        run: |
+          set +e
+          make creator_test
+          echo "TEST_STATUS=$?" >> "${GITHUB_ENV}"
+          set -e
+
+      - name: Attest JUnit test evidence to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest junit
+            --name=creator.unit-test
+            --results-dir=creator/test/server/reports/junit
+
+      - name: Attest unit-test-coverage evidence to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run: |
+          KOSLI_COMPLIANT=$([ "${TEST_STATUS}" = 0 ] && echo true || echo false)
+          kosli attest generic \
+            --attachments=./creator/test/evidence.json \
+            --attachments=./creator/test/server/reports \
+            --attachments=./creator/test/client/reports \
+            --compliant="${KOSLI_COMPLIANT}" \
+            --description="server branch-coverage, plus the browser test run" \
+            --name=creator.unit-test-coverage
+
+      - name: Fail job if tests failed
+        if: ${{ always() }}
+        run: exit "${TEST_STATUS}"
+
+
+  sdlc-control-gate:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    needs:
+      - build-image
+      - pull-request
+      - rubocop-lint
+      - unit-test
+      - snyk-container-scan
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Display current compliance
+        run:
+          kosli get trail "${KOSLI_TRAIL}"
+            --output markdown >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Kosli SDLC gate to short-circuit the workflow
+        env:
+          KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+        run:
+          kosli assert artifact
+            --environment="${KOSLI_AWS_BETA}"
+
+
+  deploy-to-beta:
+    needs: [setup, build-image, sdlc-control-gate]
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: read
+    uses: kosli-dev/tf/.github/workflows/apply.yml@main
+    with:
+      aws_region: eu-central-1
+      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      environment: beta
+      working_directory: deployment/terraform-creator/
+      tf_version: v1.14.9
+      tf_vars: |
+        TF_VAR_TAGGED_IMAGE=${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}
+      kosli_host: ${{ vars.KOSLI_HOST }}
+      kosli_org: cyber-dojo
+      kosli_template_file: flow-templates/kosli-apply.yml
+    secrets:
+      kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
+      kosli_github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+# Deployment to aws-prod Environment is done with a Release/Promotion workflow.
+# See https://github.com/cyber-dojo/aws-prod-co-promotion

@@ -1,0 +1,4 @@
+{"index":0,"time":[2020,10,19,12,52,46,396907],"event":"created"},
+{"time":[2020,10,19,12,52,54,772809],"duration":0.491393,"colour":"red","predicted":"none","index":1},
+{"time":[2020,10,19,12,52,58,547002],"duration":0.426736,"colour":"amber","predicted":"none","index":2},
+{"time":[2020,10,19,12,53,3,256202],"duration":0.438522,"colour":"green","predicted":"none","index":3}

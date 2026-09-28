@@ -1,0 +1,41 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+
+  const kataId = "<%= @kata_id %>";
+  const avatarIndex = "<%= @avatar_index %>";
+
+  $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
+    const avatarName = avatarNames[avatarIndex];
+    const $colourImage = $('<img>', {
+      'class':'small colour avatar',
+      'alt': avatarName,
+      'src': `/images/avatars/${avatarIndex}.jpg`
+    });
+    $('td').append($colourImage);
+    $('.avatar-name').html(`the ${avatarName}`);
+  });
+
+  $('button.ok').click(() => {
+      cd.windowOpen(`/kata/edit/${kataId}`);
+      $('.home-icon').click();
+  });
+
+});
+</script>
+
+<div id="avatar-page">
+  <div class="edged-panel">
+    <div class="title">your avatar is</div>
+    <table>
+      <% 8.times do %><tr>
+        <% 8.times do %><td>
+        </td><% end %>
+      </tr><% end %>
+    </table>
+    <div class="avatar-name"></div>
+    <button type="button" class="large ok">ok</button>
+  </div>
+</div>

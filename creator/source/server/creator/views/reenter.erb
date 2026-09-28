@@ -1,0 +1,77 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+
+  const groupId = "<%= @group_id %>";
+
+  const setupColourAvatar = ($div, avatarIndex, avatarName, kataId) => {
+    $div.click(() => {
+        cd.windowOpen(`/kata/edit/${kataId}`);
+        $('.home-icon').click();
+    });
+    $div.attr('data-tip', avatarName);
+    cd.setupHoverTips($div);
+    const $colourImage = $('<img>', {
+        src:`/images/avatars/${avatarIndex}.jpg`,
+      class:'small colour reenter avatar',
+        alt: avatarName
+    });
+    $div.append($colourImage);
+  };
+
+  const setupGreyAvatar = ($div, avatarIndex, avatarName) => {
+    const $greyImage = $('<img>', {
+        src:`/images/avatars/${avatarIndex}.jpg`,
+      class:'small grey avatar',
+        alt: avatarName
+    });
+    $div.append($greyImage);
+  };
+
+  $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
+    let empty = true;
+    const attrName = 'data-avatar-index';
+    const $divs = $(`div[${attrName}]`);
+    $divs.each(function() {
+      const $div = $(this);
+      const avatarIndex = $div.attr(attrName);
+      const avatarName = avatarsNames[avatarIndex];
+      const kataId = $div.attr('data-kata-id');
+      if (kataId != '') {
+        setupColourAvatar($div, avatarIndex, avatarName, kataId);
+        empty = false;
+      } else {
+        setupGreyAvatar($div, avatarIndex, avatarName);
+      }
+    });
+    if (empty) {
+      $('.title').html("sorry, it's empty");
+      $('button.ok').show().click(() => {
+        cd.goto(cd.mountedPath(`/enter?id=${groupId}`));
+      });
+    }
+  });
+
+  $('a.button.reenter').on('click', cd.goHomeAfterNavigate);
+
+});
+</script>
+
+<div id="reenter-page">
+  <div class="edged-panel">
+    <div class="title">click your avatar</div>
+    <table>
+      <% 8.times do |y| %><tr>
+        <% 8.times do |x| %><td>
+          <% index = y*8 + x %>
+          <% kata_id = @avatars[index] %>
+          <div data-avatar-index="<%= index %>" data-kata-id="<%= kata_id %>"></div>
+        </td><% end %>
+      </tr><% end %>
+    </table>
+    <button type="button" class="large ok" style="display:none;">ok</button>
+    <a href="javascript:void(0)" class="button large reenter" style="display:none;"></a>
+  </div>
+</div>

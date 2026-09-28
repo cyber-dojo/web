@@ -1,0 +1,27 @@
+<script>
+'use strict';
+$(() => cd.setupDisplayNamesClickHandlers());
+</script>
+
+<div class="display-box">
+  <div class="scroll-wrap">
+    <div class="display-names">
+      <% @display_names.each.with_index do |name,index| %>
+        <div class="display-name"
+             data-name="<%= name %>"
+             data-index="<%= index %>">
+          <%= escape_html(name) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="cscroll-track"><div class="cscroll-thumb"></div></div>
+  </div>
+  <textarea class="display-content" readonly="readonly"></textarea>
+</div>
+
+<div style="display:none;">
+  <% @display_contents.each.with_index do |content,index| %>
+     <textarea id="contents_<%= index %>"><%= escape_html(content) %>
+     </textarea>
+  <% end %>
+</div>

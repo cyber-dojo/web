@@ -1,0 +1,29 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+
+  $('button.next').click(() => {
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    const params = `${cd.urlParams()}&display_name=${name}`;
+    $.post(cd.mountedPath('/create.json'), cd.toJSON(params), (response) => {
+      cd.goto(response.route);
+    });
+  });
+
+  $('button.switch').click(() => cd.goto(cd.mountedPath(`/choose_problem?${cd.urlParams()}`)));
+});
+</script>
+
+<div id="choose-custom-problem-page">
+  <div class="edged-panel">
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your custom exercise</div>
+    <%= erb :'shared/display_names' %>
+    <div class="footer-row">
+      <button type="button" class="large next" disabled>next</button>
+      <button type="button" class="switch">switch back to exercises</button>
+    </div>
+  </div>
+</div>

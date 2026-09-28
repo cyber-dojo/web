@@ -1,0 +1,82 @@
+<% if @type == 'group' %>
+
+<script>
+'use strict';
+$(() => {
+  cd.setupHomeIcon();
+  cd.setupGroupLtfChooser();
+});
+</script>
+
+<div id="choose-ltf-page" class="group">
+  <div class="edged-panel">
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose up to 5 language &amp; test-frameworks</div>
+
+    <div class="display-box">
+      <div class="scroll-wrap">
+        <div class="display-names available-ltfs">
+          <% @display_names.each.with_index do |name,index| %>
+            <div class="display-name"
+                 data-name="<%= name %>"
+                 data-index="<%= index %>">
+              <%= escape_html(name) %>
+            </div>
+          <% end %>
+        </div>
+        <div class="cscroll-track"><div class="cscroll-thumb"></div></div>
+      </div>
+      <textarea class="display-content" readonly="readonly"></textarea>
+    </div>
+
+    <div class="group-footer">
+      <hr class="chosen-divider">
+
+      <div class="footer-row">
+        <div class="chosen-ltfs"></div>
+        <button type="button" class="large next" disabled>next</button>
+        <div class="help"><a href="https://github.com/cyber-dojo/cyber-dojo/blob/master/docs/how-to-contribute-to-start-points.md" target="_blank">I'd like to help</a> maintain the language &amp; test-frameworks</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="display:none;">
+  <% @display_contents.each.with_index do |content,index| %>
+     <textarea id="contents_<%= index %>"><%= escape_html(content) %>
+     </textarea>
+  <% end %>
+</div>
+
+<% else %>
+
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+
+  $('button.next').click(() => {
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    const params = `${cd.urlParams()}&language_name=${name}`;
+    $.post(cd.mountedPath('/create.json'), cd.toJSON(params), (response) => {
+      cd.goto(response.route);
+    });
+  });
+
+});
+</script>
+
+<div id="choose-ltf-page">
+  <div class="edged-panel">
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your language &amp; test-framework</div>
+    <%= erb :'shared/display_names' %>
+    <div class="footer-row">
+      <button type="button" class="large next" disabled>next</button>
+      <div class="help"><a href="https://github.com/cyber-dojo/cyber-dojo/blob/master/docs/how-to-contribute-to-start-points.md" target="_blank">I'd like to help</a> maintain the language &amp; test-frameworks</div>
+    </div>
+  </div>
+</div>
+
+<% end %>
