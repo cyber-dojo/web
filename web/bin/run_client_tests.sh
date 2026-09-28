@@ -12,8 +12,8 @@ it does not tear existing containers down, does not pull the runner test image,
 and does not run the server suite.
 
 The web image loads its JavaScript from the built image, so your current code is
-only exercised after the image is rebuilt. Run 'make image' first after changing
-any JavaScript.
+only exercised after the image is rebuilt. Run 'make web_image' first after
+changing any JavaScript.
 
 Naming one or more test-ids runs only the tests whose id contains one of
 them; naming none runs the whole browser suite.

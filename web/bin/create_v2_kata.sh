@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# Call this after running `make demo`
+# Call this after running `make web_demo`
 
 create_v2_kata()
 {

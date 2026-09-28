@@ -14,14 +14,14 @@ The check is the rego policy CI applies to the same limits, downloaded and run
 here by the kosli CLI in a container. It needs docker and the network, and no
 Kosli account: nothing is sent to Kosli.
 
-Reads web/reports/coverage_metrics.json, which 'make test_server' writes. This
-script does not run the tests, so run them first.
+Reads web/reports/coverage_metrics.json, which 'make web_test_server' writes.
+This script does not run the tests, so run them first.
 
 Options:
   -h    Show this help
 
 Example:
-  make test_server
+  make web_test_server
   web/bin/check_coverage_metrics.sh
 EOF
 }

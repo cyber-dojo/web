@@ -26,7 +26,7 @@ class TestBase < Minitest::Test
   include TestHexIdHelpers
 
   # Raises unless every tid argument the run was filtered by matched at least
-  # one test-ID, so a mistyped 'make test_server tids=...' is reported instead
+  # one test-ID, so a mistyped 'make web_test_server tids=...' is reported instead
   # of quietly running nothing. Takes both as arguments so a test can drive it
   # without disturbing the globals the run itself uses.
   def self.check_all_tid_args_matched(args, seen_ids)

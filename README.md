@@ -11,32 +11,32 @@
 
 ```bash
 # Run a demo
-$ make demo
+$ make web_demo
 
 # Build the image
-$ make image
+$ make web_image
 
 # Run the server tests
-$ make test_server
+$ make web_test_server
 
 # Run only specific tests, naming test-id prefix(es)
-$ make test_server tids=3d99
+$ make web_test_server tids=3d99
 
-# Run the client (Capybara + Selenium) tests, which make test_server does not
-$ make test_client
+# Run the client (Capybara + Selenium) tests, which web_test_server does not
+$ make web_test_client
 
 # Build, run the server tests, and judge the run
-$ make all
+$ make web_all
 ```
 
-Running the tests and judging them are separate steps. `make test_server` runs
-every server test directory in one ruby process, its test classes in parallel,
-and writes `web/reports/test_metrics.json` and
-`web/reports/coverage_metrics.json`. Two targets then check those against pinned
-limits, and fail if any is breached:
+Running the tests and judging them are separate steps. `make web_test_server`
+runs every server test directory in one ruby process, its test classes in
+parallel, and writes `web/reports/test_metrics.json` and
+`web/reports/coverage_metrics.json`. Two targets then check those against
+pinned limits, and fail if any is breached:
 
 ```
-$ make metrics_coverage
+$ make web_metrics_coverage
 
 RESULT:  ALLOWED
 ```
@@ -44,15 +44,15 @@ RESULT:  ALLOWED
 A breach names the metric, what it measured, and the bound it broke:
 
 ```
-$ make metrics_coverage
+$ make web_metrics_coverage
 
 RESULT:      DENIED
 VIOLATIONS:  code.branches.missed is 3, above its maximum of 2
 Error: [kosli evaluate input] policy denied: [code.branches.missed is 3, above its maximum of 2]
-make: *** [metrics_coverage] Error 1
+make: *** [web_metrics_coverage] Error 1
 ```
 
-`make metrics_test` does the same for the test counts and the run's duration.
+`make web_metrics_test` does the same for the test counts and the run's duration.
 
 The bounds live in `web/test/coverage_metrics_params.json` and
 `web/test/test_metrics_params.json`, and are written once. So is the decision made

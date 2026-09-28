@@ -37,8 +37,8 @@ exit_non_zero_unless_installed()
 }
 
 # Echoes the tag of the kosli CLI image that check_metrics runs, for
-# 'make metrics_test' and 'make metrics_coverage'. Takes the version from
-# KOSLI_CLI_VERSION, the same variable .github/workflows/main.yml passes to
+# 'make web_metrics_test' and 'make web_metrics_coverage'. Takes the version from
+# KOSLI_CLI_VERSION, the same variable .github/workflows/main-web.yml passes to
 # cyber-dojo/setup-kosli-cli, and defaults to the value that variable holds
 # there: latest.
 #
