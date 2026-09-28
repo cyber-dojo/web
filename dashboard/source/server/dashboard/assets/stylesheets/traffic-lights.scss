@@ -1,0 +1,46 @@
+#traffic-lights
+{
+  margin-top: 5px;
+}
+
+$traffic-light-size: 24px;
+
+@mixin circle-border($width)
+{
+  border-radius: $width / 2 + 1;
+}
+
+img.diff-traffic-light, img.progress-traffic-light
+{
+  cursor: pointer;
+  width: $traffic-light-size;
+  height: $traffic-light-size;
+  @include circle-border($traffic-light-size);
+  padding: { left:0px; right:0px; }
+  margin: { left:0px; right:2px; }
+}
+
+img.revert, img.checkout
+{
+  width: $traffic-light-size - 2px;
+  height: $traffic-light-size - 2px;
+  @include circle-border($traffic-light-size);
+  position: relative;
+  left: 2px;
+}
+
+img.tick, img.cross
+{
+  width: 11px;
+  height: 11px;
+  @include circle-border(11px);
+  position: relative;
+  left: 1px;
+}
+
+img.revert, img.checkout, img.tick, img.cross
+{
+  &.red   { border: 1px solid $red  ; }
+  &.amber { border: 1px solid $amber; }
+  &.green { border: 1px solid $green; }
+}

@@ -1,0 +1,61 @@
+// One tab per child group of a cluster (a multi-LTF practice). Sits between the
+// shared #controls above and #dashboard-page below. Only rendered when there
+// are 2+ tabs; a standalone single-LTF group shows no tab bar and is unchanged.
+//
+// Classic folder-tab styling so the tabs read as mutually exclusive and the
+// active tab visibly connects to the content below it:
+//  - every tab has rounded TOP corners only and sits on a shared horizontal
+//    "rail" (the #cluster-tabs bottom border);
+//  - inactive tabs are lighter and dimmed, and keep the rail as their bottom
+//    edge, so they look closed off and separate from the content;
+//  - the active tab is the SAME colour as the content below, is a touch taller,
+//    and overlaps the rail with no bottom edge, so the tab and the content it
+//    controls merge into one shape.
+
+$tab-rail:        lighten($darker-color, 28%);
+$tab-inactive-bg: lighten($darker-color, 10%);
+$tab-inactive-br: lighten($darker-color, 16%);
+
+#cluster-tabs
+{
+  @include plaintext-font();
+        display: flex;
+      flex-wrap: wrap;
+    align-items: flex-end;
+            gap: 3px;
+   padding-left: 6px;
+         margin: { top: 4px; left: 35px; right: 35px; bottom: 0px; }
+  border-bottom: 2px solid $tab-rail; // the rail every tab sits on
+
+  .cluster-tab
+  {
+        display: flex;
+    flex-direction: column;
+         cursor: pointer;
+        padding: { left: 12px; right: 12px; top: 4px; bottom: 5px; }
+  border-radius: 6px 6px 0px 0px; // round the top corners only
+     background: $tab-inactive-bg;
+          color: darken($lighter-color, 22%);
+         border: 1px solid $tab-inactive-br;
+  border-bottom: none; // the shared rail is this tab's bottom edge
+        opacity: 0.8;
+
+    &:hover { opacity: 1; background: lighten($darker-color, 15%); }
+
+    .cluster-tab-ltf { font-size: 13px; white-space: nowrap; }
+    .cluster-tab-id  { font-size: 10px; color: lighten(Gray, 8%); }
+  }
+
+  .cluster-tab-active
+  {
+     background: $darker-color; // == the content background below, so they merge
+          color: $lighter-color;
+         border: 1px solid $tab-rail;
+  border-bottom: none;
+  margin-bottom: -2px; // pull down over the rail so no line closes it off
+        padding: { top: 6px; bottom: 7px; } // a touch taller so it rises forward
+         cursor: default;
+        opacity: 1;
+        z-index: 2;
+  }
+}

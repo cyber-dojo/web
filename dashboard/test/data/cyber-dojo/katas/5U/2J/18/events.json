@@ -1,0 +1,9 @@
+{"index":0,"time":[2020,10,19,12,52,46,396907],"event":"created"},
+{"time":[2020,10,19,12,52,54,772809],"duration":0.491393,"colour":"red","predicted":"none","index":1},
+{"time":[2020,10,19,12,52,58,547002],"duration":0.426736,"colour":"amber","predicted":"none","index":2},
+{"time":[2020,10,19,12,53,3,256202],"duration":0.438522,"colour":"green","predicted":"none","index":3},
+{"duration":1.045086,"colour":"red","predicted":"green","index":4,"time":[2020,11,25,19,49,18,739148]},
+{"duration":0.585082,"colour":"green","predicted":"green","index":5,"time":[2020,11,25,19,49,25,455203]},
+{"duration":0.48365,"colour":"amber","predicted":"green","index":6,"time":[2020,11,25,19,49,35,909287]},
+{"time":[2020,11,25,19,49,36,34231],"colour":"green","revert":["5U2J18",5],"index":7},
+{"time":[2020,11,25,19,49,41,480308],"colour":"red","checkout":{"id":"5U2J18","avatarIndex":44,"index":1},"index":8}

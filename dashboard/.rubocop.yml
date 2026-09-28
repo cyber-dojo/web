@@ -1,0 +1,68 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - test/**/*
+
+# Rubocop's default of 120 is far longer than this codebase needs. Long lines
+# here come from long identifiers rather than dense logic, so they gain nothing
+# from the extra room.
+#
+# This also works with Style/IfUnlessModifier, which demands the one-line
+# modifier form whenever it fits inside this Max, so the ceiling is what pushes
+# a long "do_something(...) if condition" out into an if/end block, the more
+# readable shape once the line gets long.
+Layout/LineLength:
+  Max: 80
+
+Metrics/AbcSize:
+  Exclude:
+    - source/server/dashboard/app.rb
+    - source/server/dashboard/helpers/td_gapper.rb
+    - source/server/dashboard/helpers/gatherer.rb
+    - source/server/dashboard/helpers/avatars_progress.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - source/server/dashboard/app_base.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - source/server/dashboard/app.rb
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - source/server/dashboard/app.rb
+    - source/server/dashboard/helpers/td_gapper.rb
+    - source/server/dashboard/helpers/avatars_progress.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - source/server/dashboard/helpers/td_gapper.rb
+    - source/server/dashboard/helpers/gatherer.rb
+    - source/server/dashboard/helpers/avatars_progress.rb
+    - source/server/dashboard/app.rb
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - source/server/dashboard/app.rb
+    - source/server/dashboard/helpers/td_gapper.rb
+    - source/server/dashboard/helpers/avatars_progress.rb
+
+Naming/MethodParameterName:
+  Exclude:
+    - source/server/dashboard/helpers/td_gapper.rb
+    - source/server/dashboard/app_base.rb
+
+Style/CaseEquality:
+  Exclude:
+    - source/client/code/app_base.rb
+    - source/server/config/config.ru
+    - source/server/dashboard/app_base.rb
+
+Style/Documentation:
+  Exclude:
+    - source/**/*.rb
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - source/**/*

@@ -1,0 +1,5 @@
+
+https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/1500?active_tab=running
+
+has a nice deployment diff for
+274425519734.dkr.ecr.eu-central-1.amazonaws.com/dashboard:430e391

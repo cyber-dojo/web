@@ -1,0 +1,4 @@
+@mixin right-align($margin-right)
+{
+  margin: { left:auto; right:$margin-right; } 
+}

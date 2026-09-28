@@ -1,0 +1,32 @@
+.fixed-column
+{
+  height:26px;
+  display:flex;
+}
+
+.pie-chart-wrapper
+{
+  padding: 0 2px;
+  margin-left: 6px; // space between the avatar-image and the pie-chart
+}
+
+.sort-header
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-width: 90px;
+  padding-bottom: 2px;
+}
+
+.sort-widget
+{
+  @include plaintext-font();
+  font-size: 11px;
+  cursor: pointer;
+  padding: { left: 2px; right: 2px; }
+  color: lighten($darker-color, 35%);
+  user-select: none;
+  &:hover    { color: $lighter-color; }
+  &.sort-active { color: $lighter-color; }
+}

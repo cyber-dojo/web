@@ -1,0 +1,39 @@
+<% if @tabs.size > 1 %>
+<div id="cluster-tabs">
+  <% @tabs.each do |tab| %>
+    <div class="cluster-tab<%= ' cluster-tab-active' if tab['id'] == @group_id %>"
+         data-group-id="<%= tab['id'] %>">
+      <span class="cluster-tab-ltf"><%= tab['display_name'] %></span>
+      <span class="cluster-tab-id"><%= tab['id'] %></span>
+    </div>
+  <% end %>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  // Each tab is one child group of the cluster. Activating a tab makes its
+  // group the active child: all per-child fetches (heartbeat, group_manifest,
+  // progress) then key off it, and the traffic-lights grid + manifest reload
+  // in place. cd.id() (the cluster id in the URL) is unchanged. Both a manual
+  // click and the auto-refresh rotation (see show.erb) go through here.
+  cd.activateGroup = (groupId) => {
+    const $tabs = $('#cluster-tabs .cluster-tab');
+    $tabs.removeClass('cluster-tab-active');
+    $tabs.filter(`[data-group-id="${groupId}"]`).addClass('cluster-tab-active');
+    cd.setGroupId(groupId);
+    cd.loadManifest();
+    cd.refresh();
+  };
+
+  $('#cluster-tabs .cluster-tab').click(function() {
+    const $tab = $(this);
+    if ($tab.hasClass('cluster-tab-active')) { return; }
+    cd.activateGroup($tab.data('group-id').toString());
+    cd.resetDwell(); // a manual pick gets a full dwell before auto-advancing
+  });
+
+});
+</script>
+<% end %>

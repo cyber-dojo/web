@@ -1,0 +1,43 @@
+<div id="auto-refresh-panel">
+  <span id="auto-refresh-text">
+    auto&nbsp;refresh
+  </span>
+  <input type="checkbox" id="auto-refresh-checkbox"/>
+  <label for="auto-refresh-checkbox"></label>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $checkBox = $('#auto-refresh-checkbox');
+
+  const initially = cd.urlParam('auto_refresh', 'true');
+
+  $checkBox.attr('checked', initially == 'true')
+           .click(() => $checkBox.onClick());
+
+  $checkBox.isChecked = () => $checkBox.prop('checked');
+  $checkBox.toggle = () => $checkBox.prop('checked', !$checkBox.isChecked());
+  $checkBox.onClick = () => {
+    if ($checkBox.isChecked()) {
+      cd.refresh();
+    }
+  };
+
+  $('#auto-refresh-text').click(() => {
+    $checkBox.toggle()
+             .onClick();
+  });
+
+  cd.autoRefresh = $checkBox; // public to allow cd.autoRefresh.isChecked()
+
+  const tip = [
+    'Toggle the 10 second',
+    'auto-refresh on/off'
+  ].join('<br/>');
+
+  cd.createTip($('#auto-refresh-panel'), tip);
+
+});
+</script>

@@ -5,12 +5,14 @@
 # except these dirs...
 
 !/.github
+!/dashboard
 !/deployment
 !/flow-templates
 !/web
 
 # but still ignore these generated dirs inside them...
 
+/dashboard/reports/
 /web/reports/
 
 # and these files...
@@ -18,6 +20,7 @@
 !/.dockerignore
 !/.gitignore
 !/CONTRIBUTING.md
+!/dashboard.env
 !/docker-compose.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml

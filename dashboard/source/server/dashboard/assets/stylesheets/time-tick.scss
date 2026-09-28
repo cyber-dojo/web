@@ -1,0 +1,15 @@
+.time-tick
+{
+  @include non-code-font();
+     display: block;
+  text-align: center;
+   font-size: 13px;
+       color: lighten(black,60%);
+  $down-triangle: "\25BF";
+  &:after { content: $down-triangle; }
+}
+
+.d-for-days, .m-for-minutes, .h-for-hours
+{
+  font-size: 10px;
+}
