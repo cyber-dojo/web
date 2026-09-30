@@ -33,7 +33,7 @@ var cyberDojo = (function(cd, $) {
       .then(json => {
         const $tip = $trafficLightTip(light, kataId, json.diff_summary);
         showHoverTip($light, $tip);
-      });
+      }).catch(() => {});   // a failed read (offline / 5xx / bad body) shows no tip
   };
 
   const $trafficLightTip = (light, kataId, diff) => {

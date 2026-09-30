@@ -22,7 +22,7 @@
           $tip.append($trafficLightSummary(kataId, avatarIndex, light));
           $tip.append($diffLinesTable(diffSummary));
           cd.showHoverTip($light, $tip);
-        });
+        }).catch(() => {});   // a failed read (offline / 5xx / bad body) shows no tip
     });
   };
 
