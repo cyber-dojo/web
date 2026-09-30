@@ -38,7 +38,7 @@ $(() => {
         refreshTableBodyWith(data.avatars);
         cd.pieChart($(`#${cssId} .pie`));
         document.querySelector('.scroll-handle').scrollIntoView({ behavior:'smooth', block:'nearest', inline:'nearest' });
-      });
+      }).catch(() => {});   // a failed read (offline / 5xx / bad body) leaves the table as it is
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - -
