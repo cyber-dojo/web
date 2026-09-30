@@ -31,9 +31,6 @@ env:
 jobs:
 
   setup:
-    # Off until SONARCLOUD_TOKEN is a secret of this repo; every other job
-    # needs setup, so they all skip with it.
-    if: false
     runs-on: ubuntu-latest
     outputs:
       aws_account_id_beta:      ${{ steps.vars.outputs.aws_account_id_beta }}
