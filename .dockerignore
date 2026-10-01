@@ -1,4 +1,4 @@
 *
-!creator/source/server
-!dashboard/source/server
-!web/source
+!app-creator/source/server
+!app-dashboard/source/server
+!app-web/source

@@ -5,9 +5,9 @@ repos.
 
 | App | CI | What it serves |
 |-----|----|----------------|
-| [web](web/README.md) | [![main-web](https://github.com/cyber-dojo/web/actions/workflows/main-web.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-web.yml) | the core edit+review pages |
-| [creator](creator/README.md) | [![main-creator](https://github.com/cyber-dojo/web/actions/workflows/main-creator.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-creator.yml) | the pages that create (or re-enter) a group or individual exercise |
-| [dashboard](dashboard/README.md) | [![main-dashboard](https://github.com/cyber-dojo/web/actions/workflows/main-dashboard.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-dashboard.yml) | the group-exercise dashboard |
+| [web](app-web/README.md) | [![main-web](https://github.com/cyber-dojo/web/actions/workflows/main-web.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-web.yml) | the core edit+review pages |
+| [creator](app-creator/README.md) | [![main-creator](https://github.com/cyber-dojo/web/actions/workflows/main-creator.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-creator.yml) | the pages that create (or re-enter) a group or individual exercise |
+| [dashboard](app-dashboard/README.md) | [![main-dashboard](https://github.com/cyber-dojo/web/actions/workflows/main-dashboard.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/web/actions/workflows/main-dashboard.yml) | the group-exercise dashboard |
 
 Each app has the same shape:
 

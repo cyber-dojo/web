@@ -13,7 +13,7 @@ services:
     init: true
     environment:
       # Passed through only when the caller sets it, which creator's
-      # browser-test run does (see creator/bin/containers_up_healthy_and_clean.sh).
+      # browser-test run does (see app-creator/bin/containers_up_healthy_and_clean.sh).
       # Unset, nginx uses the production value baked into its image.
       - CYBER_DOJO_CREATOR_CHOOSE_RATE
     ports: [ "${CYBER_DOJO_NGINX_HOST_PORT}:80" ]

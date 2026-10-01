@@ -3,14 +3,14 @@ name: Main web
 on:
   push:
     paths:
-      - 'web/**'
+      - 'app-web/**'
+      - 'bin/**'
       - 'deployment/terraform-web/**'
       - 'flow-templates/**'
       - 'Dockerfile'
       - 'Makefile'
       - 'docker-compose*.yml'
       - '.dockerignore'
-      - 'web.env'
       - '.github/workflows/main-web.yml'
 
 env:
@@ -68,7 +68,7 @@ jobs:
       - name: Begin Kosli Trail
         uses: cyber-dojo/kosli-begin-trail@main
         with:
-          template_filename: web/.kosli.yml
+          template_filename: app-web/.kosli.yml
           flow_description: "UX for practicing TDD"
           flow_tags: |
             env=${{ env.KOSLI_AWS_BETA }}
@@ -116,8 +116,8 @@ jobs:
         run:
           kosli attest junit
             --name=web.rubocop-lint
-            --results-dir=./web/reports/rubocop
-            --attachments=./web/.rubocop.yml,./web/.rubocop_todo.yml
+            --results-dir=./app-web/reports/rubocop
+            --attachments=./app-web/.rubocop.yml,./app-web/.rubocop_todo.yml
 
 
   build-image:
@@ -159,9 +159,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-      REGO_POLICY_FILENAME: metrics-compliance.rego
-      PARAMS_TEST_FILENAME: web/test/test_metrics_params.json
-      PARAMS_COVERAGE_FILENAME: web/test/coverage_metrics_params.json
+      REGO_POLICY_FILENAME: app-web/reports/metrics-compliance.rego
+      PARAMS_TEST_FILENAME: app-web/test/test_metrics_params.json
+      PARAMS_COVERAGE_FILENAME: app-web/test/coverage_metrics_params.json
     steps:
       - uses: cyber-dojo/harden-runner@main
       - uses: cyber-dojo/pinned-checkout@main
@@ -185,7 +185,7 @@ jobs:
         run:
           kosli attest junit
             --name=web.server-test
-            --results-dir=./web/reports/junit
+            --results-dir=./app-web/reports/junit
 
       # The metrics are attested in two parts. A facts attestation carries the
       # data: its type has a schema and no jq rules, so it is always compliant.
@@ -195,18 +195,18 @@ jobs:
       #
       # The policy is fetched rather than named by URL so the copy attached to
       # each decision is the same bytes that were evaluated. The URL itself
-      # lives in web/bin/lib.sh, which the metrics checks fetch through too, so this
+      # lives in app-web/bin/lib.sh, which the metrics checks fetch through too, so this
       # job and 'make web_metrics_test' cannot judge by different policies.
       - name: Get the metrics policy
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
-          web/bin/fetch_metrics_policy.sh "${REGO_POLICY_FILENAME}"
+          app-web/bin/fetch_metrics_policy.sh "${REGO_POLICY_FILENAME}"
 
       - name: Attest test metrics to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
           kosli attest custom
-            --attestation-data=./web/reports/test_metrics.json
+            --attestation-data=./app-web/reports/test_metrics.json
             --name=web.test-facts
             --type=test-facts
 
@@ -241,7 +241,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
           kosli attest custom
-            --attestation-data=./web/reports/coverage_metrics.json
+            --attestation-data=./app-web/reports/coverage_metrics.json
             --name=web.coverage-facts
             --type=coverage-facts
 

@@ -3,8 +3,8 @@ name: Main creator
 on:
   push:
     paths:
-      - 'creator/**'
-      - 'creator.env'
+      - 'app-creator/**'
+      - 'bin/**'
       - 'deployment/terraform-creator/**'
       - 'flow-templates/**'
       - 'Dockerfile'
@@ -67,7 +67,7 @@ jobs:
       - name: Begin Kosli Trail
         uses: cyber-dojo/kosli-begin-trail@main
         with:
-          template_filename: creator/.kosli.yml
+          template_filename: app-creator/.kosli.yml
           flow_description: "UX for Group/Kata creation"
           flow_tags: |
             env=${{ env.KOSLI_AWS_BETA }}
@@ -113,8 +113,8 @@ jobs:
         run:
           kosli attest junit
             --name=creator.rubocop-lint
-            --results-dir=./creator/reports/rubocop
-            --attachments=./creator/.rubocop.yml
+            --results-dir=./app-creator/reports/rubocop
+            --attachments=./app-creator/.rubocop.yml
 
 
   build-image:
@@ -173,7 +173,7 @@ jobs:
         # image to that name so 'make creator_test' uses the built artifact and does NOT
         # rebuild it from source.
         run: |
-          source creator/bin/echo_env_vars.sh
+          source app-creator/bin/echo_env_vars.sh
           # shellcheck disable=SC2046
           export $(echo_env_vars)
           docker tag \
@@ -192,16 +192,16 @@ jobs:
         run:
           kosli attest junit
             --name=creator.unit-test
-            --results-dir=creator/test/server/reports/junit
+            --results-dir=app-creator/test/server/reports/junit
 
       - name: Attest unit-test-coverage evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run: |
           KOSLI_COMPLIANT=$([ "${TEST_STATUS}" = 0 ] && echo true || echo false)
           kosli attest generic \
-            --attachments=./creator/test/evidence.json \
-            --attachments=./creator/test/server/reports \
-            --attachments=./creator/test/client/reports \
+            --attachments=./app-creator/test/evidence.json \
+            --attachments=./app-creator/test/server/reports \
+            --attachments=./app-creator/test/client/reports \
             --compliant="${KOSLI_COMPLIANT}" \
             --description="server branch-coverage, plus the browser test run" \
             --name=creator.unit-test-coverage
