@@ -1,12 +1,17 @@
+@use "colors";
+@use "fonts";
+
+@use "sass:color";
+
 .file_content
 {
   // height and width are set in codemirror-overrides.scss
-  @include code-font;
-  background: lighten($darker-color, 4%);
+  @include fonts.code-font;
+  background: color.adjust(colors.$darker-color, $lightness: 4%, $space: hsl);
   border: 0px;
   margin: 0px;
   display: block;
-  color: $lighter-color;
+  color: colors.$lighter-color;
   font-weight: 500;
   padding: { left: 2px; top: 2px; right: 0px; bottom: 0px; }
   outline: none;

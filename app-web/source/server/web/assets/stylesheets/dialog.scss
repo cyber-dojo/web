@@ -1,11 +1,13 @@
+@use "colors";
+
 .dialog
 {
-  background: $lighter-color;
-       color: $darker-color;
+  background: colors.$lighter-color;
+       color: colors.$darker-color;
      display: table;
       margin: { top: 0; bottom: auto; left: 45px; right: 45px; }
 
-  a:link, a:visited { color: $lighter-color; }
+  a:link, a:visited { color: colors.$lighter-color; }
 
   &.title
   {
@@ -15,14 +17,14 @@
 }
 
 dialog {
-  background: $darker-color;
-  color: $lighter-color;
+  background: colors.$darker-color;
+  color: colors.$lighter-color;
   border: none;
   padding: 0 0 0.5em;
   border-radius: 4px;
   font-size: 1.1rem;
 
-  a:link, a:visited { color: $lighter-color; }
+  a:link, a:visited { color: colors.$lighter-color; }
 }
 
 dialog::backdrop {

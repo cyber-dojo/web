@@ -1,12 +1,18 @@
+@use "lib/colour";
+@use "lib/edged-panel";
+@use "lib/fonts";
+
+@use "sass:color";
+
 
 #age-panel,
 #auto-refresh-panel,
 #minute-columns-panel,
 #detailed-panel
 {
-  @include edged-panel();
-  @include plaintext-font();
-  background: lighten($darker-color,8%);
+  @include edged-panel.edged-panel();
+  @include fonts.plaintext-font();
+  background: color.adjust(colour.$darker-color,$lightness: 8%, $space: hsl);
       cursor: pointer;
    font-size: 13px;
       margin: { bottom:0px; left:0px; right:7px; }

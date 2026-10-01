@@ -1,8 +1,12 @@
+@use "lib/colour";
+
+@use "sass:color";
+
 .column
 {
   height: 26px;
   padding: 0px;
-   border: { bottom: dotted lighten($darker-color, 3%) 1px; }
-  &.odd  { background: lighten($darker-color,  5%); }
-  &.even { background: lighten($darker-color, 11%); }
+   border: { bottom: dotted color.adjust(colour.$darker-color, $lightness: 3%, $space: hsl) 1px; }
+  &.odd  { background: color.adjust(colour.$darker-color,  $lightness: 5%, $space: hsl); }
+  &.even { background: color.adjust(colour.$darker-color, $lightness: 11%, $space: hsl); }
 }

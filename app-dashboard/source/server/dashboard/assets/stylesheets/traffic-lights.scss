@@ -1,3 +1,7 @@
+@use "lib/colour";
+
+@use "sass:math";
+
 #traffic-lights
 {
   margin-top: 5px;
@@ -7,7 +11,7 @@ $traffic-light-size: 24px;
 
 @mixin circle-border($width)
 {
-  border-radius: $width / 2 + 1;
+  border-radius: math.div($width, 2) + 1;
 }
 
 img.diff-traffic-light, img.progress-traffic-light
@@ -40,7 +44,7 @@ img.tick, img.cross
 
 img.revert, img.checkout, img.tick, img.cross
 {
-  &.red   { border: 1px solid $red  ; }
-  &.amber { border: 1px solid $amber; }
-  &.green { border: 1px solid $green; }
+  &.red   { border: 1px solid colour.$red  ; }
+  &.amber { border: 1px solid colour.$amber; }
+  &.green { border: 1px solid colour.$green; }
 }

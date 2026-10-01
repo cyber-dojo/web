@@ -1,8 +1,10 @@
+@use "sass:color";
+
 
 $black: #000;
-$darker-color: darken(#666, 25%);
-$lighter-color: lighten(Khaki, 5%);
-$text-color: darken($lighter-color, 10%);
+$darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
+$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);
+$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
 
 $red: #F00;
 $amber: #FF0;
@@ -11,7 +13,7 @@ $blue:  #00F;
 
 .create { color: Gray; }
 
-.red       { color: lighten($red, 10%); }
+.red       { color: color.adjust($red, $lightness: 10%, $space: hsl); }
 .amber     { color: $amber; }
 .green     { color: $green; }
 
@@ -24,6 +26,6 @@ $blue:  #00F;
 .file_rename { color: Gray; }
 .file_edit   { color: Gray; }
 
-$diff-added-count-color: lighten($green, 35%);
-$diff-deleted-count-color: lighten($red, 35%);
+$diff-added-count-color: color.adjust($green, $lightness: 35%, $space: hsl);
+$diff-deleted-count-color: color.adjust($red, $lightness: 35%, $space: hsl);
 $diff-same-count-color: Gray;

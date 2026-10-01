@@ -1,9 +1,7 @@
 require 'English'
 
-require_relative 'silently'
 require 'json'
 require 'sinatra/base'
-silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 
 class AppBase < Sinatra::Base
@@ -11,21 +9,17 @@ class AppBase < Sinatra::Base
     super(nil)
   end
 
-  silently { register Sinatra::Contrib }
   set :port, ENV.fetch('PORT', nil)
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.get_json(name)
-    get "/#{name}", provides: [:json] do
-      respond_to do |format|
-        format.json do
-          result = instance_exec do
-            target.public_send(name, **args)
-          end
-          json({ name => result })
-        end
+    get "/#{name}" do
+      content_type :json
+      result = instance_exec do
+        target.public_send(name, **args)
       end
+      { name => result }.to_json
     end
   end
 
@@ -33,10 +27,11 @@ class AppBase < Sinatra::Base
 
   def self.probe(name)
     get "/#{name}" do
+      content_type :json
       result = instance_exec do
         target.public_send(name)
       end
-      json({ name => result })
+      { name => result }.to_json
     end
   end
 

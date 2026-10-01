@@ -1,27 +1,31 @@
+@use "colors";
+@use "fonts";
+@use "grid-sizes";
+
 #review-page
 {
   .review-grid
   {
     display: flex;
-    @include non-code-font();
+    @include fonts.non-code-font();
     margin: { top:39px; left:2px; }
     padding: 0px;
-    background: $darker-color;
-    color: $lighter-color;
+    background: colors.$darker-color;
+    color: colors.$lighter-color;
   }
 
   .left-column
   {
-    width: $left-column-width; // Prevents movement when diff checkbox toggles
+    width: grid-sizes.$left-column-width; // Prevents movement when diff checkbox toggles
     position: relative;        // For avatar-navigator absolute:right    
   }
 
   .right-gutter
   {
-    height: $column-height;
-    max-height: $column-height;
+    height: grid-sizes.$column-height;
+    max-height: grid-sizes.$column-height;
     display: inline-block;
-    margin: { left:$right-column-left-margin; top:1px; }
+    margin: { left:grid-sizes.$right-column-left-margin; top:1px; }
     position: relative; // For charity/sponsor absolute:bottom
   }
 }

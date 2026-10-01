@@ -1,3 +1,8 @@
+@use "colors";
+@use "fonts";
+
+@use "sass:color";
+
 
 @mixin  right-align($margin-right) { margin: { left : auto; right: $margin-right; } }
 @mixin   left-align($margin-left ) { margin: { left : $margin-left; right: auto; } }
@@ -6,7 +11,7 @@
 @mixin edged-panel
 {
   display: inline-block;
-  border: 1px solid lighten(black,25%);
+  border: 1px solid color.adjust(black,$lightness: 25%, $space: hsl);
   border-radius: 5px;
   padding: 4px;
 }
@@ -22,13 +27,13 @@
 
 //----------------------------------------------
 
-a:link, a:visited { color: $text-color; }
+a:link, a:visited { color: colors.$text-color; }
 
 [data-cursor=pointer] { cursor: pointer; }
 
 //----------------------------------------------
 
 .avatar_name, #id {
-  @include font-size-tiny();
+  @include fonts.font-size-tiny();
   text-align: right;
 }

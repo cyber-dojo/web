@@ -1,9 +1,14 @@
+@use "colors";
+@use "grid-sizes";
+
+@use "sass:color";
+
 .file-operations
 {
   padding: 0px;
 
   border-radius: 6px;
-  margin: { left:$left-column-left-margin; top:30px; }
+  margin: { left:grid-sizes.$left-column-left-margin; top:30px; }
 
   .create-file, .delete-file, .rename-file
   {
@@ -14,14 +19,14 @@
     width: 23px;
     height: 23px;
     font-size: 14px;
-    background: lighten($darker-color,50%);
-    border: 2px solid lighten($darker-color,50%);
-    &:not([disabled]):hover { border: 2px dotted lighten(Black,10%); }
+    background: color.adjust(colors.$darker-color,$lightness: 50%, $space: hsl);
+    border: 2px solid color.adjust(colors.$darker-color,$lightness: 50%, $space: hsl);
+    &:not([disabled]):hover { border: 2px dotted color.adjust(Black,$lightness: 10%, $space: hsl); }
     &[disabled] { opacity: 0.35; }
     // Keep the border unchanged on hover when disabled (overrides the generic
     // button[disabled]:hover in button.scss), so a disabled file button shows no
     // hover effect - matching #test-button.
-    &[disabled]:hover { border: 2px solid lighten($darker-color,50%); }
+    &[disabled]:hover { border: 2px solid color.adjust(colors.$darker-color,$lightness: 50%, $space: hsl); }
   }
 
   .rename-file img

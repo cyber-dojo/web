@@ -1,28 +1,35 @@
+@use "codemirror-cyber-dojo-dark-colour-on";
+@use "codemirror-cyber-dojo-grays";
+@use "codemirror-cyber-dojo-light-colour-on";
+@use "colors";
+
+@use "sass:color";
+
 // Based on atom-material-syntax-dark
 
-$darken-percentage: 5%;
+codemirror-cyber-dojo-light-colour-on.$darken-percentage: 5%;
 
-$green:             darken(#C3E88D, $darken-percentage);
-$teal:              darken(#009688, $darken-percentage);
-$light-teal:        darken(#73d1c8, $darken-percentage);
-$cyan:              darken(#89DDF3, $darken-percentage);
-$blue:              darken(#82AAFF, 15%);
-$indigo:            darken(#7986CB, $darken-percentage);
-$purple:            darken(#C792EA, 15%);
-$pink:              darken(#FF5370, $darken-percentage);
-$red:               darken(#F07178, $darken-percentage);
-$strong-orange:     darken(#F78C6A, $darken-percentage);
-$orange:            darken(#FFCB6B, $darken-percentage);
-$light-orange:      darken(#FFE082, $darken-percentage);
+colors.$green:             color.adjust(#C3E88D, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$teal:              color.adjust(#009688, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$light-teal:        color.adjust(#73d1c8, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$cyan:              color.adjust(#89DDF3, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+colors.$blue:              color.adjust(#82AAFF, $lightness: -15%, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$indigo:            color.adjust(#7986CB, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$purple:            color.adjust(#C792EA, $lightness: -15%, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$pink:              color.adjust(#FF5370, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+colors.$red:               color.adjust(#F07178, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$strong-orange:     color.adjust(#F78C6A, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$orange:            color.adjust(#FFCB6B, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$light-orange:      color.adjust(#FFE082, $lightness: -(codemirror-cyber-dojo-light-colour-on.$darken-percentage), $space: hsl);
 
-$syntax-text-color: $very-dark-gray;
-$syntax-background-color: white;
-$syntax-comment-color: darken($green, 30%);
+codemirror-cyber-dojo-dark-colour-on.$syntax-text-color: codemirror-cyber-dojo-grays.$very-dark-gray;
+codemirror-cyber-dojo-dark-colour-on.$syntax-background-color: white;
+codemirror-cyber-dojo-dark-colour-on.$syntax-comment-color: color.adjust(colors.$green, $lightness: -30%, $space: hsl);
 
 .cm-s-cyber-dojo-light-colour-off.CodeMirror
 {
-  background: $syntax-background-color;
-  color: $syntax-text-color;
+  background: codemirror-cyber-dojo-dark-colour-on.$syntax-background-color;
+  color: codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-lines
@@ -34,8 +41,8 @@ $syntax-comment-color: darken($green, 30%);
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters
 {
-  background: darken($syntax-background-color, 2%);
-  color: lighten($syntax-text-color, 30%);
+  background: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-background-color, $lightness: -2%, $space: hsl);
+  color: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-text-color, $lightness: 30%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters
@@ -45,12 +52,12 @@ $syntax-comment-color: darken($green, 30%);
 
 .cm-s-cyber-dojo-light-colour-off div.CodeMirror-selected
 {
-  background: darken($syntax-background-color, 10%);
+  background: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-background-color, $lightness: -10%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-cursor
 {
-  border-left: 1px solid $syntax-text-color;
+  border-left: 1px solid codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
 .cm-s-cyber-dojo-light-colour-off .cm-tab

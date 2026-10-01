@@ -1,28 +1,34 @@
+@use "codemirror-cyber-dojo-dark-colour-on";
+@use "codemirror-cyber-dojo-grays";
+@use "colors";
+
+@use "sass:color";
+
 // Based on atom-material-syntax-dark
 
 $darken-percentage: 25%;
 
-$green:             darken(#C3E88D, $darken-percentage);
-$teal:              darken(#009688, $darken-percentage);
-$light-teal:        darken(#73d1c8, $darken-percentage);
-$cyan:              darken(#89DDF3, $darken-percentage);
-$blue:              darken(#82AAFF, $darken-percentage);
-$indigo:            darken(#7986CB, $darken-percentage);
-$purple:            darken(#C792EA, $darken-percentage);
-$pink:              darken(#FF5370, $darken-percentage);
-$red:               darken(#F07178, $darken-percentage);
-$strong-orange:     darken(#F78C6A, $darken-percentage);
-$orange:            darken(#FFCB6B, $darken-percentage);
-$light-orange:      darken(#FFE082, $darken-percentage);
+colors.$green:             color.adjust(#C3E88D, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$teal:              color.adjust(#009688, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$light-teal:        color.adjust(#73d1c8, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$cyan:              color.adjust(#89DDF3, $lightness: -$darken-percentage, $space: hsl);
+colors.$blue:              color.adjust(#82AAFF, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$indigo:            color.adjust(#7986CB, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$purple:            color.adjust(#C792EA, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$pink:              color.adjust(#FF5370, $lightness: -$darken-percentage, $space: hsl);
+colors.$red:               color.adjust(#F07178, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$strong-orange:     color.adjust(#F78C6A, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$orange:            color.adjust(#FFCB6B, $lightness: -$darken-percentage, $space: hsl);
+codemirror-cyber-dojo-dark-colour-on.$light-orange:      color.adjust(#FFE082, $lightness: -$darken-percentage, $space: hsl);
 
-$syntax-text-color: $very-dark-gray;
-$syntax-background-color: white;
-$syntax-comment-color: $light-gray;
+codemirror-cyber-dojo-dark-colour-on.$syntax-text-color: codemirror-cyber-dojo-grays.$very-dark-gray;
+codemirror-cyber-dojo-dark-colour-on.$syntax-background-color: white;
+codemirror-cyber-dojo-dark-colour-on.$syntax-comment-color: codemirror-cyber-dojo-grays.$light-gray;
 
 .cm-s-cyber-dojo-light-colour-on.CodeMirror
 {
-  background: $syntax-background-color;
-  color: $syntax-text-color;
+  background: codemirror-cyber-dojo-dark-colour-on.$syntax-background-color;
+  color: codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-lines
@@ -34,8 +40,8 @@ $syntax-comment-color: $light-gray;
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-gutters
 {
-  background: darken($syntax-background-color, 2%);
-  color: lighten($syntax-text-color, 30%);
+  background: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-background-color, $lightness: -2%, $space: hsl);
+  color: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-text-color, $lightness: 30%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-gutters
@@ -45,50 +51,50 @@ $syntax-comment-color: $light-gray;
 
 .cm-s-cyber-dojo-light-colour-on div.CodeMirror-selected
 {
-  background: darken($syntax-background-color, 10%);
+  background: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-background-color, $lightness: -10%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-cursor
 {
-  border-left: 1px solid $syntax-text-color;
+  border-left: 1px solid codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
-$default: $syntax-text-color;
+codemirror-cyber-dojo-dark-colour-on.$default: codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 
-.cm-s-cyber-dojo-light-colour-on .cm-header {color: $blue;}
-.cm-s-cyber-dojo-light-colour-on .cm-quote {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-negative {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-positive {color: $default;}
+.cm-s-cyber-dojo-light-colour-on .cm-header {color: colors.$blue;}
+.cm-s-cyber-dojo-light-colour-on .cm-quote {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-negative {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-positive {color: codemirror-cyber-dojo-dark-colour-on.$default;}
 .cm-s-cyber-dojo-light-colour-on .cm-header, .cm-strong {font-weight: bold;}
 .cm-s-cyber-dojo-light-colour-on .cm-em {font-style: italic;}
 .cm-s-cyber-dojo-light-colour-on .cm-link {text-decoration: underline;}
 .cm-s-cyber-dojo-light-colour-on .cm-strikethrough {text-decoration: line-through;}
 
-.cm-s-cyber-dojo-light-colour-on .cm-keyword {color: $purple;}
-.cm-s-cyber-dojo-light-colour-on .cm-atom {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-number {color: $strong-orange;}
-.cm-s-cyber-dojo-light-colour-on .cm-def {color: $blue;}
+.cm-s-cyber-dojo-light-colour-on .cm-keyword {color: codemirror-cyber-dojo-dark-colour-on.$purple;}
+.cm-s-cyber-dojo-light-colour-on .cm-atom {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-number {color: codemirror-cyber-dojo-dark-colour-on.$strong-orange;}
+.cm-s-cyber-dojo-light-colour-on .cm-def {color: colors.$blue;}
 .cm-s-cyber-dojo-light-colour-on .cm-variable,
 .cm-s-cyber-dojo-light-colour-on .cm-punctuation,
-.cm-s-cyber-dojo-light-colour-on .cm-property  {color: $blue;}
-.cm-s-cyber-dojo-light-colour-on .cm-operator {color: $cyan;}
-.cm-s-cyber-dojo-light-colour-on .cm-variable-2 {color: $blue;}
-.cm-s-cyber-dojo-light-colour-on .cm-variable-3 {color: $blue;}
-.cm-s-cyber-dojo-light-colour-on .cm-type {color: $purple;}
-.cm-s-cyber-dojo-light-colour-on .cm-comment {color: $syntax-comment-color;}
-.cm-s-cyber-dojo-light-colour-on .cm-string {color: $red;}
-.cm-s-cyber-dojo-light-colour-on .cm-string-2 {color: $red;}
+.cm-s-cyber-dojo-light-colour-on .cm-property  {color: colors.$blue;}
+.cm-s-cyber-dojo-light-colour-on .cm-operator {color: codemirror-cyber-dojo-dark-colour-on.$cyan;}
+.cm-s-cyber-dojo-light-colour-on .cm-variable-2 {color: colors.$blue;}
+.cm-s-cyber-dojo-light-colour-on .cm-variable-3 {color: colors.$blue;}
+.cm-s-cyber-dojo-light-colour-on .cm-type {color: codemirror-cyber-dojo-dark-colour-on.$purple;}
+.cm-s-cyber-dojo-light-colour-on .cm-comment {color: codemirror-cyber-dojo-dark-colour-on.$syntax-comment-color;}
+.cm-s-cyber-dojo-light-colour-on .cm-string {color: colors.$red;}
+.cm-s-cyber-dojo-light-colour-on .cm-string-2 {color: colors.$red;}
 .cm-s-cyber-dojo-light-colour-on .cm-diff-negative { color: #d44; }
 .cm-s-cyber-dojo-light-colour-on .cm-diff-positive { color: #292; }
-.cm-s-cyber-dojo-light-colour-on .cm-diff-meta { color: $green; }
-.cm-s-cyber-dojo-light-colour-on .cm-meta { color: $green; }
-.cm-s-cyber-dojo-light-colour-on .cm-qualifier {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-builtin {color: $purple;}
-.cm-s-cyber-dojo-light-colour-on .cm-bracket {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-tag {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-attribute {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-hr {color: $default;}
-.cm-s-cyber-dojo-light-colour-on .cm-link {color: $default;}
+.cm-s-cyber-dojo-light-colour-on .cm-diff-meta { color: colors.$green; }
+.cm-s-cyber-dojo-light-colour-on .cm-meta { color: colors.$green; }
+.cm-s-cyber-dojo-light-colour-on .cm-qualifier {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-builtin {color: codemirror-cyber-dojo-dark-colour-on.$purple;}
+.cm-s-cyber-dojo-light-colour-on .cm-bracket {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-tag {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-attribute {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-hr {color: codemirror-cyber-dojo-dark-colour-on.$default;}
+.cm-s-cyber-dojo-light-colour-on .cm-link {color: codemirror-cyber-dojo-dark-colour-on.$default;}
 
 .cm-s-cyber-dojo-light-colour-on .cm-tab
 {

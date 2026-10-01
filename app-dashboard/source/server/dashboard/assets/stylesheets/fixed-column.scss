@@ -1,3 +1,8 @@
+@use "lib/colour";
+@use "lib/fonts";
+
+@use "sass:color";
+
 .fixed-column
 {
   height:26px;
@@ -21,12 +26,12 @@
 
 .sort-widget
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
   font-size: 11px;
   cursor: pointer;
   padding: { left: 2px; right: 2px; }
-  color: lighten($darker-color, 35%);
+  color: color.adjust(colour.$darker-color, $lightness: 35%, $space: hsl);
   user-select: none;
-  &:hover    { color: $lighter-color; }
-  &.sort-active { color: $lighter-color; }
+  &:hover    { color: colour.$lighter-color; }
+  &.sort-active { color: colour.$lighter-color; }
 }

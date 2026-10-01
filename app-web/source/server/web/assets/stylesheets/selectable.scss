@@ -1,19 +1,24 @@
+@use "colors";
+@use "wide-list-item";
+
+@use "sass:color";
+
 @mixin selectable
 {
   // If you edit these be careful as they also affect the filename tabs
-  @include wide-list-item();
+  @include wide-list-item.wide-list-item();
   letter-spacing: 0.03em;
   padding: { top:2px; bottom:3px; left:7px; }
   &:hover
   {
-    background: lighten($darker-color, 4%);
-    border-left: 1px solid lighten($darker-color, 4%);
-    border-right: 1px solid lighten($darker-color, 4%);
+    background: color.adjust(colors.$darker-color, $lightness: 4%, $space: hsl);
+    border-left: 1px solid color.adjust(colors.$darker-color, $lightness: 4%, $space: hsl);
+    border-right: 1px solid color.adjust(colors.$darker-color, $lightness: 4%, $space: hsl);
   }
   &.selected
   {
     cursor: default;
-    background: lighten($darker-color, 8%);
-    border: 1px solid lighten($darker-color, 8%);
+    background: color.adjust(colors.$darker-color, $lightness: 8%, $space: hsl);
+    border: 1px solid color.adjust(colors.$darker-color, $lightness: 8%, $space: hsl);
   }
 }

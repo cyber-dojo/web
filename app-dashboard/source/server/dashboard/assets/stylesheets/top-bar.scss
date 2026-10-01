@@ -1,9 +1,15 @@
+@use "lib/colour";
+@use "lib/edged-panel";
+@use "lib/fonts";
+
+@use "sass:color";
+
 #top-bar
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
      display: flex;
-  background: lighten($darker-color, 8%);
-       color: $lighter-color;
+  background: color.adjust(colour.$darker-color, $lightness: 8%, $space: hsl);
+       color: colour.$lighter-color;
    font-size: 1.05em;
        width: 100%;
       height: 23px;
@@ -23,10 +29,10 @@
   #exercise-name-box,
   #id-box
   {
-    @include edged-panel();
+    @include edged-panel.edged-panel();
     font-size: 10px;
     cursor: default;
-    background: $darker-color;
+    background: colour.$darker-color;
     display: inline-table;
     margin: { left:3px; right:3px; }
     white-space: nowrap;
@@ -46,8 +52,8 @@
 
 dialog#progress-dialog
 {
-    background: $darker-color;
-         color: $lighter-color;
+    background: colour.$darker-color;
+         color: colour.$lighter-color;
         border: none;
        padding: 0;
      max-width: 600px;
@@ -61,7 +67,7 @@ dialog#progress-dialog
     flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-      background: lighten($darker-color, 8%);
+      background: color.adjust(colour.$darker-color, $lightness: 8%, $space: hsl);
        padding: { left: 8px; right: 8px; top: 4px; bottom: 4px; }
 
     .dialog-title { font-size: 1.4em; }
@@ -79,8 +85,8 @@ dialog#progress-dialog
     max-height: calc(100dvh - 40px - 30px - 90px);
        padding: 10px;
 
-    .avatar.odd  { background: lighten($darker-color, 3%); }
-    .avatar.even { background: lighten($darker-color, 8%); }
+    .avatar.odd  { background: color.adjust(colour.$darker-color, $lightness: 3%, $space: hsl); }
+    .avatar.even { background: color.adjust(colour.$darker-color, $lightness: 8%, $space: hsl); }
     .progress
     {
       white-space: nowrap;

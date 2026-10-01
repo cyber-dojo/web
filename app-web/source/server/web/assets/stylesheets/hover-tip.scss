@@ -1,14 +1,19 @@
+@use "colors";
+@use "fonts";
+
+@use "sass:color";
+
 
 $hoverFadePercent: 5%;
 
 .hover-tip
 {
-  @include plaintext-font();
-  background: lighten($darker-color, $hoverFadePercent);
+  @include fonts.plaintext-font();
+  background: color.adjust(colors.$darker-color, $lightness: $hoverFadePercent, $space: hsl);
   z-index: 2000;
   position: fixed;
-  color: darken($lighter-color, 6%);
-  border: 1px dotted lighten($darker-color, 30%);
+  color: color.adjust(colors.$lighter-color, $lightness: -6%, $space: hsl);
+  border: 1px dotted color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl);
   border-radius: 5px;
   font-size: 15px;
   padding: { top:5px; right:7px; bottom:5px; left:7px; }
@@ -18,7 +23,7 @@ $hoverFadePercent: 5%;
 
 .hover-tip .diff-filename
 {
-  border: 1px solid lighten($darker-color, $hoverFadePercent);
+  border: 1px solid color.adjust(colors.$darker-color, $lightness: $hoverFadePercent, $space: hsl);
   width: auto; min-width: 0; // reset width
 }
 
@@ -27,7 +32,7 @@ $hoverFadePercent: 5%;
 
 .hover-tip .mini-text
 {
-  color: lighten(Gray,10%);
+  color: color.adjust(Gray,$lightness: 10%, $space: hsl);
   padding-left: 6px;
   font-size: 12px;
 }
@@ -48,7 +53,7 @@ img.diff-hover-tip
 
 .count-hover-tip
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   text-align: right;
   padding-right: 4px;
   font-size: 17px;

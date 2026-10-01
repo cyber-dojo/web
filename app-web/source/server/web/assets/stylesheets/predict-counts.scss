@@ -1,10 +1,14 @@
+@use "colors";
+
+@use "sass:color";
+
 .predict-counts
 {
    display: grid;
    width: 62px;
    border-radius: 3px;
    padding: { left:9px; right:5px; top:7px; bottom:7px; }
-   background: lighten($darker-color, 15%);
+   background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
    margin: 8px;
 
    .box
@@ -23,9 +27,9 @@
      text-align: right;
      min-width: 25px;
      max-width: 35px;
-     color: lighten(Black, 20%);
+     color: color.adjust(Black, $lightness: 20%, $space: hsl);
      padding: { left:4px; right:4px; top:3px; bottom:1px; }
-     background: lighten($darker-color, 40%);
+     background: color.adjust(colors.$darker-color, $lightness: 40%, $space: hsl);
    }
    img
    {

@@ -1,8 +1,13 @@
+@use "colors";
+@use "fonts";
+
+@use "sass:color";
+
 .info
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
   border-radius: 6px;
-  background: lighten($darker-color, 5%);
+  background: color.adjust(colors.$darker-color, $lightness: 5%, $space: hsl);
   padding: 10px;
   margin: { left:0px; right:0px; top:10px; bottom:10px }
   text-align: left;

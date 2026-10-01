@@ -1,9 +1,15 @@
+@use "colour";
+@use "fonts";
+@use "rounded-corner";
+
+@use "sass:color";
+
 
 button
 {
-  @include non-code-font();
-  @include rounded-corner(6px);
-  background: darken($lighter-color, 12%);
+  @include fonts.non-code-font();
+  @include rounded-corner.rounded-corner(6px);
+  background: color.adjust(colour.$lighter-color, $lightness: -12%, $space: hsl);
 
   display: inline-block;
   cursor: pointer;
@@ -12,13 +18,13 @@ button
   text-align:left;
   text-decoration: none;
   font-weight: normal;
-  border: 2px solid $darker-color;
+  border: 2px solid colour.$darker-color;
 
-  &:hover { border: 2px dotted lighten($darker-color, 20%); }
+  &:hover { border: 2px dotted color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl); }
   &[disabled]
   {
-    background: lighten($darker-color, 20%);
+    background: color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl);
     cursor: default;
-    &:hover { border: 2px solid $darker-color; }
+    &:hover { border: 2px solid colour.$darker-color; }
   }
 }

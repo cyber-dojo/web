@@ -1,9 +1,13 @@
+@use "rounded-corner";
+
+@use "sass:color";
+
 
 @mixin edged-panel
 {
-  @include rounded-corner(5px);
+  @include rounded-corner.rounded-corner(5px);
   display: inline-block;
-  border: 1px solid darken(gray,20%);
+  border: 1px solid color.adjust(gray,$lightness: -20%, $space: hsl);
   padding: 4px;
   margin: 0px;
 }

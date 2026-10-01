@@ -1,3 +1,7 @@
+@use "colors";
+
+@use "sass:color";
+
 #predict-checkbox-cell
 {
   white-space: nowrap;
@@ -5,7 +9,7 @@
   width: 66px;
   border-radius: 3px;
   color: Black;
-  background: lighten($darker-color,40%);
+  background: color.adjust(colors.$darker-color,$lightness: 40%, $space: hsl);
   padding: { left:3px; right:1px; top:0px; bottom:1px; }
   margin-top: 3px;
   margin-bottom: 3px;

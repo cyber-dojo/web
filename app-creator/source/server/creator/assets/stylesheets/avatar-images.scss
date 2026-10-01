@@ -1,3 +1,5 @@
+@use "lib/rounded-corner";
+
 
 img.avatars
 {
@@ -9,7 +11,7 @@ img.avatar
 {
   &.large
   {
-    @include rounded-corner(6px);
+    @include rounded-corner.rounded-corner(6px);
     display:inline-block;
     margin:{ right:5px; }
     width:183px;
@@ -17,7 +19,7 @@ img.avatar
   }
   &.small
   {
-    @include rounded-corner(2px);
+    @include rounded-corner.rounded-corner(2px);
     width:35px;
     height:35px;
     display:block;

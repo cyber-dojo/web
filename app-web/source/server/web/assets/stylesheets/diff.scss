@@ -1,12 +1,19 @@
+@use "colors";
+@use "fonts";
+@use "grid-sizes";
+@use "wide-list-item";
+
+@use "sass:color";
+
 .diff-help-icon
 {
   display: initial;
-  @include plaintext-font();
+  @include fonts.plaintext-font();
   border-radius: 11px;
   font-size: 12px;
-  border: 1px solid lighten($darker-color, 20%);
-  color: lighten($darker-color, 20%);
-  background: $darker-color;
+  border: 1px solid color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl);
+  color: color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl);
+  background: colors.$darker-color;
   padding: { left:5px; right:5px; }
   margin: 2px;
   position: relative;
@@ -14,8 +21,8 @@
   left: 5px;
 }
 // Use large left margin when _not_ in diff-help-icon's hover-tip text.
-.diff-filename:not(.hover) { padding-left: $left-column-left-margin; }
-.diff-type-marker:not(.hover) { margin-right: -($left-column-left-margin + 40px); }
+.diff-filename:not(.hover) { padding-left: grid-sizes.$left-column-left-margin; }
+.diff-type-marker:not(.hover) { margin-right: -(grid-sizes.$left-column-left-margin + 40px); }
 
 //- - - - - - - - - - - - - - - -
 
@@ -37,9 +44,9 @@
 
 .diff-type-marker, .diff-filename
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
   &.changed:not(.hover):not(.test-file)   { color: white; }
-  &.unchanged:not(.hover):not(.test-file) { color: darken(DarkGray,15%); }
+  &.unchanged:not(.hover):not(.test-file) { color: color.adjust(DarkGray,$lightness: -15%, $space: hsl); }
 }
 
 .diff-filename.test-file          { color: steelblue; }
@@ -48,18 +55,18 @@
 .diff-filename
 {
   font-size: 12pt;
-  color: lighten($darker-color, 50%);
-  border: 1px solid $darker-color;
+  color: color.adjust(colors.$darker-color, $lightness: 50%, $space: hsl);
+  border: 1px solid colors.$darker-color;
   width: 268px;
   cursor: pointer;
   &:hover
   {
-    background: lighten($darker-color, 5%);
+    background: color.adjust(colors.$darker-color, $lightness: 5%, $space: hsl);
   }
   &.selected
   {
-    background: lighten($darker-color, 10%);
-    border: 1px solid lighten($darker-color, 10%);
+    background: color.adjust(colors.$darker-color, $lightness: 10%, $space: hsl);
+    border: 1px solid color.adjust(colors.$darker-color, $lightness: 10%, $space: hsl);
   }
 }
 
@@ -79,33 +86,33 @@
 
   .filename
   {
-    @include wide-list-item();
+    @include wide-list-item.wide-list-item();
     border-radius: 3px;
     letter-spacing: 0.03em;
 
     height: 16px;
     padding: { left: 4px; top: 2px; bottom: 4px; }
-    border: 1px solid $darker-color;
+    border: 1px solid colors.$darker-color;
     margin: { bottom: 2px; }
 
     width: 230px;
     max-width: 230px;
 
-    color: lighten($darker-color,50%);
+    color: color.adjust(colors.$darker-color,$lightness: 50%, $space: hsl);
 
     &.selected
     {
-      background: $lighter-color;
-      color: $darker-color;
+      background: colors.$lighter-color;
+      color: colors.$darker-color;
     }
   }
 }
 
 .diff-type
 {
-  &.added     { color: lighten($green,15%); }
-  &.deleted   { color: lighten($red,  15%); }
-  &.unchanged { color: darken(DarkGray,15%); }
+  &.added     { color: color.adjust(colors.$green,$lightness: 15%, $space: hsl); }
+  &.deleted   { color: color.adjust(colors.$red,  $lightness: 15%, $space: hsl); }
+  &.unchanged { color: color.adjust(DarkGray,$lightness: -15%, $space: hsl); }
 }
 
 table.sss { margin-top: 15px; }
@@ -114,7 +121,7 @@ table.sss { margin-top: 15px; }
 #diff-filename-stderr,
 #diff-filename-status
 {
-  color: darken(DarkGray,20%);
+  color: color.adjust(DarkGray,$lightness: -20%, $space: hsl);
 }
 
 #diff-content, #diff-content-output
@@ -126,8 +133,8 @@ table.sss { margin-top: 15px; }
 .diff-line-numbers,
 .diff-sheet
 {
-  background: $projector-background;
-  @include code-font();
+  background: colors.$projector-background;
+  @include fonts.code-font();
   font-size: 11.4pt; // Matches font used in CodeMirror
   height: 560px;     // Controls height of file content view
   margin: 0px;
@@ -141,19 +148,19 @@ table.sss { margin-top: 15px; }
     padding-left: 0px;
     color: black;
   }
-  added   { background: $diff-added-line-background; }
-  deleted { background: $diff-deleted-line-background; }
+  added   { background: colors.$diff-added-line-background; }
+  deleted { background: colors.$diff-deleted-line-background; }
 }
 
 .diff-line-numbers
 {
-  background: darken($projector-background, 5%);
+  background: color.adjust(colors.$projector-background, $lightness: -5%, $space: hsl);
   width: 40px;
   text-align: right;
   overflow: hidden;
   border: none;
   border-top-left-radius: 1px;
-  added, deleted, same { color: lighten($darker-color, 30%); }
+  added, deleted, same { color: color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl); }
     added:after { content: '+'; }
   deleted:after { content: '-'; }
      same:after { content: ' '; }
@@ -168,12 +175,12 @@ table.sss { margin-top: 15px; }
   outline: none;
    border: none;
 
-    added { border-left: 2px solid $diff-added-line-background; }
-  deleted { border-left: 2px solid $diff-deleted-line-background; }
-     same { border-left: 2px solid $projector-background; }
+    added { border-left: 2px solid colors.$diff-added-line-background; }
+  deleted { border-left: 2px solid colors.$diff-deleted-line-background; }
+     same { border-left: 2px solid colors.$projector-background; }
 
   added, deleted, same
   {
-    &:hover { border-left: 2px solid darken($projector-background,40%); }
+    &:hover { border-left: 2px solid color.adjust(colors.$projector-background,$lightness: -40%, $space: hsl); }
   }
 }

@@ -1,7 +1,5 @@
 require 'English'
-require_relative 'silently'
 require 'sinatra/base'
-silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 require 'json'
 require 'digest'
@@ -49,16 +47,7 @@ module DashboardApp
       super(nil)
     end
 
-    silently { register Sinatra::Contrib }
     set :port, ENV.fetch('PORT', nil)
-
-    # Encode json() responses with the stdlib JSON module. Sinatra::Contrib's
-    # own default encoder is the legacy MultiJson constant, and its encoder
-    # lookup prefers :encode over :generate - multi_json warns about both,
-    # putting two deprecation lines on stderr. ::JSON responds only to
-    # :generate, so the encoded output is unchanged and nothing is written to
-    # stderr.
-    set :json_encoder, ::JSON
 
     # Send redirects as a path, not a full URL. nginx fronts this app and
     # terminates TLS, so the scheme and host Sinatra sees are its own (http, the
@@ -88,14 +77,11 @@ module DashboardApp
     end
 
     def self.get_delegate(klass, name)
-      get "/#{name}", provides: [:json] do
-        respond_to do |format|
-          format.json do
-            target = klass.new(@externals)
-            result = target.public_send(name, params)
-            json({ name => result })
-          end
-        end
+      get "/#{name}" do
+        content_type :json
+        target = klass.new(@externals)
+        result = target.public_send(name, params)
+        { name => result }.to_json
       end
     end
 
@@ -106,9 +92,10 @@ module DashboardApp
 
     error do
       error = $ERROR_INFO
-      # A route's provides: has already set its content type, so an html route
-      # gets the error page and a json route gets the diagnostic itself.
-      html = response.content_type.to_s.include?('text/html')
+      # A json route sets its content type before doing anything that can
+      # raise, so a json route gets the diagnostic itself and every other
+      # route gets the error page.
+      html = !response.content_type.to_s.include?('application/json')
       status(500)
       content_type('application/json') unless html
       info = {

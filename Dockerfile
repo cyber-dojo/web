@@ -2,7 +2,7 @@ FROM ghcr.io/cyber-dojo/sinatra-base:949edc1@sha256:fd5205d77df654e812682c185b04
 # The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:7fadd99 AS creator-assets
+FROM cyberdojo/asset_builder:3a99172 AS creator-assets
 COPY app-creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
 COPY app-creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
@@ -26,7 +26,7 @@ ENTRYPOINT [ "/sbin/tini", "-g", "--" ]
 CMD [ "./config/up.sh" ]
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:7fadd99 AS dashboard-assets
+FROM cyberdojo/asset_builder:3a99172 AS dashboard-assets
 COPY app-dashboard/source/server/dashboard/assets/javascripts /app/app/assets/javascripts
 COPY app-dashboard/source/server/dashboard/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
@@ -50,7 +50,7 @@ ENTRYPOINT ["/sbin/tini", "-g", "--"]
 CMD ["./config/up.sh"]
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:7fadd99 AS web-assets
+FROM cyberdojo/asset_builder:3a99172 AS web-assets
 COPY app-web/source/server/web/assets/javascripts /app/app/assets/javascripts
 COPY app-web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out

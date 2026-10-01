@@ -1,9 +1,16 @@
-@import "lib/all";
-@import "home";
-@import "avatar-images";
-@import "buttons";
-@import "to_go";
-@import "error-page";
+@use "sass:color";
+
+@use "lib/all";
+@use "home";
+@use "avatar-images";
+@use "buttons";
+@use "to_go";
+@use "error-page";
+@use "lib/centered";
+@use "lib/colour";
+@use "lib/fonts";
+@use "lib/rounded-corner";
+@use "lib/wide-list-item";
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -21,7 +28,7 @@
 
 #enter-page, #avatar-page, #reenter-page, #full-page
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   .sub-title { font-size:27px; margin: { left:0px; bottom:10px; } }
   table { margin: { left:0px; bottom:10px; } }
   .group-id, .kata-id { font-size:90px; }
@@ -32,18 +39,18 @@
 
 #enter-page
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   input
   {
-    @include non-code-font();
-    @include rounded-corner(6px);
+    @include fonts.non-code-font();
+    @include rounded-corner.rounded-corner(6px);
     margin: { left:0px; bottom:10px; }
     font-size:41px;
     width:220px;
     padding-left:10px;
-    background:lighten($green, 20%);
-    color:$darker-color;
-    &.invalid { color:darken($red, 10%); }
+    background:color.adjust(colour.$green, $lightness: 20%, $space: hsl);
+    color:colour.$darker-color;
+    &.invalid { color:color.adjust(colour.$red, $lightness: -10%, $space: hsl); }
   }
   .wait-spinner
   {
@@ -87,27 +94,27 @@
 
 .title
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   margin-left:0px;
   font-size:56px;
-  color:$lighter-color;
+  color:colour.$lighter-color;
   text-align:left;
   position:relative; top:-19px;
 }
 
 .sub-title
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   margin-left:0px;
   font-size:30px;
   margin-bottom:10px;
-  color:$lighter-color;
+  color:colour.$lighter-color;
   text-align:left;
 }
 
 .display-box
 {
-  @include centered();
+  @include centered.centered();
 
   // The names list sits in a 300px column (scroll-wrap) that leaves a 14px
   // gutter on the right for an always-on custom scrollbar. text-align:left keeps
@@ -142,17 +149,17 @@
   .display-content { overflow-y:auto; }          // plain native scrollbar
   .display-name
   {
-    @include wide-list-item();
+    @include wide-list-item.wide-list-item();
   }
   // Mimics the :hover border, used to show the initially-previewed random
   // exercise as if the mouse were hovering over it.
   .display-name.previewed
   {
-    border: 1px dotted lighten($darker-color, 25%);
+    border: 1px dotted color.adjust(colour.$darker-color, $lightness: 25%, $space: hsl);
   }
   .display-content
   {
-    @include rounded-corner();
+    @include rounded-corner.rounded-corner();
     padding: { top:8px; left:8px; right:8px; bottom:0px; }
     font-size:11px;
     resize:none;
@@ -165,8 +172,8 @@
     position:absolute;
     top:6px; bottom:6px; right:0px;
     width:14px;
-    background:$darker-color;
-    @include rounded-corner(7px);
+    background:colour.$darker-color;
+    @include rounded-corner.rounded-corner(7px);
   }
   .cscroll-thumb
   {
@@ -174,12 +181,12 @@
     left:0px; top:0px;
     width:14px;
     min-height:24px;
-    background:$lighter-color;
-    @include rounded-corner(7px);
-    border:3px solid $darker-color;              // inset matches background
+    background:colour.$lighter-color;
+    @include rounded-corner.rounded-corner(7px);
+    border:3px solid colour.$darker-color;              // inset matches background
     box-sizing:border-box;
     cursor:pointer;
-    &:hover { background:darken($lighter-color, 10%); }
+    &:hover { background:color.adjust(colour.$lighter-color, $lightness: -10%, $space: hsl); }
   }
 }
 
@@ -190,7 +197,7 @@
   margin-left: auto;
   margin-right: auto;
   padding: 10px 12px 10px 18px;
-  @include non-code-font();
+  @include fonts.non-code-font();
   width: 288px;
   text-align: left;
 
@@ -209,7 +216,7 @@
     font-size: 13px;
     font-weight: normal;
     list-style: disc;
-    @include plaintext-font();
+    @include fonts.plaintext-font();
     li { margin: { top:6px; bottom:6px; } }
   }
 
@@ -220,7 +227,7 @@
     font-size: 12px;
     font-weight: normal;
     color: #666;
-    @include plaintext-font();
+    @include fonts.plaintext-font();
   }
 }
 
@@ -327,7 +334,7 @@
   height:1px;
   margin: { top:8px; bottom:8px; left:0px; right:0px; }
   border:0;
-  background:$lighter-color;
+  background:colour.$lighter-color;
 }
 
 // The chosen list aligns under the 300px available-names column. flex-shrink:0
@@ -344,16 +351,16 @@
 // available list. Empty slots make the 5-cap visible.
 #choose-ltf-page.group .chosen-ltfs .display-name
 {
-  @include wide-list-item();
+  @include wide-list-item.wide-list-item();
   margin-bottom:4px;
   overflow:visible;                             // don't clip the slot number,
                                                 // which hangs off the left edge
 }
 #choose-ltf-page.group .chosen-ltfs .slot-empty
 {
-  @include plaintext-font();
-  color:lighten($darker-color, 20%);
-  border:1px dashed lighten($darker-color, 15%);
+  @include fonts.plaintext-font();
+  color:color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl);
+  border:1px dashed color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl);
   text-align:left;
   padding: { left:6px; right:0px; }
   margin: { top:0px; bottom:4px; }
@@ -375,7 +382,7 @@
   position:absolute;
   right:calc(100% + 4px);
   top:0px;
-  color:lighten($darker-color, 30%);
+  color:color.adjust(colour.$darker-color, $lightness: 30%, $space: hsl);
 }
 
 // The group page lays its two columns out with flex, not inline-block:

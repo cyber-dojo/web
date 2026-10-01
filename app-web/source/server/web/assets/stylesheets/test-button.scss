@@ -1,6 +1,8 @@
+@use "grid-sizes";
+
 #test-control
 {
-  margin-left: $left-column-left-margin;
+  margin-left: grid-sizes.$left-column-left-margin;
   margin: { top:0px; bottom:8px; }
 }
 

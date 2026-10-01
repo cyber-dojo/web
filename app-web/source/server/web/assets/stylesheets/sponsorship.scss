@@ -1,9 +1,13 @@
+@use "colors";
+
+@use "sass:color";
+
 button.sponsorship
 {
   border-radius: 3px;
   margin: { left:0px; right:0px; top:0px; bottom:7px; }
   padding: { left:2px; right:2px; top:0px; bottom:1px; }
-  color: darken($darker-color, 10%);
+  color: color.adjust(colors.$darker-color, $lightness: -10%, $space: hsl);
   font-size: 10px;
   font-weight: bold;
   width: 74px;
@@ -24,7 +28,7 @@ button.sponsorship
   margin-top: 0px;
   padding: 5px;
   border-radius: 3px;
-  background: lighten($darker-color, 15%);
+  background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
   max-width: 75px;
   position: absolute;
   bottom: 0px;
