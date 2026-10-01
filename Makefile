@@ -16,7 +16,7 @@ web_image:
 	${PWD}/app-web/bin/build.sh
 
 web_rubocop_lint:
-	@${PWD}/app-web/bin/rubocop-lint.sh
+	@${PWD}/bin/rubocop-lint.sh app-web
 
 # Run the server tests, optionally filtered by test-id prefix(es). Running the
 # tests and judging them are separate targets, so a filtered run - whose metrics
@@ -86,7 +86,7 @@ dashboard_coverage_server:
 	@${PWD}/app-dashboard/bin/check_coverage.sh server
 
 dashboard_rubocop_lint:
-	@${PWD}/app-dashboard/bin/rubocop_lint.sh
+	@${PWD}/bin/rubocop-lint.sh app-dashboard
 
 dashboard_snyk_container_scan:
 	@${PWD}/app-dashboard/bin/snyk_container_scan.sh
@@ -115,7 +115,7 @@ creator_test_client:
 	@${PWD}/app-creator/bin/run_tests_with_coverage.sh client ${tids}
 
 creator_rubocop_lint:
-	@${PWD}/app-creator/bin/rubocop-lint.sh
+	@${PWD}/bin/rubocop-lint.sh app-creator
 
 # IMAGE_NAME above names web's image, so this names creator's itself.
 creator_snyk_container_scan: creator_image
