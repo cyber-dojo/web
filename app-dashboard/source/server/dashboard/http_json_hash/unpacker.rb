@@ -11,26 +11,26 @@ module DashboardApp
 
       def get(path, args)
         response = @requester.get(path, args)
-        unpacked(response.body, path.to_s, args)
+        unpacked(response, path.to_s, args)
       end
 
       # post is called only by the fixture scripts in test/scripts
       # simplecov:disable
       def post(path, args)
         response = @requester.post(path, args)
-        unpacked(response.body, path.to_s, args)
+        unpacked(response, path.to_s, args)
       end
       # simplecov:enable
 
       private
 
-      def unpacked(body, path, args)
-        json = JSON.parse!(body)
+      def unpacked(response, path, args)
+        json = JSON.parse!(response.body)
         error = hash_error(json, path)
-        service_error(path, args, body, error) if error
+        service_error(response, path, args, error) if error
         json[path]
       rescue JSON::ParserError
-        service_error(path, args, body, 'body is not JSON')
+        service_error(response, path, args, 'body is not JSON')
       end
 
       # The message describing the first problem with the parsed body, or nil if
@@ -44,9 +44,10 @@ module DashboardApp
         nil
       end
 
-      def service_error(path, args, body, message)
-        # puts("XXXX #{path} - #{body} - #{message}")
-        raise HttpJsonHash::ServiceError.new(path, args, @name, body, message)
+      def service_error(response, path, args, message)
+        raise HttpJsonHash::ServiceError.new(
+          path, args, @name, response.body, response.code, message
+        )
       end
     end
   end

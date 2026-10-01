@@ -78,7 +78,8 @@ docker --log-level=ERROR compose down --remove-orphans 2>/dev/null || true
 # differ, dashboard and the services they need - ie the full demo stack.
 # --wait blocks until the containers are healthy (creator etc. have a
 # HEALTHCHECK) so the api_demo requests below don't race the booting servers.
-docker --log-level=ERROR compose up --no-build --detach --wait --wait-timeout 180 nginx
+COMPOSE_FILE="${COMPOSE_FILE_WITH_BROWSER}" \
+  docker --log-level=ERROR compose up --no-build --detach --wait --wait-timeout 180 nginx
 
 copy_in_saver_test_data
 api_demo

@@ -4,9 +4,12 @@ require_relative 'http_json/responder'
 module Web
   class RunnerService
     class Error < RuntimeError
-      def initialize(message)
-        super
+      def initialize(message, status = nil)
+        super(message)
+        @status = status
       end
+
+      attr_reader :status
     end
 
     def initialize(externals)

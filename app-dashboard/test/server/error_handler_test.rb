@@ -15,7 +15,7 @@ class ErrorHandlerTest < TestBase
   | json diagnostic naming the failed http service, and logs that same
   | diagnostic to stdout
   ) do
-    externals.instance_exec { @saver_http = HttpAdapterStub.new('xxxx') }
+    externals.instance_exec { @saver_http = HttpAdapterStub.new('xxxx', '500') }
 
     exception = assert_500_diagnostic['exception']
     assert_equal %w[backtrace http_service request], exception.keys.sort, exception
@@ -57,7 +57,7 @@ class ErrorHandlerTest < TestBase
   | when a saver call answers valid JSON that is not a Hash, the diagnostic
   | names that as the http-service failure
   ) do
-    externals.instance_exec { @saver_http = HttpAdapterStub.new('42') }
+    externals.instance_exec { @saver_http = HttpAdapterStub.new('42', '500') }
 
     service = assert_500_diagnostic['exception']['http_service']
     assert_equal '42', service['body'], service
@@ -76,7 +76,7 @@ class ErrorHandlerTest < TestBase
   | key, the diagnostic names that as the http-service failure
   ) do
     body = '{"wibble":42}'
-    externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
+    externals.instance_exec { @saver_http = HttpAdapterStub.new(body, '500') }
 
     service = assert_500_diagnostic['exception']['http_service']
     assert_equal body, service['body'], service
@@ -95,13 +95,57 @@ class ErrorHandlerTest < TestBase
   | A bodyless request has no rack.input at all under rack 3, which is why the
   | handler reads it with safe navigation
   ) do
-    externals.instance_exec { @saver_http = HttpAdapterStub.new('xxxx') }
+    externals.instance_exec { @saver_http = HttpAdapterStub.new('xxxx', '500') }
     request_body = 'some-request-body'
 
     exception = assert_500_diagnostic(JSON_HEADERS.merge(input: request_body))['exception']
     assert_equal({ 'path' => mounted_path('diff_summary'), 'body' => request_body },
                  exception['request'], exception)
   end
+
+  test 'e5r8h6', %w(
+  | when a saver call answers a client error (4xx), the route answers that
+  | same status rather than 500
+  ) do
+    body = '{"exception":"unknown id"}'
+    externals.instance_exec { @saver_http = HttpAdapterStub.new(body, '400') }
+
+    capture_io do
+      get mounted_path("diff_summary?id=#{GROUP_ID}&was_index=1&now_index=2"), {}, JSON_HEADERS
+    end
+    assert status?(400), "status=#{status}"
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'e5r8h7', %w(
+  | GET /show/:id with an id saver rejects returns the 400 html page
+  ) do
+    capture_io do
+      get mounted_path('show/123'), {}, { 'HTTP_ACCEPT' => 'text/html' }
+    end
+    assert status?(400), "status=#{status}"
+    assert_includes content_type, 'text/html'
+    assert last_response.body.include?('400'), last_response.body
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'e5r8h8', %w(
+  | GET /show/:id when the saver call raises an error that carries no status
+  | returns the 500 html page
+  ) do
+    externals.instance_exec { @saver_http = HttpRaiserStub.new }
+
+    capture_io do
+      get mounted_path("show/#{GROUP_ID}"), {}, { 'HTTP_ACCEPT' => 'text/html' }
+    end
+    assert status?(500), "status=#{status}"
+    assert_includes content_type, 'text/html'
+    assert last_response.body.include?('500'), last_response.body
+  end
+
+  # - - - - - - - - - - - - - - - - -
 
   private
 
@@ -120,11 +164,12 @@ class ErrorHandlerTest < TestBase
     JSON.parse(last_response.body)
   end
 
-  # An http adapter whose every response carries the given body, so the
-  # unpacker's JSON parse of it decides what happens next.
+  # An http adapter whose every response carries the given body and status
+  # code, so the unpacker's JSON parse of it decides what happens next.
   class HttpAdapterStub
-    def initialize(body)
+    def initialize(body, code)
       @body = body
+      @code = code
     end
 
     def get(_uri)
@@ -135,7 +180,7 @@ class ErrorHandlerTest < TestBase
       self
     end
 
-    attr_reader :body
+    attr_reader :body, :code
   end
 
   # An http adapter that fails before any response exists, so the error

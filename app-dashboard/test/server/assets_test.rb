@@ -48,7 +48,7 @@ class AssetsTest < TestBase
     |the layout links each asset by its fingerprinted path, under the mount
     |point. The app writes no prefix itself: path_to() prepends SCRIPT_NAME.
   ] do
-    get mounted_path('show/aB3kf4'), {}, { 'HTTP_ACCEPT' => 'text/html' }
+    get mounted_path('show/LyQpFr'), {}, { 'HTTP_ACCEPT' => 'text/html' }
     assert status?(200), status
     html = last_response.body
     assert html.include?(%Q{href="#{mounted_asset_path(App::CSS_PATH)}"}), html

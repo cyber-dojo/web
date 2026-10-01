@@ -101,7 +101,10 @@ module CreatorApp
 
     include JsonHashParseHelper
 
+    # Errors reach the error hook below in every environment, tests included,
+    # rather than depending on which RACK_ENV Sinatra derives its defaults from.
     set :show_exceptions, false
+    set :raise_errors, false
 
     error do
       error = $ERROR_INFO

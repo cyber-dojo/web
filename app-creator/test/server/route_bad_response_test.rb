@@ -10,7 +10,7 @@ class RouteBadResponseTest < CreatorTestBase
     |returns non-JSON in its response.body
     |it logs the exeption to stdout
   ] do
-    stub_saver_http('xxxx')
+    stub_saver_http('xxxx', '500')
     logs_exception_to_stdout(mounted_path('ready?'))
   end
 
@@ -23,7 +23,7 @@ class RouteBadResponseTest < CreatorTestBase
     |it logs the exception to stdout
   ] do
     response = '{"exception":42}'
-    stub_saver_http(response)
+    stub_saver_http(response, '500')
     logs_exception_to_stdout(mounted_path('ready?'))
   end
 
@@ -33,15 +33,10 @@ class RouteBadResponseTest < CreatorTestBase
     |when an http-proxy
     |returns JSON-Hash in its response.body
     |which does not contain the requested method's key
-    |it returns the JSON
+    |it logs the exception to stdout
   ] do
-    http = HttpAdapterStub.new('{"wibble":42}')
-    hostname = 'saver'
-    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
-    requester = HttpJsonHash::Requester.new(http, hostname, port)
-    saver = HttpJsonHash::Unpacker.new('saver', requester)
-    json = saver.get('/ready?', {})
-    assert_equal({ 'wibble' => 42 }, json)
+    stub_saver_http('{"wibble":42}', '500')
+    logs_exception_to_stdout(mounted_path('ready?'))
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -50,15 +45,10 @@ class RouteBadResponseTest < CreatorTestBase
     |when an http-proxy
     |returns JSON in its response.body
     |which is not a Hash
-    |it returns the JSON unchanged
+    |it logs the exception to stdout
   ] do
-    http = HttpAdapterStub.new('[1,2,3]')
-    hostname = 'saver'
-    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
-    requester = HttpJsonHash::Requester.new(http, hostname, port)
-    saver = HttpJsonHash::Unpacker.new('saver', requester)
-    json = saver.get('/ready?', {})
-    assert_equal([1, 2, 3], json)
+    stub_saver_http('[1,2,3]', '500')
+    logs_exception_to_stdout(mounted_path('ready?'))
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -70,7 +60,7 @@ class RouteBadResponseTest < CreatorTestBase
     |and the exception is logged to stdout
   ] do
     not_json = 'xxxx'
-    stub_exercises_start_points(not_json)
+    stub_exercises_start_points(not_json, '500')
 
     stdout, stderr = capture_io do
       get mounted_path('choose_problem'), { type: 'group' }.to_json
@@ -107,12 +97,12 @@ class RouteBadResponseTest < CreatorTestBase
 
   private
 
-  def stub_exercises_start_points(body)
-    externals.instance_exec { @exercises_http = HttpAdapterStub.new(body) }
+  def stub_exercises_start_points(body, code)
+    externals.instance_exec { @exercises_http = HttpAdapterStub.new(body, code) }
   end
 
-  def stub_saver_http(body)
-    externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
+  def stub_saver_http(body, code)
+    externals.instance_exec { @saver_http = HttpAdapterStub.new(body, code) }
   end
 
   class HttpRaiserStub
@@ -122,7 +112,7 @@ class RouteBadResponseTest < CreatorTestBase
   end
 
   class HttpAdapterStub
-    def initialize(body, code = nil)
+    def initialize(body, code)
       @body = body
       @code = code
     end

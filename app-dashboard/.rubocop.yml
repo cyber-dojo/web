@@ -42,6 +42,13 @@ Metrics/MethodLength:
     - source/server/dashboard/helpers/avatars_progress.rb
     - source/server/dashboard/app.rb
 
+# ServiceError is a value object that mirrors the fields of a failed HTTP
+# response (path, args, name, body, status, message). All six are inherent to
+# what the error carries, so the constructor legitimately takes six arguments.
+Metrics/ParameterLists:
+  Exclude:
+    - source/server/dashboard/http_json_hash/service_error.rb
+
 Metrics/PerceivedComplexity:
   Exclude:
     - source/server/dashboard/app.rb

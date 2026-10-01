@@ -11,7 +11,6 @@ rm -rf "${coverage_dir}/.resultset.json"
 test_log="${coverage_dir}/test.log"
 
 export COVERAGE_ROOT=${coverage_dir}
-export RACK_ENV=test
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 
 # Every server test, however deeply nested, so a new directory under server/

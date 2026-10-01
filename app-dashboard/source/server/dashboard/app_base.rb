@@ -93,12 +93,18 @@ module DashboardApp
       end
     end
 
+    # Errors reach the error hook below in every environment, tests included,
+    # rather than depending on which RACK_ENV Sinatra derives its defaults from.
     set :show_exceptions, false
+    set :raise_errors, false
 
     error do
       error = $ERROR_INFO
+      # A route's provides: has already set its content type, so an html route
+      # gets the error page and a json route gets the diagnostic itself.
+      html = response.content_type.to_s.include?('text/html')
       status(500)
-      content_type('application/json')
+      content_type('application/json') unless html
       info = {
         exception: {
           request: {
@@ -117,12 +123,20 @@ module DashboardApp
           body: error.body,
           message: error.message
         }
+        # Preserve a client error (4xx) from the downstream service instead of
+        # flattening it to 500; anything else stays a server error.
+        code = error.status.to_i
+        status(code) if (400..499).cover?(code)
       else
         exception[:message] = error.message
       end
       diagnostic = JSON.pretty_generate(info)
       puts diagnostic
-      body diagnostic
+      if html
+        body erb(:error)
+      else
+        body diagnostic
+      end
     end
   end
 end

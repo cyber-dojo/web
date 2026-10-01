@@ -4,9 +4,14 @@
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-creator}"
 
 # Every bare 'docker compose' in these scripts reads the repo's shared files,
-# so each one sees creator, nginx, selenium and the services they depend on.
+# so each one sees creator and the services it depends on.
 readonly COMPOSE_DIR="$(git rev-parse --show-toplevel)"
-export COMPOSE_FILE="${COMPOSE_DIR}/docker-compose-depends.yml:${COMPOSE_DIR}/docker-compose-nginx.yml:${COMPOSE_DIR}/docker-compose-selenium.yml:${COMPOSE_DIR}/docker-compose.yml"
+export COMPOSE_FILE="${COMPOSE_DIR}/docker-compose-depends.yml:${COMPOSE_DIR}/docker-compose.yml"
+
+# Only a command that starts nginx or selenium reads their files, as in web's
+# bin/containers_up.sh, so only it needs CYBER_DOJO_NGINX_HOST_PORT set. A
+# down still removes them, as orphans of this compose project.
+readonly COMPOSE_FILE_WITH_BROWSER="${COMPOSE_DIR}/docker-compose-depends.yml:${COMPOSE_DIR}/docker-compose-nginx.yml:${COMPOSE_DIR}/docker-compose-selenium.yml:${COMPOSE_DIR}/docker-compose.yml"
 
 exit_non_zero_unless_installed()
 {

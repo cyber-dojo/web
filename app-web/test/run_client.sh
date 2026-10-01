@@ -14,10 +14,6 @@ set -e
 
 test_dir=client
 
-# Same externals as run.sh: talk to the real saver container (so a kata created
-# here is visible to the served app the browser loads), stub the runner.
-export RACK_ENV=test
-
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 
 echo

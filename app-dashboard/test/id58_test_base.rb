@@ -1,4 +1,3 @@
-require 'English'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'slim_json_reporter'
@@ -45,7 +44,6 @@ class Id58TestBase < Minitest::Test
         stripped = trimmed(name58.split("\n").join)
         @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
       ensure
-        puts $ERROR_INFO.message unless $ERROR_INFO.nil?
         id58_teardown
       end
     }

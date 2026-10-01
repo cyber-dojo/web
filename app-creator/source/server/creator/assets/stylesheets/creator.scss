@@ -3,6 +3,7 @@
 @import "avatar-images";
 @import "buttons";
 @import "to_go";
+@import "error-page";
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -17,7 +18,6 @@
 #reenter-page               .edged-panel { width:400px; }
 #full-page                  .edged-panel { width:320px; }
 
-#error-page                 .edged-panel { width:314px; }
 
 #enter-page, #avatar-page, #reenter-page, #full-page
 {

@@ -150,4 +150,36 @@ class HttpJsonTest < ServicesTestBase
     assert_equal([493], json)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  class HttpJsonRequesterRaisesStub
+    def initialize(_hostname, _port)
+    end
+    def request(_req)
+      raise 'http-request-raised'
+    end
+  end
+
+  test '12D2CC',
+  'a get whose http request raises raises the service error with its message' do
+    set_http(HttpJsonRequesterRaisesStub)
+    stdout,stderr = capture_stdout_stderr do
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      assert_equal 'http-request-raised', error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    assert_equal '', stdout, :stdout_is_empty
+  end
+
+  test '12D2CD',
+  'a post whose http request raises raises the service error with its message' do
+    set_http(HttpJsonRequesterRaisesStub)
+    stdout,stderr = capture_stdout_stderr do
+      error = assert_raises(SaverService::Error) { saver.group_join('5U2J18') }
+      assert_equal 'http-request-raised', error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    assert_equal '', stdout, :stdout_is_empty
+  end
+
 end

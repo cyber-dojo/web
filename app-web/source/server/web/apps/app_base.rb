@@ -20,6 +20,10 @@ module Web
     # from ASSETS_DIR, a sibling of source/ that no app roots itself at.
     set :views, File.expand_path('../views', __dir__)
     set :host_authorization, {}
+    # Errors reach the error hook below in every environment, tests included,
+    # rather than depending on which RACK_ENV Sinatra derives its defaults from.
+    set :show_exceptions, false
+    set :raise_errors, false
     set :protection, except: %i[http_origin json_csrf]
 
     def initialize(externals)
@@ -139,9 +143,13 @@ module Web
       erb :'error/404', layout: :'layouts/error'
     end
 
+    # Preserve a client error (4xx) from the downstream service instead of
+    # flattening it to 500; anything else stays a server error.
     error do
-      status 500
-      erb :'error/500', layout: :'layouts/error'
+      error = env['sinatra.error']
+      code = error.respond_to?(:status) ? error.status.to_i : 0
+      status((400..499).cover?(code) ? code : 500)
+      erb :error, layout: :'layouts/error'
     end
 
     private
