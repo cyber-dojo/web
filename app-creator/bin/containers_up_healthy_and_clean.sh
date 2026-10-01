@@ -27,7 +27,8 @@ client_up_healthy_and_clean()
     export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-9081}"
     # --no-deps keeps nginx's demo-only dependencies (web, dashboard, differ)
     # out; creator is already up from server_up_healthy_and_clean.
-    docker compose up --detach --wait --no-deps nginx selenium
+    COMPOSE_FILE="${COMPOSE_FILE_WITH_BROWSER}" \
+      docker compose up --detach --wait --no-deps nginx selenium
     exit_non_zero_unless_selenium_grid_ready
   fi
 }

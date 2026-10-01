@@ -27,11 +27,10 @@ image_tag()
 
 containers_down()
 {
-  # Names the same files demo.sh runs nginx from, so down knows the nginx
-  # service and also removes the one-off container that run leaves.
+  # Reads only docker-compose.yml, as web's containers_down does, so it needs
+  # no CYBER_DOJO_NGINX_HOST_PORT. --remove-orphans still removes everything
+  # else in this compose project, demo.sh's one-off nginx container included.
   docker compose \
-    --file "$(repo_root)/docker-compose-depends.yml" \
-    --file "$(repo_root)/docker-compose-nginx.yml" \
     --file "$(repo_root)/docker-compose.yml" \
     down --remove-orphans --volumes
 }

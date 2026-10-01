@@ -136,13 +136,6 @@ module DashboardApp
         @tabs = []
         @group_id = group ? group['id'] : @id
       end
-    rescue StandardError
-      # Resolving is best-effort: if the id resolves to nothing (or the saver is
-      # unreachable), render as a standalone group keyed on the given id, and
-      # let the per-child fetches surface any error.
-      @cluster_id = nil
-      @tabs = []
-      @group_id = @id
     end
 
     # The canonical URL of the cluster the requested id sits in: the cluster's

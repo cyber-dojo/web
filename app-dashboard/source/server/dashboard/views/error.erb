@@ -1,5 +1,9 @@
-
-Something's not right...
-<pre>
-  <%= @diagnostic %>
-</pre>
+<div id="error-page">
+  <div class="error-panel">
+    <div class="error-title"><%= response.status %> error</div>
+    <img src="/images/avatars/all_colour.png" class="error-avatars"/>
+    <form action="/" method="get">
+      <button type="submit" class="error-button"><%= response.status < 500 ? 'oops' : 'sorry' %></button>
+    </form>
+  </div>
+</div>

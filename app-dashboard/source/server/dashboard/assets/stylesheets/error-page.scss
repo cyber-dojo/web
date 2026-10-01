@@ -1,0 +1,51 @@
+
+// The error page every app renders. Its own class names keep each app's page
+// styles off it; its values are the shared tokens, so a difference between
+// apps can only come from a token whose value has drifted.
+
+#error-page
+{
+  @include non-code-font();
+
+  .error-panel
+  {
+    @include rounded-corner(5px);
+    display: block;
+    width: 314px;
+    margin: 10px auto 7px auto;
+    padding: 20px;
+    text-align: left;
+    background: $darker-color;
+    border: 1px solid darken(gray, 15%);
+  }
+
+  .error-title
+  {
+    font-size: 56px;
+    color: $lighter-color;
+    position: relative;
+    top: -19px;
+  }
+
+  .error-avatars
+  {
+    display: block;
+    width: 314px;
+    height: 314px;
+  }
+
+  .error-button
+  {
+    @include non-code-font();
+    @include rounded-corner(6px);
+    font-size: 40px;
+    font-weight: normal;
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 2px 15px 4px 15px;
+    background: darken($lighter-color, 12%);
+    border: 2px solid $darker-color;
+    &:hover { border: 2px dotted lighten($darker-color, 20%); }
+  }
+}

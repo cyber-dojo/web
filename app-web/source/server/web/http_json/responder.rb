@@ -12,7 +12,9 @@ module Web
 
       def get(path, args)
         response = requester.get(path, args)
-        unpacked(response.body, path.to_s, args)
+        unpacked(response, path.to_s, args)
+      rescue exception_class
+        raise
       rescue Exception => e
         raise exception_class.new(e.message)
       end
@@ -21,7 +23,9 @@ module Web
 
       def post(path, args)
         response = requester.post(path, args)
-        unpacked(response.body, path.to_s, args)
+        unpacked(response, path.to_s, args)
+      rescue exception_class
+        raise
       rescue Exception => e
         raise exception_class.new(e.message)
       end
@@ -30,13 +34,16 @@ module Web
 
       attr_reader :requester, :exception_class
 
-      def unpacked(body, path, args)
+      def unpacked(response, path, args)
+        body = response.body
         json = JSON.parse!(body)
         unless json.is_a?(Hash)
           raise service_error(path, args, body, 'body is not JSON Hash')
         end
+
         if json.has_key?('exception')
-          raise service_error(path, args, body, json['exception'])
+          raise service_error(path, args, body, json['exception'],
+                              response.code)
         end
         unless json.has_key?(path)
           raise service_error(path, args, body, 'body is missing :path key')
@@ -54,7 +61,7 @@ module Web
         Thread.current[:stdout_stream] || $stdout
       end
 
-      def service_error(path, args, body, message)
+      def service_error(path, args, body, message, status = nil)
         stdout_stream.puts(JSON.pretty_generate({
           'Exception: HttpJson::Responder': {
             path: path,
@@ -64,7 +71,7 @@ module Web
           }
         }))
         stdout_stream.flush
-        exception_class.new(readable(message))
+        exception_class.new(readable(message), status)
       end
 
       # A service's exception Hash as pretty JSON, so its message and backtrace
