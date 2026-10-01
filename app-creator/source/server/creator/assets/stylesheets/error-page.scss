@@ -3,6 +3,18 @@
 // styles off it; its values are the shared tokens, so a difference between
 // apps can only come from a token whose value has drifted.
 
+body.error-page-body
+{
+  color: $lighter-color;
+  background: $darker-color;
+  background-image: url('/images/avatars/all_gray.png');
+  background-repeat: repeat;
+  background-size: 450px 450px;
+  text-align: center;
+  padding: 0px;
+  margin: 8px 0px;
+}
+
 #error-page
 {
   @include non-code-font();

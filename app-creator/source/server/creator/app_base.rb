@@ -38,6 +38,12 @@ module CreatorApp
       to(path, false)
     end
 
+    # The stylesheet's URL as the browser requests it; error_layout.erb links
+    # it by this name, which every app defines.
+    def css_url
+      path_to(CSS_PATH)
+    end
+
     # Wires the app to its collaborators (saver, runner, start-points, differ).
     def initialize(externals)
       @externals = externals
@@ -128,7 +134,7 @@ module CreatorApp
         exception[:message] = error.message
       end
       puts JSON.pretty_generate(info)
-      halt erb :error
+      halt erb :error, layout: :error_layout
     end
   end
 end
