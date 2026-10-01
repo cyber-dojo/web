@@ -147,6 +147,33 @@ class ErrorHandlerTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  test 'e5r8h9', %w(
+  | GET an unknown route returns the 404 error page.
+  | Its button says oops.
+  ) do
+    get mounted_path('nonsense')
+    assert status?(404), "status=#{status}"
+    assert_includes content_type, 'text/html'
+    assert_includes last_response.body, '<div id="error-page">'
+    assert_includes last_response.body, '404 error'
+    assert_includes last_response.body, '>oops</button>'
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'e5r8hA', %w(
+  | POST to an unknown route returns the 404 error page, as a GET does.
+  ) do
+    post mounted_path('nonsense')
+    assert status?(404), "status=#{status}"
+    assert_includes content_type, 'text/html'
+    assert_includes last_response.body, '<div id="error-page">'
+    assert_includes last_response.body, '404 error'
+    assert_includes last_response.body, '>oops</button>'
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   private
 
   # GETs /diff_summary, asserts a 500 json response whose body is exactly the

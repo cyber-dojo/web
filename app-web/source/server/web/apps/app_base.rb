@@ -146,7 +146,7 @@ module Web
     # so it covers every verb and cannot shadow a route declared after it.
     not_found do
       status 404
-      erb :'error/404', layout: :'layouts/error'
+      erb :error, layout: :error_layout
     end
 
     # Preserve a client error (4xx) from the downstream service instead of
