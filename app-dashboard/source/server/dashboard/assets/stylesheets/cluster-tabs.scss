@@ -1,3 +1,8 @@
+@use "lib/colour";
+@use "lib/fonts";
+
+@use "sass:color";
+
 // One tab per child group of a cluster (a multi-LTF practice). Sits between the
 // shared #controls above and #dashboard-page below. Only rendered when there
 // are 2+ tabs; a standalone single-LTF group shows no tab bar and is unchanged.
@@ -12,13 +17,13 @@
 //    and overlaps the rail with no bottom edge, so the tab and the content it
 //    controls merge into one shape.
 
-$tab-rail:        lighten($darker-color, 28%);
-$tab-inactive-bg: lighten($darker-color, 10%);
-$tab-inactive-br: lighten($darker-color, 16%);
+$tab-rail:        color.adjust(colour.$darker-color, $lightness: 28%, $space: hsl);
+$tab-inactive-bg: color.adjust(colour.$darker-color, $lightness: 10%, $space: hsl);
+$tab-inactive-br: color.adjust(colour.$darker-color, $lightness: 16%, $space: hsl);
 
 #cluster-tabs
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
         display: flex;
       flex-wrap: wrap;
     align-items: flex-end;
@@ -35,21 +40,21 @@ $tab-inactive-br: lighten($darker-color, 16%);
         padding: { left: 12px; right: 12px; top: 4px; bottom: 5px; }
   border-radius: 6px 6px 0px 0px; // round the top corners only
      background: $tab-inactive-bg;
-          color: darken($lighter-color, 22%);
+          color: color.adjust(colour.$lighter-color, $lightness: -22%, $space: hsl);
          border: 1px solid $tab-inactive-br;
   border-bottom: none; // the shared rail is this tab's bottom edge
         opacity: 0.8;
 
-    &:hover { opacity: 1; background: lighten($darker-color, 15%); }
+    &:hover { opacity: 1; background: color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl); }
 
     .cluster-tab-ltf { font-size: 13px; white-space: nowrap; }
-    .cluster-tab-id  { font-size: 10px; color: lighten(Gray, 8%); }
+    .cluster-tab-id  { font-size: 10px; color: color.adjust(Gray, $lightness: 8%, $space: hsl); }
   }
 
   .cluster-tab-active
   {
-     background: $darker-color; // == the content background below, so they merge
-          color: $lighter-color;
+     background: colour.$darker-color; // == the content background below, so they merge
+          color: colour.$lighter-color;
          border: 1px solid $tab-rail;
   border-bottom: none;
   margin-bottom: -2px; // pull down over the rail so no line closes it off

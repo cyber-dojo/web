@@ -1,14 +1,20 @@
+@use "colors";
+@use "fonts";
+@use "shared";
+
+@use "sass:color";
+
 .diff-line-count, .diff-line-count-icon
 {
-  @include plaintext-font();
-  @include right-align(0px);
+  @include fonts.plaintext-font();
+  @include shared.right-align(0px);
   text-align: right;
   margin: { top:0px; left:0px; bottom: 2px; right:2px; }
   padding: 2px;
   font-size: 11px;
   width: 20px;
-  color: $darker-color;
-  border: 1px solid lighten($darker-color,6%);
+  color: colors.$darker-color;
+  border: 1px solid color.adjust(colors.$darker-color,$lightness: 6%, $space: hsl);
   border-radius: 3px;
   &.deleted, &.added, &.same { cursor:pointer; }
 }
@@ -18,22 +24,22 @@
 .diff-line-count.deleted,
 .diff-line-count-icon.deleted
 {
-  background: $diff-deleted-count-color;
-  border: 1px solid $diff-deleted-count-color;
+  background: colors.$diff-deleted-count-color;
+  border: 1px solid colors.$diff-deleted-count-color;
 }
 
 .diff-line-count.added,
 .diff-line-count-icon.added
 {
-  background: $diff-added-count-color;
-  border: 1px solid $diff-added-count-color;
+  background: colors.$diff-added-count-color;
+  border: 1px solid colors.$diff-added-count-color;
 }
 
 .diff-line-count.same,
 .diff-line-count-icon.same
 {
-  background: $diff-same-count-color;
-  border: 1px solid $diff-same-count-color;
+  background: colors.$diff-same-count-color;
+  border: 1px solid colors.$diff-same-count-color;
 }
 
 //- - - - - - - - - - - - - - - -

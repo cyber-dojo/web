@@ -1,10 +1,15 @@
+@use "colors";
+@use "grid-sizes";
+
+@use "sass:color";
+
 #review-page
 {
   display: none; // Because also present in edit page
 
   .controls
   {
-    margin: { top:1px; bottom: 10px; left:$left-column-left-margin; }
+    margin: { top:1px; bottom: 10px; left:grid-sizes.$left-column-left-margin; }
   }
 
   #traffic-light-navigator
@@ -53,7 +58,7 @@
   {
     display: inline-flex;
     border-radius: 5px;
-    background: lighten($darker-color,10%);
+    background: color.adjust(colors.$darker-color,$lightness: 10%, $space: hsl);
     padding: 4px;
     #review-index-box
     {
@@ -72,12 +77,12 @@
       width: 20px;
       height: 20px;
       padding: 0px;
-      border: 1px solid lighten($darker-color,35%);
-      &:hover { border: 1px dotted lighten($darker-color,35%); }
+      border: 1px solid color.adjust(colors.$darker-color,$lightness: 35%, $space: hsl);
+      &:hover { border: 1px dotted color.adjust(colors.$darker-color,$lightness: 35%, $space: hsl); }
       &[disabled]
       {
-        background: lighten($darker-color,35%);
-        &:hover { border: 1px solid lighten($darker-color,35%); }
+        background: color.adjust(colors.$darker-color,$lightness: 35%, $space: hsl);
+        &:hover { border: 1px solid color.adjust(colors.$darker-color,$lightness: 35%, $space: hsl); }
       }
     }
     #first-index, #prev-index, #next-index, #last-index,

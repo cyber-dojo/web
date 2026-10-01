@@ -1,3 +1,5 @@
+@use "grid-sizes";
+
 #kata-page
 {
   display: flex;
@@ -5,27 +7,27 @@
 
   .left-column
   {
-    width: $left-column-width; // Controls width of filenames
-    height: $column-height;
-    max-height: $column-height;
+    width: grid-sizes.$left-column-width; // Controls width of filenames
+    height: grid-sizes.$column-height;
+    max-height: grid-sizes.$column-height;
     display: inline-block;
     margin: { top:2px; }
   }
   .right-column
   {
     width: calc(100vw - 500px);
-    height: $column-height;
-    max-height: $column-height;
+    height: grid-sizes.$column-height;
+    max-height: grid-sizes.$column-height;
     display: inline-block;
     vertical-align: top;
     margin-top: 2px;
   }
   .right-gutter
   {
-    height: $column-height;
-    max-height: $column-height;
+    height: grid-sizes.$column-height;
+    max-height: grid-sizes.$column-height;
     display: inline-block;
-    margin: { left:$right-column-left-margin; top:1px; }
+    margin: { left:grid-sizes.$right-column-left-margin; top:1px; }
     position: relative; // For charity/sponsor absolute:bottom
   }
 }

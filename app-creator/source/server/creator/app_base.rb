@@ -1,7 +1,5 @@
 require 'English'
-require_relative 'silently'
 require 'sinatra/base'
-silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 require_relative 'json_hash_parse_helper'
 require 'json'
@@ -50,8 +48,6 @@ module CreatorApp
       super(nil)
     end
 
-    silently { register Sinatra::Contrib }
-    set :json_encoder, :to_json # avoid MultiJson.encode deprecation warning
     set :port, ENV['PORT']
 
     # Permit all Host headers; nginx fronts this app and validates Host.
@@ -76,14 +72,11 @@ module CreatorApp
     end
 
     def self.get_delegate(klass, name)
-      get "/#{name}", provides: [:json] do
-        respond_to do |format|
-          format.json do
-            target = klass.new(@externals)
-            result = target.public_send(name, params)
-            json({ name => result })
-          end
-        end
+      get "/#{name}" do
+        content_type :json
+        target = klass.new(@externals)
+        result = target.public_send(name, params)
+        { name => result }.to_json
       end
     end
 

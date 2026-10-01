@@ -1,10 +1,12 @@
+@use "sass:color";
+
 
 $red: #F00;
 $amber: #FF0;
 $green: #0F0;
 
-$darker-color: darken(#666, 25%);
-$lighter-color: lighten(Khaki, 5%);
-$text-color: darken($lighter-color, 10%);
+$darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
+$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);
+$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
 
 a:link, a:visited { color: $text-color; }

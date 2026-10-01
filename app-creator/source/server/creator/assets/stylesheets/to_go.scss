@@ -1,3 +1,5 @@
+@use "lib/fonts";
+
 
 .chooser-page
 {
@@ -10,6 +12,6 @@
 
 .heading
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
   font-size:40px;
 }

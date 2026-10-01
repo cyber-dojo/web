@@ -1,10 +1,14 @@
+@use "colors";
+
+@use "sass:color";
+
 #revert-title-cell
 {
   display: inline-block;
   width: 110px;
   border-radius: 3px;
   color: Black;
-  background: lighten($darker-color,40%);
+  background: color.adjust(colors.$darker-color,$lightness: 40%, $space: hsl);
   padding: { left:3px; right:1px; top:0px; bottom:0px; }
   margin: 0px;
 }
@@ -24,7 +28,7 @@
   display: inline-block;
   color: Black;
   cursor: pointer;
-  background: lighten($darker-color,40%);
+  background: color.adjust(colors.$darker-color,$lightness: 40%, $space: hsl);
   border: none;
   margin-left: 2px;
   padding-right: 1px;

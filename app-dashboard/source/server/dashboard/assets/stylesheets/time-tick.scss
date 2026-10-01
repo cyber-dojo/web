@@ -1,10 +1,14 @@
+@use "lib/fonts";
+
+@use "sass:color";
+
 .time-tick
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
      display: block;
   text-align: center;
    font-size: 13px;
-       color: lighten(black,60%);
+       color: color.adjust(black,$lightness: 60%, $space: hsl);
   $down-triangle: "\25BF";
   &:after { content: $down-triangle; }
 }

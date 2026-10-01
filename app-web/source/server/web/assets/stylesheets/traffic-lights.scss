@@ -1,3 +1,5 @@
+@use "sass:math";
+
 #traffic-lights, #review-traffic-lights
 {
   display: flex;
@@ -11,7 +13,7 @@ $traffic-light-size: 19px;
 
 @mixin circle-border($width)
 {
-  border-radius: $width / 2 + 1;
+  border-radius: math.div($width, 2) + 1;
 }
 
 img.diff-traffic-light

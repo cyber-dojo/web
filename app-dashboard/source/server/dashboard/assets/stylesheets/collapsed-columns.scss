@@ -1,8 +1,10 @@
+@use "sass:color";
+
 .collapsed-columns
 {
      display: inline-block;
    font-size: 12px;
-       color: lighten(black,40%);
+       color: color.adjust(black,$lightness: 40%, $space: hsl);
       margin: { left:6px; right:6px; bottom:6px; }
      padding: { top:4px; }
   $ellipsis: "\2026";

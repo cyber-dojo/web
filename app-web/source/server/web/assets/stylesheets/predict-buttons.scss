@@ -1,3 +1,7 @@
+@use "colors";
+
+@use "sass:color";
+
 #predict-buttons-cell { margin-top: 1px; }
 
 button.predict
@@ -7,25 +11,25 @@ button.predict
   margin-bottom: 3px;
   padding-left: 7px;
   font-size: 18px;
-  color: lighten(Black, 20%);
+  color: color.adjust(Black, $lightness: 20%, $space: hsl);
   font-weight: bold;
   text-align: right;
 
   &.red
   {
-    background: $red;
-    border-color: $red;
-    color: lighten(Black,10%);
+    background: colors.$red;
+    border-color: colors.$red;
+    color: color.adjust(Black,$lightness: 10%, $space: hsl);
   }
   &.amber
   {
-    background: $amber;
-    border-color: $amber;
+    background: colors.$amber;
+    border-color: colors.$amber;
   }
   &.green
   {
-    background: $green;
-    border-color: $green;
+    background: colors.$green;
+    border-color: colors.$green;
   }
 
   &.red, &.amber, &.green
@@ -33,14 +37,14 @@ button.predict
     &:hover
     {
       border-style: dotted;
-      border-color: lighten(Black, 20%);
+      border-color: color.adjust(Black, $lightness: 20%, $space: hsl);
     }
     &[disabled]
     {
-      background: lighten($darker-color, 20%);
-      border-color: lighten($darker-color, 20%);
+      background: color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl);
+      border-color: color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl);
       cursor: default;
-      &:hover { border-color: lighten($darker-color, 20%); }
+      &:hover { border-color: color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl); }
     }
   }
 }

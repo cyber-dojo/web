@@ -1,11 +1,16 @@
+@use "codemirror-cyber-dojo-dark-colour-on";
+@use "codemirror-cyber-dojo-grays";
 
-$syntax-text-color: $very-light-gray;
-$syntax-background-color: black;
+@use "sass:color";
+
+
+codemirror-cyber-dojo-dark-colour-on.$syntax-text-color: codemirror-cyber-dojo-grays.$very-light-gray;
+codemirror-cyber-dojo-dark-colour-on.$syntax-background-color: black;
 
 .cm-s-cyber-dojo-dark-colour-off.CodeMirror
 {
-  background: $syntax-background-color;
-  color: $syntax-text-color;
+  background: codemirror-cyber-dojo-dark-colour-on.$syntax-background-color;
+  color: codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-lines
@@ -17,8 +22,8 @@ $syntax-background-color: black;
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters
 {
-  background: lighten($syntax-background-color,4%);
-  color: darken($syntax-text-color, 50%);
+  background: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-background-color,$lightness: 4%, $space: hsl);
+  color: color.adjust(codemirror-cyber-dojo-dark-colour-on.$syntax-text-color, $lightness: -50%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters
@@ -33,7 +38,7 @@ $syntax-background-color: black;
 
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-cursor
 {
-  border-left: 1px solid $syntax-text-color;
+  border-left: 1px solid codemirror-cyber-dojo-dark-colour-on.$syntax-text-color;
 }
 
 .cm-s-cyber-dojo-dark-colour-off .cm-tab

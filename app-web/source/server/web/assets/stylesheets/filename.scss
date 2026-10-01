@@ -1,15 +1,21 @@
+@use "colors";
+@use "grid-sizes";
+@use "selectable";
+
+@use "sass:color";
+
 .filename_div { display: none; }
 
 .filename
 {
-  @include selectable();
+  @include selectable.selectable();
   &[class~='highlight'] { &:before { content: "> "; } }
-  color: lighten($darker-color, 25%);
-  padding-left: $left-column-left-margin;
+  color: color.adjust(colors.$darker-color, $lightness: 25%, $space: hsl);
+  padding-left: grid-sizes.$left-column-left-margin;
   padding-right: 0px;
 }
 
 #filename-list .source.filename
 {
-  color: lighten($darker-color, 50%);
+  color: color.adjust(colors.$darker-color, $lightness: 50%, $space: hsl);
 }

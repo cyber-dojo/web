@@ -1,3 +1,5 @@
+@use "fonts";
+
 #fork-dialog
 {
   padding-bottom: 1em;
@@ -11,7 +13,7 @@
     margin-left: auto;
     margin-right: auto;
     padding: 10px 12px;
-    @include non-code-font();
+    @include fonts.non-code-font();
     width: 288px;
     text-align: left;
 
@@ -30,7 +32,7 @@
       font-size: 13px;
       font-weight: normal;
       list-style: disc;
-      @include plaintext-font();
+      @include fonts.plaintext-font();
     }
 
     .fork-option-note
@@ -40,7 +42,7 @@
       font-size: 12px;
       font-weight: normal;
       color: #666;
-      @include plaintext-font();
+      @include fonts.plaintext-font();
     }
   }
 }

@@ -25,57 +25,41 @@ module DashboardApp
     get_delegate(Prober, :ready?)
     get_delegate(Prober, :sha)
 
-    get '/show/:id', provides: [:html] do
+    get '/show/:id' do
       @id = params[:id]
       resolve_group_and_tabs
       redirect(cluster_url) if @cluster_id && @cluster_id != @id
-      respond_to do |wants|
-        wants.html do
-          erb :show
-        end
-      end
+      erb :show
     end
 
-    get '/heartbeat/:id', provides: [:json] do
+    get '/heartbeat/:id' do
       # Process all traffic-lights into minute columns here in Ruby
       # which can easily handle integers (unlike JS).
       # Then let browser do all rendering in JS.
-      respond_to do |wants|
-        wants.json do
-          gather
-          time_ticks = modified(@time_ticks)
-          avatars = altered(@all_indexes, @gapped)
-          json({ time_ticks: time_ticks, avatars: avatars })
-        end
-      end
+      content_type :json
+      gather
+      time_ticks = modified(@time_ticks)
+      avatars = altered(@all_indexes, @gapped)
+      { time_ticks: time_ticks, avatars: avatars }.to_json
     end
 
-    get '/diff_summary', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          id = params[:id]
-          was_index = params[:was_index].to_i
-          now_index = params[:now_index].to_i
-          summary = externals.saver.diff_summary(id, was_index, now_index)
-          json({ diff_summary: summary })
-        end
-      end
+    get '/diff_summary' do
+      content_type :json
+      id = params[:id]
+      was_index = params[:was_index].to_i
+      now_index = params[:now_index].to_i
+      summary = externals.saver.diff_summary(id, was_index, now_index)
+      { diff_summary: summary }.to_json
     end
 
-    get '/progress/:id', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          json(katas: avatars_progress)
-        end
-      end
+    get '/progress/:id' do
+      content_type :json
+      { katas: avatars_progress }.to_json
     end
 
-    get '/active_groups/:id', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          json(active_groups)
-        end
-      end
+    get '/active_groups/:id' do
+      content_type :json
+      active_groups.to_json
     end
 
     private

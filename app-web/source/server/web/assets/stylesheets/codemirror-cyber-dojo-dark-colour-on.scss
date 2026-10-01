@@ -1,21 +1,26 @@
+@use "codemirror-cyber-dojo-grays";
+@use "colors";
+
+@use "sass:color";
+
 // Based on atom-material-syntax-dark
 
-$green:             #C3E88D;
+colors.$green:             #C3E88D;
 $teal:              #009688;
 $light-teal:        #73d1c8;
 $cyan:              #89DDF3;
-$blue:              #82AAFF;
+colors.$blue:              #82AAFF;
 $indigo:            #7986CB;
 $purple:            #C792EA;
 $pink:              #FF5370;
-$red:               #F07178;
+colors.$red:               #F07178;
 $strong-orange:     #F78C6A;
 $orange:            #FFCB6B;
 $light-orange:      #FFE082;
 
-$syntax-text-color: $very-light-gray;
+$syntax-text-color: codemirror-cyber-dojo-grays.$very-light-gray;
 $syntax-background-color: black;
-$syntax-comment-color: lighten($very-dark-gray, 40%);
+$syntax-comment-color: color.adjust(codemirror-cyber-dojo-grays.$very-dark-gray, $lightness: 40%, $space: hsl);
 
 .cm-s-cyber-dojo-dark-colour-on.CodeMirror
 {
@@ -32,8 +37,8 @@ $syntax-comment-color: lighten($very-dark-gray, 40%);
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters
 {
-  background: lighten($syntax-background-color,4%);
-  color: darken($syntax-text-color, 50%);
+  background: color.adjust($syntax-background-color,$lightness: 4%, $space: hsl);
+  color: color.adjust($syntax-text-color, $lightness: -50%, $space: hsl);
 }
 
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters
@@ -53,7 +58,7 @@ $syntax-comment-color: lighten($very-dark-gray, 40%);
 
 $default: $syntax-text-color;
 
-.cm-s-cyber-dojo-dark-colour-on .cm-header {color: $blue;}
+.cm-s-cyber-dojo-dark-colour-on .cm-header {color: colors.$blue;}
 .cm-s-cyber-dojo-dark-colour-on .cm-quote {color: $default;}
 .cm-s-cyber-dojo-dark-colour-on .cm-negative {color: $default;}
 .cm-s-cyber-dojo-dark-colour-on .cm-positive {color: $default;}
@@ -65,21 +70,21 @@ $default: $syntax-text-color;
 .cm-s-cyber-dojo-dark-colour-on .cm-keyword {color: $purple;}
 .cm-s-cyber-dojo-dark-colour-on .cm-atom {color: $default;}
 .cm-s-cyber-dojo-dark-colour-on .cm-number {color: $strong-orange;}
-.cm-s-cyber-dojo-dark-colour-on .cm-def {color: $blue;}
+.cm-s-cyber-dojo-dark-colour-on .cm-def {color: colors.$blue;}
 .cm-s-cyber-dojo-dark-colour-on .cm-variable,
 .cm-s-cyber-dojo-dark-colour-on .cm-punctuation,
-.cm-s-cyber-dojo-dark-colour-on .cm-property  {color: $blue;}
+.cm-s-cyber-dojo-dark-colour-on .cm-property  {color: colors.$blue;}
 .cm-s-cyber-dojo-dark-colour-on .cm-operator {color: $cyan;}
-.cm-s-cyber-dojo-dark-colour-on .cm-variable-2 {color: $blue;}
-.cm-s-cyber-dojo-dark-colour-on .cm-variable-3 {color: $blue;}
+.cm-s-cyber-dojo-dark-colour-on .cm-variable-2 {color: colors.$blue;}
+.cm-s-cyber-dojo-dark-colour-on .cm-variable-3 {color: colors.$blue;}
 .cm-s-cyber-dojo-dark-colour-on .cm-type {color: $purple;}
 .cm-s-cyber-dojo-dark-colour-on .cm-comment {color: $syntax-comment-color;}
-.cm-s-cyber-dojo-dark-colour-on .cm-string {color: $red;}
-.cm-s-cyber-dojo-dark-colour-on .cm-string-2 {color: $red;}
+.cm-s-cyber-dojo-dark-colour-on .cm-string {color: colors.$red;}
+.cm-s-cyber-dojo-dark-colour-on .cm-string-2 {color: colors.$red;}
 .cm-s-cyber-dojo-dark-colour-on .cm-diff-negative { color: #d44; }
 .cm-s-cyber-dojo-dark-colour-on .cm-diff-positive { color: #292; }
-.cm-s-cyber-dojo-dark-colour-on .cm-diff-meta { color: $green; }
-.cm-s-cyber-dojo-dark-colour-on .cm-meta { color: $green; }
+.cm-s-cyber-dojo-dark-colour-on .cm-diff-meta { color: colors.$green; }
+.cm-s-cyber-dojo-dark-colour-on .cm-meta { color: colors.$green; }
 .cm-s-cyber-dojo-dark-colour-on .cm-qualifier {color: $default;}
 .cm-s-cyber-dojo-dark-colour-on .cm-builtin {color: $purple;}
 .cm-s-cyber-dojo-dark-colour-on .cm-bracket {color: $default;}

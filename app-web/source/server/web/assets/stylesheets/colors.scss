@@ -1,15 +1,17 @@
+@use "sass:color";
+
 
 $black: #000;
-$darker-color: darken(#666, 25%);
-$lighter-color: lighten(Khaki, 5%);
-$text-color: darken($lighter-color, 10%);
+$darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
+$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);
+$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
 
 $fadePercent: 15%;
 
 $pulling: #2CDFF0;
-$red:   lighten(#F00, $fadePercent);
-$amber: lighten(#FF0, $fadePercent);
-$green: lighten(#0F0, $fadePercent);
+$red:   color.adjust(#F00, $lightness: $fadePercent, $space: hsl);
+$amber: color.adjust(#FF0, $lightness: $fadePercent, $space: hsl);
+$green: color.adjust(#0F0, $lightness: $fadePercent, $space: hsl);
 
 $blue:  #00F;
 
@@ -28,11 +30,11 @@ $blue:  #00F;
 .faulty    { color: DarkGray; }
 .pulling   { color: $pulling;   }
 
-$diff-added-count-color: lighten($green, 20%);
-$diff-deleted-count-color: lighten($red, 20%);
+$diff-added-count-color: color.adjust($green, $lightness: 20%, $space: hsl);
+$diff-deleted-count-color: color.adjust($red, $lightness: 20%, $space: hsl);
 $diff-same-count-color: Gray;
 
 $projector-background: White;
 
-$diff-added-line-background: lighten($green, 25%);
-$diff-deleted-line-background: lighten($red, 25%);
+$diff-added-line-background: color.adjust($green, $lightness: 25%, $space: hsl);
+$diff-deleted-line-background: color.adjust($red, $lightness: 25%, $space: hsl);

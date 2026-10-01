@@ -1,14 +1,17 @@
+@use "colors";
+@use "fonts";
+
 
 @mixin wide-list-item
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
 
-  color: $lighter-color;
-  background: $darker-color;
+  color: colors.$lighter-color;
+  background: colors.$darker-color;
 
   text-align: left;
 
-  border: 1px solid $darker-color;
+  border: 1px solid colors.$darker-color;
   margin: 0px;
   cursor: pointer;
 

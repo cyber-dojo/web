@@ -1,3 +1,9 @@
+@use "lib/colour";
+@use "lib/fonts";
+@use "lib/rounded-corner";
+
+@use "sass:color";
+
 
 .home-icon
 {
@@ -11,7 +17,7 @@
 
 #home-page
 {
-  @include non-code-font();
+  @include fonts.non-code-font();
 
   .heading
   {
@@ -34,7 +40,7 @@
         font-size:107px;
         position:relative;
         top:-17px;left:5px;
-        color:$text-color;
+        color:colour.$text-color;
       }
     }
 
@@ -44,7 +50,7 @@
       position:relative;
       top:-39px;
       left:146px;
-      color:lighten($text-color, 5%);
+      color:color.adjust(colour.$text-color, $lightness: 5%, $space: hsl);
     }
   }
 
@@ -82,12 +88,12 @@
 
   .questions
   {
-    @include plaintext-font();
+    @include fonts.plaintext-font();
     font-size:15px;
     img
     {
-      background:lighten($darker-color, 15%);
-      @include rounded-corner(6px);
+      background:color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl);
+      @include rounded-corner.rounded-corner(6px);
       margin: { top:0px; bottom:0px; left:3px; right:3px; }
       filter:grayscale(100%);
     }
@@ -118,6 +124,6 @@
   {
     margin: { top:5px; bottom:9px; }
     width:860px;
-    border-bottom: 1px dashed lighten($darker-color, 15%);
+    border-bottom: 1px dashed color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl);
   }
 }

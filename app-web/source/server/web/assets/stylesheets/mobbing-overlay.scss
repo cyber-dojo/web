@@ -1,3 +1,8 @@
+@use "colors";
+@use "fonts";
+
+@use "sass:color";
+
 // The full-page lock overlay shown when this tab goes stale because another
 // laptop moved the head (built by cd.mobbingPoll). A dimmed backdrop over the
 // whole page with a centered box, so it reads as the page going stale rather
@@ -17,10 +22,10 @@
 
 #mobbing-overlay-box
 {
-  @include plaintext-font();
-  background: lighten($darker-color, 5%);
-  color: $lighter-color;
-  border: 1px solid lighten($darker-color, 20%);
+  @include fonts.plaintext-font();
+  background: color.adjust(colors.$darker-color, $lightness: 5%, $space: hsl);
+  color: colors.$lighter-color;
+  border: 1px solid color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl);
   border-radius: 6px;
   padding: 28px 34px;
   max-width: 460px;
@@ -39,7 +44,7 @@
 {
   margin-top: 12px;
   font-size: 13px;
-  color: $text-color;
+  color: colors.$text-color;
 }
 
 #mobbing-overlay-box button

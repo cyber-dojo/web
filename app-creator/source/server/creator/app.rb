@@ -32,135 +32,92 @@ module CreatorApp
     get_delegate(Prober, :alive?)
     get_delegate(Prober, :ready?)
 
-    get '/home', provides: [:html] do
+    get '/home' do
       @hostname = ENV.fetch('CYBER_DOJO_ENV', 'none')
-      respond_to do |wants|
-        wants.html { erb :home }
+      erb :home
+    end
+
+    get '/choose_problem' do
+      self.data_source = externals.exercises_start_points
+      erb :choose_problem
+    end
+
+    get '/choose_custom_problem' do
+      self.data_source = externals.custom_start_points
+      erb :choose_custom_problem
+    end
+
+    get '/choose_ltf' do
+      @type = params['type']
+      self.data_source = externals.languages_start_points
+      erb :choose_ltf
+    end
+
+    post '/create.json' do
+      content_type :json
+      args = json_args
+      type = args.delete(:type)
+      id = create(type, args)
+      url = path_to("/enter?id=#{id}")
+      { 'route' => url, 'id' => id }.to_json
+    end
+
+    get '/enter' do
+      @id = params['id']
+      erb :enter
+    end
+
+    get '/id_type' do
+      content_type :json
+      { 'id_type' => IdTyper.new(externals).id_type(params['id']) }.to_json
+    end
+
+    get '/cluster_children' do
+      content_type :json
+      groups = saver.cluster_manifest(params['id'])['groups']
+      children = groups.map do |group_id, manifest|
+        { 'id' => group_id, 'display_name' => manifest['display_name'] }
+      end
+      { 'children' => children }.to_json
+    end
+
+    get '/group_display_name' do
+      content_type :json
+      manifest = saver.group_manifest(params['id'])
+      { 'display_name' => manifest['display_name'] }.to_json
+    end
+
+    post '/enter.json' do
+      content_type :json
+      group_id = json_args[:id]
+      kata_id = saver.group_join(group_id, cluster_avatar_order(group_id))
+      if kata_id.nil?
+        { 'route' => path_to("/full?id=#{group_id}") }.to_json
+      else
+        group_index = saver.kata_manifest(kata_id)['group_index']
+        { 'route' => path_to("/avatar?id=#{kata_id}"),
+          'id' => kata_id,
+          'group_index' => group_index }.to_json
       end
     end
 
-    get '/choose_problem', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          self.data_source = externals.exercises_start_points
-          erb :choose_problem
-        end
-      end
+    get '/avatar' do
+      @kata_id = params['id']
+      manifest = saver.kata_manifest(@kata_id)
+      @avatar_index = manifest['group_index'].to_i
+      erb :avatar
     end
 
-    get '/choose_custom_problem', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          self.data_source = externals.custom_start_points
-          erb :choose_custom_problem
-        end
-      end
+    get '/full' do
+      @group_id = params['id']
+      erb :full
     end
 
-    get '/choose_ltf', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          @type = params['type']
-          self.data_source = externals.languages_start_points
-          erb :choose_ltf
-        end
-      end
-    end
-
-    post '/create.json', provides: [:json] do
-      respond_to do |wants|
-        args = json_args
-        type = args.delete(:type)
-        id = create(type, args)
-        url = path_to("/enter?id=#{id}")
-        wants.json { json({ 'route' => url, 'id' => id }) }
-      end
-    end
-
-    get '/enter', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          @id = params['id']
-          erb :enter
-        end
-      end
-    end
-
-    get '/id_type', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          json('id_type' => IdTyper.new(externals).id_type(params['id']))
-        end
-      end
-    end
-
-    get '/cluster_children', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          groups = saver.cluster_manifest(params['id'])['groups']
-          children = groups.map do |group_id, manifest|
-            { 'id' => group_id, 'display_name' => manifest['display_name'] }
-          end
-          json('children' => children)
-        end
-      end
-    end
-
-    get '/group_display_name', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          manifest = saver.group_manifest(params['id'])
-          json('display_name' => manifest['display_name'])
-        end
-      end
-    end
-
-    post '/enter.json', provides: [:json] do
-      respond_to do |wants|
-        wants.json do
-          group_id = json_args[:id]
-          kata_id = saver.group_join(group_id, cluster_avatar_order(group_id))
-          if kata_id.nil?
-            json('route' => path_to("/full?id=#{group_id}"))
-          else
-            group_index = saver.kata_manifest(kata_id)['group_index']
-            json('route' => path_to("/avatar?id=#{kata_id}"),
-                 'id' => kata_id,
-                 'group_index' => group_index)
-          end
-        end
-      end
-    end
-
-    get '/avatar', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          @kata_id = params['id']
-          manifest = saver.kata_manifest(@kata_id)
-          @avatar_index = manifest['group_index'].to_i
-          erb :avatar
-        end
-      end
-    end
-
-    get '/full', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          @group_id = params['id']
-          erb :full
-        end
-      end
-    end
-
-    get '/reenter', provides: [:html] do
-      respond_to do |wants|
-        wants.html do
-          @group_id = params['id']
-          @avatars = saver.group_joined(@group_id)
-                          .to_h { |group_index, v| [group_index.to_i, v['id']] }
-          erb :reenter
-        end
-      end
+    get '/reenter' do
+      @group_id = params['id']
+      @avatars = saver.group_joined(@group_id)
+                      .to_h { |group_index, v| [group_index.to_i, v['id']] }
+      erb :reenter
     end
 
     private

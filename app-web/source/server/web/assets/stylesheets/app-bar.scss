@@ -1,14 +1,21 @@
+@use "colors";
+@use "fonts";
+@use "grid-sizes";
+@use "shared";
+
+@use "sass:color";
+
 #app-bar
 {
-  @include plaintext-font();
+  @include fonts.plaintext-font();
   display: flex;
-  background: lighten($darker-color, 10%);
-  color: $lighter-color;
+  background: color.adjust(colors.$darker-color, $lightness: 10%, $space: hsl);
+  color: colors.$lighter-color;
   font-size: 1.05em;
   width: 100%;
   height: 23px;
   text-align: left;
-  padding: { left: $left-column-left-margin; top: 4px; bottom: 3px; }
+  padding: { left: grid-sizes.$left-column-left-margin; top: 4px; bottom: 3px; }
   position: fixed;
   top: 0px;
   z-index: 1000;
@@ -36,10 +43,10 @@
 
   #display-name-box, #exercise-name-box, #id-box
   {
-    @include edged-panel();
+    @include shared.edged-panel();
     font-size: 10px;
     cursor: default;
-    background: $darker-color;
+    background: colors.$darker-color;
     display: inline-table;
     margin: { left:3px; right:3px; }
     white-space: nowrap;
@@ -54,7 +61,7 @@
     border-radius: 3px;
     padding: { left:7px; right:7px; top:0px; bottom:1px; }
     margin: { top:0px; bottom:0px; left:3px; right:3px; }
-    color: darken($darker-color, 10%);
+    color: color.adjust(colors.$darker-color, $lightness: -10%, $space: hsl);
     font-size: 10px;
     height: 17px;
     position: relative;
@@ -72,7 +79,7 @@
   // display-name/exercise/id pills, bold to stand out, inline in the bar.
   #mobbing-app-bar-message
   {
-    color: $lighter-color;
+    color: colors.$lighter-color;
     font-size: 11px;
     font-weight: bold;
     margin-left: 8px;
@@ -93,5 +100,5 @@
 
 #traffic-lights-dialog 
 {
-  .kata-id { font-size: 130%; color: $green; font-weight: bold; }
+  .kata-id { font-size: 130%; color: colors.$green; font-weight: bold; }
 }
