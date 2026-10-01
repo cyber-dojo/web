@@ -3,8 +3,8 @@ FROM ghcr.io/cyber-dojo/sinatra-base:949edc1@sha256:fd5205d77df654e812682c185b04
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
 FROM cyberdojo/asset_builder:5e9f6ad AS creator-assets
-COPY creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
-COPY creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
+COPY app-creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
+COPY app-creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS creator
@@ -17,7 +17,7 @@ ARG APP_DIR=/app
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY --chown=nobody:nogroup creator/source/server/ .
+COPY --chown=nobody:nogroup app-creator/source/server/ .
 COPY --from=creator-assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
 COPY --from=creator-assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 USER nobody
@@ -27,8 +27,8 @@ CMD [ "./config/up.sh" ]
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
 FROM cyberdojo/asset_builder:5e9f6ad AS dashboard-assets
-COPY dashboard/source/server/dashboard/assets/javascripts /app/app/assets/javascripts
-COPY dashboard/source/server/dashboard/assets/stylesheets /app/app/assets/stylesheets
+COPY app-dashboard/source/server/dashboard/assets/javascripts /app/app/assets/javascripts
+COPY app-dashboard/source/server/dashboard/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS dashboard
@@ -41,7 +41,7 @@ ARG APP_DIR=/dashboard
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY --chown=nobody:nogroup dashboard/source/server/ .
+COPY --chown=nobody:nogroup app-dashboard/source/server/ .
 COPY --from=dashboard-assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
 COPY --from=dashboard-assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 USER nobody
@@ -51,8 +51,8 @@ CMD ["./config/up.sh"]
 
 # Compile the SCSS/JS assets to a single app.css and app.js.
 FROM cyberdojo/asset_builder:5e9f6ad AS web-assets
-COPY web/source/server/web/assets/javascripts /app/app/assets/javascripts
-COPY web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
+COPY app-web/source/server/web/assets/javascripts /app/app/assets/javascripts
+COPY app-web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS web
@@ -65,7 +65,7 @@ ARG APP_DIR=/web
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY --chown=nobody:nogroup web/source/server/ .
+COPY --chown=nobody:nogroup app-web/source/server/ .
 COPY --from=web-assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
 COPY --from=web-assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 

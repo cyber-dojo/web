@@ -3,14 +3,14 @@ name: Main dashboard
 on:
   push:
     paths:
-      - 'dashboard/**'
+      - 'app-dashboard/**'
+      - 'bin/**'
       - 'deployment/terraform-dashboard/**'
       - 'flow-templates/**'
       - 'Dockerfile'
       - 'Makefile'
       - 'docker-compose*.yml'
       - '.dockerignore'
-      - 'dashboard.env'
       - '.github/workflows/main-dashboard.yml'
 
 env:
@@ -65,7 +65,7 @@ jobs:
       - name: Begin Kosli Trail
         uses: cyber-dojo/kosli-begin-trail@main
         with:
-          template_filename: dashboard/.kosli.yml
+          template_filename: app-dashboard/.kosli.yml
           flow_description: "UX for a group practice dashboard"
           flow_tags: |
             env=${{ env.KOSLI_AWS_BETA }}
@@ -111,8 +111,8 @@ jobs:
         run:
           kosli attest junit
             --name=dashboard.rubocop-lint
-            --results-dir=./dashboard/reports/rubocop
-            --attachments=./dashboard/.rubocop.yml
+            --results-dir=./app-dashboard/reports/rubocop
+            --attachments=./app-dashboard/.rubocop.yml
 
 
   sonarcloud-scan:
@@ -130,7 +130,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         uses: SonarSource/sonarqube-scan-action@v7
         with:
-          projectBaseDir: dashboard
+          projectBaseDir: app-dashboard
 
 
       - name: Attest evidence to Kosli
@@ -140,7 +140,7 @@ jobs:
             --max-wait=16
             --name=dashboard.sonarcloud-scan
             --sonar-api-token="${{ secrets.SONARCLOUD_TOKEN }}"
-            --sonar-working-dir=dashboard/.scannerwork
+            --sonar-working-dir=app-dashboard/.scannerwork
 
 
   build-image:
@@ -206,7 +206,7 @@ jobs:
         run:
           kosli attest junit
             --name=dashboard.unit-test
-            --results-dir=./dashboard/reports/server/junit
+            --results-dir=./app-dashboard/reports/server/junit
 
       - name: Attest coverage evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -216,7 +216,7 @@ jobs:
           kosli attest generic \
             --description="unit-test branch-coverage and metrics" \
             --name=dashboard.unit-test-coverage \
-            --user-data=./dashboard/reports/server/coverage_metrics.json
+            --user-data=./app-dashboard/reports/server/coverage_metrics.json
 
 
   sdlc-control-gate:

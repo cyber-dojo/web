@@ -5,28 +5,27 @@
 # except these dirs...
 
 !/.github
-!/creator
-!/dashboard
+!/app-creator
+!/app-dashboard
+!/app-web
+!/bin
 !/deployment
 !/flow-templates
-!/web
 
 # but still ignore these generated dirs inside them...
 
-/creator/reports/
-/creator/test/evidence.json
-/creator/test/server/reports/
-/creator/test/client/reports/
-/dashboard/reports/
-/web/reports/
+/app-creator/reports/
+/app-creator/test/evidence.json
+/app-creator/test/server/reports/
+/app-creator/test/client/reports/
+/app-dashboard/reports/
+/app-web/reports/
 
 # and these files...
 
 !/.dockerignore
 !/.gitignore
 !/CONTRIBUTING.md
-!/creator.env
-!/dashboard.env
 !/docker-compose.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml
@@ -35,4 +34,3 @@
 !/LICENSE.md
 !/Makefile
 !/README.md
-!/web.env

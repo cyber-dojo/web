@@ -15,12 +15,12 @@ services:
         - COMMIT_SHA
         - BASE_IMAGE
     user: nobody
-    env_file: [ web.env ]
+    env_file: [ app-web/web.env ]
     restart: no
     volumes:
-      - ./web/bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
-      - ./web/source/server/web:/web/source/web:ro
-      - ./web/test:/web/test:ro
+      - ./app-web/bin/create_v2_kata.rb:/web/source/script/create_v2_kata.rb:ro
+      - ./app-web/source/server/web:/web/source/web:ro
+      - ./app-web/test:/web/test:ro
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
@@ -31,12 +31,12 @@ services:
       args:
         - COMMIT_SHA
     user: nobody
-    env_file: [ .env, creator.env ]
+    env_file: [ .env, app-creator/creator.env ]
     read_only: true
     restart: no
     volumes:
-      - ./creator/source/server:/app/source:ro
-      - ./creator/test:/app/test:ro
+      - ./app-creator/source/server:/app/source:ro
+      - ./app-creator/test:/app/test:ro
       - type: tmpfs
         target: /tmp
         tmpfs:
@@ -55,12 +55,12 @@ services:
     depends_on:
       - differ
       - saver
-    env_file: [ dashboard.env ]
+    env_file: [ app-dashboard/dashboard.env ]
     read_only: true
     restart: no
     volumes:
-      - ./dashboard/source/server:/dashboard/source:ro
-      - ./dashboard/test:/dashboard/test:ro
+      - ./app-dashboard/source/server:/dashboard/source:ro
+      - ./app-dashboard/test:/dashboard/test:ro
       - type: tmpfs
         target: /tmp
         tmpfs:
