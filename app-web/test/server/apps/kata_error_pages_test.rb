@@ -7,21 +7,28 @@ class KataErrorPagesTest < AppsTestBase
   include CaptureStdoutStderr
 
   test 'EB6001', %w(
-  | GET /kata/edit2 (unknown route) returns 404
+  | GET /kata/edit2 (unknown route) returns the 404 error page.
+  | Its button says oops.
   ) do
     get '/kata/edit2'
     assert_equal 404, last_response.status
-    assert_includes last_response.body, '404'
+    assert_includes last_response.content_type, 'text/html'
+    assert_includes last_response.body, '<div id="error-page">'
+    assert_includes last_response.body, '404 error'
+    assert_includes last_response.body, '>oops</button>'
   end
 
   test 'EB6003', %w(
-  | POST to an unknown route returns the styled 404, as a GET does. A
-  | wildcard route can only answer the verb it is declared for, so the
-  | fallback is a not_found hook rather than a route.
+  | POST to an unknown route returns the 404 error page, as a GET does.
+  | A wildcard route can only answer the verb it is declared for.
+  | So the fallback is a not_found hook rather than a route.
   ) do
     post '/kata/edit2'
     assert_equal 404, last_response.status
-    assert_includes last_response.body, '404'
+    assert_includes last_response.content_type, 'text/html'
+    assert_includes last_response.body, '<div id="error-page">'
+    assert_includes last_response.body, '404 error'
+    assert_includes last_response.body, '>oops</button>'
   end
 
   test 'EB6002', %w(

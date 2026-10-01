@@ -31,7 +31,7 @@ def table_data
     [ 'test.errors',   stats['error_count'  ], '==',  0 ],
     [ 'test.skips',    stats['skip_count'   ], '==',  0 ],
     [ nil ],
-    [ 'test.lines.total',      test_cov['lines'   ]['total' ], '<=', 664 ],
+    [ 'test.lines.total',      test_cov['lines'   ]['total' ], '<=', 678 ],
     [ 'test.lines.missed',     test_cov['lines'   ]['missed'], '==',   0 ],
     [ 'test.branches.total',   test_cov['branches']['total' ], '==',   0 ],
     [ 'test.branches.missed',  test_cov['branches']['missed'], '==',   0 ],

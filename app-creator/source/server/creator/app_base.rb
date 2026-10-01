@@ -105,6 +105,15 @@ module CreatorApp
     set :show_exceptions, false
     set :raise_errors, false
 
+    # Every app answers an unmatched path the same way, because rack sends
+    # each unmatched path to whichever app owns its prefix: /creator/nonsense
+    # never reaches another app. A hook rather than a get '*' route, so it
+    # covers every verb and cannot shadow a route declared after it.
+    not_found do
+      status 404
+      erb :error, layout: :error_layout
+    end
+
     error do
       error = $ERROR_INFO
       info = {

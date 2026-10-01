@@ -14,7 +14,7 @@
     },
     "test": {
       "lines": {
-        "total":  {"min": 1, "max": 1562},
+        "total":  {"min": 1, "max": 1568},
         "missed": {"min": 0, "max": 0}
       },
       "branches": {
