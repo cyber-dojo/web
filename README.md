@@ -11,17 +11,18 @@ repos.
 
 Each app has the same shape:
 
-- its own directory, `<app>/`, holding its `source/`, `test/`, `bin/` and `docs/`
+- its own directory, `app-<app>/`, holding its `source/`, `test/`, `bin/` and `docs/`
 - its own Dockerfile stage, `<app>`, and its own image
-- its own `<app>.env`, loaded only by its own compose service
+- its own `app-<app>/<app>.env`, loaded only by its own compose service
 - its own make targets, all named `<app>_<verb>` (eg `make dashboard_test_server`)
 - its own workflow, `.github/workflows/main-<app>.yml`, run only when its
   files, or the files every app shares, change
 - its own deployment, from `deployment/terraform-<app>/`
 
-Besides each app's `<app>.env`, the repo root holds only what every app
-shares: the `Dockerfile`, the `Makefile`, the `docker-compose*.yml` files,
-`.env` (the ports of every service), and `flow-templates/`.
+The repo root holds only what every app shares: the `Dockerfile`, the
+`Makefile`, the `docker-compose*.yml` files, `.env` (the ports of every
+service), `bin/write_dot_env.sh` (the one script that writes `.env`), and
+`flow-templates/`.
 
 Each app's demo (`make <app>_demo`) builds every app's image from the current
 commit and serves them together through nginx, so one change shows up in every
