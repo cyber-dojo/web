@@ -5,6 +5,7 @@ FROM ghcr.io/cyber-dojo/sinatra-base:949edc1@sha256:fd5205d77df654e812682c185b04
 FROM cyberdojo/asset_builder:3a99172 AS creator-assets
 COPY app-creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
 COPY app-creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
+COPY common/stylesheets /app/app/assets/stylesheets/common
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS creator
@@ -29,6 +30,7 @@ CMD [ "./config/up.sh" ]
 FROM cyberdojo/asset_builder:3a99172 AS dashboard-assets
 COPY app-dashboard/source/server/dashboard/assets/javascripts /app/app/assets/javascripts
 COPY app-dashboard/source/server/dashboard/assets/stylesheets /app/app/assets/stylesheets
+COPY common/stylesheets /app/app/assets/stylesheets/common
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS dashboard
@@ -53,6 +55,7 @@ CMD ["./config/up.sh"]
 FROM cyberdojo/asset_builder:3a99172 AS web-assets
 COPY app-web/source/server/web/assets/javascripts /app/app/assets/javascripts
 COPY app-web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
+COPY common/stylesheets /app/app/assets/stylesheets/common
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS web

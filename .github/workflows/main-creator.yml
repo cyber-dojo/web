@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'app-creator/**'
+      - 'common/**'
       - 'bin/**'
       - 'deployment/terraform-creator/**'
       - 'flow-templates/**'

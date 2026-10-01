@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'app-web/**'
+      - 'common/**'
       - 'bin/**'
       - 'deployment/terraform-web/**'
       - 'flow-templates/**'

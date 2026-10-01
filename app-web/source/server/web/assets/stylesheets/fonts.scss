@@ -1,3 +1,4 @@
+@forward "common/fonts";
 
 @mixin font-size-micro()   { font-size: 0.55em; }
 @mixin font-size-tiny()    { font-size: 0.80em; }
@@ -20,11 +21,6 @@
       size: 11.5pt;
     family: Consolas, "Liberation Mono", Courier, monospace;
   }
-}
-
-@mixin non-code-font
-{
-  font-family: Impact, Trebuchet MS, Tahoma, Arial, sans-serif;
 }
 
 @mixin plaintext-font

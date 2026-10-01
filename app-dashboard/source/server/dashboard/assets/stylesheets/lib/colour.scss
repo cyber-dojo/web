@@ -1,9 +1,9 @@
+@forward "common/colours";
+@use "common/colours" as *;
 @use "sass:color";
 
 
 $black: #000;
-$darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
-$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);
 $text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
 
 $red: #F00;
