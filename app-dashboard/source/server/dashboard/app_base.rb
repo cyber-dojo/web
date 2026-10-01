@@ -37,6 +37,12 @@ module DashboardApp
       to(path, false)
     end
 
+    # The stylesheet's URL as the browser requests it; error_layout.erb links
+    # it by this name, which every app defines.
+    def css_url
+      path_to(CSS_PATH)
+    end
+
     # Wires the app to its collaborators (saver, differ).
     def initialize(externals)
       @externals = externals
@@ -133,7 +139,7 @@ module DashboardApp
       diagnostic = JSON.pretty_generate(info)
       puts diagnostic
       if html
-        body erb(:error)
+        body erb(:error, layout: :error_layout)
       else
         body diagnostic
       end

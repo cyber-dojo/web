@@ -79,6 +79,12 @@ module Web
     CSS_PATH = asset_path('app.css')
     JS_PATH  = asset_path('app.js')
 
+    # The stylesheet's URL as the browser requests it; error_layout.erb links
+    # it by this name, which every app defines.
+    def css_url
+      CSS_PATH
+    end
+
     # Collaborator shorthands, so the routes read as saver/runner/spooler
     # rather than externals.saver and friends.
     # Stashes work to run once this request's response has been written, so the
@@ -149,7 +155,7 @@ module Web
       error = env['sinatra.error']
       code = error.respond_to?(:status) ? error.status.to_i : 0
       status((400..499).cover?(code) ? code : 500)
-      erb :error, layout: :'layouts/error'
+      erb :error, layout: :error_layout
     end
 
     private
