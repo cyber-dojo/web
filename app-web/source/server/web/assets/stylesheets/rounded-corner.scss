@@ -1,5 +1,1 @@
-
-@mixin rounded-corner($radius: 6px)
-{
-  border-radius: $radius;
-}
+@forward "common/rounded-corner";

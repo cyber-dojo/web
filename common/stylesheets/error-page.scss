@@ -1,4 +1,4 @@
-@use "colors";
+@use "colours";
 @use "fonts";
 @use "rounded-corner";
 
@@ -6,13 +6,12 @@
 
 
 // The error page every app renders. Its own class names keep each app's page
-// styles off it; its values are the shared tokens, so a difference between
-// apps can only come from a token whose value has drifted.
+// styles off it, and every app compiles this one file into its app.css.
 
 body.error-page-body
 {
-  color: colors.$lighter-color;
-  background: colors.$darker-color;
+  color: colours.$lighter-color;
+  background: colours.$darker-color;
   background-image: url('/images/avatars/all_gray.png');
   background-repeat: repeat;
   background-size: 450px 450px;
@@ -33,14 +32,14 @@ body.error-page-body
     margin: 10px auto 7px auto;
     padding: 20px;
     text-align: left;
-    background: colors.$darker-color;
+    background: colours.$darker-color;
     border: 1px solid color.adjust(gray, $lightness: -15%, $space: hsl);
   }
 
   .error-title
   {
     font-size: 56px;
-    color: colors.$lighter-color;
+    color: colours.$lighter-color;
     position: relative;
     top: -19px;
   }
@@ -62,8 +61,8 @@ body.error-page-body
     cursor: pointer;
     margin-top: 10px;
     padding: 2px 15px 4px 15px;
-    background: color.adjust(colors.$lighter-color, $lightness: -12%, $space: hsl);
-    border: 2px solid colors.$darker-color;
-    &:hover { border: 2px dotted color.adjust(colors.$darker-color, $lightness: 20%, $space: hsl); }
+    background: color.adjust(colours.$lighter-color, $lightness: -12%, $space: hsl);
+    border: 2px solid colours.$darker-color;
+    &:hover { border: 2px dotted color.adjust(colours.$darker-color, $lightness: 20%, $space: hsl); }
   }
 }

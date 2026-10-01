@@ -1,0 +1,5 @@
+@use "sass:color";
+
+// The two colours every app's pages are built from.
+$darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
+$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);

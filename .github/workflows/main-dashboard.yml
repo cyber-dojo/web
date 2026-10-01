@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'app-dashboard/**'
+      - 'common/**'
       - 'bin/**'
       - 'deployment/terraform-dashboard/**'
       - 'flow-templates/**'

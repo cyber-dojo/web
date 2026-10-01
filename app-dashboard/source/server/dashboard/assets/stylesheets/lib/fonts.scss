@@ -1,8 +1,4 @@
-
-@mixin non-code-font
-{
-  font-family: Impact, Trebuchet MS, Tahoma, Arial, sans-serif;
-}
+@forward "common/fonts";
 
 @mixin plaintext-font
 {
