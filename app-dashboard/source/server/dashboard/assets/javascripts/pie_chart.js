@@ -29,7 +29,9 @@
         data: {
           datasets: [{
             data: [redCount, amberCount, greenCount, timedOutCount],
-            backgroundColor: ['#F00', '#FF0', '#0F0', 'darkGray'],
+            // Red/amber/green match the master colours in the nginx repo's
+            // images/traffic-light/*.png, so the pie agrees with the lights.
+            backgroundColor: ['#F04422', '#F8D000', '#20F0B0', 'darkGray'],
             borderWidth: 0
           }]
         },

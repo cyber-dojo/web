@@ -29,6 +29,9 @@
     &[disabled]:hover { border: 2px solid color.adjust(colors.$darker-color,$lightness: 50%, $space: hsl); }
   }
 
+  // The + glyph sits high in its box; this centres it vertically.
+  .create-file { padding:{ top:1px; bottom:1px; } }
+
   .rename-file img
   {
     width: 18px;

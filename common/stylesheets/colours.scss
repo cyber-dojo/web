@@ -13,14 +13,21 @@ $red:   color.adjust(#F00, $lightness: $fadePercent, $space: hsl);
 $amber: color.adjust(#FF0, $lightness: $fadePercent, $space: hsl);
 $green: color.adjust(#0F0, $lightness: $fadePercent, $space: hsl);
 
-// The red baked into /images/traffic-light/red.png. Text coloured by a light's
-// colour (eg the dashboard's light count) takes this hue, lightened a little
+// The master traffic-light colours, baked into the nginx repo's
+// images/traffic-light/*.png. Text coloured by a light's colour (eg the
+// dashboard's light count and tool-tips) takes these hues, lightened a little
 // and desaturated so it reads as text rather than glaring like the light itself.
-$red-traffic-light-png: rgb(250, 17, 0);
+$red-traffic-light-png:   #F04422;
+$amber-traffic-light-png: #F8D000;
+$green-traffic-light-png: #20F0B0;
 
-.red   { color: color.adjust($red-traffic-light-png, $lightness: 7%, $saturation: -30%, $space: hsl); }
-.amber { color: $amber; }
-.green { color: $green; }
+@function traffic-light-text($png-colour) {
+  @return color.adjust($png-colour, $lightness: 7%, $saturation: -30%, $space: hsl);
+}
+
+.red   { color: traffic-light-text($red-traffic-light-png); }
+.amber { color: traffic-light-text($amber-traffic-light-png); }
+.green { color: traffic-light-text($green-traffic-light-png); }
 
 $blue:  #00F;
 
