@@ -46,9 +46,10 @@
     &.actual
     {
       &.pulling { background: colors.$pulling; }
-      &.red     { background: colors.$red    ; }
-      &.amber   { background: colors.$amber  ; }
-      &.green   { background: colors.$green  ; }
+      // Same colour as the traffic-light image beside each count.
+      &.red     { background: colors.$red-traffic-light-png  ; }
+      &.amber   { background: colors.$amber-traffic-light-png; }
+      &.green   { background: colors.$green-traffic-light-png; }
     }
   }
   img

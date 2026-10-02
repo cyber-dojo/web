@@ -124,6 +124,7 @@ var cyberDojo = (function(cd, $) {
   const $diffLinesTable = (diffs) => {
     let count = 0;
     const $table = $('<table style="margin-top: 5px;">', { class:'filenames' });
+    $table.append($lineCountHeadingTr());
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
       const fileDiff = diffs.find(diff => diffFilename(diff) === filename);
@@ -144,6 +145,12 @@ var cyberDojo = (function(cd, $) {
     else {    
       return $table;
     }
+  };
+
+  const $lineCountHeadingTr = () => {
+    // A small - over the deleted counts and + over the added counts.
+    const $th = (text) => $('<th>', { class:'diff-line-count-heading' }).text(text);
+    return $('<tr>').append($th('-'), $th('+'), $('<th>'));
   };
 
   const $lineCountTd = (type, file) => {

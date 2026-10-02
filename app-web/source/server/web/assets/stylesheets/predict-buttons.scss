@@ -11,24 +11,26 @@ button.predict
   margin-bottom: 3px;
   padding-left: 7px;
   font-size: 18px;
+  font-weight: bold;
   color: color.adjust(Black, $lightness: 20%, $space: hsl);
   text-align: right;
 
+  // Same colours as the traffic-light images.
   &.red
   {
-    background: colors.$red;
-    border-color: colors.$red;
+    background: colors.$red-traffic-light-png;
+    border-color: colors.$red-traffic-light-png;
     color: color.adjust(Black,$lightness: 10%, $space: hsl);
   }
   &.amber
   {
-    background: colors.$amber;
-    border-color: colors.$amber;
+    background: colors.$amber-traffic-light-png;
+    border-color: colors.$amber-traffic-light-png;
   }
   &.green
   {
-    background: colors.$green;
-    border-color: colors.$green;
+    background: colors.$green-traffic-light-png;
+    border-color: colors.$green-traffic-light-png;
   }
 
   &.red, &.amber, &.green

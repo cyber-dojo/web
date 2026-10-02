@@ -40,7 +40,7 @@
         font-size:107px;
         position:relative;
         top:-17px;left:5px;
-        color:colour.$text-color;
+        color:colour.$lighter-color; // matches the creator pages' .title
       }
     }
 
@@ -50,7 +50,7 @@
       position:relative;
       top:-39px;
       left:146px;
-      color:color.adjust(colour.$text-color, $lightness: 5%, $space: hsl);
+      color:colour.$lighter-color; // matches the creator pages' .title
     }
   }
 

@@ -1,0 +1,12 @@
+// A traffic-light tool-tip shows each edited file's deleted/added line counts
+// in two columns. A small - heads the deleted column and a small + heads the
+// added column, so the counts themselves stay bare numbers in fixed-width cells.
+.hover-tip th.diff-line-count-heading
+{
+  font: 13px sans-serif;
+  font-weight: normal;
+  text-align: center;
+  padding: 0px;
+  line-height: 13px;
+  vertical-align: bottom;
+}

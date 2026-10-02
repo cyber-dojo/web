@@ -150,6 +150,7 @@
   const $diffLinesTable = (diffs) => {
     let count = 0;
     const $table = $('<table>', { class:'filenames' });
+    $table.append($lineCountHeadingTr());
     const filenames = diffs.map(diff => diffFilename(diff));
     sortedFilenames(filenames).forEach(filename => {
       const fileDiff = diffs.find(diff => diffFilename(diff) === filename);
@@ -173,6 +174,12 @@
   };
 
   // - - - - - - - - - - - - - - - - - - - -
+  const $lineCountHeadingTr = () => {
+    // A small - over the deleted counts and + over the added counts.
+    const $th = (text) => $('<th>', { class:'diff-line-count-heading' }).text(text);
+    return $('<tr>').append($th('-'), $th('+'), $('<th>'));
+  };
+
   const $lineCountTd = (type, file) => {
     const lineCount = file.line_counts[type];
     const $count = $('<div>', { class:`diff-line-count ${type}` });
