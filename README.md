@@ -21,12 +21,12 @@ Each app has the same shape:
 
 The repo root holds only what every app shares: the `Dockerfile`, the
 `Makefile`, the `docker-compose*.yml` files, `.env` (the ports of every
-service), `bin/write_dot_env.sh` (the one script that writes `.env`), and
-`flow-templates/`.
+service), `bin/write_dot_env.sh` (the one script that writes `.env`),
+`bin/demo.sh` (the one demo), and `flow-templates/`.
 
-Each app's demo (`make <app>_demo`) builds every app's image from the current
-commit and serves them together through nginx, so one change shows up in every
-app at once. Each demo runs as its own compose project, on its own host port,
-so demos can run side by side.
+The demo (`make demo`) builds every app's image from the current commit and
+serves them together through nginx on port 80, with one saver holding every
+app's demo data, so one change shows up in every app at once and any page can
+be compared with any other. See `bin/demo.sh -h`.
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)

@@ -26,8 +26,8 @@ $ make {creator_test_server|creator_test_client}
 $ make {creator_test_server|creator_test_client} tids=p42
 $ make {creator_test_server|creator_test_client} tids="p42 p9F"
 
-# Bring up a full local demo (creator + web + dashboard behind the real nginx)
-$ make creator_demo
+# Bring up the full local demo (creator + web + dashboard behind the real nginx)
+$ make demo
 ```
 
 The source is bind-mounted read-only into the containers, so edits to

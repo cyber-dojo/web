@@ -28,8 +28,8 @@ $ make dashboard_snyk_container_scan
 # To run rubocop-lint
 $ make dashboard_rubocop_lint
 
-# To run demo
-$ make dashboard_demo v=2
+# To run the demo (all three apps, nginx on port 80)
+$ make demo
 ```
 
 - - - -

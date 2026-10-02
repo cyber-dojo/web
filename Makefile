@@ -4,7 +4,7 @@ IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
 .PHONY: web_all web_image web_test_server web_test_client
 .PHONY: web_metrics_test web_metrics_coverage web_test_check_metrics
-.PHONY: web_rubocop_lint web_demo web_probe_demo
+.PHONY: web_rubocop_lint
 .PHONY: web_snyk_container_scan web_snyk_code_scan
 
 # Build, run the server tests, and judge the run. The judging is checked first,
@@ -50,14 +50,14 @@ web_metrics_coverage:
 web_test_check_metrics:
 	@${PWD}/app-web/test/check_metrics_exit_status.sh
 
+.PHONY: demo
+
 count ?= 1
-v ?= 2
 
-web_demo: creator_image dashboard_image web_image
-	${PWD}/app-web/bin/demo.sh ${count} ${v}
-
-web_probe_demo:
-	${PWD}/app-web/bin/probe_demo.sh
+# The one demo of all three apps, behind nginx on port 80, with one saver
+# holding every app's demo data. See bin/demo.sh -h
+demo: creator_image dashboard_image web_image
+	@${PWD}/bin/demo.sh ${count}
 
 web_snyk_container_scan: web_image
 	snyk container test ${IMAGE_NAME} \
@@ -74,7 +74,7 @@ web_snyk_code_scan:
 
 .PHONY: dashboard_image dashboard_test_server dashboard_coverage_server
 .PHONY: dashboard_rubocop_lint dashboard_snyk_container_scan
-.PHONY: dashboard_demo dashboard_demo_data
+.PHONY: dashboard_demo_data
 
 dashboard_image:
 	@${PWD}/app-dashboard/bin/build_image.sh server
@@ -91,14 +91,11 @@ dashboard_rubocop_lint:
 dashboard_snyk_container_scan:
 	@${PWD}/app-dashboard/bin/snyk_container_scan.sh
 
-dashboard_demo: creator_image dashboard_image web_image
-	@${PWD}/app-dashboard/bin/demo.sh
-
 dashboard_demo_data:
 	@${PWD}/app-dashboard/bin/demo_data.sh
 
 .PHONY: creator_image creator_test creator_test_server creator_test_client
-.PHONY: creator_rubocop_lint creator_snyk_container_scan creator_demo
+.PHONY: creator_rubocop_lint creator_snyk_container_scan
 
 creator_image:
 	bash -c ". ${PWD}/app-creator/bin/build_tagged_images.sh && build_tagged_images"
@@ -124,7 +121,4 @@ creator_snyk_container_scan: creator_image
 		--policy-path=app-creator/.snyk \
 		--sarif \
 		--sarif-file-output=snyk.container.scan.json
-
-creator_demo: creator_image dashboard_image web_image
-	@${PWD}/app-creator/bin/demo.sh
 

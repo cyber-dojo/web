@@ -42,7 +42,7 @@ create_full_kata()
   # Tar-pipe /cyber-dojo out of saver container
   # tar-file compression is not done inside the container
   # because `tar -z` fails in a read-only file-system
-  local -r filename="$(repo_root)/app-creator/test/data/full-group-${gid}.tgz"
+  local -r filename="$(repo_root)/app-creator/test/data/full_group.${gid}.tgz"
   local -r src_dir="/cyber-dojo/"
   docker exec "${saver_cid}" tar -cf - -C "$(dirname ${src_dir})" "$(basename ${src_dir})" \
     | gzip > "${filename}"

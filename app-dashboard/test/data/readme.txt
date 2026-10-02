@@ -16,5 +16,8 @@ saver
 /cyber-dojo/groups/Fx/Ww/rr/27/kata.id ==> 38w9NC (27==leopard)
 
 
-saver_data.v2.tgz was created from a web demo, using its 
-bin/copy_out_saver_test_data.sh script.
+saver_data.v2.tgz was created from a web demo, using its
+bin/copy_out_saver_test_data.sh script. It also holds every group and kata in
+this cyber-dojo/ dir, and in web's and creator's test/data/cyber-dojo/ dirs,
+which is why the one demo (bin/demo.sh) loads only it, saver_cluster.v2.tgz and
+creator's full_group.FD6ryx.tgz.

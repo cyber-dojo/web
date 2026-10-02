@@ -13,12 +13,12 @@ Creates a bash/bats FizzBuzz group kata in the running saver, prints the group I
 To create new demo data and persist it:
 ----------------------------------------
 1. Start the demo:
-     make dashboard_demo
+     make demo
 
 2. Create and save new demo data (runs this script, copies out tgz, updates GID):
      make dashboard_demo_data
 
-3. Commit the updated tgz and demo.sh.
+3. Commit the updated tgz and test/data/demo_gid.txt.
 HELP
   exit 0
 fi

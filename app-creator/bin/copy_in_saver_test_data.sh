@@ -10,5 +10,5 @@ copy_in_saver_test_data()
   tar -c . | docker exec -i "${SAVER_CID}" tar x -C ${DEST_PATH}
   popd
   # Push full-group to make test d4Px24 route_enter_test.rb much faster
-  docker exec -i "${SAVER_CID}" tar xz -C / < "${SRC_PATH}/full-group-FD6ryx.tgz"
+  docker exec -i "${SAVER_CID}" tar xz -C / < "${SRC_PATH}/full_group.FD6ryx.tgz"
 }
