@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# Run this after doing 'make dashboard_demo'
+# Run this while 'make demo' is up: create_v2_dashboard.rb reaches nginx on
+# localhost:80.
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source "${ROOT_DIR}/bin/lib.sh"

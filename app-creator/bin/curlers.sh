@@ -5,9 +5,9 @@ curl_cleanup()
 {
     local -r exit_code=$?
     # On a non-zero exit dump the last request's log to aid debugging - but only
-    # if a request actually ran and wrote it. An early exit (eg the docker-daemon
-    # check in app-creator/bin/demo.sh) leaves no log, and cat/rm on the missing file
-    # would print their own spurious "No such file or directory" errors.
+    # if a request actually ran and wrote it. An early exit (eg a failed check
+    # before any request) leaves no log, and cat/rm on the missing file would
+    # print their own spurious "No such file or directory" errors.
     if [ "${exit_code}" != "0" ] && [ -f "$(curl_log_filename)" ]; then
       cat "$(curl_log_filename)"
       rm "$(curl_log_filename)"

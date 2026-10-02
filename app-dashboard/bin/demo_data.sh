@@ -8,18 +8,23 @@ Usage: app-dashboard/bin/demo_data.sh [traffic_light_count] [avatar_count]
   traffic_light_count  Approx test runs per avatar (default: 5)
   avatar_count         Approx avatars to join the group (default: 20)
 
-Creates a new demo group kata in the running saver, snapshots the result
-to app-dashboard/test/data/saver_data.v2.tgz, and writes the GID to
-app-dashboard/test/data/demo_gid.txt.
+Creates a new demo group kata in the running saver, adds that group and
+its katas to app-dashboard/test/data/saver_data.v2.tgz, and writes the GID
+to app-dashboard/test/data/demo_gid.txt.
 
-Requires the demo stack to already be running (run 'make dashboard_demo' first).
+Requires the demo stack to already be running (run 'make demo' first).
 
 Example:
-  make dashboard_demo
+  make demo
   app-dashboard/bin/demo_data.sh 5 20
 HELP
   exit 0
 fi
+
+# The saver to create the group in, and to snapshot, is the one demo's
+# (bin/demo.sh), not one in dashboard's own compose project. Exported so
+# copy_out_saver_data.sh, run below, finds the same saver.
+export COMPOSE_PROJECT_NAME=demo
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/bin/lib.sh"
@@ -35,8 +40,8 @@ GID=$(docker exec --interactive "$(service_container saver)" ruby - "${LIGHT_COU
 readonly GID
 echo "Created group: ${GID}"
 
-echo "Saving saver data to test/data/saver_data.v2.tgz..."
-bash "${ROOT_DIR}/bin/copy_out_saver_data.sh"
+echo "Adding group ${GID} and its katas to test/data/saver_data.v2.tgz..."
+bash "${ROOT_DIR}/bin/copy_out_saver_data.sh" "${GID}"
 
 echo "${GID}" > "${ROOT_DIR}/test/data/demo_gid.txt"
 echo "Done. Open: http://localhost/dashboard/show/${GID}?auto_refresh=true&minute_columns=true"

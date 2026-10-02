@@ -10,8 +10,8 @@
 # Development
 
 ```bash
-# Run a demo
-$ make web_demo
+# Run the demo (all three apps, nginx on port 80)
+$ make demo
 
 # Build the image
 $ make web_image
