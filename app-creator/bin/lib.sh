@@ -31,9 +31,9 @@ exit_non_zero_unless_docker_running()
 {
   # 'docker' being installed (on the PATH) does not mean its daemon is up.
   # Every bin/ script here shells out to docker/docker-compose, so a stopped
-  # daemon otherwise surfaces far downstream as a cryptic failure (eg the demo
-  # curling an empty CYBER_DOJO_CREATOR_PORT because the versioner container
-  # never ran). 'docker info' talks to the daemon and fails fast if it is down.
+  # daemon otherwise surfaces far downstream as a cryptic failure (eg an empty
+  # env-var because the versioner container never ran). 'docker info' talks to
+  # the daemon and fails fast if it is down.
   printf "Checking the docker daemon is running..."
   if ! docker info > /dev/null 2>&1 ; then
     stderr "the docker daemon is not running"

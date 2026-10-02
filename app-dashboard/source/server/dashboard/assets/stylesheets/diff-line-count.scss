@@ -5,10 +5,6 @@
 
 @use "sass:color";
 
-colour.$diff-added-count-color: color.adjust(colour.$green, $lightness: 35%, $space: hsl);
-colour.$diff-deleted-count-color: color.adjust(colour.$red, $lightness: 35%, $space: hsl);
-colour.$diff-same-count-color: Gray;
-
 .diff-line-count, .diff-line-count-icon
 {
   @include fonts.plaintext-font();

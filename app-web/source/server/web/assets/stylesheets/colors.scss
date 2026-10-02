@@ -3,23 +3,9 @@
 @use "sass:color";
 
 
-$black: #000;
-$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
-
-$fadePercent: 15%;
-
 $pulling: #2CDFF0;
-$red:   color.adjust(#F00, $lightness: $fadePercent, $space: hsl);
-$amber: color.adjust(#FF0, $lightness: $fadePercent, $space: hsl);
-$green: color.adjust(#0F0, $lightness: $fadePercent, $space: hsl);
-
-$blue:  #00F;
 
 .create { color: Gray; }
-
-.red       { color: $red;   }
-.amber     { color: $amber; }
-.green     { color: $green; }
 
 .file_create { color: Gray; }
 .file_delete { color: Gray; }
@@ -30,9 +16,6 @@ $blue:  #00F;
 .faulty    { color: DarkGray; }
 .pulling   { color: $pulling;   }
 
-$diff-added-count-color: color.adjust($green, $lightness: 20%, $space: hsl);
-$diff-deleted-count-color: color.adjust($red, $lightness: 20%, $space: hsl);
-$diff-same-count-color: Gray;
 
 $projector-background: White;
 

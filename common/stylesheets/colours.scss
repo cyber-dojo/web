@@ -2,4 +2,29 @@
 
 // The two colours every app's pages are built from.
 $darker-color: color.adjust(#666, $lightness: -25%, $space: hsl);
-$lighter-color: color.adjust(Khaki, $lightness: 5%, $space: hsl);
+$lighter-color: color.adjust(Khaki, $lightness: 10%, $space: hsl);
+
+$black: #000;
+$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
+
+// The traffic-light colours, faded so they sit softly on the darker colour.
+$fadePercent: 15%;
+$red:   color.adjust(#F00, $lightness: $fadePercent, $space: hsl);
+$amber: color.adjust(#FF0, $lightness: $fadePercent, $space: hsl);
+$green: color.adjust(#0F0, $lightness: $fadePercent, $space: hsl);
+
+// The red baked into /images/traffic-light/red.png. Text coloured by a light's
+// colour (eg the dashboard's light count) takes this hue, lightened a little
+// and desaturated so it reads as text rather than glaring like the light itself.
+$red-traffic-light-png: rgb(250, 17, 0);
+
+.red   { color: color.adjust($red-traffic-light-png, $lightness: 7%, $saturation: -30%, $space: hsl); }
+.amber { color: $amber; }
+.green { color: $green; }
+
+$blue:  #00F;
+
+// The backgrounds of a diff's added/deleted/same line-count cells.
+$diff-added-count-color: color.adjust($green, $lightness: 20%, $space: hsl);
+$diff-deleted-count-color: color.adjust($red, $lightness: 20%, $space: hsl);
+$diff-same-count-color: Gray;
