@@ -244,15 +244,16 @@
 }
 
 // choose_problem's footer holds the large next button on the left and the two
-// smaller switch/skip buttons stacked on the right. align-items:stretch lets
-// the tallest item (next) set the row height so the stack matches it exactly.
+// smaller switch/skip buttons stacked on the right. align-items:flex-start
+// keeps next at its natural height, the same as on the other chooser pages,
+// whatever the height of the stack beside it.
 // padding-right lines the stack's right edge up with the display-content text
 // field, which stops a few px short of the panel edge (as the header does).
 #choose-problem-page .footer-row
 {
   justify-content:flex-end;
   gap:10px;
-  align-items:stretch;
+  align-items:flex-start;
   padding-right:5px;
 }
 
@@ -276,14 +277,13 @@
 // (switch). The buttons keep their natural height rather than flex-growing to
 // fill the row, so switch looks identical whether or not skip is present -
 // skip is hidden for type=group (a group practice must choose an exercise).
-// gap is 0 so the two stacked buttons sum to the next button's own height;
-// any gap would make the stack taller than next and stretch next past its
-// natural height (leaving it taller here than on the other chooser pages).
+// The buttons' border is the same colour as their background, so the gap is
+// what keeps the two stacked buttons visibly apart.
 #choose-problem-page .stacked-buttons
 {
   display:flex;
   flex-direction:column;
-  gap:0;
+  gap:4px;
   margin-top:10px;
 }
 

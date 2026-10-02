@@ -1,0 +1,20 @@
+@use "colours";
+
+@use "sass:color";
+
+
+// The look of a small button in a page's fixed top bar (eg web's [dashboard]
+// [feedback], dashboard's [progress?]), so every app's bar buttons match.
+// Each bar positions its own buttons.
+@mixin bar-button
+{
+  border-radius: 3px;
+  background: colours.$lighter-color;
+  border: 2px solid colours.$lighter-color;
+  padding: { left:7px; right:7px; top:0px; bottom:1px; }
+  margin: { top:0px; bottom:0px; left:3px; right:3px; }
+  color: color.adjust(colours.$darker-color, $lightness: -10%, $space: hsl);
+  font-size: 10px;
+  height: 17px;
+  &:hover { border: 2px dotted color.adjust(colours.$darker-color, $lightness: 35%, $space: hsl); }
+}

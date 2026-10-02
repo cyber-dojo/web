@@ -1,4 +1,5 @@
 @use "colors";
+@use "common/hover-tip";
 @use "fonts";
 
 @use "sass:color";
@@ -6,20 +7,7 @@
 
 $hoverFadePercent: 5%;
 
-.hover-tip
-{
-  @include fonts.plaintext-font();
-  background: color.adjust(colors.$darker-color, $lightness: $hoverFadePercent, $space: hsl);
-  z-index: 2000;
-  position: fixed;
-  color: color.adjust(colors.$lighter-color, $lightness: -6%, $space: hsl);
-  border: 1px dotted color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl);
-  border-radius: 5px;
-  font-size: 15px;
-  padding: { top:5px; right:7px; bottom:5px; left:7px; }
-  text-align: left;
-  margin-top: 6px;
-}
+.hover-tip { position: fixed; }
 
 .hover-tip .diff-filename
 {
@@ -29,13 +17,6 @@ $hoverFadePercent: 5%;
 
 .hover-tip .diff-filename.test-file     { color: steelblue; }
 .hover-tip .diff-filename.non-test-file { color: white; }
-
-.hover-tip .mini-text
-{
-  color: color.adjust(Gray,$lightness: 10%, $space: hsl);
-  padding-left: 6px;
-  font-size: 12px;
-}
 
 img.count-hover-tip
 {

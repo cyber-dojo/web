@@ -1,30 +1,12 @@
-@use "colour";
+@use "common/button";
 @use "fonts";
-@use "rounded-corner";
-
-@use "sass:color";
 
 
+// Creator's pages set their headings in the non-code font, so its buttons
+// use it too rather than mixing two fonts on one page. The top margin spaces
+// each page's buttons below the panel content above them.
 button
 {
   @include fonts.non-code-font();
-  @include rounded-corner.rounded-corner(6px);
-  background: color.adjust(colour.$lighter-color, $lightness: -12%, $space: hsl);
-
-  display: inline-block;
-  cursor: pointer;
-  padding: { left:15px; right:15px; bottom:4px; top:2px; }
-  margin: { left:0px; top:10px; bottom:10px; bottom:0px; }
-  text-align:left;
-  text-decoration: none;
-  font-weight: normal;
-  border: 2px solid colour.$darker-color;
-
-  &:hover { border: 2px dotted color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl); }
-  &[disabled]
-  {
-    background: color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl);
-    cursor: default;
-    &:hover { border: 2px solid colour.$darker-color; }
-  }
+  margin: { left:0px; top:10px; bottom:0px; }
 }

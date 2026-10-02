@@ -3,3 +3,9 @@
 {
   font-family: Impact, Trebuchet MS, Tahoma, Arial, sans-serif;
 }
+
+// The font for body text such as tool-tips, as opposed to headings or code.
+@mixin plaintext-font
+{
+  font-family: Trebuchet MS, Tahoma, Arial, sans-serif;
+}
