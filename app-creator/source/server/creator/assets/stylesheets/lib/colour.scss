@@ -1,12 +1,5 @@
 @forward "common/colours";
 @use "common/colours" as *;
-@use "sass:color";
 
-
-$red: #F00;
-$amber: #FF0;
-$green: #0F0;
-
-$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
 
 a:link, a:visited { color: $text-color; }

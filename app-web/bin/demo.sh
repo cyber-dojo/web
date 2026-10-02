@@ -10,6 +10,11 @@ source "${BIN_DIR}/echo_env_vars.sh"
 source "${BIN_DIR}/copy_in_saver_test_data.sh"
 source "${BIN_DIR}/create_v2_kata.sh"
 source "${BIN_DIR}/lib.sh"
+
+# Fail fast if docker is missing or its daemon is down: echo_env_vars below runs
+# the versioner container.
+exit_non_zero_unless_installed docker
+exit_non_zero_unless_docker_running
 export $(echo_env_vars)
 
 # Each demo runs as its own docker-compose project so several demos (in
@@ -31,33 +36,26 @@ export CYBER_DOJO_CREATOR_TAG="$(image_tag)"
 export CYBER_DOJO_DASHBOARD_IMAGE=244531986313.dkr.ecr.eu-central-1.amazonaws.com/dashboard
 export CYBER_DOJO_DASHBOARD_TAG="$(image_tag)"
 
-up_nginx()
+demo_compose()
 {
+  # Runs docker compose over the files every demo's up and down share, so
+  # down removes everything up started.
   docker --log-level=ERROR compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose-nginx.yml" \
     --file "$(repo_root)/docker-compose.yml" \
-    run \
-      --detach \
-      --service-ports \
-      nginx
-}
-
-demo_down()
-{
-  # Tear down only this demo's project (COMPOSE_PROJECT_NAME), leaving
-  # any other repo's running demo untouched.
-  docker --log-level=ERROR compose \
-    --file "$(repo_root)/docker-compose-depends.yml" \
-    --file "$(repo_root)/docker-compose-nginx.yml" \
-    --file "$(repo_root)/docker-compose.yml" \
-    down --remove-orphans 2>/dev/null || true
+    "$@"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_installed docker
-demo_down
-up_nginx
+# Tear down only this demo's project (COMPOSE_PROJECT_NAME), leaving any
+# other repo's running demo untouched.
+demo_compose down --remove-orphans --volumes
+
+# up, not run, so nginx is an ordinary service of this project that down
+# removes, rather than a one-off container left holding the host port.
+# --wait blocks until the containers are healthy.
+demo_compose up --no-build --detach --wait --wait-timeout 180 nginx
 readonly COUNT="${1:-1}"
 readonly KATA_VERSION="${2:-2}"
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)

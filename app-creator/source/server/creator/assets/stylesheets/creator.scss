@@ -48,9 +48,9 @@
     font-size:41px;
     width:220px;
     padding-left:10px;
-    background:color.adjust(colour.$green, $lightness: 20%, $space: hsl);
+    background:color.adjust(colour.$green, $lightness: 5%, $space: hsl);
     color:colour.$darker-color;
-    &.invalid { color:color.adjust(colour.$red, $lightness: -10%, $space: hsl); }
+    &.invalid { color:color.adjust(colour.$red, $lightness: -25%, $space: hsl); }
   }
   .wait-spinner
   {

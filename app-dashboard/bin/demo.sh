@@ -4,7 +4,11 @@ set -Eeu
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/bin/lib.sh"
 source "${ROOT_DIR}/bin/echo_env_vars.sh"
+
+# Fail fast if docker is missing or its daemon is down: echo_env_vars below runs
+# the versioner container.
 exit_non_zero_unless_installed docker
+exit_non_zero_unless_docker_running
 export $(echo_env_vars)
 
 # Each demo runs as its own docker-compose project so this repo's demo can
@@ -116,20 +120,27 @@ open_cluster()
   open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}/dashboard/show/${CLUSTER_ID}?auto_refresh=true&minute_columns=true"
 }
 
+demo_compose()
+{
+  # Runs docker compose over the files every demo's up and down share, so
+  # down removes everything up started.
+  docker --log-level=ERROR compose \
+    --file "$(repo_root)/docker-compose-depends.yml" \
+    --file "$(repo_root)/docker-compose-nginx.yml" \
+    --file "$(repo_root)/docker-compose.yml" \
+    "$@"
+}
+
 demo()
 {
   # Tear down only this demo's project (COMPOSE_PROJECT_NAME), leaving any
   # other repo's running demo untouched.
-  containers_down
+  demo_compose down --remove-orphans --volumes
 
-  docker compose \
-    --file "$(repo_root)/docker-compose-depends.yml" \
-    --file "$(repo_root)/docker-compose-nginx.yml" \
-    --file "$(repo_root)/docker-compose.yml" \
-    run \
-      --detach \
-      --service-ports \
-      nginx
+  # up, not run, so nginx is an ordinary service of this project that down
+  # removes, rather than a one-off container left holding the host port.
+  # --wait blocks until the containers are healthy.
+  demo_compose up --no-build --detach --wait --wait-timeout 180 nginx
 
   copy_in_saver_test_data
   curl_smoke_test

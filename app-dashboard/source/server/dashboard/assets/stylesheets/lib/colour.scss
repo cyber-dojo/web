@@ -1,21 +1,8 @@
 @forward "common/colours";
 @use "common/colours" as *;
-@use "sass:color";
 
-
-$black: #000;
-$text-color: color.adjust($lighter-color, $lightness: -10%, $space: hsl);
-
-$red: #F00;
-$amber: #FF0;
-$green: #0F0;
-$blue:  #00F;
 
 .create { color: Gray; }
-
-.red       { color: color.adjust($red, $lightness: 10%, $space: hsl); }
-.amber     { color: $amber; }
-.green     { color: $green; }
 
 .timed_out { color: Gray; }
 .faulty    { color: DarkGray; }
@@ -25,7 +12,3 @@ $blue:  #00F;
 .file_delete { color: Gray; }
 .file_rename { color: Gray; }
 .file_edit   { color: Gray; }
-
-$diff-added-count-color: color.adjust($green, $lightness: 35%, $space: hsl);
-$diff-deleted-count-color: color.adjust($red, $lightness: 35%, $space: hsl);
-$diff-same-count-color: Gray;

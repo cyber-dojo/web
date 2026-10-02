@@ -25,16 +25,6 @@ image_tag()
   echo "${sha:0:7}"
 }
 
-containers_down()
-{
-  # Reads only docker-compose.yml, as web's containers_down does, so it needs
-  # no CYBER_DOJO_NGINX_HOST_PORT. --remove-orphans still removes everything
-  # else in this compose project, demo.sh's one-off nginx container included.
-  docker compose \
-    --file "$(repo_root)/docker-compose.yml" \
-    down --remove-orphans --volumes
-}
-
 remove_old_images()
 {
   echo Removing old images
@@ -81,11 +71,30 @@ exit_non_zero_unless_installed()
 {
   for dependent in "$@"
   do
+    printf "Checking %s is installed..." "${dependent}"
     if ! installed "${dependent}" ; then
-      stderr "${dependent} is not installed!"
+      stderr "${dependent} is not installed"
       exit_non_zero
+    else
+      echo It is
     fi
   done
+}
+
+exit_non_zero_unless_docker_running()
+{
+  # 'docker' being installed (on the PATH) does not mean its daemon is up.
+  # Every bin/ script here shells out to docker/docker-compose, so a stopped
+  # daemon otherwise surfaces far downstream as a cryptic failure (eg an empty
+  # env-var because the versioner container never ran). 'docker info' talks to
+  # the daemon and fails fast if it is down.
+  printf "Checking the docker daemon is running..."
+  if ! docker info > /dev/null 2>&1 ; then
+    stderr "the docker daemon is not running"
+    exit_non_zero
+  else
+    echo It is
+  fi
 }
 
 installed()

@@ -26,8 +26,8 @@ table.filenames
 .diff-type-marker, .diff-filename
 {
   @include fonts.plaintext-font();
-  &.created   { color: color.adjust(colour.$green,$lightness: 30%, $space: hsl); }
-  &.deleted   { color: color.adjust(colour.$red,  $lightness: 30%, $space: hsl); }
+  &.created   { color: color.adjust(colour.$green,$lightness: 15%, $space: hsl); }
+  &.deleted   { color: color.adjust(colour.$red,  $lightness: 15%, $space: hsl); }
   &.renamed   { color: color.adjust(colour.$blue, $lightness: 30%, $space: hsl); }
   &.changed   { color: white; }
   &.unchanged { color: color.adjust(DarkGray,$lightness: -20%, $space: hsl); }

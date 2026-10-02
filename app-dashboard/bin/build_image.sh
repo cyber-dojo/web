@@ -57,8 +57,6 @@ build_image()
     local -r service=client
   fi
 
-  containers_down
-
   echo "Building server"
   echo "COMMIT_SHA=${COMMIT_SHA}"
   docker compose build "${service}"

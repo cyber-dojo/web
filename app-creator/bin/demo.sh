@@ -24,8 +24,6 @@ source "${BIN_DIR}/lib.sh"
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_docker_running
 
-# Suppress "requested image's platform does not match host platform" warnings on Apple Silicon
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # shellcheck disable=SC2046
 export $(echo_env_vars)
 
@@ -70,22 +68,33 @@ api_demo()
   echo
 }
 
+demo_compose()
+{
+  # Runs docker compose over the files every demo's up and down share, so
+  # down removes everything up started.
+  docker --log-level=ERROR compose \
+    --file "$(repo_root)/docker-compose-depends.yml" \
+    --file "$(repo_root)/docker-compose-nginx.yml" \
+    --file "$(repo_root)/docker-compose.yml" \
+    "$@"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - -
-# Tear down any previous demo.
-docker --log-level=ERROR compose down --remove-orphans 2>/dev/null || true
+# Tear down only this demo's project (COMPOSE_PROJECT_NAME), leaving any
+# other repo's running demo untouched.
+demo_compose down --remove-orphans --volumes
 
 # Bringing up the real nginx cascades (via depends_on) to web, creator,
 # differ, dashboard and the services they need - ie the full demo stack.
 # --wait blocks until the containers are healthy (creator etc. have a
 # HEALTHCHECK) so the api_demo requests below don't race the booting servers.
-COMPOSE_FILE="${COMPOSE_FILE_WITH_BROWSER}" \
-  docker --log-level=ERROR compose up --no-build --detach --wait --wait-timeout 180 nginx
+demo_compose up --no-build --detach --wait --wait-timeout 180 nginx
 
 copy_in_saver_test_data
 api_demo
 
 if [ "${1:-}" = '--no-browser' ]; then
-  docker --log-level=ERROR compose down --remove-orphans
+  demo_compose down --remove-orphans --volumes
 else
   # nginx rewrites '/' to /creator/home with a relative 301 (absolute_redirect
   # off), so the browser follows it while keeping this host port.
