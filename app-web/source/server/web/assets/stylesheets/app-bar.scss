@@ -1,4 +1,5 @@
 @use "colors";
+@use "common/bar-button";
 @use "fonts";
 @use "grid-sizes";
 @use "shared";
@@ -58,14 +59,9 @@
   #feedback-button, #traffic-lights-button, #dashboard-button,
   #help-button, #hotkeys-button, #micro-services-button
   {
-    border-radius: 3px;
-    padding: { left:7px; right:7px; top:0px; bottom:1px; }
-    margin: { top:0px; bottom:0px; left:3px; right:3px; }
-    color: color.adjust(colors.$darker-color, $lightness: -10%, $space: hsl);
-    font-size: 10px;
-    height: 17px;
     position: relative;
     top: 3px;
+    @include bar-button.bar-button();
   }
 
   // These buttons are switched on in the kata/edit page.

@@ -1,0 +1,31 @@
+@use "colours";
+
+@use "sass:color";
+
+
+// The base look of every button in every app. A page can still size, position
+// or specialise its own buttons (eg creator's button.large, web's predict
+// buttons).
+$button_border_size: 2px;
+
+button
+{
+  border-radius: 3px;
+  background: colours.$lighter-color;
+
+  display: block;
+  cursor: pointer;
+  padding: { left: 0.5em; right: 0.5em; bottom: 0.1em; }
+  text-decoration: none;
+  font-weight: normal;
+  border: $button_border_size solid colours.$lighter-color;
+
+  &:hover { border: $button_border_size dotted color.adjust(colours.$darker-color, $lightness: 35%, $space: hsl); }
+  &[disabled]
+  {
+    background: color.adjust(colours.$darker-color, $lightness: 20%, $space: hsl);
+    border: $button_border_size solid color.adjust(colours.$darker-color,$lightness: 20%, $space: hsl);
+    cursor: not-allowed;
+    &:hover { border: $button_border_size solid color.adjust(colours.$darker-color,$lightness: 20%, $space: hsl); }
+  }
+}

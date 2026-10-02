@@ -1,21 +1,4 @@
-@use "colour";
-@use "fonts";
-@use "rounded-corner";
-
-@use "sass:color";
+@use "common/hover-tip";
 
 
-.hover-tip
-{
-  @include fonts.plaintext-font();
-  @include rounded-corner.rounded-corner(5px);
-  background: color.adjust(colour.$darker-color, $lightness: 6%, $space: hsl);
-     z-index: 2000;
-    position: absolute;
-       color: color.adjust(colour.$lighter-color, $lightness: -6%, $space: hsl);
-      border: 1px dotted color.adjust(colour.$lighter-color, $lightness: -6%, $space: hsl);
-   font-size: 15px;
-     padding: { top:5px; right:7px; bottom:5px; left:7px; }
-  text-align: left;
-  margin-top: 6px;
-}
+.hover-tip { position: absolute; }

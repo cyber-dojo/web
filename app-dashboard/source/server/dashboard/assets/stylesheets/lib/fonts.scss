@@ -1,9 +1,5 @@
 @forward "common/fonts";
 
-@mixin plaintext-font
-{
-  font-family: Trebuchet MS, Tahoma, Arial, sans-serif;
-}
 
 @mixin font-size-tiny()
 {
