@@ -53,9 +53,11 @@ module CreatorApp
     get '/setup' do
       @type = params['type']
       self.data_source = externals.exercises_start_points
-      @ltf_names = externals.languages_start_points.names
-      @languages = @ltf_names.map { |name| name.split(',', 2)[0] }.uniq.sort_by(&:downcase)
-      @ltf_previews = externals.languages_start_points.manifests.to_h do |name, manifest|
+      ltfs = externals.languages_start_points
+      @ltf_names = ltfs.names
+      languages = @ltf_names.map { |name| name.split(',', 2)[0] }
+      @languages = languages.uniq.sort_by(&:downcase)
+      @ltf_previews = ltfs.manifests.to_h do |name, manifest|
         visible_files = manifest['visible_files']
         [name, visible_files[selected(visible_files)]['content']]
       end
