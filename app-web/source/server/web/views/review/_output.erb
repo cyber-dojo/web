@@ -24,12 +24,22 @@ $(() => {
   
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const outputRefresher = (event) => {
-    const lines = "" + 
-      ":stdout:\n" + rstrip(event.stdout.content) +
-      ":stderr:\n" + rstrip(event.stderr.content) +
-      ":status:\n" + event.status;
-    const output = makeNoDiffOutput('output', lines);
+    // stdout and stderr share one sheet, stderr lines styled apart by
+    // their own line type. status sits in a bar below the sheet.
+    const stdout = textLines(event.stdout.content);
+    const stderr = textLines(event.stderr.content);
+    // Real file diffs have an id of the form id_N so 'output' never clashes.
+    const output = {
+            id: 'output',
+          type: '',
+      filename: 'output',
+         lines: [
+           ...stdout.map((line, n) => makeLine('same',   line, n + 1)),
+           ...stderr.map((line, n) => makeLine('stderr', line, stdout.length + n + 1))
+         ]
+    };
     const $output = review.makeDiffFileContent(output);
+    $output.append($('<div>', { class:'output-status', text:`status ${event.status}` }));
 
     const $diffContentOutput = $('#diff-content-output');
     $diffContentOutput.empty().append($output);
@@ -44,35 +54,20 @@ $(() => {
     }
   };
 
-  const rstrip = (s) => {
+  // The lines of a stream with trailing whitespace dropped; none when empty.
+  const textLines = (s) => {
     const stripped = s.replace(/\s+$/, '');
-    if (stripped == '') {
-      return "\n";
+    if (stripped === '') {
+      return [];
     }
     else {
-      return stripped + "\n\n";
+      return stripped.split(/\r?\n/);
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeNoDiffOutput = (name, content) => {
-    // Real file diffs have a numeric diff.id so using
-    // id = stdout|stderr|status will never clash.
-    return {
-            id: name,
-          type: '',
-      filename: name,
-         lines: makeSameLines(content)
-    }
-  };
-
-  const makeSameLines = (str) => {
-    return lines(str).map((line,number) => makeLine('same', line, number+1));
-  };
   const makeLine = (type, line, number) => {
     return { type:type, line:line, number:number };
   };
-  const lines = (str) => str.toString().replace(/\n$/, '').split(/\r?\n/);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeOutputFilename = (output) => {

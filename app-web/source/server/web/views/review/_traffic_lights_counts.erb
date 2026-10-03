@@ -11,18 +11,6 @@
     <div class="green count"></div>
     <img src="/images/traffic-light/green.png">
   </div>
-  <div class="timed_out box" style="display:none;">
-    <div class="timed_out count"></div>
-    <img src="/images/traffic-light/timed_out.png">
-  </div>
-  <div class="pulling box" style="display:none;">
-    <div class="pulling count"></div>
-    <img src="/images/traffic-light/pulling.png">
-  </div>
-  <div class="faulty box" style="display:none;">
-    <div class="faulty count"></div>
-    <img src="/images/traffic-light/faulty.png">
-  </div>
 </div>
 
 <script>
@@ -39,10 +27,9 @@ $(() => {
 
   const $counts = $('.review.traffic-lights-counts');
 
-  const counts = {
-    red: 0, amber: 0, green: 0,
-    timed_out: 0, pulling: 0, faulty:0,
-  };
+  // Only red/amber/green are counted; timed_out, pulling
+  // and faulty lights are not shown in the counts.
+  const counts = { red: 0, amber: 0, green: 0 };
 
   review.trafficLightsCounts = {};
 
@@ -56,7 +43,9 @@ $(() => {
     // incorrect prediction, a 2nd to revert it.
 
     const colour = light.colour;
-    const $count = $(`.${colour}.count`, $counts);
+    if (!(colour in counts)) {
+      return;
+    }
 
     // The 2nd revert light does _not_ contribute to the count
     // totals which is the number of times there has been
@@ -64,13 +53,6 @@ $(() => {
 
     if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
       setCount(colour, counts[colour] + 1);
-    }
-    
-    // Most katas will have only red/amber/green totals,
-    // so dont show timed_out,pulling,faulty unless they occur.
-
-    if (counts[colour] > 0) {
-      $(`.${colour}.box`, $counts).show();
     }
   };
 

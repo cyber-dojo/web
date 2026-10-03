@@ -45,7 +45,6 @@
     background: color.adjust(colors.$darker-color, $lightness: 40%, $space: hsl);
     &.actual
     {
-      &.pulling { background: colors.$pulling; }
       // Same colour as the traffic-light image beside each count.
       &.red     { background: colors.$red-traffic-light-png  ; }
       &.amber   { background: colors.$amber-traffic-light-png; }

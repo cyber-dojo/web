@@ -1,4 +1,5 @@
 @use "fonts";
+@use "grid-sizes";
 
 .CodeMirror {
   @include fonts.code-font;
@@ -6,6 +7,22 @@
   // Some test frameworks print to 80 columns, eg pytest.
   font-size: 11.4pt;
   color: black;
-  height: calc(100vh - 125px);
-  width: calc(100vw - 500px);
+  // Every file leaves room for the output's status bar, so the editing
+  // area keeps the same height when toggling to and from the output tab.
+  height: calc(100vh - 125px - #{grid-sizes.$output-status-height});
+  width: grid-sizes.$right-column-width;
+}
+
+.output-status {
+  @include fonts.plaintext-font();
+  box-sizing: border-box;
+  height: grid-sizes.$output-status-height;
+  width: grid-sizes.$right-column-width;
+  padding: { right:8px; top:3px; }
+  text-align: right;
+  font-size: 14px;
+  // Faded: the rightmost traffic-light already shows the outcome.
+  background: transparent;
+  color: Gray;
+  opacity: 0.6;
 }

@@ -120,9 +120,6 @@ var cyberDojo = ((cd, $) => {
     if (filename === 'makefile') {
       return 'text/x-cmake';
     }
-    if (filename === 'output') {
-      return 'text/x-output';
-    }
     switch (fileExtension(filename)) {
       // C/C++ have split source
       case '.c'      : return 'text/x-csrc';
@@ -246,13 +243,20 @@ var cyberDojo = ((cd, $) => {
 
   cd.setupHotkeys = () => {
     // Called from app/views/kata/edit.html.erb
-    const keyMap = { t: runTests, r: predictRed, a: predictAmber,
-                     g: predictGreen, j: selectNext, k: selectPrevious,
-                     o: toggleOutput };
+    // Keyed by e.code (the physical key) not e.key (the typed character)
+    // because on a Mac Alt(Option) changes the typed character, eg
+    // Option-O types an o-slash, so e.key is never 'o'.
+    const keyMap = { KeyT: runTests, KeyR: predictRed, KeyA: predictAmber,
+                     KeyG: predictGreen, KeyJ: selectNext, KeyK: selectPrevious,
+                     KeyO: toggleOutput };
     document.addEventListener('keyup', (e) => {
-      if (e.altKey && keyMap[e.key]) {
+      // Inside an editor its own extraKeys (see bindHotKeys) handle these.
+      if (e.target.closest && e.target.closest('.CodeMirror')) {
+        return;
+      }
+      if (e.altKey && keyMap[e.code]) {
         e.preventDefault();
-        keyMap[e.key]();
+        keyMap[e.code]();
       }
     });
   };
