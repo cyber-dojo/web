@@ -17,7 +17,5 @@
 // It doesn't do a [gem jquery] in the Gemfile.
 //
 // CodeMirror core, official modes, and addons are loaded from CDN in application.erb.
-// Only the custom cyber-dojo output mode is bundled here.
 //
-//= require ./codemirror/mode/output/output
 //= require_tree .

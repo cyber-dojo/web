@@ -11,18 +11,6 @@
     <div class="green count">0</div>
     <img src="/images/traffic-light/green.png">
   </div>
-  <div class="timed_out box" style="display:none;">
-    <div class="timed_out count">0</div>
-    <img src="/images/traffic-light/timed_out.png">
-  </div>
-  <div class="pulling box" style="display:none;">
-    <div class="pulling count">0</div>
-    <img src="/images/traffic-light/pulling.png">
-  </div>
-  <div class="faulty box" style="display:none;">
-    <div class="faulty count">0</div>
-    <img src="/images/traffic-light/faulty.png">
-  </div>
 </div>
 
 <script>
@@ -37,10 +25,9 @@ $(() => {
 
   const $counts = $('.kata.traffic-lights-counts');
 
-  const counts = {
-    red: 0, amber: 0, green: 0,
-    timed_out: 0, pulling: 0, faulty:0,
-  };
+  // Only red/amber/green are counted; timed_out, pulling
+  // and faulty lights are not shown in the counts.
+  const counts = { red: 0, amber: 0, green: 0 };
 
   cd.kata.trafficLightsCounts = {};
 
@@ -51,8 +38,11 @@ $(() => {
     // The 2nd revert light contributes to the current colour-outcome.
 
     const colour = light.colour;
-    const $count = $(`.${colour}.count`, $counts);
     $('.count', $counts).removeClass('actual');
+    if (!(colour in counts)) {
+      return;
+    }
+    const $count = $(`.${colour}.count`, $counts);
     $count.addClass('actual');
 
     // The 2nd revert light does _not_ contribute to the count
@@ -61,13 +51,6 @@ $(() => {
 
     if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
       $count.text(counts[colour] += 1);
-    }
-    
-    // Most katas will have only red/amber/green totals,
-    // so dont show timed_out,pulling,faulty unless they occur.
-
-    if (counts[colour] > 0) {
-      $(`.${colour}.box`, $counts).show();
     }
   };
 

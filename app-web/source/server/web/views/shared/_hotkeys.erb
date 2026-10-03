@@ -14,22 +14,24 @@
     let html = '';
     html += '<div class="info">Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.</div>';
     html += '<table class="info" style="width:400px;">';
+    html += tr1('predict off');
+    html += tr2(alt('T'), 'run the <u>T</u>ests');
+    html += tr1('predict on');
+    html += tr2(alt('R'), `predict ${spanColour('red'  , '<u>R</u>ed'  )}`);
+    html += tr2(alt('A'), `predict ${spanColour('amber', '<u>A</u>mber')}`);
+    html += tr2(alt('G'), `predict ${spanColour('green', '<u>G</u>reen')}`);
+    html += '</table>';
+    html += '<table class="info" style="width:400px;">';
+    html += tr2(alt('J'), 'cycle&darr; through the filenames');
+    html += tr2(alt('K'), 'cycle&uarr; through the filenames');
+    html += tr2(alt('O'), 'toggle to/from the <u>O</u>utput tab');
+    html += '</table>';
+    html += '<table class="info" style="width:400px;">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
     html += tr3('replace',         'Shift-Ctrl-F', `${cmd}${option}&thinsp;F`);
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
-    html += '</table>';
-    html += '<table class="info" style="width:400px;">';
-    html += tr2('Alt-J', 'cycle&darr; through the filenames');
-    html += tr2('Alt-K', 'cycle&uarr; through the filenames');
-    html += tr2('Alt-O', 'toggle to/from the <u>O</u>utput tab');
-    html += tr1('predict off');
-    html += tr2('&nbsp;Alt-T', 'run the <u>T</u>ests');
-    html += tr1('predict on');
-    html += tr2('&nbsp;Alt-R', `predict ${spanColour('red'  , '<u>R</u>ed'  )}`);
-    html += tr2('&nbsp;Alt-A', `predict ${spanColour('amber', '<u>A</u>mber')}`);
-    html += tr2('&nbsp;Alt-G', `predict ${spanColour('green', '<u>G</u>reen')}`);
     html += '</table>';
 
     const dialog = document.createElement('dialog');
@@ -59,27 +61,30 @@
   const option = "<span class='mac-option'></span>";
   const shift  = "<span class='mac-shift'></span>";
 
+  // navigator.userAgentData exists only in Chromium browsers;
+  // navigator.platform is deprecated but reads 'MacIntel' everywhere else.
+  const isMac = /Mac/i.test(navigator.userAgentData?.platform ?? navigator.platform);
+
+  // The Alt binding for key as written on this platform, eg Alt-J or Option-glyph J.
+  const alt = (key) => isMac ? `${option}&thinsp;${key}` : `Alt-${key}`;
+
+  // A sub-heading row spanning the whole box.
   const tr1 = (text) => {
-    return `<tr><td>&nbsp;&nbsp;${text}<td><td></td><td></td></tr>`;
+    return `<tr><td colspan="3">&nbsp;&nbsp;${text}</td></tr>`;
   };
 
+  // The key column has the same fixed width in every box,
+  // so the colons line up vertically across all of them.
   const tr2 = (key, what) => {
     return '<tr>' +
-      `<td style="text-align:right;">${key}</td>` +
+      `<td style="text-align:right; width:110px;">${key}</td>` +
       '<td>&nbsp;:&nbsp;</td>' +
       `<td>${what}</td>` +
     '</tr>';
   };
 
-  const tr3 = (key, notMac, mac) => {
-    return '<tr>' +
-      `<td style="text-align:right;">${key}</td>` +
-      '<td>&nbsp;:&nbsp;</td>' +
-      `<td>${notMac}</td>` +
-      '<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>' +
-      `<td>${mac}</td>` +
-    '</tr>';
-  };
+  // A tr2 row whose binding is the one for this platform.
+  const tr3 = (what, notMac, mac) => tr2(isMac ? mac : notMac, what);
 
 })();
 </script>

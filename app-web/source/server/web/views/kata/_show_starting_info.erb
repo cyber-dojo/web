@@ -7,6 +7,9 @@ $(() => {
   cd.showStartingInfoDialog = (eventCount) => {
     const theDefault = 'on';
     if (eventCount === 1 && cd.lib.setting('starting_info_dialog',theDefault) === 'on') {
+      // The kata opens in a new tab with no click to give it keyboard focus;
+      // focusing the window is what lets the Escape key close the dialog.
+      window.focus();
       cd.trafficLightsButton().click();
     }
   };

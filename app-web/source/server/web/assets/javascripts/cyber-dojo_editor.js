@@ -59,11 +59,15 @@ var cyberDojo = ((cd, $) => {
   };
 
   Editor.prototype.output = function(stdout, stderr, status) {
-    this.changeFile('output', { content:
-      ":stdout:\n" + stdout + "\n" +
-      ":stderr:\n" + stderr + "\n" +
-      ":status:\n" + status + "\n"
-    });
+    // stdout and stderr share one pane, stderr coloured as a CodeMirror
+    // 'number' so it follows the theme and the colour on/off setting.
+    // status sits in a bar below the pane so it never scrolls away.
+    const separator = (stdout === '' || stdout.endsWith('\n')) ? '' : '\n';
+    const stdoutLines = (stdout + separator).split('\n').length - 1;
+    this.changeFile('output', { content:stdout + separator + stderr });
+    const editor = document.getElementById('syntax_highlight_file_content_for_output').CodeMirror;
+    editor.markText({ line:stdoutLines, ch:0 }, { line:editor.lastLine() }, { className:'cm-number' });
+    $fileDiv('output').append($('<div>', { class:'output-status', text:`status ${status}` }));
   };
 
   Editor.prototype.refocus = function() {
