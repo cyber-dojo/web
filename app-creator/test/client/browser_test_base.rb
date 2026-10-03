@@ -32,10 +32,4 @@ class BrowserTestBase < CreatorTestBase
     super
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def any_exercises_start_points_display_name
-    exercises_start_points.names.sample
-  end
-
 end

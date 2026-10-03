@@ -12,7 +12,7 @@ $(() => {
     });
   });
 
-  $('button.switch').click(() => cd.goto(cd.mountedPath(`/choose_problem?${cd.urlParams()}`)));
+  $('button.switch').click(() => cd.goto(cd.mountedPath(`/setup?${cd.urlParams()}`)));
 });
 </script>
 
@@ -23,7 +23,7 @@ $(() => {
     <%= erb :'shared/display_names' %>
     <div class="footer-row">
       <button type="button" class="large next" disabled>next</button>
-      <button type="button" class="switch">switch back to exercises</button>
+      <button type="button" class="switch">switch back to regular exercises</button>
     </div>
   </div>
 </div>

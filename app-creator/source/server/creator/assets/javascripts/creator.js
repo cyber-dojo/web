@@ -115,108 +115,215 @@ cd.setupDisplayNamesClickHandlers = () => {
   cd.wireScrollbar($list, $listTrack, $listTrack.find('.cscroll-thumb'))();
 };
 
-// The group (classroom) choose_ltf page: pick up to 5 language & test-frameworks.
-// Hovering a name previews its file content without choosing it. Clicking a name
-// in the available list moves it into the chosen list (capped at 5); clicking a
-// name in the chosen list moves it back. next is enabled once 1+ are chosen, and
-// creates a group from a single choice or a cluster from 2+.
-cd.setupGroupLtfChooser = () => {
-  const MAX = 5;
-  const $available = $('.available-ltfs');
-  const $chosen = $('.chosen-ltfs');
-  const $displayContent = $('.display-content');
-  const $next = $('button.next');
+// The setup page: choose language & test-framework(s) and an exercise on one
+// page. type is 'kata' (solo: one LTF, may skip the exercise) or 'group' (up to
+// 5 LTFs, must choose an exercise). The action button creates the practice: one
+// LTF posts type with exercise_name and language_name; 2+ post a cluster.
+cd.setupChooser = (type) => {
+  const maxLtfs = type === 'group' ? 5 : 1;
+  const $page = $('#setup-page');
+  const $preview = $page.find('.display-content');
+  const $next = $page.find('button.next');
+  const $skip = $page.find('label.skip input');
+  const $languages = $page.find('.languages');
+  const $frameworks = $page.find('.frameworks');
+  const $exercises = $page.find('.exercises');
+  const languageNote =
+    'The starting files for any language/test-framework are always a function ' +
+    'that returns 6*9 and a test that expects 42. These starting files are simply ' +
+    'to help you get started and are _unrelated_ to the chosen exercise.';
 
-  const $availTrack = $available.siblings('.cscroll-track');
-  const updateAvail = cd.wireScrollbar($available, $availTrack, $availTrack.find('.cscroll-thumb'));
+  // Returns { name: preview } for the hidden textareas carrying attr.
+  const previewsFrom = (attr) => {
+    const previews = {};
+    $(`textarea[${attr}]`).each(function() {
+      previews[$(this).attr(attr)] = $(this).val();
+    });
+    return previews;
+  };
+  const exercisePreviews = previewsFrom('data-exercise-name');
+  const ltfPreviews = previewsFrom('data-ltf-name');
+  const ltfNames = Object.keys(ltfPreviews);
 
-  // Each entry keeps its data-index so its file content stays findable in the
-  // hidden #contents_<index> textareas after it moves between the lists.
-  const byName = (a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-  let available = $available.find('.display-name').map(function() {
-    return { name: $(this).data('name').trim(), index: $(this).data('index') };
-  }).get();
-  let chosen = [];
+  // Returns [language, framework], splitting an LTF name on its FIRST comma.
+  const split = (name) => {
+    const at = name.indexOf(',');
+    return at === -1 ? [name, ''] : [name.slice(0, at), name.slice(at + 1).trim()];
+  };
+  // Returns the frameworks offered for language, in names order.
+  const frameworksOf = (language) =>
+    ltfNames.filter((name) => split(name)[0] === language).map((name) => split(name)[1]);
 
-  const showContent = (index) => $displayContent.val($(`#contents_${index}`).val());
+  let exerciseChoice = null;   // an exercise name, '' for skip, null for none yet
+  let currentLanguage = null;  // the language whose frameworks are listed
+  let currentFramework = null; // the framework chosen since that language was
+  let chosenLtfs = [];         // full LTF names
+  let restingPreview = '';     // what the preview shows when nothing is hovered
 
-  // A row previews its content on hover (never choosing it) and moves lists on
-  // click.
-  const makeRow = (entry, onClick) => {
-    const $row = $('<div>', { 'class': 'display-name' }).text(entry.name);
-    $row.mouseenter(() => showContent(entry.index));
+  const show = (text) => $preview.val(text);
+  const rest = () => show(restingPreview);
+
+  // Returns a list row showing text, previewing preview() on hover.
+  const makeRow = (text, preview, onClick) => {
+    const $row = $('<div>', { 'class': 'display-name' }).text(text);
+    $row.mouseenter(() => show(preview()));
     $row.click(onClick);
     return $row;
   };
 
-  const add = (entry) => {
-    if (chosen.length >= MAX) { return; }           // cap at MAX
-    available = available.filter((e) => e.name !== entry.name);
-    chosen.push(entry);
+  // Returns the gutter checkbox for a chosen slot: ticked when chosen, and
+  // unticking it calls unchoose. Only choosing from a column ticks it, so
+  // ticking an unchosen one directly does nothing.
+  const choiceBox = (chosen, unchoose) => {
+    const $box = $('<input>', { type: 'checkbox' }).prop('checked', chosen);
+    $box.click((event) => event.stopPropagation());
+    $box.change(() => {
+      if (chosen) {
+        unchoose();
+      }
+      else {
+        $box.prop('checked', false);
+      }
+    });
+    return $box;
+  };
+
+  // Returns a chosen slot: the named row, or a dashed placeholder when text is
+  // null, with gutter (a number and/or checkbox) hanging to its left.
+  const makeSlot = (text, gutter, preview, onClick) => {
+    const $slot = text === null
+      ? $('<div>', { 'class': 'slot-empty' })
+      : makeRow(text, preview, onClick).addClass('filled');
+    return $slot.prepend($('<span>', { 'class': 'slot-num' }).append(gutter));
+  };
+
+  const chooseLtf = (name) => {
+    if (chosenLtfs.includes(name)) {
+      return;
+    }
+    if (maxLtfs === 1) {
+      chosenLtfs = [name];
+    }
+    else if (chosenLtfs.length < maxLtfs) {
+      chosenLtfs.push(name);
+    }
+    else {
+      return;
+    }
+    currentFramework = split(name)[1];
+    restingPreview = ltfPreviews[name];
     render();
   };
-  const remove = (entry) => {
-    chosen = chosen.filter((e) => e.name !== entry.name);
-    available.push(entry);
-    available.sort(byName);
-    render();
+
+  const renderFrameworks = () => {
+    $frameworks.empty();
+    frameworksOf(currentLanguage).forEach((framework) => {
+      const name = `${currentLanguage}, ${framework}`;
+      const $row = makeRow(framework, () => ltfPreviews[name], () => chooseLtf(name));
+      $row.toggleClass('selected', framework === currentFramework);
+      $frameworks.append($row);
+    });
   };
+
+  const renderChosen = () => {
+    const unchooseExercise = () => {
+      exerciseChoice = null;
+      restingPreview = '';
+      render();
+    };
+    const exerciseChosen = exerciseChoice !== null && exerciseChoice !== '';
+    $page.find('.exercise-chosen').empty().append(makeSlot(
+      exerciseChosen ? exerciseChoice : null,
+      choiceBox(exerciseChosen, unchooseExercise),
+      () => exercisePreviews[exerciseChoice],
+      unchooseExercise));
+
+    const $ltfs = $page.find('.ltfs-chosen').empty();
+    for (let i = 0; i < maxLtfs; i++) {
+      const name = chosenLtfs[i];
+      const unchooseLtf = () => {
+        chosenLtfs = chosenLtfs.filter((n) => n !== name);
+        if (name === `${currentLanguage}, ${currentFramework}`) {
+          currentFramework = null;
+        }
+        render();
+      };
+      const gutter = [choiceBox(name !== undefined, unchooseLtf)];
+      if (maxLtfs > 1) {
+        gutter.unshift(`${i + 1} `);
+      }
+      $ltfs.append(makeSlot(name === undefined ? null : name, gutter,
+                            () => ltfPreviews[name], unchooseLtf));
+    }
+  };
+
+  const updateScrollbars = [$languages, $exercises].map(($list) => {
+    const $track = $list.siblings('.cscroll-track');
+    return cd.wireScrollbar($list, $track, $track.find('.cscroll-thumb'));
+  });
 
   const render = () => {
-    $available.empty();
-    available.forEach((entry) => $available.append(makeRow(entry, () => add(entry))));
-
-    // Each of the 5 chosen slots keeps its 1..5 number, filled or empty, so the
-    // 5-cap always reads. A filled slot is a chosen entry (clicking it moves it
-    // back to the available list); an empty slot is a dashed placeholder.
-    $chosen.empty();
-    for (let slot = 0; slot < MAX; slot++) {
-      const $num = $('<span>', { 'class': 'slot-num' }).text(slot + 1);
-      if (slot < chosen.length) {
-        const entry = chosen[slot];
-        const $row = $('<div>', { 'class': 'display-name' })
-          .append($num, document.createTextNode(entry.name));
-        $row.mouseenter(() => showContent(entry.index));
-        $row.click(() => remove(entry));
-        $chosen.append($row);
-      } else {
-        $chosen.append($('<div>', { 'class': 'slot-empty' }).append($num));
-      }
-    }
-
-    $next.prop('disabled', chosen.length === 0);
-    updateAvail();
+    $exercises.find('.display-name').each(function() {
+      $(this).toggleClass('selected', $(this).attr('data-name') === exerciseChoice);
+    });
+    $languages.find('.display-name').each(function() {
+      $(this).toggleClass('current', $(this).attr('data-name') === currentLanguage);
+    });
+    renderFrameworks();
+    renderChosen();
+    $skip.prop('checked', exerciseChoice === '');
+    $next.prop('disabled', !(exerciseChoice !== null && chosenLtfs.length > 0));
+    rest();
+    updateScrollbars.forEach((update) => update());
   };
 
-  render();
+  $exercises.find('.display-name').each(function() {
+    const name = $(this).attr('data-name');
+    $(this).mouseenter(() => show(exercisePreviews[name]));
+    $(this).click(() => {
+      exerciseChoice = name;
+      restingPreview = exercisePreviews[name];
+      render();
+    });
+  });
+  $languages.find('.display-name').each(function() {
+    const language = $(this).attr('data-name');
+    $(this).mouseenter(() => show(languageNote));
+    $(this).click(() => {
+      currentLanguage = language;
+      currentFramework = null;
+      render();
+    });
+  });
+  $page.find('.display-names, .chosen').mouseleave(rest);
 
-  // On open preview a random available entry (shown as if hovered) and scroll it
-  // into view, but leave it unchosen so next stays disabled.
-  const $rows = $available.find('.display-name');
-  if ($rows.length !== 0) {
-    const $random = $rows.random();
-    const entry = available[$rows.index($random)];
-    $random[0].scrollIntoView(); // scrollIntoView is a DOM method, not jQuery
-    $random.addClass('previewed');
-    showContent(entry.index);
-  }
+  // Ticking skip is the explicit choice of no exercise; unticking it leaves the
+  // exercise unchosen again.
+  $skip.change(() => {
+    exerciseChoice = $skip.prop('checked') ? '' : null;
+    restingPreview = '';
+    render();
+  });
 
-  // A single choice creates a group (as the single-select page does); 2+ create
-  // a cluster whose language_names the joiners each pick one of.
+  $page.find('button.switch').click(() =>
+    cd.goto(cd.mountedPath(`/choose_custom_problem?type=${type}`)));
+
   $next.click(() => {
-    if (chosen.length === 0) { return; }
-    if (chosen.length === 1) {
-      const name = encodeURIComponent(chosen[0].name);
-      const params = `${cd.urlParams()}&language_name=${name}`;
-      $.post(cd.mountedPath('/create.json'),cd.toJSON(params), (response) => cd.goto(response.route));
-    } else {
-      const body = JSON.stringify({
-        type: 'cluster',
-        exercise_name: cd.urlParam('exercise_name') || '',
-        language_names: chosen.map((e) => e.name)
-      });
-      $.post(cd.mountedPath('/create.json'),body, (response) => cd.goto(response.route));
-    }
+    const body = chosenLtfs.length === 1
+      ? { type: type, exercise_name: exerciseChoice, language_name: chosenLtfs[0] }
+      : { type: 'cluster', exercise_name: exerciseChoice, language_names: chosenLtfs };
+    $.post(cd.mountedPath('/create.json'), JSON.stringify(body), (response) => cd.goto(response.route));
+  });
+
+  // Open on a random exercise preview (unchosen) and a random current language,
+  // so the test-framework column is never empty; scroll each into view.
+  const $randomExercise = $exercises.find('.display-name').random();
+  restingPreview = exercisePreviews[$randomExercise.attr('data-name')];
+  const $randomLanguage = $languages.find('.display-name').random();
+  currentLanguage = $randomLanguage.attr('data-name');
+  render();
+  [[$exercises, $randomExercise], [$languages, $randomLanguage]].forEach(([$list, $row]) => {
+    $list.scrollTop($row[0].offsetTop - ($list[0].clientHeight - $row[0].offsetHeight) / 2);
   });
 };
 
