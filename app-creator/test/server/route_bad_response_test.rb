@@ -63,7 +63,7 @@ class RouteBadResponseTest < CreatorTestBase
     stub_exercises_start_points(not_json, '500')
 
     stdout, stderr = capture_io do
-      get mounted_path('choose_problem'), { type: 'group' }.to_json
+      get mounted_path('setup'), { type: 'group' }.to_json
     end
     assert status?(500), status
     assert html_content?, content_type
@@ -71,7 +71,7 @@ class RouteBadResponseTest < CreatorTestBase
     assert_equal '', stderr
     json = JSON.parse(stdout)
     ex = json['exception']
-    assert_equal mounted_path('choose_problem'), ex['request']['path'], stdout
+    assert_equal mounted_path('setup'), ex['request']['path'], stdout
     assert_nil ex['request']['body'], stdout
     refute_nil ex['backtrace'], stdout
   end
@@ -88,7 +88,7 @@ class RouteBadResponseTest < CreatorTestBase
     esp = ExternalExercisesStartPoints.new(http)
     externals.instance_exec { @exercises_start_points = esp }
     stdout, _stderr = capture_io do
-      get mounted_path('choose_problem'), { type: 'group' }.to_json
+      get mounted_path('setup'), { type: 'group' }.to_json
     end
     json = JSON.parse(stdout)
     ex = json['exception']

@@ -8,17 +8,16 @@ class Views200Test < CreatorTestBase
     assert_get_200_html('home')
   end
 
-  qtest a49AA0: %w[GET /choose_problem 200] do
-    assert_get_200_html('choose_problem')
+  qtest a49AA0: %w[GET /setup?type=kata 200] do
+    assert_get_200_html('setup', type: 'kata')
   end
 
   qtest a49AA1: %w[GET /choose_custom_problem 200] do
     assert_get_200_html('choose_custom_problem')
   end
 
-  qtest a49AA2: %w[GET /choose_ltf 200] do
-    exercise_name = exercises_start_points.names.sample
-    assert_get_200_html('choose_ltf', exercise_name: exercise_name)
+  qtest a49AA2: %w[GET /setup?type=group 200] do
+    assert_get_200_html('setup', type: 'group')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

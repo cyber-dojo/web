@@ -1,0 +1,240 @@
+@use "sass:color";
+
+@use "lib/colour";
+@use "lib/fonts";
+@use "lib/rounded-corner";
+@use "lib/wide-list-item";
+
+// The setup page: language? | test framework? | exercise? | preview, above a
+// full-width line, with the selections and the action button below it.
+
+$column-bg: color.adjust(colour.$darker-color, $lightness: 5%, $space: hsl);
+$rule-color: color.adjust(gray, $lightness: -15%, $space: hsl);
+$gutter-color: color.adjust(colour.$darker-color, $lightness: 30%, $space: hsl);
+$columns: 190px 230px 230px 380px;
+$column-gap: 12px;
+$panel-padding: 20px;
+
+#setup-page
+{
+  // Exactly the grid's width, so the full-width line meets the panel's border.
+  .edged-panel { width: max-content; }
+
+  .title
+  {
+    @include fonts.non-code-font();
+    font-size: 56px;
+    color: colour.$lighter-color;
+    position: static;   // undoes the shared .title's top:-19px shift
+    margin: { top: -10px; bottom: 6px; }
+  }
+
+  .setup
+  {
+    display: grid;
+    grid-template-columns: $columns;
+    column-gap: $column-gap;
+    align-items: start;
+  }
+
+  .column
+  {
+    box-sizing: border-box;
+    background: $column-bg;
+    @include rounded-corner.rounded-corner(5px);
+    padding: 10px 10px 4px;
+  }
+
+  // 10px column padding + 32px title + 6px + 1px rule + 6px = the 55px band
+  // the preview heading matches, so the textarea's top is level with the lists.
+  .col-heading
+  {
+    @include fonts.non-code-font();
+    font-size: 26px;
+    line-height: 32px;
+    padding: 0 4px 6px;
+    border-bottom: 1px dotted $rule-color;
+    margin-bottom: 6px;
+  }
+
+  .display-names
+  {
+    box-sizing: border-box;
+    height: 300px;
+    overflow-y: scroll;
+    padding: { top: 6px; bottom: 6px; }
+    scrollbar-width: none;
+    &::-webkit-scrollbar { width: 0px; height: 0px; display: none; }
+  }
+
+  .display-name
+  {
+    @include wide-list-item.wide-list-item();
+    background: transparent;
+    border-color: transparent;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    &.current
+    {
+      color: colour.$darker-color;
+      background: white;
+    }
+  }
+
+  // Always-on custom scrollbar (wired by cd.wireScrollbar) in a right gutter.
+  .scroll-wrap { position: relative; padding-right: 19px; }
+  .cscroll-track
+  {
+    position: absolute;
+    top: 6px; bottom: 6px; right: 0px;
+    width: 14px;
+    @include rounded-corner.rounded-corner(7px);
+  }
+  .cscroll-thumb
+  {
+    position: absolute;
+    left: 0px; top: 0px;
+    width: 14px;
+    min-height: 24px;
+    background: colour.$lighter-color;
+    @include rounded-corner.rounded-corner(7px);
+    border: 3px solid $column-bg;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover { background: colour.$text-color; }
+  }
+
+  // switch sits above the textarea, which fills the rest of the cell so its
+  // bottom stays level with the columns.
+  .preview-cell
+  {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  .preview-heading
+  {
+    height: 55px;
+    box-sizing: border-box;
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .preview-heading .switch { font-size: 16px; margin: 4px 0 0; }
+  .display-content
+  {
+    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+    @include rounded-corner.rounded-corner();
+    padding: 8px 8px 0;
+    font-size: 11px;
+    resize: none;
+  }
+
+  // The small, muted links under the columns.
+  .add-new
+  {
+    grid-column: 3;
+    margin: { top: 8px; bottom: 12px; }
+    padding-left: 4px;
+    @include fonts.plaintext-font();
+    font-size: 12px;
+    a:link, a:visited { color: color.adjust(gray, $lightness: 8%, $space: hsl); }
+  }
+  .add-ltf { grid-column: 1 / span 2; }
+
+  // Pulled out over the panel's side padding (and padded back in) so the line
+  // meets the panel's border on both sides.
+  .selections
+  {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: $columns;
+    column-gap: $column-gap;
+    align-items: start;
+    margin: $panel-padding (-$panel-padding) 0;
+    padding: $panel-padding $panel-padding 4px;
+    border-top: 1px solid $rule-color;
+  }
+  .ltf-chosen { grid-column: 1 / span 2; }
+  .chosen-heading
+  {
+    @include fonts.non-code-font();
+    font-size: 22px;
+    color: colour.$lighter-color;
+    margin-bottom: 10px;
+  }
+
+  // Chosen slots: the checkbox (and 1..5 number) hang in the gutter to the
+  // left, so the rows themselves must not clip.
+  .chosen { padding-left: 18px; }
+  .ltfs-chosen.numbered { padding-left: 32px; }
+  .chosen .display-name,
+  .slot-empty
+  {
+    position: relative;
+    margin-bottom: 4px;
+    min-height: 19px;
+  }
+  .chosen .display-name { overflow: visible; }
+  .chosen .display-name.filled
+  {
+    color: colour.$darker-color;
+    background: white;
+  }
+  .slot-empty
+  {
+    @include fonts.plaintext-font();
+    border: 1px dashed color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl);
+    padding-left: 6px;
+  }
+  .slot-num
+  {
+    position: absolute;
+    right: calc(100% + 4px);
+    top: 0px;
+    white-space: nowrap;
+    @include fonts.plaintext-font();
+    color: $gutter-color;
+  }
+
+  // Laid out like a chosen row, so its checkbox hangs in the same gutter as
+  // the chosen exercise's checkbox above it.
+  label.skip
+  {
+    position: relative;
+    display: block;
+    margin: { top: 6px; left: 18px; }
+    padding-left: 7px;
+    @include fonts.plaintext-font();
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  // Drawn by hand so ticked and unticked are the same size; the native
+  // control renders the two states at different sizes.
+  .slot-num input
+  {
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: 13px;
+    height: 13px;
+    margin: 3px 0 0;
+    border: 1px solid colour.$lighter-color;
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+    vertical-align: top;
+    &:checked
+    {
+      background: colour.$lighter-color url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'><path d='M2.5 6.5l2.5 2.5 5-5.5' fill='none' stroke='%23262626' stroke-width='2'/></svg>") center / 100% no-repeat;
+    }
+  }
+
+  .next-row button { margin-top: 0; }
+}

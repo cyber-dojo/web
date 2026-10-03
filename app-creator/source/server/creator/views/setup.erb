@@ -1,0 +1,97 @@
+<% solo = (@type == 'kata') %>
+<script>
+'use strict';
+$(() => {
+  cd.setupHomeIcon();
+  cd.setupChooser('<%= solo ? 'kata' : 'group' %>');
+});
+</script>
+
+<div id="setup-page">
+  <div class="edged-panel">
+    <div class="title">create a new <%= solo ? 'solo' : 'group' %> practice</div>
+
+    <div class="setup">
+      <div class="column">
+        <div class="col-heading">language?</div>
+        <div class="scroll-wrap">
+          <div class="display-names languages">
+            <% @languages.each.with_index do |language, index| %>
+              <div class="display-name"
+                   data-name="<%= escape_html(language) %>"
+                   data-index="<%= index %>">
+                <%= escape_html(language) %>
+              </div>
+            <% end %>
+          </div>
+          <div class="cscroll-track"><div class="cscroll-thumb"></div></div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="col-heading">test framework?</div>
+        <div class="display-names frameworks"></div>
+      </div>
+
+      <div class="column">
+        <div class="col-heading">exercise?</div>
+        <div class="scroll-wrap">
+          <div class="display-names exercises">
+            <% @display_names.each.with_index do |name, index| %>
+              <div class="display-name"
+                   data-name="<%= escape_html(name) %>"
+                   data-index="<%= index %>">
+                <%= escape_html(name) %>
+              </div>
+            <% end %>
+          </div>
+          <div class="cscroll-track"><div class="cscroll-thumb"></div></div>
+        </div>
+      </div>
+
+      <div class="preview-cell">
+        <div class="preview-heading">
+          <button type="button" class="small switch">switch to custom exercises</button>
+        </div>
+        <textarea class="display-content" readonly="readonly"></textarea>
+      </div>
+
+      <div class="help add-new add-ltf">
+        <a href="https://github.com/cyber-dojo/cyber-dojo/blob/master/docs/how-to-contribute-to-start-points.md"
+           target="_blank">Add a new language/test-framework</a>
+      </div>
+      <div class="help add-new">
+        <a href="https://github.com/cyber-dojo/exercises-start-points/blob/main/CONTRIBUTING.md"
+           target="_blank">Add a new exercise</a>
+      </div>
+
+      <div class="selections">
+        <div class="ltf-chosen">
+          <div class="chosen-heading">
+            <%= solo ? 'your language &amp; test framework' : 'your languages &amp; test frameworks (up to 5)' %>
+          </div>
+          <div class="chosen ltfs-chosen<%= solo ? '' : ' numbered' %>"></div>
+        </div>
+        <div>
+          <div class="chosen-heading">your exercise</div>
+          <div class="chosen exercise-chosen"></div>
+          <% if solo %>
+            <label class="skip"><span class="slot-num"><input type="checkbox"></span>skip the exercise</label>
+          <% end %>
+        </div>
+        <div class="next-row">
+          <button type="button" class="large next" disabled><%= solo ? 'start' : 'create' %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="display:none;">
+  <% @display_names.each.with_index do |name, index| %>
+    <textarea data-exercise-name="<%= escape_html(name) %>"><%= escape_html(@display_contents[index]) %></textarea>
+  <% end %>
+  <% @ltf_names.each do |name| %>
+    <textarea data-ltf-name="<%= escape_html(name) %>"><%= escape_html(@ltf_previews[name]) %></textarea>
+  <% end %>
+</div>
