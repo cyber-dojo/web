@@ -1,4 +1,5 @@
 <%= partial('kata/show_starting_info') %>
+<% @with_download = true # only the edit page's app bar offers download %>
 <%= partial('shared/app_bar') %>
 <div id="top-spacer"></div>
 <div id="review-page"><%= partial('review/review') %></div>

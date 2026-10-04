@@ -7,16 +7,20 @@ $(() => {
   const review = cd.review;
 
   review.output = {
+    // Only a test run has output. Any other event (eg the kata's creation)
+    // empties both the output's filename and its content, so no earlier
+    // run's output lingers to be shown.
+    hasOutput: (event) => cd.lib.isLight(event) && !cd.lib.isCreationEvent(event),
     refresh: () => {
       const event = review.currentEvent();
-      if (cd.lib.isLight(event) && !cd.lib.isCreationEvent(event)) {
+      if (review.output.hasOutput(event)) {
         return review.getJSON('saver', 'kata_event', { id:review.id, index:review.index }, (event) => {
           outputRefresher(event);
         });
       }
       else {
-        const $diffOutputFilenames = $('#diff-output-filenames');
-        $diffOutputFilenames.html('');
+        $('#diff-output-filenames').html('');
+        $('#diff-content-output').empty();
         return Promise.resolve();
       }
     }

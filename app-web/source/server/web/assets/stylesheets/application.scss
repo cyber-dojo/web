@@ -52,8 +52,6 @@
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
- *= depend_on download.scss
- *= depend_on donate.scss
  *= depend_on charity.scss
  *= depend_on sponsorship.scss
  *= depend_on codemirror-overrides.scss
@@ -108,8 +106,6 @@
 @use "wait-spinner.scss";
 @use "yin-yang-logo.scss";
 @use "hotkeys.scss";
-@use "download.scss";
-@use "donate.scss";
 @use "charity.scss";
 @use "sponsorship.scss";
 @use "codemirror-overrides.scss";

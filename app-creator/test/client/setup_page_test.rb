@@ -34,7 +34,7 @@ class SetupPageTest < BrowserTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Sp7qa3: %w[
-    |skip the exercise is offered for solo and group practices,
+    |no exercise is offered for solo and group practices,
     |and ticking it counts as the exercise choice
   ] do
     %w[kata group].each do |type|

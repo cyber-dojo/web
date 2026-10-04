@@ -104,7 +104,21 @@ $(() => {
       filenames.select(selected);
     }
     else {
-      filenames.select(sorted[0]);
+      filenames.select(openingFilename(sorted));
+    }
+  };
+
+  // Returns the file to open when none is selected: a readme or highlight file
+  // (which sort first) when there is one, else the first test file, so a
+  // practice without a readme opens on its test rather than on whichever
+  // source file sorts first.
+  const openingFilename = (sorted) => {
+    const first = sorted[0];
+    if (first.startsWith('readme') || cd.isHighlightFile(first)) {
+      return first;
+    }
+    else {
+      return sorted.find(cd.isTestFile) || first;
     }
   };
 

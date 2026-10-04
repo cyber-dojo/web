@@ -1,11 +1,11 @@
 
-<button type="button" class="review download lockable">download</button>
+<button type="button" id="download-button" class="info-button lockable">download</button>
 
 <script>
 'use strict';
 $(() => {
 
-  const $button = $(".download");
+  const $button = $('#download-button');
 
   const tip = [
     "Download your practice session as",
@@ -15,9 +15,10 @@ $(() => {
 
   cd.createTip($button, tip);
 
+  // Removed rather than hidden: the ... toggle fades every .info-button in.
   if (!cd.kata.isLatest()) {
-    $button.hide();
-  } 
+    $button.remove();
+  }
   else {
     $button.click(() => {
       cd.saveAnyFileChangesITE();

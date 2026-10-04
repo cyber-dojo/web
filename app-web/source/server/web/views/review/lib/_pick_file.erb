@@ -16,7 +16,9 @@ $(() => {
       }
     }
 
-    if (review.diffRadio.isDetailed()) {
+    // Detailed mode shows a test run's output; an event without output (eg
+    // the kata's creation) falls through to the file rules below.
+    if (review.diffRadio.isDetailed() && review.output.hasOutput(event)) {
       return { id: 'output' };
     }
 
