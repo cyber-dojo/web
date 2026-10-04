@@ -1,4 +1,5 @@
 require_relative 'creator_test_base'
+require 'minitest/mock'
 
 class RouteEnterTest < CreatorTestBase
 
@@ -53,19 +54,23 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  # 20 joiners per group: were the order not cluster-wide, saver's random
-  # default would give 40 different avatars only ~0.008% of the time.
+  # ClusterAvatarOrder is stubbed to keep its order within a usage-count
+  # bucket unshuffled, so the avatars handed out are exact.
   qtest d4Pc36: %w[
     |POST /enter.json across both groups of a multi-LTF cluster
-    |hands out avatars scarce cluster-wide, so 20 joiners
-    |in each group get 40 different avatars between them
+    |offers each joiner the avatars least used cluster-wide, so
+    |after 3 joins into one group the other group's first joiner
+    |gets the next avatar unused anywhere in the cluster
   ] do
-    child_group_ids = json_post_create_cluster({
-                                                 language_names: languages_start_points.names.first(2),
-                                                 exercise_name: exercises_start_points.names.first
-                                               })
-    group_indexes = join_each_group(child_group_ids, 20)
-    assert_equal 40, group_indexes.uniq.size, group_indexes
+    identity = ClusterAvatarOrder.new(shuffle: ->(indexes) { indexes })
+    ClusterAvatarOrder.stub(:new, identity) do
+      group_a, group_b = json_post_create_cluster({
+                                                    language_names: languages_start_points.names.first(2),
+                                                    exercise_name: exercises_start_points.names.first
+                                                  })
+      assert_equal [0, 1, 2], join_each_group([group_a], 3)
+      assert_equal [3], join_each_group([group_b], 1)
+    end
   end
 
   private
