@@ -36,7 +36,7 @@ class RouteEnterTest < CreatorTestBase
     |POST /enter.json
     |for a version=2 group
     |has status 200
-    |returns JSON with route to full page
+    |returns JSON saying it is full, and no route or id,
     |when group is full
   ] do
     path = 'enter.json'
@@ -45,10 +45,7 @@ class RouteEnterTest < CreatorTestBase
     # See sh/copy_in_saver_test_data.sh
     data = { id: 'FD6ryx' }
     assert_post_200_json(path, data) do |response|
-      # eg response == {"route"=>"/creator/full?id=FxWwrr"}
-      assert response.key?('route'), response.keys
-      assert %r{/creator/full\?id=(?<kata_id>.*)} =~ response['route'], response['route']
-      assert_equal 'FD6ryx', kata_id, :kata_id
+      assert_equal({ 'full' => true }, response)
     end
   end
 

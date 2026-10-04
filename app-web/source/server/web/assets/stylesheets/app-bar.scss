@@ -20,25 +20,41 @@
   top: 0px;
   z-index: 1000;
 
-  #settings-button, #info-button
+  #settings-button, #more-button
   {
     padding: { left:1px; right:1px; top:0px; bottom:0px; }
     margin: { left:1px; right:1px; top:0px; bottom:0px; }
     cursor: pointer;
   }
+  // Sized to look the same as the 20px yin-yang logo: the cog's teeth reach
+  // nearly to its edges, so it needs 22px.
   #settings-button
+  {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    top: 1px;
+  }
+  #more-button
   {
     width: 20px;
     height: 20px;
     position: relative;
     top: 2px;
   }
-  #info-button
+  // The cog and the ... (which shows/hides the other buttons) are plain grey
+  // inline SVGs, faded so they sit back in the bar, at full strength under the
+  // mouse. Under the mouse the ... also gains a lightened circle behind it.
+  #settings-button, #more-button
   {
-    width: 17px;
-    height: 17px;
-    position: relative;
-    top: 4px;
+    opacity: 0.45;
+    &:hover { opacity: 1; }
+  }
+  .icon-grey { fill: color.adjust(colors.$darker-color, $lightness: 50%, $space: hsl); }
+  #more-button .more-hover { fill: transparent; }
+  #more-button:hover .more-hover
+  {
+    fill: color.adjust(colors.$darker-color, $lightness: 25%, $space: hsl);
   }
 
   #feedback-button, #traffic-lights-button, #dashboard-button,
@@ -83,8 +99,6 @@
 // to its value; each red/amber/green row has a little room above and below.
 #traffic-lights-dialog
 {
-  // Panel titles larger than the text beneath them.
-  .info-title { font-size: 1.2em; top: 0; margin-bottom: 6px; }
   .kata-facts td:first-child
   {
     text-align: right;
@@ -95,9 +109,10 @@
   .traffic-light-rows td { padding-top: 2px; padding-bottom: 2px; }
   .traffic-light-rows .colour-name { text-align: right; padding-right: 0.4em; }
   .traffic-light-rows td:last-child { padding-left: 0.25em; }
-  // The dotted underline and help cursor say the ID has a hover tip (its
-  // phonetic spelling), as browsers style <abbr>.
-  .kata-id
+  // The dotted underline and help cursor say the ID and avatar name have a
+  // hover tip (the ID's phonetic spelling, the avatar's image), as browsers
+  // style <abbr>.
+  .kata-id, .kata-avatar
   {
     text-decoration: underline dotted;
     text-underline-offset: 3px;

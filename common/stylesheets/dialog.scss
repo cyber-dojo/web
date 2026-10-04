@@ -1,0 +1,38 @@
+@use "colours";
+
+// The look of the <dialog> that common/javascripts/dialog.js builds, in every
+// app that pops one up.
+dialog {
+  background: colours.$darker-color;
+  color: colours.$lighter-color;
+  border: none;
+  padding: 0 0 0.5em;
+  border-radius: 4px;
+  font-size: 1.1rem;
+
+  a:link, a:visited { color: colours.$lighter-color; }
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+dialog > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4em 1em;
+
+  .dialog-title { font-size: 1.85em; }
+}
+
+dialog > .info {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+dialog > pre {
+  background: transparent;
+  color: inherit;
+  margin: 0 1em 0.5em;
+}

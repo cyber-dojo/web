@@ -149,8 +149,8 @@ var cyberDojo = (function(cd, $) {
 
   const $lineCountHeadingTr = () => {
     // A small - over the deleted counts and + over the added counts.
-    const $th = (text) => $('<th>', { class:'diff-line-count-heading' }).text(text);
-    return $('<tr>').append($th('-'), $th('+'), $('<th>'));
+    const $th = (text, type) => $('<th>', { class:`diff-line-count-heading ${type}` }).text(text);
+    return $('<tr>').append($th('-', 'deleted'), $th('+', 'added'), $('<th>'));
   };
 
   const $lineCountTd = (type, file) => {

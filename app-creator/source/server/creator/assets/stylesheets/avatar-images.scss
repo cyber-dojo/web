@@ -32,9 +32,6 @@ img.avatar
   &.colour { cursor:pointer; }
 }
 
-#reenter-page img.avatar.small { width:45px; height:45px; }
+.join-avatars img.avatar.small { width:45px; height:45px; }
 
-#avatar-page, #full-page
-{
-  img.avatar.colour { cursor:default; }
-}
+#avatar-page img.avatar.colour { cursor:default; }

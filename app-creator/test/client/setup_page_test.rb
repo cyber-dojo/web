@@ -95,16 +95,19 @@ class SetupPageTest < BrowserTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Sp7qa7: %w[
-    |solo setup: start opens the new kata's edit page directly,
-    |not the enter page that create.json's route names
+    |solo setup: start opens the new kata's edit page directly, in a new
+    |tab, not the enter page that create.json's route names
   ] do
     visit(mounted_path('setup?type=kata'))
     find('.exercises .display-name', exact_text: 'Tennis').click
     find('.languages .display-name', exact_text: 'Python').click
     find('.frameworks .display-name', exact_text: 'pytest').click
-    find('button.next').click
-    assert_current_path(%r{\A/kata/edit/[0-9A-Za-z]{6}\z})
-    assert kata_exists?(current_path.split('/').last)
+    new_tab = window_opened_by { find('button.next').click }
+    within_window(new_tab) do
+      # The tab opens blank and reaches the kata only once create.json returns.
+      assert_current_path(%r{\A/kata/edit/[0-9A-Za-z]{6}\z}, wait: 10)
+      assert kata_exists?(current_path.split('/').last)
+    end
   end
 
   # - - - - - - - - - - - - - - - - -

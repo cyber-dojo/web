@@ -17,10 +17,12 @@ client_up_healthy_and_clean()
     # image does define one.
     #
     # The browser tests load several pages in quick succession, each pulling
-    # html plus app.css and app.js through /creator/, whose limit is sized for
-    # a human at a keyboard. Only this run turns it up; anything else bringing
-    # nginx up, the demo included, gets the production value from the image.
+    # html plus app.css and app.js through /creator/, and create several
+    # practices through /creator/create.json; both limits are sized for a
+    # human at a keyboard. Only this run turns them up; anything else bringing
+    # nginx up, the demo included, gets the production values from the image.
     export CYBER_DOJO_CREATOR_CHOOSE_RATE=6000r/m
+    export CYBER_DOJO_CREATOR_CREATE_RATE=6000r/m
     # The tests reach nginx over the compose network; this host port only
     # satisfies the nginx ports mapping. It differs from web's test run (9080)
     # so the two can run at once.

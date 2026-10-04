@@ -16,17 +16,8 @@ $(() => {
   const $idInput = $('input#id');
   const $waitSpinner = $('.wait-spinner');
   const $phoneticId = $('.phonetic-id');
-  const $ltfName = $('.ltf-name');
-
   const $openSingleButton = $('button.enter.single');
-
-  const $enterGroupButton = $('button.enter.group');
-  const $reenterGroupButton = $('button.reenter.group');
-  const $openDashboardButton = $('button.open.dashboard');
-
-  const $allGroupButtons = $enterGroupButton.add($reenterGroupButton).add($openDashboardButton);
-
-  const $clusterButtons = $('.cluster-ltf-buttons');
+  const $ltfGroups = $('.ltf-groups');
 
   let id = $idInput.val();
   let idType = undefined;
@@ -39,58 +30,112 @@ $(() => {
     $phoneticId.show().html(phoneticSpelling(id).join('&nbsp;&nbsp;'));
   };
 
-  // A group's LTF (language + test-framework) name, shown as a row below the
-  // phonetic id whenever the entered id is a group.
-  const showLtfName = () => {
-    const route = cd.mountedPath(`/group_display_name?id=${urlId()}`);
-    $.get(route, (response) => $ltfName.text(response.display_name).show());
+  // Pops up, over this page, the dialog saying a group has no avatars left.
+  const showFullDialog = () => {
+    const html = '<img src="/images/avatars/all_colour.png" class="avatars"/>';
+    cdDialog(html, "sorry, it's full").showModal();
   };
 
-  // A cluster offers several LTFs. Show one button per child group, labelled
-  // with the LTF display name (not its id). Clicking one behaves exactly as if
-  // that child group's id had been typed in: setButtonStates() re-runs, sees a
-  // group, and reveals the id + the three group buttons.
-  const enterAsChildGroup = (childId) => {
-    $idInput.val(childId);
-    setButtonStates();
-  };
-
-  const showClusterButtons = () => {
-    const clusterId = urlId();
-    const route = cd.mountedPath(`/cluster_children?id=${clusterId}`);
-    $.get(route, (response) => {
-      $clusterButtons.empty();
-      response.children.forEach((child) => {
-        const $button = $('<button>', {
-          'type': 'button',
-          'class': 'large enter ltf',
-          'text': child.display_name
-        });
-        $button.click(() => enterAsChildGroup(child.id));
-        $clusterButtons.append($button);
+  // Pops up, over this page, the 8x8 avatars of groupId: those already
+  // started in colour (clicking one reopens its kata in a new tab), the rest
+  // grey. With none started, its title says no one has joined yet.
+  const showJoinDialog = (groupId) => {
+    const route = cd.mountedPath(`/group_joined?id=${encodeURIComponent(groupId)}`);
+    $.getJSON(route, (joined) => {
+      $.getJSON('/images/avatars/names.json', (names) => {
+        let dialog = undefined;
+        const $avatar = (index) => {
+          const kataId = joined.avatars[index];
+          const $img = $('<img>', { src: `/images/avatars/${index}.jpg`, alt: names[index] });
+          if (kataId) {
+            $img.addClass('small colour avatar').attr('data-tip', names[index]);
+            cd.setupHoverTips($img);
+            $img.click(() => {
+              cd.windowOpen(`/kata/edit/${kataId}`);
+              dialog.close();
+            });
+          }
+          else {
+            $img.addClass('small grey avatar');
+          }
+          return $img;
+        };
+        const $table = $('<table>', { 'class': 'join-avatars' });
+        for (let y = 0; y < 8; y++) {
+          const $row = $('<tr>');
+          for (let x = 0; x < 8; x++) {
+            $row.append($('<td>').append($avatar(y * 8 + x)));
+          }
+          $table.append($row);
+        }
+        const anyStarted = Object.keys(joined.avatars).length > 0;
+        dialog = cdDialog($table, anyStarted ? 'click your avatar' : "no one's joined yet!");
+        dialog.showModal();
       });
-      // Below the LTF buttons, a smaller button opens the whole cluster's
-      // dashboard, passing the cluster id (not a child group's id).
-      const $dashboard = $('<button>', {
-        'type': 'button',
-        'class': 'medium cluster-dashboard',
-        'text': 'open dashboard'
-      });
-      $dashboard.click(() => cd.windowOpen(`/dashboard/show/${clusterId}`));
-      $clusterButtons.append($dashboard);
-      $clusterButtons.show();
     });
+  };
+
+  // Returns one LTF group's block: its LTF (language + test-framework) name as
+  // a title, then its [enter] and [join] buttons side by side on one row,
+  // which act on that group.
+  const $ltfGroup = (groupId, displayName) => {
+    const $enter = $('<button>', { 'type': 'button', 'class': 'medium enter group' })
+      .html('start as <u>new</u> avatar');
+    // A new avatar's kata opens in a new tab. A full group closes that tab
+    // again and says so in a dialog, leaving this page as it is.
+    $enter.click(() => {
+      const tab = cd.openBlankTab();
+      const json = JSON.stringify({ 'id': groupId });
+      $.post(cd.mountedPath('/enter.json'), json, (response) => {
+        if (response.full) {
+          tab.close();
+          showFullDialog();
+        }
+        else {
+          tab.location = `/kata/edit/${response.id}`;
+        }
+      });
+    });
+    const $join = $('<button>', { 'type': 'button', 'class': 'medium reenter group' })
+      .html('join as <u>existing</u> avatar');
+    $join.click(() => showJoinDialog(groupId));
+    return $('<div>', { 'class': 'ltf-group' }).append(
+      $('<div>', { 'class': 'ltf-name' }).text(displayName),
+      $('<div>', { 'class': 'ltf-buttons' }).append($enter, $join));
+  };
+
+  // Shows one block per LTF group, stacked: a bare group has one, a cluster
+  // one per child group. Below them a single button opens the dashboard of
+  // dashboardId (the group, or the whole cluster).
+  const showLtfGroups = (groups, dashboardId) => {
+    $ltfGroups.empty();
+    groups.forEach((group) => $ltfGroups.append($ltfGroup(group.id, group.display_name)));
+    const $dashboard = $('<button>', { 'type': 'button', 'class': 'medium open dashboard' })
+      .text('open dashboard');
+    $dashboard.click(() => cd.windowOpen(`/dashboard/show/${dashboardId}`));
+    $ltfGroups.append($dashboard).show();
+  };
+
+  const showGroup = () => {
+    const groupId = id;
+    const route = cd.mountedPath(`/group_display_name?id=${urlId()}`);
+    $.get(route, (response) =>
+      showLtfGroups([{ 'id': groupId, 'display_name': response.display_name }], groupId));
+  };
+
+  const showCluster = () => {
+    const clusterId = id;
+    const route = cd.mountedPath(`/cluster_children?id=${urlId()}`);
+    $.get(route, (response) => showLtfGroups(response.children, clusterId));
   };
 
   const hideAllButtons = () => {
     $openSingleButton.hide();
-    $allGroupButtons.hide();
-    $clusterButtons.empty().hide();
+    $ltfGroups.empty().hide();
   };
 
   const setButtonStates = () => {
     id = $idInput.val();
-    $ltfName.hide();
     if (id.length < 6) {
       $idInput.removeClass('invalid');
       $phoneticId.hide();
@@ -113,8 +158,7 @@ $(() => {
             $idInput.removeClass('invalid');
             showPhoneticId();
             if (idType === 'group') {
-              $allGroupButtons.show().css('display', 'block');
-              showLtfName();
+              showGroup();
             }
             if (idType === 'single') {
               // display:block puts the button on its own row, directly below
@@ -124,7 +168,7 @@ $(() => {
               $openSingleButton.attr('target', "_blank");
             }
             if (idType === 'cluster') {
-              showClusterButtons();
+              showCluster();
             }
           } else {
             $idInput.addClass('invalid');
@@ -147,15 +191,6 @@ $(() => {
 
   $idInput.keyup(() => idInputChange()).focus();
 
-  $enterGroupButton.click(() => {
-    const json = JSON.stringify({"id":id});
-    $.post(cd.mountedPath('/enter.json'), json, (response) => cd.goto(response.route));
-  });
-
-  $reenterGroupButton.click (() => cd.goto(cd.mountedPath(`/reenter?id=${urlId()}`)));
-
-  $openDashboardButton.click(() => cd.windowOpen(`/dashboard/show/${urlId()}`));
-
   $openSingleButton.click   (() => {
       cd.windowOpen(`/kata/edit/${urlId()}`);
       $('.home-icon').click();
@@ -173,11 +208,7 @@ $(() => {
     <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
     <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">
     <div class="phonetic-id"></div>
-    <div class="ltf-name"></div>
-    <div class="cluster-ltf-buttons" style="display:none;"></div>
-    <button type="button" class="large enter group" style="display:none;">enter group practice as <u>new</u> avatar</button>
-    <button type="button" class="medium reenter group"  style="display:none;">join group practice as <u>existing</u> avatar</button>
-    <button type="button" class="medium open dashboard" style="display:none;">open dashboard</button>
-    <button type="button" class="large enter single"    style="display:none;">ok</button>
+    <div class="ltf-groups" style="display:none;"></div>
+    <button type="button" class="large enter single" style="display:none;">ok</button>
   </div>
 </div>

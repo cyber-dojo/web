@@ -2,23 +2,8 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.dialog = function(html, title, close) {
-    const dialog = document.createElement('dialog');
-    const width = $(html).data('width');
-    if (width) { dialog.style.width = width + 'px'; }
-    $(dialog).html(`
-      <header>
-        <span class="dialog-title">${title}</span>
-        <button type="button" class="dialog-close">close</button>
-      </header>
-      <div class="info"></div>
-    `);
-    $('.info', dialog).append(html);
-    $('body').append(dialog);
-    $(dialog).on('close', () => dialog.remove());
-    $('.dialog-close', dialog).click(() => dialog.close());
-    return dialog;
-  };
+  // Returns a new, not yet shown, <dialog>; see common/javascripts/dialog.js.
+  cd.dialog = (html, title) => cdDialog(html, title);
 
   return cd;
 

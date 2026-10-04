@@ -1,6 +1,10 @@
+@use "colours";
+
 // A traffic-light tool-tip shows each edited file's deleted/added line counts
 // in two columns. A small - heads the deleted column and a small + heads the
 // added column, so the counts themselves stay bare numbers in fixed-width cells.
+// Each symbol takes the colour of the cells beneath it, and sits a little
+// above them.
 .hover-tip th.diff-line-count-heading
 {
   font: 13px sans-serif;
@@ -9,4 +13,8 @@
   padding: 0px;
   line-height: 13px;
   vertical-align: bottom;
+  position: relative;
+  top: -3px;
+  &.deleted { color: colours.$diff-deleted-count-color; }
+  &.added   { color: colours.$diff-added-count-color; }
 }

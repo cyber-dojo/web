@@ -313,10 +313,18 @@ cd.setupChooser = (type) => {
     const body = chosenLtfs.length === 1
       ? { type: type, exercise_name: exerciseChoice, language_name: chosenLtfs[0] }
       : { type: 'cluster', exercise_name: exerciseChoice, language_names: chosenLtfs };
-    // A solo practice opens straight onto its kata; create.json's route (the
-    // enter page) stays as-is for every type, since scripts may rely on it.
-    $.post(cd.mountedPath('/create.json'), JSON.stringify(body), (response) =>
-      cd.goto(type === 'kata' ? `/kata/edit/${response.id}` : response.route));
+    // A solo practice opens straight onto its kata, in a new tab; create.json's
+    // route (the enter page) stays as-is for every type, since scripts may
+    // rely on it.
+    const tab = type === 'kata' ? cd.openBlankTab() : null;
+    $.post(cd.mountedPath('/create.json'), JSON.stringify(body), (response) => {
+      if (tab) {
+        tab.location = `/kata/edit/${response.id}`;
+      }
+      else {
+        cd.goto(response.route);
+      }
+    });
   });
 
   // Open on a random exercise preview (unchosen) and a random current language,
@@ -377,6 +385,7 @@ cd.setTip = (node, setTipCallBack) => {
   node.mouseleave(() => {
     node.addClass('mouse-has-left');
     cd.hoverTipContainer().empty();
+    $('dialog .hover-tip').remove();
   });
 };
 
@@ -390,8 +399,17 @@ cd.showHoverTip = (node, tip) => {
   const hoverTip = $('<div>', {
     'class': 'hover-tip'
   }).html(tip);
-  // Attach to the DOM first so the tip can be measured.
-  cd.hoverTipContainer().html(hoverTip);
+  // Attach to the DOM first so the tip can be measured. A node inside a modal
+  // <dialog> gets its tip inside that dialog too, since the dialog sits in the
+  // top layer, above anything in the page's own tip container.
+  const $dialog = node.closest('dialog');
+  if ($dialog.length) {
+    $dialog.find('.hover-tip').remove();
+    $dialog.append(hoverTip);
+  }
+  else {
+    cd.hoverTipContainer().html(hoverTip);
+  }
 
   const nodeOffset = node.offset();
   const atCenterX = nodeOffset.left + (node.outerWidth() / 2);
@@ -420,6 +438,11 @@ cd.setupHomeIcon = () => {
   $homeIcon().show().click(() => cd.goto('/'));
   cd.setupHoverTips($homeIcon());
 };
+
+// Returns a new, blank tab, opened now while still inside a click (a browser
+// blocks a tab opened later, from an async callback). Point it at its page
+// with tab.location = url once that page is known.
+cd.openBlankTab = () => window.open('', '_blank');
 
 cd.windowOpen = (url) => {
   const opened = window.open(url, '_blank');
