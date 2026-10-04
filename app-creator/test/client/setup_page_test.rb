@@ -34,17 +34,17 @@ class SetupPageTest < BrowserTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Sp7qa3: %w[
-    |skip the exercise is offered only for a solo practice,
+    |skip the exercise is offered for solo and group practices,
     |and ticking it counts as the exercise choice
   ] do
-    visit(mounted_path('setup?type=group'))
-    assert_no_selector('label.skip')
-    visit(mounted_path('setup?type=kata'))
-    find('.languages .display-name', exact_text: 'Python').click
-    find('.frameworks .display-name', exact_text: 'pytest').click
-    assert_selector('button.next[disabled]')
-    find('label.skip').click
-    assert_selector('button.next:not([disabled])')
+    %w[kata group].each do |type|
+      visit(mounted_path("setup?type=#{type}"))
+      find('.languages .display-name', exact_text: 'Python').click
+      find('.frameworks .display-name', exact_text: 'pytest').click
+      assert_selector('button.next[disabled]')
+      find('label.skip').click
+      assert_selector('button.next:not([disabled])')
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -105,5 +105,25 @@ class SetupPageTest < BrowserTestBase
     find('button.next').click
     assert_current_path(%r{\A/kata/edit/[0-9A-Za-z]{6}\z})
     assert kata_exists?(current_path.split('/').last)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest Sp7qa8: %w[
+    |group setup: 2 language-test-frameworks with the exercise skipped
+    |creates a cluster whose child groups have no exercise
+  ] do
+    visit(mounted_path('setup?type=group'))
+    find('.languages .display-name', exact_text: 'Python').click
+    find('.frameworks .display-name', exact_text: 'pytest').click
+    find('.frameworks .display-name', exact_text: 'behave').click
+    find('label.skip').click
+    find('button.next').click
+    assert_current_path(%r{\A/creator/enter\?id=[0-9A-Za-z]{6}\z})
+    id = current_url.split('id=').last
+    assert cluster_exists?(id), id
+    cluster_manifest(id)['groups'].each_key do |group_id|
+      assert_equal '', group_manifest(group_id)['exercise'], group_id
+    end
   end
 end

@@ -44,7 +44,7 @@ img.tick, img.cross
 
 img.revert, img.checkout, img.tick, img.cross
 {
-  &.red   { border: 1px solid colour.$red  ; }
-  &.amber { border: 1px solid colour.$amber; }
-  &.green { border: 1px solid colour.$green; }
+  &.red   { border: 1px solid colour.$red-traffic-light-png  ; }
+  &.amber { border: 1px solid colour.$amber-traffic-light-png; }
+  &.green { border: 1px solid colour.$green-traffic-light-png; }
 }

@@ -17,4 +17,13 @@
   font-size: 10px;
   height: 17px;
   &:hover { border: 2px dotted color.adjust(colours.$darker-color, $lightness: 35%, $space: hsl); }
+  // Matches button.scss's disabled look. A bar button is styled through an id
+  // selector, which outranks button[disabled], so the mixin must carry it too.
+  &[disabled]
+  {
+    background: color.adjust(colours.$darker-color, $lightness: 20%, $space: hsl);
+    border: 2px solid color.adjust(colours.$darker-color, $lightness: 20%, $space: hsl);
+    cursor: not-allowed;
+    &:hover { border: 2px solid color.adjust(colours.$darker-color, $lightness: 20%, $space: hsl); }
+  }
 }
