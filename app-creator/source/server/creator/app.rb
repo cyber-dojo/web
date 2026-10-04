@@ -42,6 +42,7 @@ module CreatorApp
     end
 
     get '/choose_custom_problem' do
+      @type = params['type']
       self.data_source = externals.custom_start_points
       erb :choose_custom_problem
     end

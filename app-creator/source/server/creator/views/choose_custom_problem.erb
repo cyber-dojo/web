@@ -1,14 +1,23 @@
+<% solo = (@type == 'kata') %>
 <script>
 'use strict';
 $(() => {
 
   cd.setupHomeIcon();
 
+  // As on the setup page: a solo practice opens straight onto its kata, in a
+  // new tab; a group practice goes to create.json's route (its enter page).
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
     const params = `${cd.urlParams()}&display_name=${name}`;
+    const tab = <%= solo %> ? cd.openBlankTab() : null;
     $.post(cd.mountedPath('/create.json'), cd.toJSON(params), (response) => {
-      cd.goto(response.route);
+      if (tab) {
+        tab.location = `/kata/edit/${response.id}`;
+      }
+      else {
+        cd.goto(response.route);
+      }
     });
   });
 
@@ -18,11 +27,11 @@ $(() => {
 
 <div id="choose-custom-problem-page">
   <div class="edged-panel">
-    <div class="title">create a new practice</div>
+    <div class="title">create a new <%= solo ? 'solo' : 'group' %> practice</div>
     <div class="sub-title">choose your custom exercise</div>
     <%= erb :'shared/display_names' %>
     <div class="footer-row">
-      <button type="button" class="large next" disabled>next</button>
+      <button type="button" class="large next" disabled><%= solo ? 'start' : 'create' %></button>
       <button type="button" class="switch">switch back to regular exercises</button>
     </div>
   </div>
