@@ -117,7 +117,7 @@ cd.setupDisplayNamesClickHandlers = () => {
 
 // The setup page: choose language & test-framework(s) and an exercise on one
 // page. type is 'kata' (solo: one LTF) or 'group' (up to 5 LTFs); either may
-// skip the exercise, which posts an empty exercise_name. The action button
+// choose no exercise, which posts an empty exercise_name. The action button
 // creates the practice: one LTF posts type with exercise_name and
 // language_name; 2+ post a cluster.
 cd.setupChooser = (type) => {

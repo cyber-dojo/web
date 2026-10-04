@@ -12,6 +12,12 @@
 <%= partial('shared/help') %>
 <%= partial('shared/hotkeys') %>
 <%= partial('shared/traffic_lights') %>
+<% if @with_download %>
+  <%= partial('kata/download') %>
+<% end %>
+<%= partial('shared/charity_button') %>
+<%= partial('shared/donate_button') %>
+<%= partial('shared/sponsorship_button') %>
 
 <script>
 'use strict';

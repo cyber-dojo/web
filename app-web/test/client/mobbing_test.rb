@@ -422,7 +422,7 @@ class MobbingTest < ClientTestBase
     visit "/kata/edit/#{id}"
     wait_for_edit_page_ready
 
-    refute_selector '.download[disabled]', visible: :all   # enabled on a fresh kata
+    refute_selector '#download-button[disabled]', visible: :all   # enabled on a fresh kata
 
     files = saver.kata_event(id, 0)['files']
     other = stored_id('a1' * 16, 'ff' * 16)   # a tab_id this browser cannot have
@@ -431,7 +431,7 @@ class MobbingTest < ClientTestBase
     execute_script("cd.mobbingPoll.intervalMs = 150; cd.mobbingPoll.enable()")
 
     assert_selector 'body.mobbing-stale', wait: 5
-    assert_selector '.download[disabled]', visible: :all
+    assert_selector '#download-button[disabled]', visible: :all
   end
 
   test 'm0b028', %w(

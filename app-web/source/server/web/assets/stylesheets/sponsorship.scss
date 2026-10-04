@@ -2,19 +2,6 @@
 
 @use "sass:color";
 
-button.sponsorship
-{
-  border-radius: 3px;
-  margin: { left:0px; right:0px; top:0px; bottom:7px; }
-  padding: { left:2px; right:2px; top:0px; bottom:1px; }
-  color: color.adjust(colors.$darker-color, $lightness: -10%, $space: hsl);
-  font-size: 10px;
-  width: 74px;
-  text-align: center;
-  position: relative;
-  right: -1px;  
-}
-
 #sponsorship-dialog
 {
   a { color: khaki !important; }

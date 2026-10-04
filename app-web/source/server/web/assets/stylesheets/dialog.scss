@@ -1,6 +1,8 @@
 @use "colors";
 @use "common/dialog";
 
+@use "sass:color";
+
 .dialog
 {
   background: colors.$lighter-color;
@@ -16,6 +18,19 @@
         left: -45px;
   }
 }
+
+// The ... mark before the title of each dialog opened from the app bar's ...
+// buttons: the same grey dots in the same shaded circle as the ... button
+// shows under the mouse (see app-bar.scss).
+svg.more-mark
+{
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: -0.12em;
+  margin-right: 0.35em;
+}
+.more-mark-circle { fill: color.adjust(colors.$darker-color, $lightness: 25%, $space: hsl); }
+.more-mark-dot    { fill: color.adjust(colors.$darker-color, $lightness: 50%, $space: hsl); }
 
 // The avatar image the info dialog's avatar name tips.
 img.avatar-tip { width: 120px; height: 120px; border-radius: 4px; }
