@@ -8,17 +8,16 @@
   <div class="info">
     <table class="kata-facts">
       <tr><td>ID</td><td class="kata-id"></td></tr>
+      <tr class="kata-avatar-row" style="display:none;"><td>avatar</td><td class="kata-avatar"></td></tr>
       <tr><td>exercise</td><td class="kata-exercise"></td></tr>
       <tr><td>language</td><td class="kata-language"></td></tr>
       <tr><td>test framework</td><td class="kata-test-framework"></td></tr>
     </table>
   </div>
   <div class="info">
-    <div class="info-title">Testing</div>
     <%= partial('shared/traffic_lights_bulb_info') %>
   </div>
   <div class="info">
-    <div class="info-title">Version control</div>
     <%= partial('shared/traffic_lights_click_info') %>
   </div>
 </dialog>
@@ -48,14 +47,22 @@
     return at === -1 ? [name, ''] : [name.slice(0, at), name.slice(at + 1).trim()];
   };
   // Fills the facts panel from the kata's manifest. A skipped exercise is ''.
+  // Only a kata in a group has a group_index, the index of its avatar, and
+  // only then is the avatar row shown, its name tipping the avatar's image.
   const showFacts = () => {
     const manifest = cd.kata.manifest();
     const [language, framework] = languageAndFramework(manifest);
     $('.kata-id', dialog).text(cd.kata.id);
     cd.createTip($('.kata-id', dialog), phoneticSpelling(cd.kata.id).join('&nbsp;&nbsp;'));
+    const avatarIndex = manifest.group_index;
+    if (avatarIndex != undefined) {
+      const $avatar = $('.kata-avatar', dialog).text(cd.lib.avatarName(avatarIndex));
+      cd.createTip($avatar, `<img class="avatar-tip" src="/images/avatars/${avatarIndex}.jpg">`);
+      $('.kata-avatar-row', dialog).show();
+    }
     $('.kata-language', dialog).text(language);
     $('.kata-test-framework', dialog).text(framework);
-    $('.kata-exercise', dialog).text(manifest.exercise || '(skipped)');
+    $('.kata-exercise', dialog).text(manifest.exercise || '(none)');
   };
   $(button).click(() => {
     showFacts();

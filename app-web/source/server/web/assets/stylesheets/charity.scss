@@ -5,7 +5,9 @@
 button.charity
 {
   border-radius: 3px;
-  margin: { left:0px; right:0px; top:0px; bottom:2px; }
+  // top:1px makes the gap above match the gap to its left (the cell's 5px
+  // padding plus right:-1px).
+  margin: { left:0px; right:0px; top:1px; bottom:6px; }
   padding: { left:2px; right:2px; top:0px; bottom:1px; }
   color: color.adjust(colors.$darker-color, $lightness: -10%, $space: hsl);
   font-size: 10px;

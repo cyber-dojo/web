@@ -59,7 +59,7 @@ button.sponsorship
   border-radius: 2px;
   padding: 0px;
   height: 15px;
-  margin-top: 5px;
+  margin-top: 2px;
   width: 74px;
 }
 
@@ -69,12 +69,17 @@ button.sponsorship
   border: 1px solid white;
 }
 
+// Its own aspect ratio at the shared 15px height, rather than a fixed width
+// that stretches it.
 #kosli-cell #kosli-image
 {
-  width: 65px;
+  width: auto;
 }
 
+// Each logo sits 3px (cell margin-bottom) + 2px (image margin-top) below the
+// one above, so every cell carries both.
 #kosli-cell { margin-bottom: 3px; }
+#wingman-cell { margin-bottom: 3px; }
 #praqma-cell { margin-bottom: 3px; }
 #curbralan-cell { margin-bottom: 3px; }
 #bluefruit-cell { margin-bottom: 3px; }
@@ -84,6 +89,7 @@ button.sponsorship
 #cucumber-cell #cucumber-image,
 #showcode-cell #showcode-image
 {
+  margin-top: 2px;
   margin-bottom: 0px;
   border: 1px solid Gray;
   border-radius: 2px;

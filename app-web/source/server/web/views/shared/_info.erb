@@ -1,4 +1,11 @@
-<img id="info-button" src="/images/info.png" />
+<svg id="more-button" viewBox="0 0 24 24" role="img" aria-label="show/hide buttons">
+  <circle class="more-hover" cx="12" cy="12" r="12"/>
+  <g class="icon-grey">
+    <circle cx="5" cy="12" r="2.2"/>
+    <circle cx="12" cy="12" r="2.2"/>
+    <circle cx="19" cy="12" r="2.2"/>
+  </g>
+</svg>
 
 <%= partial('shared/dashboard') %>
 <%= partial('shared/feedback') %>
@@ -10,9 +17,9 @@
 'use strict';
 $(() => {
 
-  const $button = $('#info-button');
+  const $button = $('#more-button');
   const $buttons = () => $('.info-button');
-  cd.createTip($button, 'toggle information buttons on/off');
+  cd.createTip($button, 'show/hide buttons');
   let visible = false;
   $button[0].addEventListener('click', () => {
     visible = !visible;

@@ -7,6 +7,7 @@
 @use "buttons";
 @use "to_go";
 @use "common/error-page";
+@use "common/dialog";
 @use "lib/centered";
 @use "lib/colour";
 @use "lib/fonts";
@@ -21,11 +22,12 @@
 
 #enter-page                 .edged-panel { width:835px; }
 #avatar-page                .edged-panel { width:316px; }
-#reenter-page               .edged-panel { width:400px; }
-#full-page                  .edged-panel { width:320px; }
 
 
-#enter-page, #avatar-page, #reenter-page, #full-page
+// A dialog is appended to the body, outside every page's own font rule.
+dialog { @include fonts.non-code-font(); }
+
+#enter-page, #avatar-page
 {
   @include fonts.non-code-font();
   .sub-title { font-size:27px; margin: { left:0px; bottom:10px; } }
@@ -47,9 +49,9 @@
     font-size:41px;
     width:220px;
     padding-left:10px;
-    background:color.adjust(colour.$green, $lightness: 5%, $space: hsl);
+    background:colour.$green-traffic-light-png;
     color:colour.$darker-color;
-    &.invalid { color:color.adjust(colour.$red, $lightness: -25%, $space: hsl); }
+    &.invalid { color:colour.$red-traffic-light-png; }
   }
   .wait-spinner
   {
@@ -69,23 +71,29 @@
     font-size:26px;
     margin: { left:15px; bottom:10px; }
   }
-  .ltf-name { font-size:26px; margin: { left:0px; bottom:10px; } }
-
-  // A cluster shows one button per child LTF, vertically stacked.
-  .cluster-ltf-buttons button
+  // One block per LTF group, stacked: its LTF name as a title, then its enter
+  // and join buttons side by side on one row, indented below the title. Each
+  // block is its own panel, slightly lighter than the dialog behind it.
+  .ltf-group
   {
-    display: block;
+    @include rounded-corner.rounded-corner(5px);
+    background: color.adjust(colour.$darker-color, $lightness: 6%, $space: hsl);
+    padding: { top:6px; bottom:8px; left:12px; right:12px; }
     margin-bottom: 10px;
   }
-  // The dashboard button sits a little below the LTF buttons to set it apart,
-  // and is only as wide as its text (not full-width like the LTF buttons).
-  .cluster-ltf-buttons .cluster-dashboard
+  .ltf-name { font-size:32px; line-height:1.1; margin: { left:0px; bottom:0px; } }
+  .ltf-buttons { margin-left: 24px; }
+  // inline-block overrides every button's base display:block, so the two
+  // share a row.
+  .ltf-buttons button
   {
-    margin-top: 10px;
+    display: inline-block;
     width: auto;
+    vertical-align: middle;
+    margin-right: 10px;
   }
-  // A group's "open dashboard" button is only as wide as its text, not
-  // full-width like the group's other buttons.
+  // The one "open dashboard" button below the blocks is only as wide as its
+  // text.
   .open.dashboard { width: auto; }
 }
 

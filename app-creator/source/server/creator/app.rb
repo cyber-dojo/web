@@ -103,7 +103,7 @@ module CreatorApp
       group_id = json_args[:id]
       kata_id = saver.group_join(group_id, cluster_avatar_order(group_id))
       if kata_id.nil?
-        { 'route' => path_to("/full?id=#{group_id}") }.to_json
+        { 'full' => true }.to_json
       else
         group_index = saver.kata_manifest(kata_id)['group_index']
         { 'route' => path_to("/avatar?id=#{kata_id}"),
@@ -119,16 +119,13 @@ module CreatorApp
       erb :avatar
     end
 
-    get '/full' do
-      @group_id = params['id']
-      erb :full
-    end
-
-    get '/reenter' do
-      @group_id = params['id']
-      @avatars = saver.group_joined(@group_id)
-                      .to_h { |group_index, v| [group_index.to_i, v['id']] }
-      erb :reenter
+    # The avatars already in a group, each one's index mapped to its kata id,
+    # so the enter page's join dialog can colour those and grey the rest.
+    get '/group_joined' do
+      content_type :json
+      avatars = saver.group_joined(params['id'])
+                     .to_h { |group_index, v| [group_index.to_s, v['id']] }
+      { 'avatars' => avatars }.to_json
     end
 
     private

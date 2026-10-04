@@ -30,14 +30,4 @@ class View200Test < BrowserTestBase
     visit('/creator/enter?id=chy6BJ')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
-
-  qtest a97d21: %w[reenter] do
-    visit('/creator/reenter?id=chy6BJ')
-    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
-  end
-
-  qtest a97d22: %w[full] do
-    visit('/creator/full?id=chy6BJ')
-    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
-  end
 end

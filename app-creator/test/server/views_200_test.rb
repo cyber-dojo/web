@@ -32,14 +32,6 @@ class Views200Test < CreatorTestBase
     assert_get_200_html('avatar', id: kata_id)
   end
 
-  qtest a49AC4: %w[GET /reenter 200] do
-    assert_get_200_html('reenter', id: group_id)
-  end
-
-  qtest a49AC5: %w[GET /full 200] do
-    assert_get_200_html('full', id: group_id)
-  end
-
   private
 
   def group_id

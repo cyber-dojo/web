@@ -195,6 +195,6 @@ readonly KATA_ID="$(create_v2_kata "${COUNT}")"
 echo "v2 Kata ID=${KATA_ID}"
 smoke_test "${KATA_ID}"
 
-open "$(demo_url 'dashboard/show/zuejz2?auto_refresh=true&minute_columns=true')"
-open "$(demo_url 'dashboard/show/vntRcc?auto_refresh=true&minute_columns=true')"
+open "$(demo_url 'dashboard/show/zuejz2?auto_refresh=false&minute_columns=true')"
+open "$(demo_url 'dashboard/show/vntRcc?auto_refresh=false&minute_columns=true')"
 open "$(demo_url "kata/edit/${KATA_ID}")"
