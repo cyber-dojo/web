@@ -15,12 +15,10 @@ class ThisPracticeDialogTest < ClientTestBase
     wait_for_edit_page_ready
     open_this_practice_dialog
     rows = all('dialog[open] .kata-facts tr').map { |tr| tr.all('td').first.text }
-    assert_equal %w[ID avatar exercise language], rows.first(4)
+    assert_equal %w[ID avatar], rows.first(2)
     name = find('dialog[open] .kata-avatar')
     assert_equal 'lion', name.text
-    # Fired from JS: geckodriver refuses to move the pointer onto an element
-    # of this non-modal dialog, judging it not displayed though it is visible.
-    execute_script("jQuery('dialog[open] .kata-avatar').mouseenter()")
+    name.hover
     assert_selector('dialog[open] .hover-tip img[src="/images/avatars/28.jpg"]')
   end
 
@@ -35,19 +33,65 @@ class ThisPracticeDialogTest < ClientTestBase
   end
 
   test 'a7e3c3', %w(
-  | the this-practice dialog of a kata whose exercise was skipped
-  | shows its exercise as (none)
+  | the this-practice dialog of a kata with language and test_framework
+  | shows exercise, language and test framework rows, its skipped
+  | exercise as (none)
   ) do
     manifest = starter_manifest
     manifest.delete('exercise')
+    manifest['language'] = ['Bash', '5.2.37']
+    manifest['test_framework'] = ['bats', '1.11.1']
     id = saver.kata_create(manifest)
     visit "/kata/edit/#{id}"
     wait_for_edit_page_ready
     open_this_practice_dialog
-    assert_selector('dialog[open] .kata-exercise', exact_text: '(none)')
+    assert_equal({ 'exercise' => '(none)', 'language' => 'Bash 5.2.37',
+                   'test framework' => 'bats 1.11.1' }, facts.slice('exercise', 'language', 'test framework'))
+    refute facts.key?('setup')
+  end
+
+  test 'a7e3c4', %w(
+  | the this-practice dialog of a custom kata, with no exercise, language
+  | or test_framework, shows one setup row: its display_name split at
+  | its commas
+  ) do
+    manifest = starter_manifest
+    %w[exercise language test_framework].each { |key| manifest.delete(key) }
+    manifest['display_name'] = 'Yahtzee refactoring, C (gcc) assert'
+    id = saver.kata_create(manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_edit_page_ready
+    open_this_practice_dialog
+    assert_equal ['Yahtzee refactoring', 'C (gcc) assert'], facts['setup'].split("\n")
+    refute facts.key?('language')
+  end
+
+  test 'a7e3c5', %w(
+  | the this-practice dialog of an older kata, with an exercise but no
+  | language or test_framework, shows one setup row: the exercise, then
+  | its display_name split at its commas
+  ) do
+    manifest = starter_manifest
+    %w[language test_framework].each { |key| manifest.delete(key) }
+    manifest['exercise'] = 'Tennis'
+    manifest['display_name'] = 'C (gcc), assert'
+    id = saver.kata_create(manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_edit_page_ready
+    open_this_practice_dialog
+    assert_equal ['Tennis', 'C (gcc)', 'assert'], facts['setup'].split("\n")
   end
 
   private
+
+  # Returns the open dialog's visible facts, each row's title mapped to its
+  # value text.
+  def facts
+    all('dialog[open] .kata-facts tr').to_h do |tr|
+      title, value = tr.all('td').map(&:text)
+      [title, value]
+    end
+  end
 
   # Joins the group at exactly the given avatar index and returns the new kata's
   # id; a one-element indexes list pins the index saver hands out.

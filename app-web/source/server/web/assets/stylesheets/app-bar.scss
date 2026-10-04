@@ -179,8 +179,11 @@ body.more-open #more-scrim { display: block; }
 // to its value.
 #kata-info-dialog
 {
+  // vertical-align:top keeps a title level with its value's first line when
+  // the value runs to several (the setup row).
   .kata-facts td:first-child
   {
+    vertical-align: top;
     text-align: right;
     padding-right: 0.75em;
     font-size: 85%;
