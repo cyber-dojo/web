@@ -1,19 +1,10 @@
-<button type="button" id="traffic-lights-button" class="info-button">info</button>
+<button type="button" id="traffic-lights-button" class="info-button opens-dialog">traffic-lights</button>
 
 <dialog id="traffic-lights-dialog" style="width:400px">
   <header>
-    <span class="dialog-title"><%= partial('shared/more_mark') %>info</span>
+    <span class="dialog-title"><%= partial('shared/more_mark') %>traffic-lights</span>
     <button type="button" class="dialog-close">close</button>
   </header>
-  <div class="info">
-    <table class="kata-facts">
-      <tr><td>ID</td><td class="kata-id"></td></tr>
-      <tr class="kata-avatar-row" style="display:none;"><td>avatar</td><td class="kata-avatar"></td></tr>
-      <tr><td>exercise</td><td class="kata-exercise"></td></tr>
-      <tr><td>language</td><td class="kata-language"></td></tr>
-      <tr><td>test framework</td><td class="kata-test-framework"></td></tr>
-    </table>
-  </div>
   <div class="info">
     <%= partial('shared/traffic_lights_bulb_info') %>
   </div>
@@ -25,48 +16,14 @@
 <script>
 'use strict';
 // Inline (not $()) so document.currentScript is available, letting each partial
-// instance wire its own sibling button and dialog without a guard against
-// double-initialization when the partial appears twice on the same page.
+// instance wire its own sibling button and dialog.
 (function() {
   const dialog = document.currentScript.previousElementSibling;
   const button = dialog.previousElementSibling;
+  // A new kata opens with this dialog showing (see _show_starting_info.erb).
   cd.trafficLightsButton = () => $(button);
-  cd.createTip($(button), 'show information');
   $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
   $('.dialog-close', dialog).click(() => dialog.close());
-  // Returns [language, test framework] for the kata. Its manifest's language
-  // and test_framework [name, version] pairs give eg 'Python 3.14.3'; a kata
-  // without them (older ones) splits its display_name on the first comma.
-  const languageAndFramework = (manifest) => {
-    const nameVersion = (pair) => pair.filter(Boolean).join(' ');
-    if (Array.isArray(manifest.language) && Array.isArray(manifest.test_framework)) {
-      return [nameVersion(manifest.language), nameVersion(manifest.test_framework)];
-    }
-    const name = manifest.display_name;
-    const at = name.indexOf(',');
-    return at === -1 ? [name, ''] : [name.slice(0, at), name.slice(at + 1).trim()];
-  };
-  // Fills the facts panel from the kata's manifest. A skipped exercise is ''.
-  // Only a kata in a group has a group_index, the index of its avatar, and
-  // only then is the avatar row shown, its name tipping the avatar's image.
-  const showFacts = () => {
-    const manifest = cd.kata.manifest();
-    const [language, framework] = languageAndFramework(manifest);
-    $('.kata-id', dialog).text(cd.kata.id);
-    cd.createTip($('.kata-id', dialog), phoneticSpelling(cd.kata.id).join('&nbsp;&nbsp;'));
-    const avatarIndex = manifest.group_index;
-    if (avatarIndex != undefined) {
-      const $avatar = $('.kata-avatar', dialog).text(cd.lib.avatarName(avatarIndex));
-      cd.createTip($avatar, `<img class="avatar-tip" src="/images/avatars/${avatarIndex}.jpg">`);
-      $('.kata-avatar-row', dialog).show();
-    }
-    $('.kata-language', dialog).text(language);
-    $('.kata-test-framework', dialog).text(framework);
-    $('.kata-exercise', dialog).text(manifest.exercise || '(none)');
-  };
-  $(button).click(() => {
-    showFacts();
-    dialog.showModal();
-  });
+  $(button).click(() => cd.showPanelDialog(button, dialog));
 })();
 </script>

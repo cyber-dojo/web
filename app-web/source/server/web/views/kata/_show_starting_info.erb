@@ -10,7 +10,9 @@ $(() => {
       // The kata opens in a new tab with no click to give it keyboard focus;
       // focusing the window is what lets the Escape key close the dialog.
       window.focus();
-      cd.trafficLightsButton().click();
+      // The panel slides out too, so the traffic-lights button shows
+      // selected beside the dialog it opens.
+      cd.openMorePanel(() => cd.trafficLightsButton().click());
     }
   };
 

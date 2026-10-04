@@ -8,7 +8,7 @@
   {
     display: flex;
     @include fonts.non-code-font();
-    margin: { top:39px; left:2px; }
+    margin: { top:9px; left:2px; }
     padding: 0px;
     background: colors.$darker-color;
     color: colors.$lighter-color;

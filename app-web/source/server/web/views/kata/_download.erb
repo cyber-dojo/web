@@ -1,26 +1,37 @@
 
-<button type="button" id="download-button" class="info-button lockable">download</button>
+<button type="button" id="download-button" class="info-button opens-dialog lockable">download</button>
+
+<dialog id="download-dialog" style="width:360px">
+  <header>
+    <span class="dialog-title"><%= partial('shared/more_mark') %>download</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info">
+    Download your practice session as a git repository (in a .tgz file)
+    with one commit per test/edit event.
+    <button type="button" class="download-kata lockable" style="margin-top:8px;">download</button>
+  </div>
+</dialog>
 
 <script>
 'use strict';
 $(() => {
 
   const $button = $('#download-button');
+  const $dialog = $('#download-dialog');
+  const dialog = $dialog[0];
 
-  const tip = [
-    "Download your practice session as",
-    "a git repository (in a .tgz file)",
-    "with one commit per test/edit event."
-  ].join('<br/>');
-
-  cd.createTip($button, tip);
-
-  // Removed rather than hidden: the ... toggle fades every .info-button in.
+  // Only the latest event offers a download, so the panel lists no button for
+  // any other.
   if (!cd.kata.isLatest()) {
     $button.remove();
+    $dialog.remove();
   }
   else {
-    $button.click(() => {
+    $dialog.on('close', () => cd.kata.editor.refocus());
+    $('.dialog-close', dialog).click(() => dialog.close());
+    $button.click(() => cd.showPanelDialog($button[0], dialog));
+    $('.download-kata', dialog).click(() => {
       cd.saveAnyFileChangesITE();
       fetch(`/saver/kata_download?${new URLSearchParams({ id: cd.kata.id })}`, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }

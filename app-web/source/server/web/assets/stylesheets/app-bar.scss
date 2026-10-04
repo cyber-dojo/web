@@ -1,47 +1,43 @@
 @use "colors";
-@use "common/bar-button";
 @use "fonts";
-@use "grid-sizes";
 
 @use "sass:color";
 
+$app-bar-width: 32px;
+// Only a little lighter than the page, so the bar sits back rather than
+// standing out.
+$app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: hsl);
+
+// A thin column down the page's left edge: the yin-yang logo, the cog, and the
+// ... which slides the panel of other buttons out over the page, and back.
 #app-bar
 {
   @include fonts.plaintext-font();
   display: flex;
-  background: color.adjust(colors.$darker-color, $lightness: 10%, $space: hsl);
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: $app-bar-background;
   color: colors.$lighter-color;
   font-size: 1.05em;
-  width: 100%;
-  height: 23px;
-  text-align: left;
-  padding: { left: grid-sizes.$left-column-left-margin; top: 4px; bottom: 3px; }
+  width: $app-bar-width;
+  padding-top: 8px;
   position: fixed;
   top: 0px;
+  bottom: 0px;
+  left: 0px;
   z-index: 1000;
 
   #settings-button, #more-button
   {
-    padding: { left:1px; right:1px; top:0px; bottom:0px; }
-    margin: { left:1px; right:1px; top:0px; bottom:0px; }
+    padding: 0px;
+    margin: 0px;
     cursor: pointer;
   }
   // Sized to look the same as the 20px yin-yang logo: the cog's teeth reach
   // nearly to its edges, so it needs 22px.
-  #settings-button
-  {
-    width: 22px;
-    height: 22px;
-    position: relative;
-    top: 1px;
-  }
-  #more-button
-  {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    top: 2px;
-  }
+  #settings-button { width: 22px; height: 22px; }
+  #more-button { width: 20px; height: 20px; }
   // The cog and the ... (which shows/hides the other buttons) are plain grey
   // inline SVGs, faded so they sit back in the bar, at full strength under the
   // mouse. Under the mouse the ... also gains a lightened circle behind it.
@@ -57,36 +53,111 @@
     fill: color.adjust(colors.$darker-color, $lightness: 25%, $space: hsl);
   }
 
-  #feedback-button, #traffic-lights-button, #dashboard-button,
+  // The panel of buttons sits beside the bar, under it, slid out of sight to
+  // the left until body.more-open slides it out over the page.
+  #more-panel
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: $app-bar-width;
+    width: 130px;
+    padding: { top: 8px; left: 6px; right: 6px; }
+    // Slightly see-through, so the page behind shows a little.
+    background: color.change($app-bar-background, $alpha: 0.92);
+    z-index: -1;
+    transform: translateX(-100%);
+    // visibility is transitioned too, so on the way back it stays visible
+    // until the slide ends, rather than vanishing as it starts.
+    transition: transform 0.25s ease, visibility 0.25s;
+    visibility: hidden;
+  }
+
+  // Hovering opens each one's dialog, so they read as rows of a menu rather
+  // than as buttons: plain text, a lighter strip under the mouse, and the row
+  // whose dialog is open keeps the strip and a > pointing at its dialog.
+  #feedback-button, #kata-info-button, #traffic-lights-button, #dashboard-button,
   #help-button, #hotkeys-button, #micro-services-button,
   #download-button, #charity-button, #donate-button, #sponsorship-button
   {
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    width: 100%;
+    margin: 0px;
+    padding: { top: 3px; bottom: 3px; left: 8px; right: 8px; }
+    border: none;
+    border-radius: 3px;
+    background: transparent;
+    color: colors.$lighter-color;
+    cursor: pointer;
     position: relative;
-    top: 3px;
-    @include bar-button.bar-button();
+    &:hover, &.selected
+    {
+      background: color.adjust(colors.$darker-color, $lightness: 22%, $space: hsl);
+      border: none;
+    }
+    &.selected::after
+    {
+      content: '\203A';
+      position: absolute;
+      right: 8px;
+    }
+    &[disabled]
+    {
+      background: transparent;
+      color: color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl);
+      cursor: not-allowed;
+    }
   }
 
-  // These buttons are switched on in the kata/edit page.
-  #settings-button, #hotkeys-button  { display:none; }
-  // Initally not displayed to avoid 'browser flash'.
-  .info-button { display:none; }
+  // Switched on in the kata/edit page (cd.showSettingsButton), so a review
+  // page arrived at from a dashboard has no cog.
+  #settings-button { display:none; }
 
-  // The unintrusive stale-tab reminder in the app-bar; appended by cd.mobbingPoll
+  // The unintrusive stale-tab reminder; appended to the bar by cd.mobbingPoll
   // when this tab locks (directly for another tab, or when the another-laptop
-  // overlay is dismissed). Uses the same $lighter-color as the
-  // display-name/exercise/id pills, bold to stand out, inline in the bar.
+  // overlay is dismissed). The bar is too thin to hold it, so it sits at the
+  // page's top right. Bold $lighter-color to stand out.
   #mobbing-app-bar-message
   {
+    position: fixed;
+    top: 4px;
+    right: 12px;
     color: colors.$lighter-color;
     font-size: 11px;
     font-weight: bold;
-    margin-left: 8px;
-    align-self: center;
     white-space: nowrap;
   }
 }
 
-#feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
+// While the panel is out it covers the page's left edge, and the scrim behind
+// it dims and disables the rest of the page; clicking the scrim slides the
+// panel back.
+// none (not translateX(0)) when out, so the panel's position:fixed dialogs
+// are placed against the window rather than against the panel.
+body.more-open #app-bar #more-panel
+{
+  transform: none;
+  visibility: visible;
+}
+#more-scrim
+{
+  display: none;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: $app-bar-width;
+  right: 0px;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -2;
+}
+body.more-open #more-scrim { display: block; }
+
+#feedback-dialog, #kata-info-dialog, #traffic-lights-dialog, #hotkeys-dialog
 {
   a { color: khaki !important; }
 }
@@ -96,9 +167,17 @@
 #settings-dialog { letter-spacing: 0.02em; }
 #settings-dialog label { font-size:13px; }
 
-// Each fact's title is a muted, smaller label, right-aligned so it ends next
-// to its value; each red/amber/green row has a little room above and below.
+// Each red/amber/green row has a little room above and below.
 #traffic-lights-dialog
+{
+  .traffic-light-rows td { padding-top: 2px; padding-bottom: 2px; }
+  .traffic-light-rows .colour-name { text-align: right; padding-right: 0.4em; }
+  .traffic-light-rows td:last-child { padding-left: 0.25em; }
+}
+
+// Each fact's title is a muted, smaller label, right-aligned so it ends next
+// to its value.
+#kata-info-dialog
 {
   .kata-facts td:first-child
   {
@@ -107,9 +186,6 @@
     font-size: 85%;
     color: hsl(0, 0%, 58%);
   }
-  .traffic-light-rows td { padding-top: 2px; padding-bottom: 2px; }
-  .traffic-light-rows .colour-name { text-align: right; padding-right: 0.4em; }
-  .traffic-light-rows td:last-child { padding-left: 0.25em; }
   // The dotted underline and help cursor say the ID and avatar name have a
   // hover tip (the ID's phonetic spelling, the avatar's image), as browsers
   // style <abbr>.

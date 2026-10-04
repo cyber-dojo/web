@@ -1,4 +1,4 @@
-<button type="button" id="sponsorship-button" class="info-button">sponsorship</button>
+<button type="button" id="sponsorship-button" class="info-button opens-dialog">sponsorship</button>
 
 <dialog style="width:440px">
   <header>
@@ -13,7 +13,7 @@
     <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
        target="_blank">cyber-dojo Foundation</a> charity.
     <br/><br/>
-    If you are interested in being a sponsor
+    To become a sponsor
     please email <a href="mailto:sponsor@cyber-dojo.org">sponsor@cyber-dojo.org</a>
   </div>
 </dialog>
@@ -28,6 +28,6 @@
   const button = dialog.previousElementSibling;
   $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
   $('.dialog-close', dialog).click(() => dialog.close());
-  $(button).click(() => dialog.showModal());
+  $(button).click(() => cd.showPanelDialog(button, dialog));
 })();
 </script>
