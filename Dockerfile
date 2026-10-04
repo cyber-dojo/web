@@ -7,6 +7,7 @@ FROM cyberdojo/asset_builder:3a99172 AS creator-assets
 COPY app-creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
 COPY app-creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
 COPY common/stylesheets /app/app/assets/stylesheets/common
+COPY common/javascripts /app/app/assets/javascripts/common
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS creator
@@ -53,6 +54,7 @@ FROM cyberdojo/asset_builder:3a99172 AS web-assets
 COPY app-web/source/server/web/assets/javascripts /app/app/assets/javascripts
 COPY app-web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
 COPY common/stylesheets /app/app/assets/stylesheets/common
+COPY common/javascripts /app/app/assets/javascripts/common
 RUN /app/config/compile.sh /tmp/out
 
 FROM base AS web

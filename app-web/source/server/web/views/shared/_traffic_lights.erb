@@ -1,15 +1,26 @@
-<button type="button" id="traffic-lights-button" class="info-button">version-control</button>
+<button type="button" id="traffic-lights-button" class="info-button">info</button>
 
 <dialog id="traffic-lights-dialog" style="width:400px">
   <header>
-    <span class="dialog-title">version-control</span>
+    <span class="dialog-title">info</span>
     <button type="button" class="dialog-close">close</button>
   </header>
   <div class="info">
-  <%= partial('shared/traffic_lights_bulb_info') %>
-  <%= partial('shared/traffic_lights_click_info') %>
+    <table class="kata-facts">
+      <tr><td>ID</td><td class="kata-id"></td></tr>
+      <tr><td>exercise</td><td class="kata-exercise"></td></tr>
+      <tr><td>language</td><td class="kata-language"></td></tr>
+      <tr><td>test framework</td><td class="kata-test-framework"></td></tr>
+    </table>
   </div>
-  <div class="info">Tests must complete in <span id="max-seconds"></span> seconds</div>
+  <div class="info">
+    <div class="info-title">Testing</div>
+    <%= partial('shared/traffic_lights_bulb_info') %>
+  </div>
+  <div class="info">
+    <div class="info-title">Version control</div>
+    <%= partial('shared/traffic_lights_click_info') %>
+  </div>
 </dialog>
 
 <script>
@@ -21,11 +32,33 @@
   const dialog = document.currentScript.previousElementSibling;
   const button = dialog.previousElementSibling;
   cd.trafficLightsButton = () => $(button);
-  cd.createTip($(button), 'show version-control information');
+  cd.createTip($(button), 'show information');
   $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
   $('.dialog-close', dialog).click(() => dialog.close());
+  // Returns [language, test framework] for the kata. Its manifest's language
+  // and test_framework [name, version] pairs give eg 'Python 3.14.3'; a kata
+  // without them (older ones) splits its display_name on the first comma.
+  const languageAndFramework = (manifest) => {
+    const nameVersion = (pair) => pair.filter(Boolean).join(' ');
+    if (Array.isArray(manifest.language) && Array.isArray(manifest.test_framework)) {
+      return [nameVersion(manifest.language), nameVersion(manifest.test_framework)];
+    }
+    const name = manifest.display_name;
+    const at = name.indexOf(',');
+    return at === -1 ? [name, ''] : [name.slice(0, at), name.slice(at + 1).trim()];
+  };
+  // Fills the facts panel from the kata's manifest. A skipped exercise is ''.
+  const showFacts = () => {
+    const manifest = cd.kata.manifest();
+    const [language, framework] = languageAndFramework(manifest);
+    $('.kata-id', dialog).text(cd.kata.id);
+    cd.createTip($('.kata-id', dialog), phoneticSpelling(cd.kata.id).join('&nbsp;&nbsp;'));
+    $('.kata-language', dialog).text(language);
+    $('.kata-test-framework', dialog).text(framework);
+    $('.kata-exercise', dialog).text(manifest.exercise || '(skipped)');
+  };
   $(button).click(() => {
-    $('#max-seconds').text(cd.kata.manifest().max_seconds);
+    showFacts();
     dialog.showModal();
   });
 })();
