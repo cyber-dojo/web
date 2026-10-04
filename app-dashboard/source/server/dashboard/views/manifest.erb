@@ -30,7 +30,8 @@ $(() => {
           $('#display-name-box').show().html(manifest.display_name);
           $('#id-box').html(manifest.id);
         }
-        $('#exercise-name-box').html(manifest.exercise);
+        // A skipped exercise ('') shows no chip rather than an empty one.
+        $('#exercise-name-box').toggle(Boolean(manifest.exercise)).html(manifest.exercise);
         // Disable (grey out, unclickable) the progress button when this LTF has
         // no progress_regexs - do NOT hide it - so its slot stays visible and
         // consistent whichever tab is active.

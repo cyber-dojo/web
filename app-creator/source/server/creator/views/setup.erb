@@ -75,9 +75,7 @@ $(() => {
         <div>
           <div class="chosen-heading">your exercise</div>
           <div class="chosen exercise-chosen"></div>
-          <% if solo %>
-            <label class="skip"><span class="slot-num"><input type="checkbox"></span>skip the exercise</label>
-          <% end %>
+          <label class="skip"><span class="slot-num"><input type="checkbox"></span>skip the exercise</label>
         </div>
         <div class="next-row">
           <button type="button" class="large next" disabled><%= solo ? 'start' : 'create' %></button>

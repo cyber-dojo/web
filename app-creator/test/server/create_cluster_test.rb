@@ -98,4 +98,25 @@ class CreateClusterTest < CreatorTestBase
     assert_equal '', stderr, :stderr
     assert JSON.parse(stdout).key?('exception'), stdout
   end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest Cu5t6E: %w(
+    |POST /create.json
+    |with [type=cluster,language_names] and an empty exercise_name (skipped)
+    |creates a cluster whose every child group has no exercise
+  ) do
+    args = {
+      exercise_name: '',
+      language_names: languages_start_points.names.first(2),
+      type: 'cluster'
+    }
+    json_post mounted_path('create.json'), args
+    id = json_response['id']
+    assert cluster_exists?(id), "id:#{id}:"
+
+    cluster_manifest(id)['groups'].each_key do |group_id|
+      assert_equal '', group_manifest(group_id)['exercise'], group_id
+    end
+  end
 end
