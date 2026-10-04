@@ -181,27 +181,6 @@ jobs:
             "${{ needs.build-image.outputs.tagged_image_name }}" \
             "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 
-      # TEMPORARY diagnostic - remove before merging. On a user-defined network
-      # (as docker compose creates) a container named saver resolves through
-      # Docker's embedded DNS. Times the dotless name (which musl may first try
-      # under each host search domain) against the dotted one (which it does not).
-      - name: Diagnose container DNS (temporary)
-        run: |
-          docker network create dns-diag
-          docker run -d --rm --network dns-diag --name saver alpine sleep 120
-          docker run --rm --network dns-diag --entrypoint sh \
-            "${{ needs.build-image.outputs.tagged_image_name }}" -c '
-              cat /etc/resolv.conf
-              ruby -rsocket -rbenchmark -e "
-                %w[saver saver.].each do |host|
-                  3.times do
-                    t = Benchmark.realtime { Addrinfo.getaddrinfo(host, 80) rescue nil }
-                    puts format(%q(%-7s %.4fs), host, t)
-                  end
-                end"'
-          docker rm -f saver
-          docker network rm dns-diag
-
       - name: Run server tests with branch coverage, and the browser tests
         run: |
           set +e
