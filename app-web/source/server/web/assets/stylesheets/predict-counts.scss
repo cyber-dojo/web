@@ -5,7 +5,9 @@
 .predict-counts
 {
    display: grid;
-   width: 62px;
+   // 74 + 9 + 5 = 88px across, the same as the traffic-light counts and the
+   // sponsor logos.
+   width: 74px;
    border-radius: 3px;
    padding: { left:9px; right:5px; top:7px; bottom:7px; }
    background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
@@ -15,7 +17,7 @@
    {
      display: inline-flex;
      max-height:28px;
-     width:45px; max-width:45px;
+     width:55px; max-width:55px;
      margin-bottom: 1px;
      padding: 0px;
    }
@@ -36,6 +38,6 @@
      width: 18px;
      height: 18px;
      border-radius: 9px;
-     margin: { left:5px; top:3px; right:3px; }
+     margin: { left:11px; top:3px; right:3px; }
    }
 }

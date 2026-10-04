@@ -136,9 +136,11 @@ table.sss { margin-top: 15px; }
   background: colors.$projector-background;
   @include fonts.code-font();
   font-size: 11.4pt; // Matches font used in CodeMirror
-  // Controls height of file content view. Every file leaves room for the
-  // output's status bar, so the height is the same on every file.
-  height: 590px - grid-sizes.$output-status-height;
+  // Controls height of file content view: the same as the edit page's editor
+  // (codemirror-overrides.scss), so it grows with the window too. Every file
+  // leaves room for the output's status bar, so the height is the same on
+  // every file.
+  height: calc(100vh - 95px - #{grid-sizes.$output-status-height});
   margin: 0px;
   padding: 0px;
   cursor: default;
