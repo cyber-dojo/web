@@ -181,6 +181,22 @@ jobs:
             "${{ needs.build-image.outputs.tagged_image_name }}" \
             "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 
+      # TEMPORARY diagnostic - remove before merging. Shows the resolv.conf a
+      # container gets on this runner, and how long a dotless name lookup
+      # (which tries each search domain first) takes versus a dotted one.
+      - name: Diagnose container DNS (temporary)
+        run: |
+          docker run --rm --entrypoint sh \
+            "${{ needs.build-image.outputs.tagged_image_name }}" -c '
+              cat /etc/resolv.conf
+              ruby -rsocket -rbenchmark -e "
+                %w[saver saver.].each do |host|
+                  3.times do
+                    t = Benchmark.realtime { Addrinfo.getaddrinfo(host, 80) rescue nil }
+                    puts format(%q(%-7s %.4fs), host, t)
+                  end
+                end"'
+
       - name: Run server tests with branch coverage, and the browser tests
         run: |
           set +e
