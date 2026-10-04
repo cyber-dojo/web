@@ -1,28 +1,46 @@
-<button type="button" id="dashboard-button" class="info-button">dashboard</button>
+<button type="button" id="dashboard-button" class="info-button opens-dialog">dashboard</button>
+
+<dialog id="dashboard-dialog" style="width:360px">
+  <header>
+    <span class="dialog-title"><%= partial('shared/more_mark') %>dashboard</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info">
+    See every avatar in your group practice, and each of their
+    traffic-lights, on one page.
+    <button type="button" class="open-dashboard" style="margin-top:8px;">open dashboard</button>
+  </div>
+</dialog>
 
 <script>
 'use strict';
 $(() => {
 
-  const $dashboardButton = $('#dashboard-button');
+  const $button = $('#dashboard-button');
+  const $dialog = $('#dashboard-dialog');
   const manifest = cd.kata.manifest();
   const groupId = manifest.group_id;
   const clusterId = manifest.cluster_id;
 
+  // Only a kata in a group has a dashboard.
   if (groupId === undefined || cd.env['DASHBOARD_BUTTON'] === 'off') {
-	  $dashboardButton.remove();
+    $button.remove();
+    $dialog.remove();
   }
   else {
-	  $dashboardButton.click(() => {
-	      // A kata whose group belongs to a cluster carries the cluster_id;
-	      // open the dashboard on the cluster so it shows one tab per group,
-	      // passing group_id so it opens focused on this kata's group.
-	      const url = clusterId === undefined
-	          ? `/dashboard/show/${groupId}`
-	          : `/dashboard/show/${clusterId}?group_id=${groupId}`;
-	      window.open(url);
-      });
-      cd.createTip($dashboardButton, 'open dashboard page');
+    const dialog = $dialog[0];
+    $dialog.on('close', () => cd.kata.editor.refocus());
+    $('.dialog-close', dialog).click(() => dialog.close());
+    // A kata whose group belongs to a cluster carries the cluster_id; open
+    // the dashboard on the cluster so it shows one tab per group, passing
+    // group_id so it opens focused on this kata's group.
+    $('.open-dashboard', dialog).click(() => {
+      const url = clusterId === undefined
+        ? `/dashboard/show/${groupId}`
+        : `/dashboard/show/${clusterId}?group_id=${groupId}`;
+      window.open(url);
+    });
+    $button.click(() => cd.showPanelDialog($button[0], dialog));
   }
 
 });

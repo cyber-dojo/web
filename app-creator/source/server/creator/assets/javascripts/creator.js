@@ -132,7 +132,7 @@ cd.setupChooser = (type) => {
   const languageNote =
     'The starting files for any language/test-framework are always a function ' +
     'that returns 6*9 and a test that expects 42. These starting files are simply ' +
-    'to help you get started and are _unrelated_ to the chosen exercise.';
+    'to help you get started and are unrelated to the chosen exercise.';
 
   // Returns { name: preview } for the hidden textareas carrying attr.
   const previewsFrom = (attr) => {

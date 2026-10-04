@@ -1,17 +1,27 @@
-<button type="button" id="help-button" class="info-button">help</button>
+<button type="button" id="help-button" class="info-button opens-dialog">help</button>
+
+<dialog id="help-dialog" style="width:360px">
+  <header>
+    <span class="dialog-title"><%= partial('shared/more_mark') %>help</span>
+    <button type="button" class="dialog-close">close</button>
+  </header>
+  <div class="info">
+    The cyber-dojo blog has guides, articles, and tips on using cyber-dojo,
+    both as a learner and as a facilitator.
+    <button type="button" class="open-help" style="margin-top:8px;">open help pages</button>
+  </div>
+</dialog>
 
 <script>
 'use strict';
-$(() => {
-
-  const helpButton = $('#help-button');
-
-  helpButton.click(() => {
-    const url = "https://blog.cyber-dojo.org/p/learn-more.html";
-    window.open(url);
-  });
-
-  cd.createTip(helpButton, 'open help page');
-
-});
+// Inline (not $()) so document.currentScript is available, letting each partial
+// instance wire its own sibling button and dialog.
+(function() {
+  const dialog = document.currentScript.previousElementSibling;
+  const button = dialog.previousElementSibling;
+  $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
+  $('.dialog-close', dialog).click(() => dialog.close());
+  $('.open-help', dialog).click(() => window.open('https://blog.cyber-dojo.org/p/learn-more.html'));
+  $(button).click(() => cd.showPanelDialog(button, dialog));
+})();
 </script>

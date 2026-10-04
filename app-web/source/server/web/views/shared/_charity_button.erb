@@ -1,4 +1,4 @@
-<button type="button" id="charity-button" class="info-button">charity</button>
+<button type="button" id="charity-button" class="info-button opens-dialog">charity</button>
 
 <dialog style="width:700px">
   <header>
@@ -42,6 +42,6 @@
   const button = dialog.previousElementSibling;
   $(dialog).on('close', () => { if (cd.kata && cd.kata.editor) cd.kata.editor.refocus(); });
   $('.dialog-close', dialog).click(() => dialog.close());
-  $(button).click(() => dialog.showModal());
+  $(button).click(() => cd.showPanelDialog(button, dialog));
 })();
 </script>

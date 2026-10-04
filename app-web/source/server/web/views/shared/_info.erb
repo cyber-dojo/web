@@ -7,32 +7,137 @@
   </g>
 </svg>
 
-<%= partial('shared/dashboard') %>
-<%= partial('shared/feedback') %>
-<%= partial('shared/help') %>
-<%= partial('shared/hotkeys') %>
-<%= partial('shared/traffic_lights') %>
-<% if @with_download %>
-  <%= partial('kata/download') %>
-<% end %>
-<%= partial('shared/charity_button') %>
-<%= partial('shared/donate_button') %>
-<%= partial('shared/sponsorship_button') %>
+<div id="more-panel">
+  <%# In alphabetical order of their labels. %>
+  <%= partial('shared/charity_button') %>
+  <%= partial('shared/dashboard') %>
+  <% if @with_download %>
+    <%= partial('kata/download') %>
+  <% end %>
+  <%= partial('shared/feedback') %>
+  <%= partial('shared/help') %>
+  <%= partial('shared/hotkeys') %>
+  <%= partial('shared/donate_button') %>
+  <%= partial('shared/sponsorship_button') %>
+  <%= partial('shared/kata_info') %>
+  <%= partial('shared/traffic_lights') %>
+</div>
+<div id="more-scrim"></div>
 
 <script>
 'use strict';
 $(() => {
 
-  const $button = $('#more-button');
-  const $buttons = () => $('.info-button');
-  cd.createTip($button, 'show/hide buttons');
-  let visible = false;
-  $button[0].addEventListener('click', () => {
-    visible = !visible;
-    visible ? $buttons().fadeIn() : $buttons().fadeOut();
+  // The ... slides the panel of buttons out over the page, and back. While it
+  // is out the page underneath is disabled by the scrim, and clicking the
+  // scrim slides it back too. The last button clicked stays marked selected.
+  const $body = $('body');
+  // Slides the panel out, then calls onOpen once it has finished sliding, so a
+  // dialog opened beside one of its buttons is placed against where the
+  // button ends up rather than where it starts.
+  cd.openMorePanel = (onOpen) => {
+    if ($body.hasClass('more-open')) {
+      onOpen();
+    }
+    else {
+      $('#more-panel').one('transitionend', onOpen);
+      open();
+    }
+  };
+  // The buttons start just below the ..., wherever it sits (the cog above it
+  // is not shown on every page).
+  const open = () => {
+    const below = $('#more-button')[0].getBoundingClientRect().bottom;
+    $('#more-panel').css('padding-top', `${below + 10}px`);
+    $body.addClass('more-open');
+  };
+  // Slides the panel back, closing its dialog and unmarking its selected row,
+  // so it reopens with nothing marked.
+  const collapse = () => {
+    closePanelDialog();
+    $('#more-panel .info-button').removeClass('selected');
+    $body.removeClass('more-open');
+  };
+  const toggle = () => {
+    if ($body.hasClass('more-open')) {
+      collapse();
+    }
+    else {
+      open();
+    }
+  };
+  $('#more-button').on('click', toggle);
+  $('#more-scrim').on('click', toggle);
+
+  const $buttons = $('#more-panel .info-button');
+  $buttons.on('click', function() {
+    $buttons.removeClass('selected');
+    $(this).addClass('selected');
   });
 
-  $button.click(); // Make visible
+  // A panel button that opens a dialog (.opens-dialog) opens it on hover as
+  // well as on click; hovering any other panel button closes it. The dialog
+  // is non-modal, so the mouse can still reach the other buttons, and sits to
+  // the immediate right of its button, kept within the window's height.
+  let panelDialog = undefined;
+  const closePanelDialog = () => {
+    if (panelDialog && panelDialog.open) {
+      panelDialog.close();
+    }
+    panelDialog = undefined;
+  };
+  cd.showPanelDialog = (button, dialog) => {
+    if (panelDialog === dialog && dialog.open) {
+      return; // re-hovering its own row leaves it showing
+    }
+    closePanelDialog();
+    const rect = button.getBoundingClientRect();
+    Object.assign(dialog.style, {
+      position: 'fixed', margin: '0px', zIndex: '1001',
+      left: `${rect.right + 8}px`, top: `${rect.top}px`
+    });
+    dialog.show();
+    const maxTop = window.innerHeight - dialog.offsetHeight - 8;
+    dialog.style.top = `${Math.max(8, Math.min(rect.top, maxTop))}px`;
+    panelDialog = dialog;
+    // Its own [close] collapses the panel, as Escape does. The close event
+    // arrives after the closing call returns, so a dialog closed by hovering
+    // another button (or by collapse) is no longer panelDialog by then, and
+    // does not collapse it.
+    $(dialog).one('close', () => {
+      if (panelDialog === dialog) {
+        collapse();
+      }
+    });
+  };
+  // A non-modal dialog gets no Escape from the browser, so Escape here closes
+  // the panel's open dialog and slides the panel back, together. Captured, so
+  // a focused editor cannot swallow it first.
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && $body.hasClass('more-open')) {
+      event.preventDefault();
+      toggle();
+    }
+  }, true);
+
+  // A row acts on hover only once the mouse rests on it, so heading
+  // diagonally from a row to its dialog can cross the rows next to it without
+  // switching to theirs.
+  const hoverRestMs = 150;
+  let hoverTimer = undefined;
+  $buttons.on('mouseenter', function() {
+    const $row = $(this);
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => {
+      if ($row.hasClass('opens-dialog')) {
+        $row.trigger('click');
+      }
+      else {
+        closePanelDialog();
+      }
+    }, hoverRestMs);
+  });
+  $buttons.on('mouseleave', () => clearTimeout(hoverTimer));
 
 });
 </script>

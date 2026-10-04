@@ -1,4 +1,4 @@
-<button type="button" id="hotkeys-button" class="info-button">hotkeys</button>
+<button type="button" id="hotkeys-button" class="info-button opens-dialog">hotkeys</button>
 
 <script>
 'use strict';
@@ -7,7 +7,6 @@
 // double-initialization when the partial appears twice on the same page.
 (function() {
   const button = document.currentScript.previousElementSibling;
-  cd.createTip($(button), 'show keyboard shortcuts');
   $(button).click(() => openHotkeysInfoDialog());
 
   const openHotkeysInfoDialog = () => {
@@ -44,13 +43,15 @@
       </header>
       ${html}
     `);
-    $('body').append(dialog);
+    // Into the panel, beside the other panel dialogs, so it takes the same
+    // font they inherit from the app bar.
+    $('#more-panel').append(dialog);
     $(dialog).on('close', () => {
       cd.kata.editor.refocus();
       dialog.remove();
     });
     $('.dialog-close', dialog).click(() => dialog.close());
-    dialog.showModal();
+    cd.showPanelDialog(button, dialog);
   };
 
   // Each group of rows is a table inside a div.info panel: a table with

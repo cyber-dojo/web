@@ -111,7 +111,6 @@
   cd.showSettingsButton = () => {
     // The setting button is off by default so that it is not
     // visible on a review page arrived at from a dashboard.
-    cd.createTip($(button), 'open settings dialog');
     $(button).show().on('click', () => openSettingsDialog());
   };
 
@@ -127,9 +126,10 @@
       $(css, dialog).off('change').on('change', function() { cd.settings[name](this.value); });
       $(cssValue, dialog).prop('checked', true);
     });
+    // To the immediate right of the cog, level with it.
     const rect = button.getBoundingClientRect();
-    dialog.style.left = rect.left + 'px';
-    dialog.style.top = (rect.top + 90) + 'px';
+    dialog.style.left = (rect.right + 8) + 'px';
+    dialog.style.top = rect.top + 'px';
     dialog.style.margin = '0';
     dialog.showModal();
   };

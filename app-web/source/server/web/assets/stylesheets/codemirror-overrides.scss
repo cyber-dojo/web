@@ -9,7 +9,7 @@
   color: black;
   // Every file leaves room for the output's status bar, so the editing
   // area keeps the same height when toggling to and from the output tab.
-  height: calc(100vh - 125px - #{grid-sizes.$output-status-height});
+  height: calc(100vh - 95px - #{grid-sizes.$output-status-height});
   width: grid-sizes.$right-column-width;
 }
 
