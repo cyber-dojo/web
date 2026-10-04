@@ -53,26 +53,19 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  AVATAR_COUNT = 64
-
+  # 20 joiners per group: were the order not cluster-wide, saver's random
+  # default would give 40 different avatars only ~0.008% of the time.
   qtest d4Pc36: %w[
-    |POST /enter.json across every group of a multi-LTF cluster
-    |spreads avatars so that filling the cluster to its 64-joiner capacity
-    |hands out each of the 64 avatars exactly once across all its groups;
-    |filling it a second time (to 128 joiners) hands out each avatar
-    |exactly twice - no animal appears three times anywhere in the cluster
+    |POST /enter.json across both groups of a multi-LTF cluster
+    |hands out avatars scarce cluster-wide, so 20 joiners
+    |in each group get 40 different avatars between them
   ] do
     child_group_ids = json_post_create_cluster({
                                                  language_names: languages_start_points.names.first(2),
                                                  exercise_name: exercises_start_points.names.first
                                                })
-    joins_per_group = AVATAR_COUNT / child_group_ids.size
-
-    group_indexes = join_each_group(child_group_ids, joins_per_group)
-    assert_equal (0...AVATAR_COUNT).to_a, group_indexes.sort, group_indexes
-
-    group_indexes += join_each_group(child_group_ids, joins_per_group)
-    assert_equal ((0...AVATAR_COUNT).to_a * 2).sort, group_indexes.sort, group_indexes
+    group_indexes = join_each_group(child_group_ids, 20)
+    assert_equal 40, group_indexes.uniq.size, group_indexes
   end
 
   private

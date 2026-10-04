@@ -11,8 +11,8 @@ class View200Test < BrowserTestBase
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
-  qtest a97d16: %w[choose_problem] do
-    visit('/creator/choose_problem')
+  qtest a97d16: %w[setup solo] do
+    visit('/creator/setup?type=kata')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
@@ -21,9 +21,8 @@ class View200Test < BrowserTestBase
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
-  qtest a97d18: %w[choose_ltf] do
-    exercise_name = any_exercises_start_points_display_name
-    visit("/creator/choose_ltf?exercise_name=#{exercise_name}")
+  qtest a97d18: %w[setup group] do
+    visit('/creator/setup?type=group')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 

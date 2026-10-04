@@ -64,6 +64,24 @@ class CreateKataTest < CreatorTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest p43w9D: %w(
+    |POST /create.json
+    |with [type=kata,language_name,exercise_name]
+    |generates json route /kata/edit/ID
+    |so a solo practice opens straight onto its kata
+  ) do
+    json_post mounted_path('create.json'), {
+      type: 'kata',
+      language_name: language_name,
+      exercise_name: exercise_name
+    }
+    id = json_response['id']
+    assert kata_exists?(id), "id:#{id}:"
+    assert_equal "/kata/edit/#{id}", json_response['route']
+  end
+
   private
 
   def json_post_create(args)

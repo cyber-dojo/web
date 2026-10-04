@@ -2,6 +2,7 @@
 
 @use "lib/all";
 @use "home";
+@use "setup";
 @use "avatar-images";
 @use "buttons";
 @use "to_go";
@@ -16,9 +17,7 @@
 
 #home-page                  .edged-panel { width:860px; }
 
-#choose-problem-page        .edged-panel { width:835px; }
 #choose-custom-problem-page .edged-panel { width:835px; }
-#choose-ltf-page            .edged-panel { width:835px; }
 
 #enter-page                 .edged-panel { width:835px; }
 #avatar-page                .edged-panel { width:316px; }
@@ -243,200 +242,28 @@
   align-items:center;
 }
 
-// choose_problem's footer holds the large next button on the left and the two
-// smaller switch/skip buttons stacked on the right. align-items:flex-start
-// keeps next at its natural height, the same as on the other chooser pages,
-// whatever the height of the stack beside it.
-// padding-right lines the stack's right edge up with the display-content text
-// field, which stops a few px short of the panel edge (as the header does).
-#choose-problem-page .footer-row
-{
-  justify-content:flex-end;
-  gap:10px;
-  align-items:flex-start;
-  padding-right:5px;
-}
-
 // Pull the next button left so its left edge lines up with the left edge of
 // the display-content text field (which starts after the 300px names column).
-// margin-right:auto pushes whatever follows (the stacked buttons on
-// choose_problem, the help link on choose_ltf) to the right. The 313px is the
+// margin-right:auto pushes the switch button to the right. The 313px is the
 // names-column width plus the display box's left gap, so it must be revisited
 // if .display-names width changes.
-#choose-problem-page .footer-row .next,
-#choose-custom-problem-page .footer-row .next,
-#choose-ltf-page .footer-row .next
+#choose-custom-problem-page .footer-row .next
 {
   margin-right:auto;
   margin-left:313px;
 }
 
-// switch and skip sit one above the other, right-aligned. margin-top matches
-// the next button's own top margin so the stack's top lines up with next's
-// top. The column stretches both buttons to the width of the wider one
-// (switch). The buttons keep their natural height rather than flex-growing to
-// fill the row, so switch looks identical whether or not skip is present -
-// skip is hidden for type=group (a group practice must choose an exercise).
-// The buttons' border is the same colour as their background, so the gap is
-// what keeps the two stacked buttons visibly apart.
-#choose-problem-page .stacked-buttons
-{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin-top:10px;
-}
-
-#choose-problem-page .stacked-buttons button
-{
-  font-size:16px;
-  margin:0;
-}
-
-// Align choose_ltf's help link, and choose_custom_problem's switch button,
-// with the display-content text field's right edge (the same inset the
-// choose_problem header uses).
-#choose-ltf-page .footer-row,
+// Align the switch button with the display-content text field's right edge,
+// which stops a few px short of the panel edge.
 #choose-custom-problem-page .footer-row
 {
   padding-right:5px;
 }
 
-// Match choose_problem's switch button: same font size, and top-aligned with
-// the next button rather than vertically centred against it.
+// The switch button is smaller than next, and top-aligned with it rather than
+// vertically centred against it.
 #choose-custom-problem-page .footer-row .switch
 {
   align-self:flex-start;
   font-size:16px;
-}
-
-// The display box is centred, so it stops a few px short of the panel's right
-// edge. Inset the header row to match, so the contribute link's right edge
-// lines up with the right edge of the display-content text field above it.
-#choose-problem-page .header-row
-{
-  padding-right:5px;
-}
-
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// choose_ltf group (classroom) flow: pick up to 5 language & test-frameworks.
-// The chosen list sits bottom-left, directly below the available list and to
-// the left of the next button; clicking moves an entry between the two lists.
-
-// A thin divider rule in the text colour runs across the 300px available-names
-// column, separating the chosen list below it from the available list above so
-// the two lists do not blur into one another. It is a filled 1px block (not a
-// border) so it renders as an even line with no thicker corner pixel.
-#choose-ltf-page.group .chosen-divider
-{
-  width:300px;
-  max-width:300px;
-  height:1px;
-  margin: { top:8px; bottom:8px; left:0px; right:0px; }
-  border:0;
-  background:colour.$lighter-color;
-}
-
-// The chosen list aligns under the 300px available-names column. flex-shrink:0
-// stops the footer's help text from squeezing it narrower than 300px, which
-// would drag next left of the preview pane above it.
-#choose-ltf-page.group .chosen-ltfs
-{
-  width:300px;
-  max-width:300px;
-  flex-shrink:0;
-}
-
-// A chosen entry looks like an available one; clicking it moves it back to the
-// available list. Empty slots make the 5-cap visible.
-#choose-ltf-page.group .chosen-ltfs .display-name
-{
-  @include wide-list-item.wide-list-item();
-  margin-bottom:4px;
-  overflow:visible;                             // don't clip the slot number,
-                                                // which hangs off the left edge
-}
-#choose-ltf-page.group .chosen-ltfs .slot-empty
-{
-  @include fonts.plaintext-font();
-  color:color.adjust(colour.$darker-color, $lightness: 20%, $space: hsl);
-  border:1px dashed color.adjust(colour.$darker-color, $lightness: 15%, $space: hsl);
-  text-align:left;
-  padding: { left:6px; right:0px; }
-  margin: { top:0px; bottom:4px; }
-  min-height:19px;                              // keep row height with the number
-  white-space:nowrap;                           // moved out of flow (see slot-num)
-}
-
-// Anchor for the number, which hangs in the gutter to the left of the box.
-#choose-ltf-page.group .chosen-ltfs .display-name,
-#choose-ltf-page.group .chosen-ltfs .slot-empty
-{
-  position:relative;
-}
-// The 1..5 number sits out of flow, in the gutter to the LEFT of the row box,
-// so the row's name text lines up with the available-list names rather than
-// being indented past the number.
-#choose-ltf-page.group .chosen-ltfs .slot-num
-{
-  position:absolute;
-  right:calc(100% + 4px);
-  top:0px;
-  color:color.adjust(colour.$darker-color, $lightness: 30%, $space: hsl);
-}
-
-// The group page lays its two columns out with flex, not inline-block:
-// inline-block leaves ~4px of whitespace between the columns (from the newline
-// in the markup), which would push the preview pane right of the next button
-// below it. flex gives an exact 5px gap and no stray whitespace. text-align:left
-// left-aligns the columns' contents (the shared .display-box centres them) so
-// the list lines up under the sub-title and the textarea lines up over next.
-// The list style and custom scrollbar themselves come from the shared .display-box.
-#choose-ltf-page.group .display-box
-{
-  display:flex;
-  justify-content:flex-start;
-  align-items:flex-start;
-  gap:5px;
-  text-align:left;
-}
-// The shared column's margin-right would double the flex gap, so drop it here.
-// flex-shrink:0 keeps the 300px column width.
-#choose-ltf-page.group .scroll-wrap
-{
-  margin-right:0px;
-  flex-shrink:0;
-}
-
-// Lay the chosen list, next button and help link out along the footer. The
-// chosen list already spans the 300px names column, so next follows it directly
-// (unlike the single-select footer, which indents next to align under the
-// preview pane); undo that indent here.
-// The display box centres its 805px of columns in the panel. Give the divider
-// and footer the same centred 805px box so the chosen list lines up under the
-// available list, and next lines up under the white preview pane.
-#choose-ltf-page.group .group-footer
-{
-  width:805px;
-  max-width:100%;
-  margin: { left:0px; right:0px; }
-}
-// gap 5px matches the available list's own right margin, so next's left edge
-// lines up with the left edge of the preview pane above it.
-#choose-ltf-page.group .footer-row
-{
-  justify-content:flex-start;
-  align-items:flex-start;
-  gap:5px;
-}
-#choose-ltf-page.group .footer-row .next
-{
-  margin-left:0px;
-  margin-right:0px;
-  margin-top:0px;
-  flex-shrink:0;
-}
-#choose-ltf-page.group .footer-row .help
-{
-  margin-left:auto;
 }

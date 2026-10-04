@@ -38,8 +38,7 @@ module CreatorApp
     end
 
     get '/choose_problem' do
-      self.data_source = externals.exercises_start_points
-      erb :choose_problem
+      redirect path_to("/setup?#{request.query_string}")
     end
 
     get '/choose_custom_problem' do
@@ -48,9 +47,21 @@ module CreatorApp
     end
 
     get '/choose_ltf' do
+      redirect path_to("/setup?#{request.query_string}")
+    end
+
+    get '/setup' do
       @type = params['type']
-      self.data_source = externals.languages_start_points
-      erb :choose_ltf
+      self.data_source = externals.exercises_start_points
+      ltfs = externals.languages_start_points
+      @ltf_names = ltfs.names
+      languages = @ltf_names.map { |name| name.split(',', 2)[0] }
+      @languages = languages.uniq.sort_by(&:downcase)
+      @ltf_previews = ltfs.manifests.to_h do |name, manifest|
+        visible_files = manifest['visible_files']
+        [name, visible_files[selected(visible_files)]['content']]
+      end
+      erb :setup
     end
 
     post '/create.json' do
@@ -58,7 +69,7 @@ module CreatorApp
       args = json_args
       type = args.delete(:type)
       id = create(type, args)
-      url = path_to("/enter?id=#{id}")
+      url = type == 'kata' ? "/kata/edit/#{id}" : path_to("/enter?id=#{id}")
       { 'route' => url, 'id' => id }.to_json
     end
 

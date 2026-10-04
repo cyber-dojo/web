@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  $('button.kata' ).click(() => cd.goto(cd.mountedPath('/choose_problem?type=kata')));
-  $('button.group').click(() => cd.goto(cd.mountedPath('/choose_problem?type=group')));
+  $('button.kata' ).click(() => cd.goto(cd.mountedPath('/setup?type=kata')));
+  $('button.group').click(() => cd.goto(cd.mountedPath('/setup?type=group')));
   $('button.enter').click(() => cd.goto(cd.mountedPath('/enter')));
 
 });
