@@ -26,6 +26,5 @@
     max-height: grid-sizes.$column-height;
     display: inline-block;
     margin: { left:grid-sizes.$right-column-left-margin; top:1px; }
-    position: relative; // For charity/sponsor absolute:bottom
   }
 }

@@ -10,14 +10,16 @@
 .sponsors-cell
 {
   display: grid;
+  // Follows the traffic-light (and predict) counts above it, a little below.
   margin: 8px;
-  margin-top: 0px;
-  padding: 5px;
+  margin-top: 12px;
+  // 70 + 9 + 9 = 88px across, the same as the counts panels above it. The
+  // bottom padding is 3px less than the top, since the last logo's cell
+  // carries a 3px bottom margin of its own.
+  padding: { left:9px; right:9px; top:7px; bottom:4px; }
   border-radius: 3px;
   background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
-  max-width: 75px;
-  position: absolute;
-  bottom: 0px;
+  width: 70px;
 }
 
 .sponsor { display: inline-flex; }
@@ -30,7 +32,7 @@
   color: White;
   padding: 4px;
   border-radius: 3px;
-  width: 66px;
+  width: 62px;
   margin: { top:2px; bottom:7px; }
 }
 
@@ -47,12 +49,12 @@
   padding: 0px;
   height: 15px;
   margin-top: 2px;
-  width: 74px;
+  width: 70px;
 }
 
 #bluefruit-cell #bluefruit-image
 {
-  width: 72px;
+  width: 68px;
   border: 1px solid white;
 }
 
@@ -82,4 +84,12 @@
   border-radius: 2px;
   padding: 0px;
   height: 19px;
+}
+
+// Sized by width, not height, so it lines up with the other logos: 68px plus
+// its 1px border each side is their 70px; its height follows its shape.
+#cucumber-cell #cucumber-image
+{
+  width: 68px;
+  height: auto;
 }

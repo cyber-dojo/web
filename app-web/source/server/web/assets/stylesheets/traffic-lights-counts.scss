@@ -18,7 +18,9 @@
 .traffic-lights-counts
 {
   display: grid;
-  width: 62px;
+  // 74 + 9 + 5 = 88px across, the same as the predict counts and the sponsor
+  // logos beneath it.
+  width: 74px;
   border-radius: 3px;
   padding: { left:9px; right:5px; top:7px; bottom:7px; }
   background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
@@ -28,7 +30,7 @@
   {
     display: inline-flex;
     max-height:28px;
-    width:45px; max-width:45px;
+    width:55px; max-width:55px;
     margin-bottom: 1px;
     padding:0px;
   }
@@ -56,6 +58,6 @@
     width: 20px;
     height: 20px;
     border-radius: 10px;
-    margin: { left:5px; top:3px; right:3px; }
+    margin: { left:11px; top:3px; right:3px; }
   }
 }
