@@ -13,26 +13,26 @@
   const openHotkeysInfoDialog = () => {
     let html = '';
     html += '<div class="info">Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.</div>';
-    html += '<table class="info" style="width:400px;">';
+    html += panelStart;
     html += tr1('predict off');
     html += tr2(alt('T'), 'run the <u>T</u>ests');
     html += tr1('predict on');
     html += tr2(alt('R'), `predict ${spanColour('red'  , '<u>R</u>ed'  )}`);
     html += tr2(alt('A'), `predict ${spanColour('amber', '<u>A</u>mber')}`);
     html += tr2(alt('G'), `predict ${spanColour('green', '<u>G</u>reen')}`);
-    html += '</table>';
-    html += '<table class="info" style="width:400px;">';
+    html += panelEnd;
+    html += panelStart;
     html += tr2(alt('J'), 'cycle&darr; through the filenames');
     html += tr2(alt('K'), 'cycle&uarr; through the filenames');
     html += tr2(alt('O'), 'toggle to/from the <u>O</u>utput tab');
-    html += '</table>';
-    html += '<table class="info" style="width:400px;">';
+    html += panelEnd;
+    html += panelStart;
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
     html += tr3('replace',         'Shift-Ctrl-F', `${cmd}${option}&thinsp;F`);
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
-    html += '</table>';
+    html += panelEnd;
 
     const dialog = document.createElement('dialog');
     dialog.id = 'hotkeys-dialog';
@@ -52,6 +52,11 @@
     $('.dialog-close', dialog).click(() => dialog.close());
     dialog.showModal();
   };
+
+  // Each group of rows is a table inside a div.info panel: a table with
+  // collapsed borders ignores padding, so the div gives it the panel's.
+  const panelStart = '<div class="info"><table style="width:100%;">';
+  const panelEnd = '</table></div>';
 
   const spanColour = (colour, text) => {
     return `<span class="${colour}">${text}</span>`;
