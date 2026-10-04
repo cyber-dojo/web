@@ -69,7 +69,7 @@ module CreatorApp
       args = json_args
       type = args.delete(:type)
       id = create(type, args)
-      url = type == 'kata' ? "/kata/edit/#{id}" : path_to("/enter?id=#{id}")
+      url = path_to("/enter?id=#{id}")
       { 'route' => url, 'id' => id }.to_json
     end
 

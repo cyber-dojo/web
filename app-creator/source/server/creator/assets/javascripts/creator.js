@@ -312,7 +312,10 @@ cd.setupChooser = (type) => {
     const body = chosenLtfs.length === 1
       ? { type: type, exercise_name: exerciseChoice, language_name: chosenLtfs[0] }
       : { type: 'cluster', exercise_name: exerciseChoice, language_names: chosenLtfs };
-    $.post(cd.mountedPath('/create.json'), JSON.stringify(body), (response) => cd.goto(response.route));
+    // A solo practice opens straight onto its kata; create.json's route (the
+    // enter page) stays as-is for every type, since scripts may rely on it.
+    $.post(cd.mountedPath('/create.json'), JSON.stringify(body), (response) =>
+      cd.goto(type === 'kata' ? `/kata/edit/${response.id}` : response.route));
   });
 
   // Open on a random exercise preview (unchosen) and a random current language,
