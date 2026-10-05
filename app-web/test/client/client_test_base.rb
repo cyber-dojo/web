@@ -47,4 +47,28 @@ class ClientTestBase < TestBase
     flunk 'edit page never finished initialising (cd.mobbingPoll.knownHead stayed undefined)'
   end
 
+  # A kata whose hiker.sh is edited (event 1) and then tested (event 2), so
+  # review has a changed file to select and an output to show.
+  def kata_with_one_test_run
+    id = saver.kata_create(starter_manifest)
+    files = saver.kata_event(id, 0)['files']
+    files['hiker.sh']['content'] = files['hiker.sh']['content'].sub('6 * 9', '6 * 7')
+    kata_ran_tests(id, files, content('out'), content('err'), 0,
+                   ran_summary('red'), laptop_id, next_tab_seq)
+    id
+  end
+
+  # Slides the ... panel out; its rows are hidden until it has.
+  def open_more_panel
+    find('#more-button').click
+    assert_selector('body.more-open', wait: 5)
+  end
+
+  # Slides the ... panel back, so the page under it can be clicked again.
+  def close_more_panel
+    find('#more-button').click
+    refute_selector('body.more-open', wait: 5)
+    refute_selector('#help-button', visible: true, wait: 5)
+  end
+
 end

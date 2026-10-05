@@ -157,7 +157,10 @@
   // every file.
   height: calc(100vh - 95px - #{grid-sizes.$output-status-height});
   margin: 0px;
-  padding: 0px;
+  // The same 4px above the first line as CodeMirror's editor leaves; inside
+  // the height, so the sheet ends level with the editor too.
+  padding: { top: 4px; right: 0px; bottom: 0px; left: 0px; }
+  box-sizing: border-box;
   cursor: default;
 
   added, deleted, same, stderr

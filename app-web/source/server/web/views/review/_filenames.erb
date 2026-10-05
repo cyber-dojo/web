@@ -9,7 +9,36 @@ $(() => {
   review.refreshFilenames = (diffs) => {
     const $diffFilenames = $('#diff-filenames');
     $diffFilenames.html($makeDiffFilenames(diffs));
+    listed = sortedDiffs(diffs);
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // Alt-J, Alt-K and Alt-O, as on the kata page (see cyber-dojo_codemirror.js):
+  // the next and previous file in the list, wrapping round at either end, and
+  // between the output and its file.
+  let listed = [];
+
+  review.selectNextFilename = () => {
+    const index = indexOfSelected();
+    review.selectFilename(listed[(index + 1) % listed.length]);
+  };
+
+  review.selectPreviousFilename = () => {
+    const index = indexOfSelected();
+    review.selectFilename(listed[index <= 0 ? listed.length - 1 : index - 1]);
+  };
+
+  review.toggleOutput = () => {
+    const outputIsShowing = (review.filename === 'output');
+    if (outputIsShowing) {
+      review.selectFilename(review.selectedDiff);
+    }
+    else if ($('#file-content-output', review.page).length > 0) {
+      review.selectOutput();
+    }
+  };
+
+  const indexOfSelected = () => listed.findIndex(diff => diff === review.selectedDiff);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffFilenames = (diffs) => {
