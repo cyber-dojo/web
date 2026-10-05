@@ -100,12 +100,15 @@ $(() => {
     // show filename
     $('.diff-filename', review.page).removeClass('selected');
     $(`#diff-filename-${diff.id}`, review.page).addClass('selected');
+    review.tabs.setFilename(diff.filename);
+    review.tabs.selectFilename();
     // show file content
     $('.file-content', review.page).hide();
     $(`#file-content-${diff.id}`, review.page).show();
 
     scrollToNextDiffChunkOnReclick(diff);
     review.filename = diff.filename;
+    review.selectedDiff = diff;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

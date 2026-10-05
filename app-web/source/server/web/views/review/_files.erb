@@ -36,7 +36,17 @@ $(() => {
     const $diffContent = $('#diff-content');
     $diffContent.html(makeDiffContent(diffs));
     const picked = review.pickFile(diffs, review.filename);
-    review.selectFilename(picked);
+    // Detailed mode shows a test run's output, the filename tab still naming
+    // the picked file. Selecting the output here, before the output itself
+    // refreshes, keeps the picked file from showing in between.
+    if (review.diffRadio.isDetailed() && review.output.hasOutput(review.currentEvent())) {
+      review.tabs.setFilename(picked.filename);
+      review.selectedDiff = picked;
+      review.selectOutput();
+    }
+    else {
+      review.selectFilename(picked);
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

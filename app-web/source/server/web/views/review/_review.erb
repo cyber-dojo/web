@@ -33,15 +33,18 @@
     <table>
       <tr><td><%= partial('review/filenames') %></td></tr>
       <tr><td><%= partial('review/files') %></td></tr>
-      <tr><td><%= partial('review/output') %></td></tr>
     </table>
   </div>
 
   <div class="right-column">
     <%= partial('review/traffic_light_navigator') %>
     <%= partial('review/traffic_lights') %>
-    <div id="diff-content"></div>
-    <div id="diff-content-output"></div>
+    <div id="diff-sheets">
+      <%= partial('review/tabs') %>
+      <%= partial('review/output') %>
+      <div id="diff-content"></div>
+      <div id="diff-content-output"></div>
+    </div>
   </div>
 
 </div>

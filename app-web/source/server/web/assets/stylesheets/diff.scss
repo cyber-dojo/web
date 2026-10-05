@@ -121,8 +121,6 @@
   &.unchanged { color: color.adjust(DarkGray,$lightness: -15%, $space: hsl); }
 }
 
-table.sss { margin-top: 15px; }
-
 #diff-filename-stdout,
 #diff-filename-stderr,
 #diff-filename-status
@@ -130,10 +128,21 @@ table.sss { margin-top: 15px; }
   color: color.adjust(DarkGray,$lightness: -20%, $space: hsl);
 }
 
-#diff-content, #diff-content-output
+// The tabs hang from the top of the diff sheet into the gap above it, so the
+// sheet sits level with the kata page's editor.
+#diff-sheets
 {
   position: relative;
-  top: 18px;
+  top: 30px;
+}
+#review-page #diff-sheets .tab-filenames
+{
+  position: absolute;
+  top: auto;
+  bottom: calc(100% - 1px);
+  left: 0px;
+  width: grid-sizes.$right-column-width;
+  z-index: 1;
 }
 
 .diff-line-numbers,

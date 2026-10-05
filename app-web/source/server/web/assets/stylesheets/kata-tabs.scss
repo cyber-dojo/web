@@ -3,7 +3,8 @@
 
 @use "sass:color";
 
-#kata-page
+// The review page's tabs over its diff sheet look the same as these.
+#kata-page, #review-page
 {
   .tab-filenames
   {

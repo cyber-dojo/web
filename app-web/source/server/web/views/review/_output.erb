@@ -1,5 +1,3 @@
-<div id="diff-output-filenames"></div>
-
 <script>
 'use strict';
 $(() => {
@@ -8,8 +6,8 @@ $(() => {
 
   review.output = {
     // Only a test run has output. Any other event (eg the kata's creation)
-    // empties both the output's filename and its content, so no earlier
-    // run's output lingers to be shown.
+    // empties the output's content and hides its tab, so no earlier run's
+    // output lingers to be shown.
     hasOutput: (event) => cd.lib.isLight(event) && !cd.lib.isCreationEvent(event),
     refresh: () => {
       const event = review.currentEvent();
@@ -19,13 +17,23 @@ $(() => {
         });
       }
       else {
-        $('#diff-output-filenames').html('');
+        review.tabs.hideOutput();
         $('#diff-content-output').empty();
         return Promise.resolve();
       }
     }
   };
-  
+
+  // Shows the output's content and selects the output tab, leaving the
+  // filename tab naming the file it returns to.
+  review.selectOutput = () => {
+    $('.diff-filename', review.page).removeClass('selected');
+    $('.file-content', review.page).hide();
+    $('#file-content-output', review.page).show();
+    review.tabs.selectOutput();
+    review.filename = 'output';
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const outputRefresher = (event) => {
     // stdout and stderr share one sheet, stderr lines styled apart by
@@ -47,14 +55,12 @@ $(() => {
 
     const $diffContentOutput = $('#diff-content-output');
     $diffContentOutput.empty().append($output);
-    if (review.filename && review.filename !== output.filename) {
-      $output.hide();
-    }
-
-    const $diffOutputFilenames = $('#diff-output-filenames');
-    $diffOutputFilenames.html($makeOutputFilename(output));
+    review.tabs.showOutput();
     if (review.diffRadio.isDetailed()) {
-      review.selectFilename(output);
+      review.selectOutput();
+    }
+    else if (review.filename !== output.filename) {
+      $output.hide();
     }
   };
 
@@ -71,18 +77,6 @@ $(() => {
 
   const makeLine = (type, line, number) => {
     return { type:type, line:line, number:number };
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeOutputFilename = (output) => {
-    const $table = $('<table>', { class:'sss filenames' });
-    $table.append($makeOutputFilenameTr(output));
-    return $table;
-  };
-
-  const $makeOutputFilenameTr = (diff) => {
-    const $td = $('<td>').append(review.makeDiffFilename(diff));
-    return $('<tr>').append($td);
   };
 
 });
