@@ -82,7 +82,35 @@ class ThisPracticeDialogTest < ClientTestBase
     assert_equal ['Tennis', 'C (gcc)', 'assert'], facts['setup'].split("\n")
   end
 
+  test 'a7e3c6', %w(
+  | hovering the this-practice dialog's ID tips its phonetic spelling, one
+  | word per character, each letter's word in that letter's case
+  ) do
+    id = saver.kata_create(starter_manifest)
+    visit "/kata/edit/#{id}"
+    wait_for_edit_page_ready
+    open_this_practice_dialog
+    find('dialog[open] .kata-id').hover
+    words = find('dialog[open] .hover-tip').text.split
+    assert_equal id.size, words.size
+    id.chars.zip(words).each do |char, word|
+      assert phonetic_word_for?(char, word), "#{word} does not spell #{char}"
+    end
+  end
+
   private
+
+  # True when word is char's phonetic word: a digit's number word, or a
+  # word starting with the letter, upper-case for an upper-case letter.
+  def phonetic_word_for?(char, word)
+    if char =~ /\d/
+      word == %w[zero one two three four five six seven eight nine][char.to_i]
+    elsif char == char.upcase
+      word.start_with?(char) && word == word.upcase
+    else
+      word.start_with?(char) && word == word.downcase
+    end
+  end
 
   # Returns the open dialog's visible facts, each row's title mapped to its
   # value text.

@@ -184,7 +184,15 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  // The review page shows over the kata page on the edit page, and alone on a
+  // review page from a dashboard. While it shows, J/K/O act on it, and the
+  // [test] and predict hotkeys do nothing.
+  const isReviewing = () => $('#review-page').is(':visible');
+
   const runTests = () => {
+    if (isReviewing()) {
+      return false;
+    }
     if (cd.settings.predict() === 'off') {
       cd.kata.testButton.click();
     }
@@ -192,21 +200,21 @@ var cyberDojo = ((cd, $) => {
   };
 
   const predictRed = () => {
-    if (cd.settings.predict() === 'on') {
+    if (!isReviewing() && cd.settings.predict() === 'on') {
       cd.kata.predict('red');
     }
     return false;
   };
 
   const predictAmber = () => {
-    if (cd.settings.predict() === 'on') {
+    if (!isReviewing() && cd.settings.predict() === 'on') {
       cd.kata.predict('amber');
     }
     return false;
   };
 
   const predictGreen = () => {
-    if (cd.settings.predict() === 'on') {
+    if (!isReviewing() && cd.settings.predict() === 'on') {
       cd.kata.predict('green');
     }
     return false;
@@ -215,17 +223,32 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const selectNext = () => {
-    cd.kata.filenames.selectNext();
+    if (isReviewing()) {
+      cd.review.selectNextFilename();
+    }
+    else {
+      cd.kata.filenames.selectNext();
+    }
     return false;
   };
 
   const selectPrevious = () => {
-    cd.kata.filenames.selectPrevious();
+    if (isReviewing()) {
+      cd.review.selectPreviousFilename();
+    }
+    else {
+      cd.kata.filenames.selectPrevious();
+    }
     return false;
   };
 
   const toggleOutput = () => {
-    cd.kata.tabs.toggle();
+    if (isReviewing()) {
+      cd.review.toggleOutput();
+    }
+    else {
+      cd.kata.tabs.toggle();
+    }
     return false;
   };
 
@@ -242,7 +265,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.setupHotkeys = () => {
-    // Called from app/views/kata/edit.html.erb
+    // Called from app/views/kata/edit.erb and app/views/review/show.erb
     // Keyed by e.code (the physical key) not e.key (the typed character)
     // because on a Mac Alt(Option) changes the typed character, eg
     // Option-O types an o-slash, so e.key is never 'o'.
