@@ -8,7 +8,7 @@
   {
     display: flex;
     @include fonts.non-code-font();
-    margin: { top:9px; left:2px; }
+    margin-top: 11px;
     padding: 0px;
     background: colors.$darker-color;
     color: colors.$lighter-color;
@@ -20,11 +20,13 @@
     position: relative;        // For avatar-navigator absolute:right    
   }
 
-  .right-gutter
+  .left-gutter
   {
     height: grid-sizes.$column-height;
     max-height: grid-sizes.$column-height;
     display: inline-block;
-    margin: { left:grid-sizes.$right-column-left-margin; top:1px; }
+    margin-top: 1px;
+    // The same as the kata page's, so the counts stay put across the toggle.
+    padding-left: 8px;
   }
 }

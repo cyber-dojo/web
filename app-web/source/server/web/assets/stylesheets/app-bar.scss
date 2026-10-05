@@ -8,8 +8,8 @@ $app-bar-width: 32px;
 // standing out.
 $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: hsl);
 
-// A thin column down the page's left edge: the yin-yang logo, the cog, and the
-// ... which slides the panel of other buttons out over the page, and back.
+// A thin column down the page's left edge: the yin-yang logo, and the ...
+// which slides the panel of buttons out over the page, and back.
 #app-bar
 {
   @include fonts.plaintext-font();
@@ -28,21 +28,17 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
   left: 0px;
   z-index: 1000;
 
-  #settings-button, #more-button
+  // The ... (which shows/hides the panel) is a plain grey inline SVG, the same
+  // size as the 20px yin-yang logo, faded so it sits back in the bar, at full
+  // strength under the mouse, where it also gains a lightened circle behind it.
+  #yin-yang-logo, #more-button { position: relative; z-index: 1; }
+  #more-button
   {
+    width: 20px;
+    height: 20px;
     padding: 0px;
     margin: 0px;
     cursor: pointer;
-  }
-  // Sized to look the same as the 20px yin-yang logo: the cog's teeth reach
-  // nearly to its edges, so it needs 22px.
-  #settings-button { width: 22px; height: 22px; }
-  #more-button { width: 20px; height: 20px; }
-  // The cog and the ... (which shows/hides the other buttons) are plain grey
-  // inline SVGs, faded so they sit back in the bar, at full strength under the
-  // mouse. Under the mouse the ... also gains a lightened circle behind it.
-  #settings-button, #more-button
-  {
     opacity: 0.45;
     &:hover { opacity: 1; }
   }
@@ -53,8 +49,10 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
     fill: color.adjust(colors.$darker-color, $lightness: 25%, $space: hsl);
   }
 
-  // The panel of buttons sits beside the bar, under it, slid out of sight to
-  // the left until body.more-open slides it out over the page.
+  // The panel of buttons spans the bar and 100px beside it, slid out of sight
+  // to the left until body.more-open slides it out over the page. It sits
+  // over the bar's background, so its rows start at the bar's left edge, as
+  // if dropping out from under the ...; the logo and the ... sit over it.
   #more-panel
   {
     display: flex;
@@ -63,12 +61,12 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
     position: fixed;
     top: 0px;
     bottom: 0px;
-    left: $app-bar-width;
-    width: 130px;
+    left: 0px;
+    width: $app-bar-width + 100px;
     padding: { top: 8px; left: 6px; right: 6px; }
     // Slightly see-through, so the page behind shows a little.
     background: color.change($app-bar-background, $alpha: 0.92);
-    z-index: -1;
+    z-index: 0;
     transform: translateX(-100%);
     // visibility is transitioned too, so on the way back it stays visible
     // until the slide ends, rather than vanishing as it starts.
@@ -81,7 +79,8 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
   // whose dialog is open keeps the strip and a > pointing at its dialog.
   #feedback-button, #kata-info-button, #traffic-lights-button, #dashboard-button,
   #help-button, #hotkeys-button, #micro-services-button,
-  #download-button, #charity-button, #donate-button, #sponsorship-button
+  #download-button, #charity-button, #donate-button, #settings-button,
+  #sponsorship-button
   {
     font: inherit;
     font-size: 13px;
@@ -115,7 +114,7 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
   }
 
   // Switched on in the kata/edit page (cd.showSettingsButton), so a review
-  // page arrived at from a dashboard has no cog.
+  // page arrived at from a dashboard has no settings row.
   #settings-button { display:none; }
 
   // The unintrusive stale-tab reminder; appended to the bar by cd.mobbingPoll
@@ -134,9 +133,10 @@ $app-bar-background: color.adjust(colors.$darker-color, $lightness: 5%, $space: 
   }
 }
 
-// While the panel is out it covers the page's left edge, and the scrim behind
-// it dims and disables the rest of the page; clicking the scrim slides the
-// panel back.
+// While the panel is out it covers only the page's counts column, so the page
+// stays usable. While one of its dialogs is open, the dialog covers the page
+// too, so the scrim behind dims and disables the rest of the page; clicking
+// the scrim slides the panel back.
 // none (not translateX(0)) when out, so the panel's position:fixed dialogs
 // are placed against the window rather than against the panel.
 body.more-open #app-bar #more-panel
@@ -155,7 +155,47 @@ body.more-open #app-bar #more-panel
   background: rgba(0, 0, 0, 0.35);
   z-index: -2;
 }
-body.more-open #more-scrim { display: block; }
+body.panel-dialog-open #more-scrim { display: block; }
+
+// The kata and review pages start at the bar's right edge, so their leftmost
+// column (the counts) is the one the panel covers when it slides out.
+#kata-page, #review-page { margin-left: $app-bar-width; }
+
+// Each panel dialog's [X] comes first, at its top-left, with its title beside
+// it rather than spread to the far side.
+#more-panel dialog > header
+{
+  justify-content: flex-start;
+  gap: 0.5em;
+
+  // A grey cross in a grey square, styled like the bar's ...: faded, at full
+  // strength under the mouse. No focus ring, though show() focuses it as the
+  // dialog opens.
+  $close-grey: color.adjust(colors.$darker-color, $lightness: 50%, $space: hsl);
+  .dialog-close
+  {
+    width: 24px;
+    height: 24px;
+    padding: 0px;
+    border: 1px solid $close-grey;
+    border-radius: 3px;
+    background: transparent;
+    opacity: 0.45;
+    &:focus { outline: none; }
+    svg { display: block; width: 100%; height: 100%; }
+    .close-cross
+    {
+      stroke: $close-grey;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+    }
+    &:hover
+    {
+      border: 1px solid $close-grey;
+      opacity: 1;
+    }
+  }
+}
 
 #feedback-dialog, #kata-info-dialog, #traffic-lights-dialog, #hotkeys-dialog
 {

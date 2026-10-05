@@ -22,7 +22,13 @@
 }
 // Use large left margin when _not_ in diff-help-icon's hover-tip text.
 .diff-filename:not(.hover) { padding-left: grid-sizes.$left-column-left-margin; }
-.diff-type-marker:not(.hover) { margin-right: -(grid-sizes.$left-column-left-margin + 40px); }
+// The marker stretches across the filename's left padding, its glyph at the
+// right end, so it sits just before the filename whatever the padding.
+.diff-type-marker:not(.hover)
+{
+  margin-right: -(grid-sizes.$left-column-left-margin);
+  text-align: right;
+}
 
 //- - - - - - - - - - - - - - - -
 

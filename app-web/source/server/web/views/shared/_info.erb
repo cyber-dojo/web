@@ -18,6 +18,7 @@
   <%= partial('shared/help') %>
   <%= partial('shared/hotkeys') %>
   <%= partial('shared/donate_button') %>
+  <%= partial('shared/settings') %>
   <%= partial('shared/sponsorship_button') %>
   <%= partial('shared/kata_info') %>
   <%= partial('shared/traffic_lights') %>
@@ -28,9 +29,10 @@
 'use strict';
 $(() => {
 
-  // The ... slides the panel of buttons out over the page, and back. While it
-  // is out the page underneath is disabled by the scrim, and clicking the
-  // scrim slides it back too. The last button clicked stays marked selected.
+  // The ... slides the panel of buttons out over the page, and back. While one
+  // of its dialogs is open the page underneath is disabled by the scrim, and
+  // clicking the scrim slides it back too. The last button clicked stays
+  // marked selected.
   const $body = $('body');
   // Slides the panel out, then calls onOpen once it has finished sliding, so a
   // dialog opened beside one of its buttons is placed against where the
@@ -44,8 +46,7 @@ $(() => {
       open();
     }
   };
-  // The buttons start just below the ..., wherever it sits (the cog above it
-  // is not shown on every page).
+  // The buttons start just below the ..., wherever it sits.
   const open = () => {
     const below = $('#more-button')[0].getBoundingClientRect().bottom;
     $('#more-panel').css('padding-top', `${below + 10}px`);
@@ -85,6 +86,7 @@ $(() => {
       panelDialog.close();
     }
     panelDialog = undefined;
+    $body.removeClass('panel-dialog-open');
   };
   cd.showPanelDialog = (button, dialog) => {
     if (panelDialog === dialog && dialog.open) {
@@ -100,6 +102,7 @@ $(() => {
     const maxTop = window.innerHeight - dialog.offsetHeight - 8;
     dialog.style.top = `${Math.max(8, Math.min(rect.top, maxTop))}px`;
     panelDialog = dialog;
+    $body.addClass('panel-dialog-open');
     // Its own [close] collapses the panel, as Escape does. The close event
     // arrives after the closing call returns, so a dialog closed by hovering
     // another button (or by collapse) is no longer panelDialog by then, and

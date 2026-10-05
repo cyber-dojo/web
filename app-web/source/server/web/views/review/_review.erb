@@ -11,6 +11,12 @@
 
 <div class="review-grid">
 
+  <div class="left-gutter">
+    <%= partial('review/traffic_lights_counts') %>
+    <%= partial('review/predict_counts') %>
+    <%= partial('shared/sponsorship') %>
+  </div>
+
   <div class="left-column">
     <table class="controls">
       <tr><td><%= partial('review/resume_button') %></td>
@@ -36,12 +42,6 @@
     <%= partial('review/traffic_lights') %>
     <div id="diff-content"></div>
     <div id="diff-content-output"></div>
-  </div>
-
-  <div class="right-gutter">
-    <%= partial('review/traffic_lights_counts') %>
-    <%= partial('review/predict_counts') %>
-    <%= partial('shared/sponsorship') %>
   </div>
 
 </div>

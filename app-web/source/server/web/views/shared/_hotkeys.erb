@@ -11,7 +11,7 @@
 
   const openHotkeysInfoDialog = () => {
     let html = '';
-    html += '<div class="info">Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.</div>';
+    html += '<div class="info">Open a page of <a href="https://codemirror.net/5/doc/manual.html#commands" target="_blank">all hotkeys</a> (CodeMirror)</div>';
     html += panelStart;
     html += tr1('predict off');
     html += tr2(alt('T'), 'run the <u>T</u>ests');
@@ -38,8 +38,8 @@
     dialog.style.width = '435px';
     $(dialog).html(`
       <header>
-        <span class="dialog-title"><%= partial('shared/more_mark') %>hotkeys</span>
-        <button type="button" class="dialog-close">close</button>
+        <%= partial('shared/dialog_close_x') %>
+        <span class="dialog-title">hotkeys</span>
       </header>
       ${html}
     `);

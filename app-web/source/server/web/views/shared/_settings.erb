@@ -1,20 +1,9 @@
-<svg id="settings-button" viewBox="0 0 24 24" role="img" aria-label="settings">
-  <mask id="settings-button-hole">
-    <rect width="24" height="24" fill="white"/>
-    <circle cx="12" cy="12" r="3.2" fill="black"/>
-  </mask>
-  <g class="icon-grey" mask="url(#settings-button-hole)">
-    <circle cx="12" cy="12" r="7.5"/>
-    <% [0, 45, 90, 135, 180, 225, 270, 315].each do |angle| %>
-      <rect x="10" y="1" width="4" height="5" rx="1" transform="rotate(<%= angle %> 12 12)"/>
-    <% end %>
-  </g>
-</svg>
+<button type="button" id="settings-button" class="info-button opens-dialog">settings</button>
 
 <dialog id="settings-dialog" style="width:250px">
   <header>
+    <%= partial('shared/dialog_close_x') %>
     <span class="dialog-title">settings</span>
-    <button type="button" class="dialog-close">close</button>
   </header>
   <div class="info">
     <div class="info-title">colour syntax</div>
@@ -109,7 +98,7 @@
   // UI
 
   cd.showSettingsButton = () => {
-    // The setting button is off by default so that it is not
+    // The settings row is off by default so that it is not
     // visible on a review page arrived at from a dashboard.
     $(button).show().on('click', () => openSettingsDialog());
   };
@@ -126,12 +115,7 @@
       $(css, dialog).off('change').on('change', function() { cd.settings[name](this.value); });
       $(cssValue, dialog).prop('checked', true);
     });
-    // To the immediate right of the cog, level with it.
-    const rect = button.getBoundingClientRect();
-    dialog.style.left = (rect.right + 8) + 'px';
-    dialog.style.top = rect.top + 'px';
-    dialog.style.margin = '0';
-    dialog.showModal();
+    cd.showPanelDialog(button, dialog);
   };
 
 })();

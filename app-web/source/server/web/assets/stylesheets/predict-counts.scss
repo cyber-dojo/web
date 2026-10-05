@@ -12,6 +12,8 @@
    padding: { left:9px; right:5px; top:7px; bottom:7px; }
    background: color.adjust(colors.$darker-color, $lightness: 15%, $space: hsl);
    margin: 8px;
+   // The same gap above as the sponsor logos' 12px margin-top leaves below.
+   margin-top: 12px;
 
    .box
    {

@@ -3,7 +3,7 @@
 #kata-page
 {
   display: flex;
-  margin: { top:11px; left:0px; }
+  margin-top: 11px;
 
   .left-column
   {
@@ -22,11 +22,13 @@
     vertical-align: top;
     margin-top: 2px;
   }
-  .right-gutter
+  .left-gutter
   {
     height: grid-sizes.$column-height;
     max-height: grid-sizes.$column-height;
     display: inline-block;
-    margin: { left:grid-sizes.$right-column-left-margin; top:1px; }
+    margin-top: 1px;
+    // With the counts' own 8px, the gap to the bar matches the 16px above.
+    padding-left: 8px;
   }
 }

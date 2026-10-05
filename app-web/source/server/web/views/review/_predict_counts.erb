@@ -21,8 +21,11 @@ $(() => {
 
   review.predictCounts = {};
 
+  // Shown whenever predict is on, as on the kata page; update() also shows it
+  // for any light predicted while predict was on.
   review.predictCounts.reset = () => {
     Object.keys(counts).forEach(key => setPredict(key, 0));
+    $counts.toggle(cd.settings.predict() === 'on');
   };
 
   review.predictCounts.update = (light) => {
