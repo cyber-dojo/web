@@ -3,6 +3,12 @@
 <%= partial('kata/file_inter_test_events') %>
 <%= partial('kata/run_tests') %>
 
+<div class="left-gutter">
+  <%= partial('kata/traffic_lights_counts') %>
+  <%= partial('kata/predict_counts') %>
+  <%= partial('shared/sponsorship') %>
+</div>
+
 <form action="/kata/run_tests/<%= @id %>" method="post">
   <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>">
   <%= partial('kata/image_name') %>
@@ -24,9 +30,3 @@
     <%= partial('kata/files') %>
   </div>
 </form>
-
-<div class="right-gutter">
-  <%= partial('kata/traffic_lights_counts') %>
-  <%= partial('kata/predict_counts') %>
-  <%= partial('shared/sponsorship') %>
-</div>
