@@ -9,7 +9,9 @@ $(() => {
 
   const tabs = cd.kata.tabs;
 
-  const $tabs = () => $('.tab');
+  // Scoped to the kata page, since the review page (also on the edit page)
+  // has tabs of its own.
+  const $tabs = () => $('#kata-page .tab');
 
   tabs.setup = () => {
     const manifest = cd.kata.manifest();
@@ -19,11 +21,11 @@ $(() => {
 
   tabs.theme = (value) => $tabs().removeClass('light dark').addClass(value);
 
-  tabs.filename = () => $('.tab.filename');
+  tabs.filename = () => $('#kata-page .tab.filename');
 
-  tabs.output   = () => $('.tab.output');
+  tabs.output   = () => $('#kata-page .tab.output');
 
-  tabs.selected = () => $('.tab.selected');
+  tabs.selected = () => $('#kata-page .tab.selected');
 
   tabs.reserves = (filename) => {
     const tabNames = [];

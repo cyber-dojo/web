@@ -16,12 +16,6 @@ $(() => {
       }
     }
 
-    // Detailed mode shows a test run's output; an event without output (eg
-    // the kata's creation) falls through to the file rules below.
-    if (review.diffRadio.isDetailed() && review.output.hasOutput(event)) {
-      return { id: 'output' };
-    }
-
     const isPreviousFile = (diff) => diffFilename(diff) === previousFilename;
     // Rule 1: Pick previous-filename with diff.
     const r1 = diffs.find(diff => hasChanged(diff) && isPreviousFile(diff));

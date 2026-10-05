@@ -1,0 +1,43 @@
+<%# Always light: the diff sheet beneath is always white, whatever the theme. %>
+<div class="tab-filenames">
+  <div class="tab filename light"></div>
+  <div class="tab output light">output</div>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  // The two tabs over the diff sheet, as the kata page has over its editor:
+  // the selected file's name, and a test run's output.
+  // Not review.page, which is not yet set when these clicks are bound.
+  const $filenameTab = () => $('#review-page .tab.filename');
+  const $outputTab = () => $('#review-page .tab.output');
+
+  review.tabs = {
+    // Names the file the filename tab returns to.
+    setFilename: (filename) => $filenameTab().text(filename),
+    selectFilename: () => select($filenameTab()),
+    selectOutput: () => select($outputTab()),
+    // Only an event with output has an output tab.
+    showOutput: () => $outputTab().show(),
+    hideOutput: () => $outputTab().hide()
+  };
+
+  const select = ($tab) => {
+    $('#review-page .tab').removeClass('selected');
+    $tab.addClass('selected');
+  };
+
+  $filenameTab().click(() => {
+    if (review.selectedDiff) {
+      review.selectFilename(review.selectedDiff);
+    }
+  });
+
+  $outputTab().click(() => review.selectOutput());
+
+});
+</script>
