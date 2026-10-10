@@ -50,6 +50,12 @@ module CreatorApp
 
     set :port, ENV['PORT']
 
+    # Send redirects as a path, not a full URL. nginx fronts this app and
+    # terminates TLS, so the scheme and host Sinatra sees are its own (http, the
+    # container) not the ones the browser used; a path Location leaves the
+    # browser to keep its own scheme and host.
+    set :absolute_redirects, false
+
     # Permit all Host headers; nginx fronts this app and validates Host.
     # Without this, Sinatra's development-mode host authorization rejects any
     # Host that is not localhost/.test (eg Rack::Test's example.org) with

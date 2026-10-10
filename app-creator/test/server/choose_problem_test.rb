@@ -7,10 +7,11 @@ class ChooseProblemTest < CreatorTestBase
   qtest B73w18: %w[
     |GET/choose_problem?type=group
     |redirects to /setup, keeping its query string
+    |The Location is a path with no scheme or host.
   ] do
     get mounted_path('choose_problem?type=group')
     assert status?(302), status
-    assert_equal "http://example.org#{mounted_path('setup?type=group')}",
+    assert_equal mounted_path('setup?type=group'),
                  last_response.headers['Location']
   end
 end
