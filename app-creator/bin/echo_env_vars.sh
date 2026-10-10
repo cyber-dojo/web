@@ -4,11 +4,10 @@ repo_root() { git rev-parse --show-toplevel; }
 
 # Echoes the versioner image's env-var statements (image names, SHAs, TAGs,
 # and PORTs for every cyber-dojo service). The versioner image is the single
-# source of truth for these; redirect its stderr to hide platform warnings.
+# source of truth for these.
 run_versioner()
 {
-  docker run --rm --platform linux/amd64 cyberdojo/versioner:latest >/tmp/log.stdout 2>/tmp/log.stderr
-  cat /tmp/log.stdout
+  docker run --rm cyberdojo/versioner:latest
 }
 
 # Generates .env and echoes the env-vars needed for docker-compose ${...}

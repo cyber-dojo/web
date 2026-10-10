@@ -14,7 +14,6 @@ services:
   # need without starting a browser grid they never drive.
   selenium:
     image: selenium/standalone-firefox
-    platform: linux/amd64
     restart: no
     # So containers_up's --wait blocks until the grid is actually accepting
     # sessions on 4444, not merely until the container is running - otherwise
