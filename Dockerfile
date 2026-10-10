@@ -3,7 +3,9 @@ FROM ghcr.io/cyber-dojo/sinatra-base:c58736f@sha256:35f8f0ad8bf53b955398392891ca
 
 # ============== creator ==============
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:3a99172 AS creator-assets
+# The output is platform-independent text, so the stage runs on the build
+# machine's own platform and every target platform copies the same files.
+FROM --platform=$BUILDPLATFORM cyberdojo/asset_builder:3a99172 AS creator-assets
 COPY app-creator/source/server/creator/assets/javascripts /app/app/assets/javascripts
 COPY app-creator/source/server/creator/assets/stylesheets /app/app/assets/stylesheets
 COPY common/stylesheets /app/app/assets/stylesheets/common
@@ -27,7 +29,7 @@ CMD [ "./config/up.sh" ]
 
 # ============== dashboard ==============
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:3a99172 AS dashboard-assets
+FROM --platform=$BUILDPLATFORM cyberdojo/asset_builder:3a99172 AS dashboard-assets
 COPY app-dashboard/source/server/dashboard/assets/javascripts /app/app/assets/javascripts
 COPY app-dashboard/source/server/dashboard/assets/stylesheets /app/app/assets/stylesheets
 COPY common/stylesheets /app/app/assets/stylesheets/common
@@ -50,7 +52,7 @@ CMD ["./config/up.sh"]
 
 # ============== web ==============
 # Compile the SCSS/JS assets to a single app.css and app.js.
-FROM cyberdojo/asset_builder:3a99172 AS web-assets
+FROM --platform=$BUILDPLATFORM cyberdojo/asset_builder:3a99172 AS web-assets
 COPY app-web/source/server/web/assets/javascripts /app/app/assets/javascripts
 COPY app-web/source/server/web/assets/stylesheets /app/app/assets/stylesheets
 COPY common/stylesheets /app/app/assets/stylesheets/common
