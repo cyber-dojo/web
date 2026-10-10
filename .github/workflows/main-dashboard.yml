@@ -156,12 +156,15 @@ jobs:
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
+      platforms: linux/amd64,linux/arm64
       kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
       kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
       kosli_reference_name: ${{ needs.setup.outputs.service_name }}
       attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}
     secrets:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
+      docker_user: ${{ secrets.DOCKER_USER }}
+      docker_pass: ${{ secrets.DOCKER_PASS }}
 
 
   snyk-container-scan:
