@@ -7,7 +7,6 @@ services:
 
   nginx:
     image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
-    platform: linux/amd64
     depends_on:
       - web
     user: root

@@ -6,11 +6,7 @@ set -Eeu
 # same shell and so inherit them too.
 #
 # CLI_HINTS silences the "What's next:" banner docker prints after a run.
-# DEFAULT_PLATFORM silences "requested image's platform does not match host
-# platform" on Apple Silicon. The images are amd64, which docker-compose.yml
-# pins for every service.
 export DOCKER_CLI_HINTS=false
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # Each app in this repo runs its containers as its own compose project, so one
 # app's test run or demo never stops or finds another app's containers.

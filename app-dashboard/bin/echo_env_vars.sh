@@ -42,7 +42,5 @@ echo_env_vars()
 
 run_versioner()
 {
-  # Hide platform warnings
-  docker run --rm cyberdojo/versioner >/tmp/log.stdout 2>/tmp/log.stderr
-  cat /tmp/log.stdout
+  docker run --rm cyberdojo/versioner
 }

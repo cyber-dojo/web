@@ -137,7 +137,6 @@ run_tests()
     local limits_file="${2}"
     docker run \
       --rm \
-      --platform linux/amd64 \
       --volume ${HOST_REPORTS_DIR}/${data_file}:${CONTAINER_TMP_DIR}/${data_file}:ro \
       --volume ${HOST_TEST_DIR}/config/check_metrics.rb:${CONTAINER_TMP_DIR}/check_metrics.rb:ro \
       --volume ${HOST_TEST_DIR}/config/${limits_file}.rb:${CONTAINER_TMP_DIR}/${limits_file}.rb:ro \

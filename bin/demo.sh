@@ -91,7 +91,7 @@ demo_compose()
 {
   # Runs docker compose over the files the demo's up and down share, so down
   # removes everything up started.
-  docker --log-level=ERROR compose \
+  docker compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose-nginx.yml" \
     --file "$(repo_root)/docker-compose.yml" \

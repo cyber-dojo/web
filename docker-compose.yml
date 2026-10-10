@@ -7,7 +7,6 @@ services:
 
   web:
     image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
-    platform: linux/amd64
     build:
       context: .
       target: web
@@ -24,7 +23,6 @@ services:
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
-    platform: linux/amd64
     build:
       context: .
       target: creator
@@ -45,7 +43,6 @@ services:
 
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
-    platform: linux/amd64
     build:
       context: .
       target: dashboard
@@ -69,7 +66,6 @@ services:
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
-    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -78,7 +74,6 @@ services:
 
   exercises-start-points:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
-    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -87,7 +82,6 @@ services:
 
   languages-start-points:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
-    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -96,7 +90,6 @@ services:
 
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
-    platform: linux/amd64
     user: root
     env_file: [ .env ]
     read_only: true
@@ -106,7 +99,6 @@ services:
 
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
-    platform: linux/amd64
     user: saver
     env_file: [ .env ]
     read_only: true
@@ -121,7 +113,6 @@ services:
   # /cyber-dojo. web reaches it at hostname 'spooler' on CYBER_DOJO_SPOOLER_PORT.
   spooler:
     image: ${CYBER_DOJO_SPOOLER_IMAGE}:${CYBER_DOJO_SPOOLER_TAG}
-    platform: linux/amd64
     user: spooler
     env_file: [ .env ]
     read_only: true
@@ -133,7 +124,6 @@ services:
 
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
-    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true

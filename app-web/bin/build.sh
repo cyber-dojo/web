@@ -52,7 +52,7 @@ build_tagged_images()
 build_web_image()
 {
   echo
-  docker --log-level=ERROR compose \
+  docker compose \
     --file="$(repo_root)/docker-compose.yml" \
     build web
 }
@@ -74,7 +74,7 @@ git_commit_sha()
 
 sha_inside_image()
 {
-  docker --log-level=ERROR compose run --rm web sh -c 'echo ${SHA}'
+  docker compose run --rm web sh -c 'echo ${SHA}'
 }
 
 build_tagged_images
