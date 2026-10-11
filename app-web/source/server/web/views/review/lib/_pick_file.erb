@@ -61,6 +61,18 @@ $(() => {
     if (r8 != undefined) {
       return r8;
     }
+    // Rule 8a: Pick the kata page's current file (with no diff), if it is
+    // at this light. A review from a dashboard has no current file.
+    const r8a = diffs.find(diff => diffFilename(diff) === cd.kata.editor.currentFilename);
+    if (r8a != undefined) {
+      return r8a;
+    }
+    // Rule 8b: Pick largest test file (with no diff).
+    const r8b = diffs.filter(diff => cd.isTestFile(diffFilename(diff)))
+                     .sort(sameCountCompare);
+    if (r8b.length > 0) {
+      return r8b[0];
+    }
     // Rule 9: Pick cyber-dojo.sh (which cannot be deleted)
     const r9 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
     return r9;
