@@ -29,4 +29,4 @@ serves them together through nginx on port 80, with one saver holding every
 app's demo data, so one change shows up in every app at once and any page can
 be compared with any other. See `bin/demo.sh -h`.
 
-![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
+![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/main/shared/home_page_snapshot.png)
