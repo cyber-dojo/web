@@ -65,14 +65,14 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFileContent = (diff) => {
     const lineNumbers = makeLineNumbers(diff.lines);
-    const fileContent = makeContent(diff.id, diff.lines);
+    const fileContent = makeContent(diff);
     const $file = $('' +
       `<div id="file-content-${diff.id}" class="file-content">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
           makeTd(`<div id="diff-sheet-${diff.id}"` +
-                 ' class="diff-sheet"></div>') +
+                 ` class="diff-sheet ${sheetThemeClass()}"></div>`) +
         '</tr>' +
       '</table>' +
       '</div>'
@@ -86,6 +86,11 @@ $(() => {
     bindLineNumberScrolling($content, $numbers);
     return $file;
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // The CodeMirror theme class colouring a sheet's tokens. A sheet is always
+  // white, so it takes the light theme whatever the theme setting.
+  const sheetThemeClass = () => `cm-s-cyber-dojo-light-colour-${cd.settings.colour()}`;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {
@@ -106,19 +111,65 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeContent = (id, diff_lines) => {
+  const makeContent = (diff) => {
+    // Each side is highlighted as a whole file, so a construct spanning
+    // several lines (eg a block comment) is tokenised as its own side sees it.
+    const mode = cd.codeMirror.mode(diff.filename);
+    const oldLines = highlightedLines(sideText(diff.lines, 'added'), mode);
+    const newLines = highlightedLines(sideText(diff.lines, 'deleted'), mode);
+    let oldIndex = 0;
+    let newIndex = 0;
     let html = [];
-    diff_lines.forEach(diff_line => {
+    diff.lines.forEach(diff_line => {
       if (diff_line.type == 'section') {
-        html.push(`<span id='diff-chunk-${id}-${diff_line.index}'></span>`);
-      } 
+        html.push(`<span id='diff-chunk-${diff.id}-${diff_line.index}'></span>`);
+      }
       else {
-        let line = cd.htmlEscape(diff_line.line);
+        let line;
+        if (diff_line.type == 'deleted') {
+          line = oldLines[oldIndex++];
+        }
+        else if (diff_line.type == 'added') {
+          line = newLines[newIndex++];
+        }
+        else {
+          line = newLines[newIndex++];
+          oldIndex++;
+        }
         if (line == '') { line = '&nbsp'; }
         html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
       }
     });
     return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // The text of one side of a diff: every line except the other side's
+  // own lines (otherType) and the section markers.
+  const sideText = (diff_lines, otherType) => {
+    return diff_lines
+      .filter(diff_line => diff_line.type != 'section' && diff_line.type != otherType)
+      .map(diff_line => diff_line.line)
+      .join('\n');
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // The html of each line of text, its tokens wrapped in CodeMirror's
+  // cm-<style> spans, which the CodeMirror theme classes colour.
+  const highlightedLines = (text, mode) => {
+    const lines = text.split('\n').map(() => '');
+    CodeMirror.runMode(text, mode, (token, style, lineIndex) => {
+      if (token == '\n') { return; }
+      const escaped = cd.htmlEscape(token);
+      if (style) {
+        const classes = 'cm-' + style.replace(/ +/g, ' cm-');
+        lines[lineIndex] += `<span class="${classes}">${escaped}</span>`;
+      }
+      else {
+        lines[lineIndex] += escaped;
+      }
+    });
+    return lines;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

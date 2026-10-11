@@ -5,7 +5,10 @@ var cyberDojo = ((cd, $) => {
   cd.codeMirror = {
     resetTheme: () => {
       runActionOnAllCodeMirrorEditors(setTheme);
-    }
+    },
+    // The review page highlights its diff sheets with this, so they
+    // match the kata page's editors.
+    mode: (filename) => codeMirrorMode(filename)
   };
 
   const setTheme = (editor) => {
