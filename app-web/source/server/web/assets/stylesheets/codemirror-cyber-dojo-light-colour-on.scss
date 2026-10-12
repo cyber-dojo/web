@@ -23,7 +23,7 @@ codemirror-cyber-dojo-dark-colour-on.$light-orange:      color.adjust(#FFE082, $
 
 codemirror-cyber-dojo-dark-colour-on.$syntax-text-color: codemirror-cyber-dojo-grays.$very-dark-gray;
 codemirror-cyber-dojo-dark-colour-on.$syntax-background-color: white;
-codemirror-cyber-dojo-dark-colour-on.$syntax-comment-color: codemirror-cyber-dojo-grays.$light-gray;
+codemirror-cyber-dojo-dark-colour-on.$syntax-comment-color: color.change(codemirror-cyber-dojo-grays.$light-gray, $lightness: 41%, $space: hsl);
 
 .cm-s-cyber-dojo-light-colour-on.CodeMirror
 {

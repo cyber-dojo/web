@@ -67,7 +67,7 @@ $(() => {
     const lineNumbers = makeLineNumbers(diff.lines);
     const fileContent = makeContent(diff);
     const $file = $('' +
-      `<div id="file-content-${diff.id}" class="file-content">` +
+      `<div id="file-content-${diff.id}" class="file-content ${cd.settings.theme()}">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
@@ -88,9 +88,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // The CodeMirror theme class colouring a sheet's tokens. A sheet is always
-  // white, so it takes the light theme whatever the theme setting.
-  const sheetThemeClass = () => `cm-s-cyber-dojo-light-colour-${cd.settings.colour()}`;
+  // The CodeMirror theme class colouring a sheet's tokens, from the theme
+  // and colour settings, as the kata page's editors are.
+  const sheetThemeClass = () => `cm-s-cyber-dojo-${cd.settings.theme()}-colour-${cd.settings.colour()}`;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {

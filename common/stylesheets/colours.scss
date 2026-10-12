@@ -31,7 +31,9 @@ $green-traffic-light-png: #20F0B0;
 
 $blue:  #00F;
 
-// The backgrounds of a diff's added/deleted/same line-count cells.
-$diff-added-count-color: color.adjust($green, $lightness: 20%, $space: hsl);
-$diff-deleted-count-color: color.adjust($red, $lightness: 20%, $space: hsl);
+// The backgrounds of a diff's added/deleted/same line-count cells, in the
+// traffic lights' hues, which colour-blind people tell apart more easily
+// than pure green and red.
+$diff-added-count-color: color.change($green-traffic-light-png, $lightness: 85%, $space: hsl);
+$diff-deleted-count-color: color.change($red-traffic-light-png, $lightness: 85%, $space: hsl);
 $diff-same-count-color: Gray;

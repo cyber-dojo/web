@@ -145,10 +145,56 @@
   z-index: 1;
 }
 
+// The colours of a file's line numbers and sheet, for each theme. Added and
+// deleted lines take the traffic lights' hues: a strong shade behind the line
+// numbers, a faint one behind the code, and a darker edge at the code's left.
+// A light sheet uses opaque shades; a dark sheet uses the hues translucent.
+@function light-shade($hue, $lightness) {
+  @return color.change($hue, $lightness: $lightness, $space: hsl);
+}
+
+@function dark-shade($hue, $alpha) {
+  @return color.change($hue, $alpha: $alpha);
+}
+
+.file-content.light
+{
+  $sheet: colors.$projector-background;
+  --diff-sheet: #{$sheet};
+  --diff-gutter: #{color.adjust($sheet, $lightness: -5%, $space: hsl)};
+  --diff-text: black;
+  --diff-number: #{color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl)};
+  --diff-changed-number: var(--diff-number);
+  --diff-added-number-background: #{light-shade(colors.$green-traffic-light-png, 90%)};
+  --diff-deleted-number-background: #{light-shade(colors.$red-traffic-light-png, 90%)};
+  --diff-added-background: #{light-shade(colors.$green-traffic-light-png, 93%)};
+  --diff-deleted-background: #{light-shade(colors.$red-traffic-light-png, 93%)};
+  --diff-added-edge: #{light-shade(colors.$green-traffic-light-png, 80%)};
+  --diff-deleted-edge: #{light-shade(colors.$red-traffic-light-png, 80%)};
+  --diff-hover-edge: #{color.adjust($sheet, $lightness: -40%, $space: hsl)};
+}
+
+.file-content.dark
+{
+  $sheet: black; // As the kata page's dark editor, so both stand out from the page.
+  --diff-sheet: #{$sheet};
+  --diff-gutter: #{color.adjust($sheet, $lightness: 4%, $space: hsl)};
+  --diff-text: #DDDDDD; // The dark CodeMirror theme's text colour.
+  --diff-number: #8A8A8A;
+  --diff-changed-number: #{hsl(0, 0%, 76%)};
+  --diff-added-number-background: #{dark-shade(colors.$green-traffic-light-png, 0.45)};
+  --diff-deleted-number-background: #{dark-shade(colors.$red-traffic-light-png, 0.45)};
+  --diff-added-background: #{dark-shade(colors.$green-traffic-light-png, 0.24)};
+  --diff-deleted-background: #{dark-shade(colors.$red-traffic-light-png, 0.24)};
+  --diff-added-edge: var(--diff-added-number-background);
+  --diff-deleted-edge: var(--diff-deleted-number-background);
+  --diff-hover-edge: #{color.adjust($sheet, $lightness: 40%, $space: hsl)};
+}
+
 .diff-line-numbers,
 .diff-sheet
 {
-  background: colors.$projector-background;
+  background: var(--diff-sheet);
   @include fonts.code-font();
   font-size: 11.4pt; // Matches font used in CodeMirror
   // Controls height of file content view: the same as the edit page's editor
@@ -168,23 +214,23 @@
     white-space: pre;
     display: block;
     padding-left: 0px;
-    color: black;
+    color: var(--diff-text);
   }
-  added   { background: colors.$diff-added-line-background; }
-  deleted { background: colors.$diff-deleted-line-background; }
 }
 
 #file-content-output .diff-sheet stderr { color: colors.$red; }
 
 .diff-line-numbers
 {
-  background: color.adjust(colors.$projector-background, $lightness: -5%, $space: hsl);
+  background: var(--diff-gutter);
   width: 40px;
   text-align: right;
   overflow: hidden;
   border: none;
   border-top-left-radius: 1px;
-  added, deleted, same, stderr { color: color.adjust(colors.$darker-color, $lightness: 30%, $space: hsl); }
+  same, stderr { color: var(--diff-number); }
+    added { color: var(--diff-changed-number); background: var(--diff-added-number-background); }
+  deleted { color: var(--diff-changed-number); background: var(--diff-deleted-number-background); }
     added:after { content: '+'; }
   deleted:after { content: '-'; }
      same:after,
@@ -200,13 +246,13 @@
   outline: none;
    border: none;
 
-    added { border-left: 2px solid colors.$diff-added-line-background; }
-  deleted { border-left: 2px solid colors.$diff-deleted-line-background; }
+    added { background: var(--diff-added-background);   border-left: 2px solid var(--diff-added-edge); }
+  deleted { background: var(--diff-deleted-background); border-left: 2px solid var(--diff-deleted-edge); }
      same,
-   stderr { border-left: 2px solid colors.$projector-background; }
+   stderr { border-left: 2px solid var(--diff-sheet); }
 
   added, deleted, same, stderr
   {
-    &:hover { border-left: 2px solid color.adjust(colors.$projector-background,$lightness: -40%, $space: hsl); }
+    &:hover { border-left: 2px solid var(--diff-hover-edge); }
   }
 }
