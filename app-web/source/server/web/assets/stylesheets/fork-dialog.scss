@@ -6,7 +6,7 @@
 
   .dialog-title { letter-spacing: 0.02em; }
 
-  button.kata, button.group
+  button.kata, button.group, button.avatar
   {
     display: block;
     margin-top: 10px;
@@ -16,6 +16,13 @@
     @include fonts.non-code-font();
     width: 288px;
     text-align: left;
+
+    // The avatar option when its group is full.
+    &[disabled]
+    {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
     .fork-option-name
     {

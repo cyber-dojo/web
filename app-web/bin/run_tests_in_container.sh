@@ -24,6 +24,16 @@ copy_saver_test_data()
   cd ${SRC_PATH} \
     && tar -c . \
     | docker exec -i ${SAVER_CID} tar x -C ${DEST_PATH}
+
+  # Groups of 63 avatars, made by saver's bin/create_almost_full_group.sh,
+  # so a test needing a full group joins once instead of 64 times.
+  local -r tar_files=(
+    almost_full_group.v2.VdAxFE.tgz
+    almost_full_group.v2.nbRfW9.tgz
+  )
+  for tar_file in "${tar_files[@]}"; do
+    docker exec -i ${SAVER_CID} tar -zxf - -C / < "$(dirname ${SRC_PATH})/${tar_file}"
+  done
 }
 
 run_client_tests_in_container()

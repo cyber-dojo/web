@@ -1,7 +1,7 @@
 require_relative 'app_base'
 
 module Web
-  # Forking a practice from a traffic-light. Two routes that differ in one
+  # Forking a practice from a traffic-light. Three routes that differ in one
   # word, which is why the prefix holds the word they share.
   class ForkApp < AppBase
     # Where this app mounts itself. Named here so config.ru and the tests
@@ -17,6 +17,11 @@ module Web
     post '/group' do
       content_type :json
       { 'group_fork' => saver.group_fork(id, index) }.to_json
+    end
+
+    post '/avatar' do
+      content_type :json
+      { 'avatar_fork' => saver.avatar_fork(id, index) }.to_json
     end
   end
 end

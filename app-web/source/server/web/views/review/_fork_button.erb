@@ -23,6 +23,14 @@
       <li>No dashboard</li>
     </ul>
   </button>
+  <button class="avatar" type="button">
+    <span class="fork-option-name">avatar</span>
+    <ul>
+      <li>A new avatar in this group</li>
+      <li>Same dashboard</li>
+    </ul>
+    <span class="fork-option-note" style="display:none">this group is full</span>
+  </button>
 </dialog>
 
 <script>
@@ -50,6 +58,11 @@
     });
   };
 
+  // A pulling, timed_out or faulty light is not a test result, so there is
+  // nothing in it to fork.
+  const isOnNonTestResult = () =>
+    ['pulling', 'timed_out', 'faulty'].includes(review.currentEvent().colour);
+
   review.forkButton = {
     enable: () => $(button).prop('disabled', false),
     disable: () => $(button).prop('disabled', true),
@@ -62,7 +75,7 @@
         review.forkButton.disable();
         return;
       }
-      if (review.isOnFileEvent()) {
+      if (review.isOnFileEvent() || isOnNonTestResult()) {
         review.forkButton.disable();
       }
       else {
@@ -76,6 +89,19 @@
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openForkDialog = () => {
+    // Only a traffic-light of a kata in a group can start a new avatar in that
+    // group, and only while the group has fewer than its 64 avatars.
+    const $avatar = $('.avatar', dialog);
+    const inGroup = cd.kata.manifest().group_index !== undefined &&
+                    !cd.lib.isCreationEvent(review.currentEvent());
+    $avatar.toggle(inGroup);
+    if (inGroup) {
+      review.getJSON('saver', 'group_joined', { id: review.id }, (joined) => {
+        const full = Object.keys(joined).length === 64;
+        $avatar.prop('disabled', full);
+        $('.fork-option-note', $avatar).toggle(full);
+      });
+    }
     const rect = button.getBoundingClientRect();
     dialog.style.left = rect.left + 'px';
     dialog.style.top = (rect.top + 30) + 'px';
@@ -83,7 +109,18 @@
     dialog.showModal();
   };
 
-  const fork = (url, responseKey) => {
+  // A new kata or group opens on the creator's enter page; a new avatar has
+  // already joined its group, so it opens straight in the edit page.
+  const enterPage = (id) => `/creator/enter?id=${id}`;
+  const editPage = (id) => `/kata/edit/${id}`;
+
+  const showFullDialog = () => {
+    const html = '<img src="/images/avatars/all_colour.png" class="avatars"/>' +
+                 '<div>fork as a new group instead</div>';
+    cd.dialog(html, "sorry, it's full").showModal();
+  };
+
+  const fork = (url, responseKey, pageFor) => {
     dialog.close();
     const params = new URLSearchParams({ id: review.id, index: review.index });
     fetch(`${url}?${params}`, {
@@ -99,7 +136,11 @@
     .then(response => {
       const id = response[responseKey];
       if (id) {
-        window.open(`/creator/enter?id=${id}`);
+        window.open(pageFor(id));
+      } else if (responseKey in response) {
+        // Saver answers null, not an error, when the group has filled since
+        // the dialog opened. As the creator does, say so.
+        showFullDialog();
       } else {
         cd.dialogError(response);
       }
@@ -109,8 +150,9 @@
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   $(button).click(() => openForkDialog());
-  $('.kata',  dialog).click(() => fork('/fork/kata',  'kata_fork'));
-  $('.group', dialog).click(() => fork('/fork/group', 'group_fork'));
+  $('.kata',   dialog).click(() => fork('/fork/kata',   'kata_fork',   enterPage));
+  $('.group',  dialog).click(() => fork('/fork/group',  'group_fork',  enterPage));
+  $('.avatar', dialog).click(() => fork('/fork/avatar', 'avatar_fork', editPage));
 
 })();
 </script>
