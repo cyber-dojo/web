@@ -18,6 +18,3 @@ $pulling: #2CDFF0;
 
 
 $projector-background: White;
-
-$diff-added-line-background: color.adjust($green, $lightness: 25%, $space: hsl);
-$diff-deleted-line-background: color.adjust($red, $lightness: 25%, $space: hsl);
