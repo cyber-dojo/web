@@ -46,4 +46,20 @@ class ForkTest < AppsTestBase
     end
   end
 
+  test 'F1B7Cg', %w(
+  | /fork/avatar returns the id of a new avatar in the same group
+  | as the avatar forked from
+  ) do
+    gid = saver.group_create(starter_manifest)
+    kid = saver.group_join(gid)
+    files = saver.kata_event(kid, 0)['files']
+    kata_ran_tests(kid, files, content('out'), content('err'), 0,
+                   ran_summary('red'), laptop_id, next_tab_seq)
+    index = saver.kata_events(kid).last['index']
+    post '/fork/avatar', { id: kid, index: index }
+    assert last_response.ok?
+    aid = json['avatar_fork']
+    assert_equal gid, saver.kata_manifest(aid)['group_id']
+  end
+
 end

@@ -38,6 +38,7 @@ shift $((OPTIND - 1))
 repo_root() { git rev-parse --show-toplevel; }
 export BIN_DIR="$(repo_root)/app-web/bin"
 
+source "${BIN_DIR}/containers_down.sh"
 source "${BIN_DIR}/containers_up.sh"
 source "${BIN_DIR}/echo_env_vars.sh"
 source "${BIN_DIR}/run_tests_in_container.sh"
@@ -45,6 +46,9 @@ source "${BIN_DIR}/lib.sh"
 
 exit_non_zero_unless_installed docker
 export $(echo_env_vars)
+# A fresh saver each run, so tests that join the pre-made groups find them
+# as the test data left them, and a fresh web, so it serves the views on disk.
+containers_down
 # Before containers_up, for the reason pull_runner_test_image explains. The
 # browser drives the served app, which runs [test] through the real runner.
 pull_runner_test_image
