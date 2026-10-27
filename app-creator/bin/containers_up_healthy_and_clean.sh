@@ -3,8 +3,12 @@
 server_up_healthy_and_clean()
 {
   export SERVICE_NAME=creator
-  docker compose up --detach "${SERVICE_NAME}"
-  exit_non_zero_unless_healthy
+  if ! docker compose up --detach --wait --wait-timeout=15 "${SERVICE_NAME}"; then
+    echo; echo "${SERVICE_NAME} not healthy after 15s."
+    echo_docker_log
+    echo
+    exit_non_zero
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -57,39 +61,6 @@ exit_non_zero_unless_selenium_grid_ready()
   done
   echo; echo "selenium grid did not answer after ${MAX_TRIES} tries."
   exit_non_zero
-}
-
-# - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_healthy()
-{
-  echo
-  local -r MAX_TRIES=50
-  printf "Waiting until %s is healthy" "${SERVICE_NAME}"
-  for _ in $(seq ${MAX_TRIES})
-  do
-    if healthy; then
-      echo; echo "${SERVICE_NAME} is healthy."
-      return
-    else
-      printf .
-      sleep 0.1
-    fi
-  done
-  echo; echo "${SERVICE_NAME} not healthy after ${MAX_TRIES} tries."
-  echo_docker_log
-  echo
-  exit_non_zero
-}
-
-# - - - - - - - - - - - - - - - - - - -
-healthy()
-{
-  # Containers are no longer given fixed names (so concurrent demos/tests in
-  # sibling repos do not collide), so resolve the service's container id by
-  # its compose project+service label - see service_container in lib.sh.
-  local -r cid="$(service_container "${SERVICE_NAME}")"
-  [ -n "${cid}" ] && \
-    docker ps --filter health=healthy --format '{{.ID}}' | grep -q "${cid}"
 }
 
 # - - - - - - - - - - - - - - - - - - -

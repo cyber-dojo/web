@@ -56,6 +56,6 @@ containers_up()
     --no-build \
     --no-deps \
     --wait \
-    --wait-timeout=60 \
+    --wait-timeout=15 \
     "${services[@]}"
 }
