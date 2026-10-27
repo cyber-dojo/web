@@ -70,7 +70,7 @@ run_tests()
   fi
 
   # Don't do a build here, because in CI workflow, server image is built with GitHub Action
-  docker compose --progress=plain up --no-build --wait --wait-timeout=10 "${SERVICE}"
+  docker compose --progress=plain up --no-build --wait --wait-timeout=15 "${SERVICE}"
   # Resolve the container now it is up; Compose namespaces it by project+service.
   export CONTAINER_NAME="$(service_container "${SERVICE}")"
   echo_warnings "${SERVICE}"
