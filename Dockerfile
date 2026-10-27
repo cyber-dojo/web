@@ -1,4 +1,4 @@
-FROM ghcr.io/cyber-dojo/sinatra-base:c58736f@sha256:35f8f0ad8bf53b955398392891ca64949787d414edb53789be8a628d76f6d217 AS base
+FROM ghcr.io/cyber-dojo/sinatra-base:5997b3d@sha256:9e454262ad7af06b00916d49256aa85b87e950f4eed601dce8bf9a627f83510a AS base
 # The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 
 # ============== creator ==============
