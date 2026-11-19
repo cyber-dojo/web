@@ -102,14 +102,10 @@ kosli_cli_image_tag()
 # Fetches the rego policy that decides whether a metrics report is within the
 # limits in its params file, writing it to the file named by the caller.
 #
-# The URL lives here alone. .github/workflows/main.yml fetches the policy too,
-# for 'kosli evaluate trail', and calls this through bin/fetch_metrics_policy.sh
-# rather than curling its own copy, so the two cannot come to name different
-# policies. Where the file goes stays the caller's choice.
-#
-# Both callers fetch rather than hand the URL to the CLI, which accepts one:
-# main.yml attaches the fetched file to the decision it attests, so the bytes
-# recorded are the bytes evaluated.
+# The file is the one kosli-attestation-types publishes to Kosli as the
+# metrics-compliance policy, which CI evaluates by identifier. That repo
+# publishes from its main branch, so once its pipeline has run, the file
+# fetched here is the version CI evaluates.
 fetch_metrics_policy()
 {
   local -r filename="${1}"
@@ -127,7 +123,7 @@ fetch_metrics_policy()
 }
 
 # Echoes the metrics report wrapped in the shape the policy reads it from: the
-# trail as 'kosli evaluate trail' would present it in CI, holding one artifact,
+# trail as Kosli presents it to the policy in CI, holding one artifact,
 # holding one attestation, whose attestation_data is the report.
 #
 # The two names are read from the params file, which is where the policy reads

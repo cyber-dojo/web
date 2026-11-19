@@ -162,7 +162,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-      REGO_POLICY_FILENAME: app-web/reports/metrics-compliance.rego
       PARAMS_TEST_FILENAME: app-web/test/test_metrics_params.json
       PARAMS_COVERAGE_FILENAME: app-web/test/coverage_metrics_params.json
     steps:
@@ -193,18 +192,8 @@ jobs:
       # The metrics are attested in two parts. A facts attestation carries the
       # data: its type has a schema and no jq rules, so it is always compliant.
       # The bounds live in this repo's params files, applied by the shared
-      # policy, which is what lets each repo set its own limits rather than
-      # share one set baked into an attestation type.
-      #
-      # The policy is fetched rather than named by URL so the copy attached to
-      # each decision is the same bytes that were evaluated. The URL itself
-      # lives in app-web/bin/lib.sh, which the metrics checks fetch through too, so this
-      # job and 'make web_metrics_test' cannot judge by different policies.
-      - name: Get the metrics policy
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run:
-          app-web/bin/fetch_metrics_policy.sh "${REGO_POLICY_FILENAME}"
-
+      # metrics-compliance policy, which is what lets each repo set its own
+      # limits rather than share one set baked into an attestation type.
       - name: Attest test metrics to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
@@ -213,31 +202,22 @@ jobs:
             --name=web.test-facts
             --type=test-facts
 
-      # --no-assert makes evaluate a decision point: it prints a verdict and
-      # exits 0 either way, so a breach is carried by the decision attestation
-      # below rather than failing here and leaving no evidence of why. The
-      # policy reads the facts attested above, so this runs after them.
-      - name: Evaluate the test metrics against their bounds
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run: |
-          COMPLIANT="$(kosli evaluate trail "${KOSLI_TRAIL}" \
-            --flow "${KOSLI_FLOW}" \
-            --policy "${REGO_POLICY_FILENAME}" \
-            --params "@${PARAMS_TEST_FILENAME}" \
-            --no-assert \
-            --output json | jq --raw-output '.allow')"
-          echo "TEST_COMPLIANT=${COMPLIANT}" >> "${GITHUB_ENV}"
-
-      # The policy and the params are attached, because the verdict means
-      # nothing without the rules and the numbers it was reached from.
-      - name: Attest the test metrics decision to Kosli
+      # Evaluated where the trail is stored, against the version of the policy
+      # kosli-attestation-types publishes, and the decision recorded in the same
+      # request, so the verdict never passes through this workflow. The decision
+      # carries the params, the result and the policy. Without --assert the step
+      # exits 0 on a deny, so a breach is recorded as a non-compliant decision
+      # rather than stopping the job before it is. The policy reads the facts
+      # attested above, so this runs after them.
+      - name: Evaluate the test metrics and record the decision
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
-          kosli attest decision
-            --compliant="${TEST_COMPLIANT}"
+          kosli evaluate policy
+            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
+            --identifier=metrics-compliance
+            --params="@${PARAMS_TEST_FILENAME}"
             --control=SDLC-CTRL-0008
-            --attachments="${REGO_POLICY_FILENAME}"
-            --attachments="${PARAMS_TEST_FILENAME}"
+            --fingerprint="${KOSLI_FINGERPRINT}"
             --name=web.test-decision
 
       - name: Attest coverage metrics to Kosli
@@ -248,25 +228,15 @@ jobs:
             --name=web.coverage-facts
             --type=coverage-facts
 
-      - name: Evaluate the coverage metrics against their bounds
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run: |
-          COMPLIANT="$(kosli evaluate trail "${KOSLI_TRAIL}" \
-            --flow "${KOSLI_FLOW}" \
-            --policy "${REGO_POLICY_FILENAME}" \
-            --params "@${PARAMS_COVERAGE_FILENAME}" \
-            --no-assert \
-            --output json | jq --raw-output '.allow')"
-          echo "COVERAGE_COMPLIANT=${COMPLIANT}" >> "${GITHUB_ENV}"
-
-      - name: Attest the coverage metrics decision to Kosli
+      - name: Evaluate the coverage metrics and record the decision
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
-          kosli attest decision
-            --compliant="${COVERAGE_COMPLIANT}"
+          kosli evaluate policy
+            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
+            --identifier=metrics-compliance
+            --params="@${PARAMS_COVERAGE_FILENAME}"
             --control=SDLC-CTRL-0008
-            --attachments="${REGO_POLICY_FILENAME}"
-            --attachments="${PARAMS_COVERAGE_FILENAME}"
+            --fingerprint="${KOSLI_FINGERPRINT}"
             --name=web.coverage-decision
 
       # The targets a developer runs, in the order 'make web_all' runs them, for the
@@ -280,10 +250,9 @@ jobs:
       #
       # The version is taken from the CLI setup-kosli-cli installed, so the
       # container these targets run is the version this job's own kosli commands
-      # are. Left to itself the check resolves 'latest' separately, and this job
-      # would evaluate twice with two versions of a beta command.
+      # are, rather than a 'latest' the check would resolve separately.
       #
-      # Last, so both decisions are attested before a breach stops the job.
+      # Last, so both decisions are recorded before a breach stops the job.
       # Otherwise the run continues to sdlc-control-gate, which fails on the
       # same breach several jobs later.
       - name: Judge the metrics as a developer does
