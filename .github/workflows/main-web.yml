@@ -218,7 +218,7 @@ jobs:
             --params="@${PARAMS_TEST_FILENAME}"
             --control=SDLC-CTRL-0008
             --fingerprint="${KOSLI_FINGERPRINT}"
-            --name=web.test-decision
+            --name=test-decision
 
       - name: Attest coverage metrics to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
@@ -237,7 +237,7 @@ jobs:
             --params="@${PARAMS_COVERAGE_FILENAME}"
             --control=SDLC-CTRL-0008
             --fingerprint="${KOSLI_FINGERPRINT}"
-            --name=web.coverage-decision
+            --name=coverage-decision
 
       # The targets a developer runs, in the order 'make web_all' runs them, for the
       # same reason they run there: same policy, same params, same flags. The
