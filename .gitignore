@@ -28,6 +28,7 @@
 !/.gitignore
 !/CONTRIBUTING.md
 !/docker-compose.yml
+!/docker-compose.bare.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml
 !/docker-compose-selenium.yml

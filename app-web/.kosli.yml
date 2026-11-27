@@ -26,6 +26,10 @@ trail:
 
         - name: server-test
           type: junit
+        # The deployed image's packages are those of the bare image the
+        # server tests ran in.
+        - name: bare-image-match
+          type: generic
 
         - name: test-facts
           type: custom:test-facts

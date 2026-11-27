@@ -2,7 +2,7 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${SHORT_SHA}
 
-.PHONY: web_all web_image web_test_server web_test_client
+.PHONY: web_all web_image web_test_server web_test_server_bare web_test_client
 .PHONY: web_metrics_test web_metrics_coverage web_test_check_metrics
 .PHONY: web_rubocop_lint
 .PHONY: web_snyk_container_scan web_snyk_code_scan
@@ -24,6 +24,13 @@ web_rubocop_lint:
 #   eg make web_test_server tids=F1B7C
 web_test_server:
 	${PWD}/app-web/bin/run_server_tests.sh ${tids}
+
+# As web_test_server, but in the bare image (the Dockerfile's base stage, with
+# the source and compiled assets mounted), so no web image need be built. This
+# is how CI runs them. See app-web/bin/run_server_tests_bare.sh -h
+#   eg make web_test_server_bare tids=F1B7C
+web_test_server_bare:
+	${PWD}/app-web/bin/run_server_tests_bare.sh ${tids}
 
 # Run the client (Capybara + Selenium) tests, optionally filtered by test-id
 # prefix(es). Like web_test_server this does NOT depend on web_image: on CI

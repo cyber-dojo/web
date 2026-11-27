@@ -9,9 +9,11 @@ readonly SHARED_SERVICES=(web runner saver spooler)
 
 # Brings up only what the server tests drive. They are in-process Rack tests, so
 # no browser and no proxy: nothing under test/server names nginx or selenium.
+# Takes any extra --file pairs, eg the docker-compose.bare.yml overlay that
+# run_server_tests_bare.sh passes so web runs in the bare image.
 server_containers_up()
 {
-  containers_up "${SHARED_SERVICES[@]}"
+  containers_up "${SHARED_SERVICES[@]}" "$@"
 }
 
 # Brings up what the browser tests drive: the shared services, the selenium grid
