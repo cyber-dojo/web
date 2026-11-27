@@ -121,9 +121,23 @@ jobs:
             --attachments=./app-web/.rubocop.yml,./app-web/.rubocop_todo.yml
 
 
+  # The bare image: the Dockerfile's base stage (Ruby, its gems and the OS
+  # packages, with no source code and no compiled assets), one per platform,
+  # as the artifacts web-bare-image-amd64 and -arm64, with their digests. The
+  # server tests run in the linux/amd64 one, and build-image builds the
+  # deployed image FROM each, both checking the digests. It needs nothing
+  # from setup, so it runs alongside it.
+  bare-image:
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build-bare-image.yml@main
+    with:
+      checkout_repository: cyber-dojo/web
+      checkout_ref: ${{ github.sha }}
+      artifact_prefix: web-bare-image
+
+
   build-image:
-    needs: [setup]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
+    needs: [setup, bare-image]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build-from-bare-image.yml@main
     with:
       checkout_repository: cyber-dojo/web
       checkout_ref: ${{ github.sha }}
@@ -133,6 +147,9 @@ jobs:
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
+      bare_image_artifact_prefix: web-bare-image
+      bare_image_digest_amd64: ${{ needs.bare-image.outputs.digest_amd64 }}
+      bare_image_digest_arm64: ${{ needs.bare-image.outputs.digest_arm64 }}
       kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
       kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
       kosli_reference_name: ${{ needs.setup.outputs.service_name }}
@@ -157,23 +174,40 @@ jobs:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
-  # The server tests run in the bare image, the Dockerfile's base stage, so
-  # they start without waiting for the deployed image. That stage is only a
-  # FROM pinned by digest, with no RUN, so building it here pulls the very
-  # image build-image builds FROM, and no bare image need be built and passed
-  # between jobs. With no fingerprint, Kosli binds their attestations to the
-  # web artifact by the commit. They need setup, which begins the Kosli trail
-  # they attest to. The decisions made from their metrics are about the
+  # The server tests run in the bare image, so they start without waiting for
+  # the deployed image. With no fingerprint, Kosli binds their attestations to
+  # the web artifact by the commit. They need setup, which begins the Kosli
+  # trail they attest to. The decisions made from their metrics are about the
   # artifact, so they are recorded by metrics-decisions, once it is built.
   run-server-tests:
-    needs: [setup]
+    needs: [setup, bare-image]
     runs-on: ubuntu-latest
     steps:
       - uses: cyber-dojo/harden-runner@main
       - uses: cyber-dojo/pinned-checkout@main
       - uses: cyber-dojo/setup-kosli-cli@main
 
+      - name: Download the bare image
+        uses: actions/download-artifact@v8
+        with:
+          name: web-bare-image-amd64
+          path: ${{ runner.temp }}
+
+      - name: Load the bare image, checking its digest
+        env:
+          EXPECTED: ${{ needs.bare-image.outputs.digest_amd64 }}
+        run: |
+          ACTUAL="$(tar --extract --to-stdout --file="${{ runner.temp }}/bare-image.tar" index.json \
+                    | jq --raw-output '.manifests[0].digest')"
+          if [ -z "${EXPECTED}" ] || [ "${ACTUAL}" != "${EXPECTED}" ]; then
+            echo "linux/amd64 bare image digest is '${ACTUAL}', expected '${EXPECTED}'"
+            exit 1
+          fi
+          docker load --input "${{ runner.temp }}/bare-image.tar"
+
       - name: Run server tests, in the bare image
+        env:
+          CYBER_DOJO_WEB_BARE_IMAGE: web-bare-image:local
         run:
           make web_test_server_bare
 
@@ -303,7 +337,7 @@ jobs:
             --name=coverage-decision
 
 
-  # build-image builds the deployed image FROM the base stage the server tests
+  # build-image builds the deployed image FROM the bare image the server tests
   # ran in, so their packages (Ruby, every gem, every OS package) should be
   # identical; a Dockerfile edit adding to the web stage would make them
   # differ. The result is attested as web.bare-image-match, which
