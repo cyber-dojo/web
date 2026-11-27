@@ -59,6 +59,12 @@ COPY common/stylesheets /app/app/assets/stylesheets/common
 COPY common/javascripts /app/app/assets/javascripts/common
 RUN /app/config/compile.sh /tmp/out
 
+# Only the two compiled bundles, for docker build --output, which exports a
+# stage's whole filesystem. app-web/bin/run_server_tests_bare.sh mounts them
+# into the bare image, at the path the stage below copies them to.
+FROM scratch AS web-assets-files
+COPY --from=web-assets /tmp/out/app.css /tmp/out/app.js /
+
 FROM base AS web
 LABEL maintainer=jon@jaggersoft.com
 ARG COMMIT_SHA

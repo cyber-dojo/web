@@ -157,26 +157,34 @@ jobs:
       kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
+  # The server tests run in the bare image, the Dockerfile's base stage, so
+  # they start without waiting for the deployed image. That stage is only a
+  # FROM pinned by digest, with no RUN, so building it here pulls the very
+  # image build-image builds FROM, and no bare image need be built and passed
+  # between jobs. With no fingerprint, Kosli binds their attestations to the
+  # web artifact by the commit. They need setup, which begins the Kosli trail
+  # they attest to. The decisions made from their metrics are about the
+  # artifact, so they are recorded by metrics-decisions, once it is built.
   run-server-tests:
-    needs: [setup, build-image]
+    needs: [setup]
     runs-on: ubuntu-latest
-    env:
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-      PARAMS_TEST_FILENAME: app-web/test/test_metrics_params.json
-      PARAMS_COVERAGE_FILENAME: app-web/test/coverage_metrics_params.json
     steps:
       - uses: cyber-dojo/harden-runner@main
       - uses: cyber-dojo/pinned-checkout@main
       - uses: cyber-dojo/setup-kosli-cli@main
 
-      - name: Download docker image
-        uses: cyber-dojo/download-artifact@main
-        with:
-          image_digest: ${{ needs.build-image.outputs.digest }}
-
-      - name: Run server tests
+      - name: Run server tests, in the bare image
         run:
-          make web_test_server
+          make web_test_server_bare
+
+      - name: Upload the bare image's packages, for bare-image-match
+        if: ${{ success() || failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: bare-image-packages
+          path: app-web/reports/bare_image_packages.txt
+          if-no-files-found: error
+          retention-days: 1
 
       # Evidence for SDLC-CTRL-0008 (Quality Assurance): test results documented
       # and linked to the artifact they tested. Attested even when the run
@@ -202,24 +210,6 @@ jobs:
             --name=web.test-facts
             --type=test-facts
 
-      # Evaluated where the trail is stored, against the version of the policy
-      # kosli-attestation-types publishes, and the decision recorded in the same
-      # request, so the verdict never passes through this workflow. The decision
-      # carries the params, the result and the policy. Without --assert the step
-      # exits 0 on a deny, so a breach is recorded as a non-compliant decision
-      # rather than stopping the job before it is. The policy reads the facts
-      # attested above, so this runs after them.
-      - name: Evaluate the test metrics and record the decision
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run:
-          kosli evaluate policy
-            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
-            --identifier=metrics-compliance
-            --params="@${PARAMS_TEST_FILENAME}"
-            --control=SDLC-CTRL-0008
-            --fingerprint="${KOSLI_FINGERPRINT}"
-            --name=test-decision
-
       - name: Attest coverage metrics to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
@@ -228,21 +218,10 @@ jobs:
             --name=web.coverage-facts
             --type=coverage-facts
 
-      - name: Evaluate the coverage metrics and record the decision
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run:
-          kosli evaluate policy
-            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
-            --identifier=metrics-compliance
-            --params="@${PARAMS_COVERAGE_FILENAME}"
-            --control=SDLC-CTRL-0008
-            --fingerprint="${KOSLI_FINGERPRINT}"
-            --name=coverage-decision
-
       # The targets a developer runs, in the order 'make web_all' runs them, for the
       # same reason they run there: same policy, same params, same flags. The
-      # steps above judge the trail, which is Kosli's copy of these numbers and
-      # cannot be judged from a laptop.
+      # metrics-decisions job judges the trail, which is Kosli's copy of these
+      # numbers and cannot be judged from a laptop.
       #
       # web_test_check_metrics comes first, as it does in 'make web_all': it
       # checks that a breached bound reaches make as a non-zero exit, so the two
@@ -252,9 +231,9 @@ jobs:
       # container these targets run is the version this job's own kosli commands
       # are, rather than a 'latest' the check would resolve separately.
       #
-      # Last, so both decisions are recorded before a breach stops the job.
-      # Otherwise the run continues to sdlc-control-gate, which fails on the
-      # same breach several jobs later.
+      # Last, so both facts are attested before a breach stops the job, and
+      # metrics-decisions can still record the decisions made from them. A
+      # breach fails here, minutes before sdlc-control-gate would fail on it.
       - name: Judge the metrics as a developer does
         run: |
           KOSLI_CLI_VERSION="$(kosli version --short)" make web_test_check_metrics web_metrics_test web_metrics_coverage
@@ -280,6 +259,106 @@ jobs:
           make web_test_client
 
 
+  # The decisions made from the server tests' metrics are about the artifact,
+  # so they wait for build-image to fingerprint them. Evaluated where the trail
+  # is stored, against the version of the policy kosli-attestation-types
+  # publishes, and the decision recorded in the same request, so the verdict
+  # never passes through this workflow. The decision carries the params, the
+  # result and the policy. Without --assert the step exits 0 on a deny, so a
+  # breach is recorded as a non-compliant decision rather than stopping the
+  # job before it is. The policy reads the facts run-server-tests attests, so
+  # this runs after it, even when it failed.
+  metrics-decisions:
+    if: ${{ github.ref == 'refs/heads/main' && !cancelled() && needs.build-image.result == 'success' }}
+    needs: [build-image, run-server-tests]
+    runs-on: ubuntu-latest
+    env:
+      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+      PARAMS_TEST_FILENAME: app-web/test/test_metrics_params.json
+      PARAMS_COVERAGE_FILENAME: app-web/test/coverage_metrics_params.json
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Evaluate the test metrics and record the decision
+        run:
+          kosli evaluate policy
+            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
+            --identifier=metrics-compliance
+            --params="@${PARAMS_TEST_FILENAME}"
+            --control=SDLC-CTRL-0008
+            --fingerprint="${KOSLI_FINGERPRINT}"
+            --name=test-decision
+
+      - name: Evaluate the coverage metrics and record the decision
+        if: ${{ success() || failure() }}
+        run:
+          kosli evaluate policy
+            --context="trail=${KOSLI_FLOW}/${KOSLI_TRAIL}"
+            --identifier=metrics-compliance
+            --params="@${PARAMS_COVERAGE_FILENAME}"
+            --control=SDLC-CTRL-0008
+            --fingerprint="${KOSLI_FINGERPRINT}"
+            --name=coverage-decision
+
+
+  # build-image builds the deployed image FROM the base stage the server tests
+  # ran in, so their packages (Ruby, every gem, every OS package) should be
+  # identical; a Dockerfile edit adding to the web stage would make them
+  # differ. The result is attested as web.bare-image-match, which
+  # app-web/.kosli.yml requires, so a difference, or no attestation at all,
+  # leaves the deployed image non-compliant.
+  bare-image-match:
+    if: ${{ !cancelled() && needs.build-image.result == 'success' }}
+    runs-on: ubuntu-latest
+    needs: [build-image, run-server-tests]
+    env:
+      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
+    steps:
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
+
+      - name: Download docker image
+        uses: cyber-dojo/download-artifact@main
+        with:
+          image_digest: ${{ needs.build-image.outputs.digest }}
+
+      - name: Download the packages of the bare image the server tests ran in
+        id: bare-packages
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: bare-image-packages
+          path: packages
+
+      - name: Compare them with the deployed image's packages
+        id: match
+        run: |
+          mkdir -p packages
+          bin/image_packages.sh image "${{ needs.build-image.outputs.tagged_image_name }}" \
+            > packages/deployed_image_packages.txt
+          COMPLIANT=false
+          if [ "${{ steps.bare-packages.outcome }}" == success ] \
+             && diff --unified packages/bare_image_packages.txt packages/deployed_image_packages.txt; then
+            COMPLIANT=true
+          fi
+          echo "compliant=${COMPLIANT}" >> "${GITHUB_OUTPUT}"
+
+      - name: Attest the comparison to Kosli
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run:
+          kosli attest generic
+            --name=web.bare-image-match
+            --compliant=${{ steps.match.outputs.compliant }}
+            --attachments=packages
+
+      - name: Fail unless the deployed image's packages are the bare image's
+        run:
+          test "${{ steps.match.outputs.compliant }}" == true
+
+
   sdlc-control-gate:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
@@ -288,6 +367,8 @@ jobs:
       - rubocop-lint
       - snyk-container-scan
       - run-server-tests
+      - metrics-decisions
+      - bare-image-match
       - run-client-tests
     runs-on: ubuntu-latest
     steps:

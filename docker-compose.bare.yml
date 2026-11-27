@@ -1,0 +1,27 @@
+# Layered on docker-compose.yml by app-web/bin/run_server_tests_bare.sh, so
+# the web server tests run in the bare image, the Dockerfile's base stage
+# (built with --target base): Ruby, its gems and the OS packages, with no
+# source code and no compiled assets. The source and tests are mounted, and
+# so are the assets, compiled by the
+# Dockerfile's web-assets stage into CYBER_DOJO_WEB_ASSETS_DIR, so the
+# deployed image need not be built before the tests run. AppBase hashes
+# ${APP_DIR}/assets/app.css and app.js when it loads, so the tests cannot
+# load without them. The server tests call web in-process, so no server
+# process is started; the bare image has no HEALTHCHECK to wait on.
+
+services:
+
+  web:
+    image: ${CYBER_DOJO_WEB_BARE_IMAGE}
+    entrypoint: [ "sleep", "infinity" ]
+    working_dir: /web/source
+    environment:
+      - APP_DIR=/web
+      - SHA=${COMMIT_SHA}
+    # docker-compose.yml mounts source/server/web and the script beside it, so
+    # only config, the rest of what the deployed image copies, is added. Each
+    # mount goes in separately, as /web/source must stay writable for docker
+    # to create the mountpoints of the script and the others inside it.
+    volumes:
+      - ./app-web/source/server/config:/web/source/config:ro
+      - ${CYBER_DOJO_WEB_ASSETS_DIR}:/web/assets:ro
