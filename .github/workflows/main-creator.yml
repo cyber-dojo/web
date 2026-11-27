@@ -118,9 +118,22 @@ jobs:
             --attachments=./app-creator/.rubocop.yml
 
 
+  # The bare image: the Dockerfile's base stage, shared by creator, dashboard
+  # and web, one per platform, as the artifacts creator-bare-image-amd64 and
+  # -arm64, with their digests. build-image builds the deployed image FROM
+  # each, checking the digests. It needs nothing from setup, so it runs
+  # alongside it.
+  bare-image:
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build-bare-image.yml@main
+    with:
+      checkout_repository: cyber-dojo/web
+      checkout_ref: ${{ github.sha }}
+      artifact_prefix: creator-bare-image
+
+
   build-image:
-    needs: [setup]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
+    needs: [setup, bare-image]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build-from-bare-image.yml@main
     with:
       checkout_repository: cyber-dojo/web
       checkout_ref: ${{ github.sha }}
@@ -130,6 +143,9 @@ jobs:
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
+      bare_image_artifact_prefix: creator-bare-image
+      bare_image_digest_amd64: ${{ needs.bare-image.outputs.digest_amd64 }}
+      bare_image_digest_arm64: ${{ needs.bare-image.outputs.digest_arm64 }}
       kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
       kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
       kosli_reference_name: ${{ needs.setup.outputs.service_name }}
