@@ -59,6 +59,9 @@ compiled_assets_dir()
 {
   local -r dir="${REPORTS_DIR}/assets"
   docker build --target web-assets-files --output "type=local,dest=${dir}" "$(repo_root)" >&2
+  # docker build creates dest as drwx------, which the container's nobody
+  # user cannot enter on a Linux host.
+  chmod -R a+rX "${dir}"
   echo "${dir}"
 }
 
