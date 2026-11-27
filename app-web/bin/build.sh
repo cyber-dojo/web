@@ -25,7 +25,7 @@ exit_non_zero_if_on_ci()
   # depend on web_image, and building on CI is an error rather than a
   # slow path.
   if on_ci; then
-    stderr "Inside CI workflow you must use secure-docker-build.yml reusable workflow"
+    stderr "Inside CI workflow you must use secure-docker-build-from-bare-image.yml reusable workflow"
     exit_non_zero
   fi
 }
